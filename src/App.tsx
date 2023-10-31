@@ -35,6 +35,10 @@ import "@ionic/react/css/text-transformation.css";
 import { useState } from "react";
 import AppContainer from "./app-container";
 import "./theme/variables.css";
+import LandingPage from "@pages/landing-screen";
+import RegisterPage from "@pages/register";
+import RestoreWalletPage from "@pages/restore-wallet";
+import OTPPage from "@pages/otp";
 
 setupIonicReact();
 
@@ -48,24 +52,36 @@ const App: React.FC = () => {
           <AppContainer>
             <IonTabs>
               <IonRouterOutlet>
-                <Route exact path='/home'>
+                <Route exact path="/home">
                   <Home />
                 </Route>
-                <Route exact path='/charge-token'>
+                <Route exact path="/charge-token">
                   <ChargeToken />
                 </Route>
+                <Route exact path="/register">
+                  <RegisterPage />
+                </Route>
+                <Route exact path="/restore-wallet">
+                  <RestoreWalletPage />
+                </Route>
+                <Route exact path="/otp">
+                  <OTPPage />
+                </Route>
+                <Route exact path="/landing">
+                  <LandingPage />
+                </Route>
 
-                <Route exact path='/'>
-                  <Redirect to='/home' />
+                <Route exact path="/">
+                  <Redirect to="/landing" />
                 </Route>
               </IonRouterOutlet>
-              <IonTabBar slot='bottom'>
-                <IonTabButton tab='home' href='/home'>
-                  <IonIcon aria-hidden='true' icon={triangle} />
+              <IonTabBar slot="bottom">
+                <IonTabButton tab="home" href="/home">
+                  <IonIcon aria-hidden="true" icon={triangle} />
                   <IonLabel>Home</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab='charge-token' href='/charge-token'>
-                  <IonIcon aria-hidden='true' icon={ellipse} />
+                <IonTabButton tab="charge-token" href="/charge-token">
+                  <IonIcon aria-hidden="true" icon={ellipse} />
                   <IonLabel>Charge</IonLabel>
                 </IonTabButton>
               </IonTabBar>
