@@ -50,13 +50,11 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <IonReactRouter>
-        <QueryClientProvider client={queryClient}>
-          <AppContainer>
-            <Router />
-          </AppContainer>
-        </QueryClientProvider>
-      </IonReactRouter>
+      <QueryClientProvider client={queryClient}>
+        <AppContainer>
+          <Router />
+        </AppContainer>
+      </QueryClientProvider>
     </IonApp>
   );
 };
