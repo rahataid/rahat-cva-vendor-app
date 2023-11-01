@@ -10,9 +10,8 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ellipse, triangle } from "ionicons/icons";
+import { qrCode, home, person } from "ionicons/icons";
 import { Redirect, Route } from "react-router-dom";
-import ChargeToken from "./pages/charge-token";
 import Home from "./pages/home";
 
 /* Core CSS required for Ionic components to work properly */
@@ -35,10 +34,13 @@ import "@ionic/react/css/text-transformation.css";
 import { useState } from "react";
 import AppContainer from "./app-container";
 import "./theme/variables.css";
+
+import ChargeTokenPage from "./pages/charge-token";
 import LandingPage from "@pages/landing-screen";
 import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
 import OTPPage from "@pages/otp";
+import ProfilePage from "@pages/profile";
 
 setupIonicReact();
 
@@ -56,7 +58,7 @@ const App: React.FC = () => {
                   <Home />
                 </Route>
                 <Route exact path="/charge-token">
-                  <ChargeToken />
+                  <ChargeTokenPage />
                 </Route>
                 <Route exact path="/register">
                   <RegisterPage />
@@ -70,6 +72,9 @@ const App: React.FC = () => {
                 <Route exact path="/landing">
                   <LandingPage />
                 </Route>
+                <Route exact path="/profile">
+                  <ProfilePage />
+                </Route>
 
                 <Route exact path="/">
                   <Redirect to="/landing" />
@@ -77,12 +82,16 @@ const App: React.FC = () => {
               </IonRouterOutlet>
               <IonTabBar slot="bottom">
                 <IonTabButton tab="home" href="/home">
-                  <IonIcon aria-hidden="true" icon={triangle} />
+                  <IonIcon aria-hidden="true" icon={home} />
                   <IonLabel>Home</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="charge-token" href="/charge-token">
-                  <IonIcon aria-hidden="true" icon={ellipse} />
+                  <IonIcon aria-hidden="true" icon={qrCode} />
                   <IonLabel>Charge</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="profile" href="/profile">
+                  <IonIcon aria-hidden="true" icon={person} />
+                  <IonLabel>Profile</IonLabel>
                 </IonTabButton>
               </IonTabBar>
             </IonTabs>
