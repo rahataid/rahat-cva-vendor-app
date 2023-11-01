@@ -2,7 +2,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid white;
 }
 
 .charge-form-container {
@@ -11,19 +10,18 @@
   align-items: center;
   justify-content: flex-start;
   flex: 0.7;
-  border: 1px solid red;
 }
 
 .charge-button-container {
   align-items: flex-end;
   justify-content: center;
   flex: 0.3;
-  border: 1px solid yellow;
 }
 
 .charge-button-wrapper {
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 5px;
   overflow: visible;
 }

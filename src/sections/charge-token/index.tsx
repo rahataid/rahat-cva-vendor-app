@@ -94,7 +94,7 @@ const ChargeToken = () => {
           className="charge-button-wrapper"
         >
           <IonButton fill="clear" onClick={handleToggle}>
-            {useQrCode ? "Use Phone Number" : "Use Qr Code"}
+            {useQrCode ? "Use Phone" : "Use QR"}
           </IonButton>
           <IonButton fill="outline" onClick={handleCancel}>
             Cancel
