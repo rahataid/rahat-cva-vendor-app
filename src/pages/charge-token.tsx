@@ -5,8 +5,9 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import ChargeToken from "@sections/charge-token";
 
-const Tab2: React.FC = () => {
+const ChargeTokenPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -15,14 +16,15 @@ const Tab2: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse='condense'>
+        <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size='large'>Charge Token</IonTitle>
+            <IonTitle size="large">Charge Token</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <ChargeToken />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Tab2;
+export default ChargeTokenPage;

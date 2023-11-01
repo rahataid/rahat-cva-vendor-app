@@ -1,0 +1,33 @@
+.charge-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid white;
+}
+
+.charge-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0.7;
+  border: 1px solid red;
+}
+
+.charge-button-container {
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0.3;
+  border: 1px solid yellow;
+}
+
+.charge-button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  overflow: visible;
+}
+
+.gap-25 {
+  height: 25px;
+}
