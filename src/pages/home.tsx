@@ -10,7 +10,7 @@ import Home from "../sections/home";
 import useProjectContract from "../services/contracts/useProject";
 import useVendorStore from "../store/vendors";
 
-const Tab1: React.FC = () => {
+const HomePage: React.FC = () => {
   const { getVendorChainData, projectContractWS: ProjectContractWS } =
     useProjectContract();
   const { chainData, setChainData } = useVendorStore((state) => ({
@@ -53,9 +53,9 @@ const Tab1: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse='condense'>
+        <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size='large'>Home</IonTitle>
+            <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
         <Home />
@@ -64,4 +64,4 @@ const Tab1: React.FC = () => {
   );
 };
 
-export default Tab1;
+export default HomePage;

@@ -41,6 +41,7 @@ import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
 import OTPPage from "@pages/otp";
 import ProfilePage from "@pages/profile";
+import Router from "@navigations/router";
 
 setupIonicReact();
 
@@ -52,49 +53,7 @@ const App: React.FC = () => {
       <IonReactRouter>
         <QueryClientProvider client={queryClient}>
           <AppContainer>
-            <IonTabs>
-              <IonRouterOutlet>
-                <Route exact path="/home">
-                  <Home />
-                </Route>
-                <Route exact path="/charge-token">
-                  <ChargeTokenPage />
-                </Route>
-                <Route exact path="/register">
-                  <RegisterPage />
-                </Route>
-                <Route exact path="/restore-wallet">
-                  <RestoreWalletPage />
-                </Route>
-                <Route exact path="/otp">
-                  <OTPPage />
-                </Route>
-                <Route exact path="/landing">
-                  <LandingPage />
-                </Route>
-                <Route exact path="/profile">
-                  <ProfilePage />
-                </Route>
-
-                <Route exact path="/">
-                  <Redirect to="/landing" />
-                </Route>
-              </IonRouterOutlet>
-              <IonTabBar slot="bottom">
-                <IonTabButton tab="home" href="/home">
-                  <IonIcon aria-hidden="true" icon={home} />
-                  <IonLabel>Home</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="charge-token" href="/charge-token">
-                  <IonIcon aria-hidden="true" icon={qrCode} />
-                  <IonLabel>Charge</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="profile" href="/profile">
-                  <IonIcon aria-hidden="true" icon={person} />
-                  <IonLabel>Profile</IonLabel>
-                </IonTabButton>
-              </IonTabBar>
-            </IonTabs>
+            <Router />
           </AppContainer>
         </QueryClientProvider>
       </IonReactRouter>
