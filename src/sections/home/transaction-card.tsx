@@ -23,7 +23,7 @@ const TransactionCard = () => {
             </IonItem>
           ))}
         </IonList>
-        <IonButton expand='block' color='primary' style={{ marginTop: "1rem" }}>
+        <IonButton expand="block" color="blue" style={{ marginTop: "1rem" }}>
           View All
         </IonButton>
       </IonCardContent>

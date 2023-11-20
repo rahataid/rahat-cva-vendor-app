@@ -2,17 +2,21 @@ import {
   IonContent,
   IonHeader,
   IonPage,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import Register from "@sections/auth/registration/register";
+import Register from "@sections/auth/registration";
+import "../theme/title.css";
 
 const RegisterPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Register</IonTitle>
+          <IonTitle className="title-center">
+            <IonText>Register</IonText>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>

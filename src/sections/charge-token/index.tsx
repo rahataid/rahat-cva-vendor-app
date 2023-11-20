@@ -69,9 +69,15 @@ const ChargeToken = () => {
     </>
   );
   const phoneSubmitButton = (
-    <IonButton onClick={handleSubmitPhone}>Charge</IonButton>
+    <IonButton color="white" onClick={handleSubmitPhone}>
+      Charge
+    </IonButton>
   );
-  const qrSubmitButton = <IonButton onClick={handleSubmitQr}>Charge</IonButton>;
+  const qrSubmitButton = (
+    <IonButton color="white" onClick={handleSubmitQr}>
+      Charge
+    </IonButton>
+  );
 
   return (
     <IonGrid className="charge-container">
@@ -79,7 +85,7 @@ const ChargeToken = () => {
         <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
           <IonCard>
             <IonCardHeader>
-              <IonCardTitle>Charge Beneficiary</IonCardTitle>
+              <IonCardTitle color="light">Charge Beneficiary</IonCardTitle>
               {useQrCode ? qrComponent : phoneComponent}
             </IonCardHeader>
           </IonCard>
@@ -93,10 +99,10 @@ const ChargeToken = () => {
           sizeXl="11"
           className="charge-button-wrapper"
         >
-          <IonButton fill="clear" onClick={handleToggle}>
+          <IonButton color="white" fill="clear" onClick={handleToggle}>
             {useQrCode ? "Use Phone" : "Use QR"}
           </IonButton>
-          <IonButton fill="outline" onClick={handleCancel}>
+          <IonButton color="white" fill="outline" onClick={handleCancel}>
             Cancel
           </IonButton>
           {useQrCode ? qrSubmitButton : phoneSubmitButton}

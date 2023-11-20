@@ -12,7 +12,7 @@ const ChargeTokenPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Charge Token</IonTitle>
+          <IonTitle className="title-center">Charge Token</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

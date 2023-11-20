@@ -17,14 +17,16 @@ const OTP = () => {
           <IonInput
             label="OTP"
             labelPlacement="floating"
-            fill="outline"
+            fill="solid"
             placeholder="Enter OTP"
           ></IonInput>
         </IonCol>
       </IonRow>
       <IonRow className="restore-button-container">
         <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
-          <IonButton expand="block">Submit</IonButton>
+          <IonButton expand="block" color="white">
+            Submit
+          </IonButton>
         </IonCol>
       </IonRow>
     </IonGrid>

@@ -28,23 +28,30 @@ const Register = () => {
           <IonInput
             label="Full Name"
             labelPlacement="floating"
-            fill="outline"
+            fill="solid"
             placeholder="Full Name"
           ></IonInput>
           <br />
           <IonInput
             label="Phone"
             labelPlacement="floating"
-            fill="outline"
+            fill="solid"
             placeholder="Phone"
           ></IonInput>
         </IonCol>
       </IonRow>
       <IonRow className="register-button-container">
         <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
-          <IonButton expand="block">Submit</IonButton>
+          <IonButton expand="block" color="white">
+            Submit
+          </IonButton>
           <IonRow className="gap-5"></IonRow>
-          <IonButton fill="outline" expand="block" onClick={handleCancel}>
+          <IonButton
+            color="white"
+            fill="outline"
+            expand="block"
+            onClick={handleCancel}
+          >
             Cancel
           </IonButton>
         </IonCol>

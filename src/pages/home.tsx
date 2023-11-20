@@ -5,6 +5,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import "../theme/title.css";
 import { useCallback, useEffect } from "react";
 import Home from "../sections/home";
 import useProjectContract from "../services/contracts/useProject";
@@ -49,7 +50,7 @@ const HomePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle className="title-center">Home</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

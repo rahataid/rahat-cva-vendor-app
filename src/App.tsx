@@ -35,12 +35,6 @@ import { useState } from "react";
 import AppContainer from "./app-container";
 import "./theme/variables.css";
 
-import ChargeTokenPage from "./pages/charge-token";
-import LandingPage from "@pages/landing-screen";
-import RegisterPage from "@pages/register";
-import RestoreWalletPage from "@pages/restore-wallet";
-import OTPPage from "@pages/otp";
-import ProfilePage from "@pages/profile";
 import Router from "@navigations/router";
 
 setupIonicReact();

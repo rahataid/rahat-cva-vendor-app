@@ -12,7 +12,7 @@ import {
   IonText,
   IonTextarea,
 } from "@ionic/react";
-import Logo from "@assets/images/logo/rahat-logo.png";
+import Logo from "@assets/images/logo/rahat-logo-white.png";
 import "./landing-screen.scss";
 import { useHistory } from "react-router";
 
@@ -26,7 +26,7 @@ const LandingScreen = () => {
   };
   return (
     <IonPage>
-      <IonContent scrollY={false}>
+      <IonContent className="bg" scrollY={false}>
         <IonGrid className="landing-container">
           <IonRow className="landing-top-container">
             <IonCol
@@ -46,11 +46,21 @@ const LandingScreen = () => {
 
           <IonRow className="landing-button-container">
             <IonCol size="11" sizeMd="8" sizeLg="6" sizeXl="4">
-              <IonButton fill="outline" expand="block" onClick={handleRegister}>
+              <IonButton
+                color="white"
+                fill="solid"
+                expand="block"
+                onClick={handleRegister}
+              >
                 Create New Account
               </IonButton>
               <IonRow className="gap-5"></IonRow>
-              <IonButton fill="outline" expand="block" onClick={handleRestore}>
+              <IonButton
+                color="white"
+                fill="solid"
+                expand="block"
+                onClick={handleRestore}
+              >
                 Restore Account
               </IonButton>
             </IonCol>

@@ -5,6 +5,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import "../theme/title.css";
 import RestoreWallet from "@sections/auth/restore-wallet";
 
 const RestoreWalletPage: React.FC = () => {
@@ -12,7 +13,7 @@ const RestoreWalletPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Restore Wallet</IonTitle>
+          <IonTitle className="title-center">Restore Wallet</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>
