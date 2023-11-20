@@ -33,7 +33,7 @@ import "@ionic/react/css/text-transformation.css";
 /* Theme variables */
 import { useState } from "react";
 import AppContainer from "./app-container";
-import "./theme/variables.css";
+import "./theme/variables.scss";
 
 import Router from "@navigations/router";
 
