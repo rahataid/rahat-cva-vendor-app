@@ -52,7 +52,7 @@ const LandingScreen = () => {
                 expand="block"
                 onClick={handleRegister}
               >
-                Create New Account
+                Create Wallet
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
@@ -61,7 +61,7 @@ const LandingScreen = () => {
                 expand="block"
                 onClick={handleRestore}
               >
-                Restore Account
+                Restore Wallet
               </IonButton>
             </IonCol>
           </IonRow>
