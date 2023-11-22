@@ -1,0 +1,73 @@
+//Main colors
+$r-primary-blue: #4cb2d2;
+$r-primary-green: #37a450;
+$r-primary-neutral: #eeeeee;
+$r-primary-red: #d14343;
+$r-primary-yellow: #ffb020;
+
+//Neutral color variants
+$r-body-text: #101010; //body text
+$r-other-text: #4b4c4c; //other text
+$r-headline-text: #343434; //headline text
+$r-caption-text: #616162; //caption text
+$r-icons: #777778; //cons
+$r-border: #cccccc; //border normal, disabled elements, scroll handle
+$r-border-dark: #acacac; //border Dark
+$r-background-normal: #eeeeee; //normal background
+$r-background-dark: #e0e0e0; //dark background and separators
+$r-background-light: #fafafa; //light background and hover
+$r-white: #ffffff; //normal white
+
+//Blue color variant (Inputs and Focus)
+
+$r-footer-background: #002a3d; //footer Background, Web Headlines
+$r-switches: #08536a; //pressed switches, checkboxes, radio
+$r-info-alert: #197f9f; //info alert and toast text, hover and focused primary controls, tag icon
+$r-input-focused: #1f9fc7; //main actions, Focused input, Links, and select borders
+$r-input-active: #4cb2d2; //hover and A ctive status, Info icons, and alert border
+$r-badge: #90d0e4; //avatar, Badge, Pill background, and focused highlight
+$r-background-active: #e9f5f9; //hover and active background in tables and lists
+$r-info-alert-background: #f6fcfd; //info alert background and selected rows in tables
+
+//Green color variant (success and call to actions (CTA))
+
+$r-badge: #0e4d1c; //avatar, badge and pill text
+$r-success-alert: #186829; //active/pressed buttons, success alert, toast text
+$r-primary-button-hover: #18802f; //hovered primary button
+$r-primary-button: #37a450; // primary button, Success status and icons
+$r-success-border: #6cd684; //success border
+$r-success-background: #c1f9c7; //success alert background
+
+//Red color variants (Errors)
+$r-danger: #d14343; //danger status, icons and alert border
+$r-danger-hover: #a73636; //hover error button, warning alert and toast text
+$r-danger-pressed: #7d2828; //pressed error button, error alerts, toasts icon, avatar/badge/pill text
+$r-danger-disabled: #f9dada; //disabled error butons, avatar/badge/pill background
+$r-danger-background: #fdf4f4; //Error alert and toast background
+
+//Warning color variant (Warnings)
+$r-warning: #ffb632; //warning status, icons and alert border
+$r-warning-text: #996a13; //warning alert and toast text
+$r-warning-avatar: #66460d; //warning avatar/badge/pill text, warning alerts, toasts icon
+$r-warning-avatar-background: #ffefd2; //avatar/badge/pill background
+$r-warning-background: #fffaf1; //warning alert background
+
+//Button Variables
+
+$r-button-border-radius: 6px;
+$r-button-box-shadow: 0 6px 20px 0 rgb(125 175 15 / 8%);
+$r-button-box-shadow-light: 0 2px 6px 0 rgb(125 175 15 / 6%);
+$r-button-box-shadow-dark: 0 10px 24px 0 rgb(125 175 15 / 10%);
+
+//social button colors
+
+$facebook: #1877f2;
+$apple: #4b4c4c;
+$messenger: #0082ff;
+$whatsapp: #67d449;
+$linkedin: #0077b5;
+$youtube: #ff3d00;
+
+//Text Input Variables
+$r-input-border-radius: 6px;
+$r-input-border-width: 1px;
