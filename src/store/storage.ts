@@ -56,8 +56,9 @@ const useStorage = create<StorageState>()(
 
     logout: async () => {
       const { storage } = get();
-      await storage?.set("wallet", "");
-      await storage?.set("currentUser", "");
+      set({ wallet: null, currentUser: null });
+      await storage?.set("wallet", null);
+      await storage?.set("currentUser", null);
     },
   }))
 );

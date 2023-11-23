@@ -5,16 +5,23 @@ import {
   IonInput,
   IonItem,
   IonList,
+  IonProgressBar,
   IonRow,
+  IonText,
   IonTextarea,
 } from "@ionic/react";
 import { useHistory } from "react-router";
 import "./restore.scss";
 import { Controller, useForm } from "react-hook-form";
 import TextInputField from "@components/input/form-text-input";
+import { getWalletUsingMnemonic } from "@utils/web3";
+import { DEFAULT_PASSCODE } from "../../../config";
+import useStorage from "../../../store/storage";
 
 const RestoreWallet = () => {
   const history = useHistory();
+  const setWallet = useStorage.getState().setWallet;
+  const setWalletState = useStorage.getState().setWalletState;
   const handleCancel = () => {
     history.goBack();
   };
@@ -24,7 +31,8 @@ const RestoreWallet = () => {
     control,
     setValue,
     getValues,
-    formState: { errors, isDirty, isValid },
+    setError,
+    formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -32,9 +40,22 @@ const RestoreWallet = () => {
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    alert(JSON.stringify(data, null, 2));
+  const onSubmit = async (data: any) => {
+    try {
+      const wallet = getWalletUsingMnemonic(data.pneumonics);
+
+      //  save wallet info in localstorage by encrypting with passcode in .env file
+      const encryptedWallet = await wallet.encrypt(DEFAULT_PASSCODE);
+      await setWallet(encryptedWallet);
+
+      await setWalletState(wallet);
+      history.replace("/tabs/home");
+    } catch (error) {
+      setError("root.serverError", {
+        type: "manual",
+        message: "Something went wrong! Try again later.",
+      });
+    }
   };
 
   return (
@@ -71,6 +92,12 @@ const RestoreWallet = () => {
               control={control}
               name="pneumonics"
             />
+            <br />
+            {errors?.root?.serverError?.message && (
+              <IonText color="danger">
+                {errors?.root?.serverError.message}
+              </IonText>
+            )}
             {/* <IonTextarea
                   label=""
                   placeholder="Please enter 12 words pneumonics"
@@ -83,9 +110,13 @@ const RestoreWallet = () => {
               type="submit"
               expand="block"
               color="white"
-              disabled={isDirty || !isValid}
+              disabled={isDirty || !isValid || isSubmitting}
             >
-              Submit
+              {isSubmitting ? (
+                <IonProgressBar type="indeterminate"></IonProgressBar>
+              ) : (
+                "Submit"
+              )}
             </IonButton>
             <IonRow className="gap-5"></IonRow>
             <IonButton
