@@ -58,7 +58,8 @@ const Register = () => {
         setMnemonics(walletValue?.mnemonic?.phrase);
       }
     } catch (error) {
-      console.log("INDEX ERROR", error);
+      alert(JSON.stringify(error, null, 2));
+      console.log("REGISTER SERVER ERROR", JSON.stringify(error));
       setError("root.serverError", {
         type: "manual",
         message: "Something went wrong! Try again later.",
@@ -83,10 +84,10 @@ const Register = () => {
                     placeholder="Enter Name"
                     type="text"
                     label="Name*"
-                    value={field.value}
+                    value={getValues("name")}
                     errorText={errors?.name?.message}
                     onInput={(e: any) => {
-                      setValue("name", e.detail.value, {
+                      setValue("name", e.target.value, {
                         shouldValidate: true,
                       });
                     }}
@@ -108,8 +109,8 @@ const Register = () => {
                     label="Phone*"
                     errorText={errors?.phone?.message}
                     value={getValues("phone")}
-                    onInput={(e: { detail: { value: string } }) => {
-                      setValue("phone", e.detail.value, {
+                    onInput={(e: any) => {
+                      setValue("phone", e.target.value, {
                         shouldValidate: true,
                       });
                     }}

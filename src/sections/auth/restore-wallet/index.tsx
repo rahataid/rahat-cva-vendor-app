@@ -71,8 +71,8 @@ const RestoreWallet = () => {
                   label="Pneumonics*"
                   errorText={errors.pneumonics?.message}
                   value={getValues("pneumonics")}
-                  onInput={(e: { detail: { value: string } }) => {
-                    setValue("pneumonics", e.detail.value, {
+                  onInput={(e: any) => {
+                    setValue("pneumonics", e.target.value, {
                       shouldValidate: true,
                     });
                   }}
