@@ -22,6 +22,10 @@
 !/.vscode/extensions.json
 .idea
 
+/dist
+/android
+/ios
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

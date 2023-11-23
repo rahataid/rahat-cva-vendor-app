@@ -10,7 +10,8 @@ const AppContainer: React.FC<AppContainerProps> = ({ children }) => {
   const appSettings = useAppSettings();
   const appStore = useAppStore();
 
-  console.log("appSettings", appStore);
+  // console.log("appsettings", appSettings);
+  // console.log("appstore", appStore);
 
   return children;
 };

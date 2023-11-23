@@ -25,6 +25,7 @@ export const endpoints = {
   appSettings: {
     blockchain: "/app/blockchain",
     contracts: "/app/contracts",
+    settings: (name: string) => `/app/settings/name=${name}`,
   },
   auth: {
     loginWallet: "/auth/login-wallet",
@@ -38,6 +39,7 @@ export const endpoints = {
     list: "/vendors",
     details: (walletAddress: string) => `/vendors/${walletAddress}`,
     update: (walletAddress: string) => `/vendors/${walletAddress}`,
+    add: `/vendors`,
   },
   transactions: {
     list: "/transactions",

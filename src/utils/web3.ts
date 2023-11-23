@@ -31,6 +31,10 @@ export function createRandomWallet(provider: Provider): HDNodeWallet {
   return ethers.Wallet.createRandom(provider);
 }
 
+export function createRandomWalletWithPhone(data: any) {
+  return ethers.Wallet.createRandom(data);
+}
+
 export function getWalletUsingMnemonic(mnemonic: string): HDNodeWallet {
   const mnemonicWallet = Mnemonic.fromPhrase(mnemonic);
   const wall = HDNodeWallet.fromMnemonic(mnemonicWallet);
