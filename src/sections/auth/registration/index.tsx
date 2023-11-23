@@ -7,6 +7,7 @@ import {
   IonInput,
   IonItem,
   IonList,
+  IonProgressBar,
   IonRow,
   IonText,
   IonTextarea,
@@ -35,7 +36,7 @@ const Register = () => {
     control,
     setValue,
     getValues,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -50,7 +51,6 @@ const Register = () => {
   const onSubmit = async (data: any) => {
     try {
       console.log(data);
-      alert(JSON.stringify(data, null, 2));
       const walletValue = await appStore.handleRegister(data);
       console.log(walletValue);
       console.log(walletValue.mnemonic.phrase);
@@ -143,9 +143,13 @@ const Register = () => {
                 type="submit"
                 expand="block"
                 color="white"
-                disabled={isDirty || !isValid}
+                disabled={isDirty || !isValid || isSubmitting}
               >
-                Submit
+                {isSubmitting ? (
+                  <IonProgressBar type="indeterminate"></IonProgressBar>
+                ) : (
+                  "Submit"
+                )}
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
@@ -153,6 +157,7 @@ const Register = () => {
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}
+                disabled={isSubmitting}
               >
                 Cancel
               </IonButton>

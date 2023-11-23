@@ -124,6 +124,7 @@ const RestoreWallet = () => {
               fill="outline"
               expand="block"
               onClick={handleCancel}
+              disabled={isSubmitting}
             >
               Cancel
             </IonButton>
