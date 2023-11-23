@@ -31,23 +31,34 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppContainer from "./app-container";
 import "./theme/variables.scss";
 
 import Router from "@navigations/router";
+import useStorage from "@store/storage";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
 
+  const { initializeStorage } = useStorage();
+
+  useEffect(() => {
+    const init = async () => {
+      await initializeStorage();
+    };
+
+    init();
+  }, []);
+
   return (
     <IonApp>
       <QueryClientProvider client={queryClient}>
-        <AppContainer>
-          <Router />
-        </AppContainer>
+        {/* <AppContainer> */}
+        <Router />
+        {/* </AppContainer> */}
       </QueryClientProvider>
     </IonApp>
   );

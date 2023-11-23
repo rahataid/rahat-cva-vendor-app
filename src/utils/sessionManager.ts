@@ -20,3 +20,11 @@ export const saveCurrentUserInfo = async (userData: any) => {
 export const saveWalletInfo = async (walletData: any) => {
   await setObject("wallet", walletData);
 };
+
+export const getCurrentWalletInfo = () => {
+  return getObject("wallet");
+};
+
+export const getCurrentUserInfo = () => {
+  return getObject("currentUser");
+};

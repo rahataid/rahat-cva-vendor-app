@@ -19,17 +19,16 @@ const Router = () => {
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/restore-wallet" component={RestoreWalletPage} />
       <Route exact path="/otp" component={OTPPage} />
-      <Route exact path="/">
+      {/* <Route exact path="/">
         <Redirect to="/landing" />
-      </Route>
+      </Route> */}
 
       {/* Private Routes */}
-      {/* <RequireAuth> */}
-      <Route path="/tabs">
-        <Tabs />
-      </Route>
-      {/* <Redirect exact path="/" to="/tabs/home" /> */}
-      {/* </RequireAuth> */}
+      <RequireAuth>
+        <Route path="/tabs">
+          <Tabs />
+        </Route>
+      </RequireAuth>
     </IonReactRouter>
   );
 };
