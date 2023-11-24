@@ -12,6 +12,8 @@ import { useHistory } from "react-router";
 
 function Settings() {
   const storage = useStorage();
+  const currentUser = useStorage.getState().currentUser;
+
   const history = useHistory();
   const handleLogout = () => {
     storage.logout();
@@ -27,7 +29,7 @@ function Settings() {
               src="https://ionicframework.com/docs/img/demos/avatar.svg"
             />
           </IonAvatar>
-          <IonLabel>Vendor Name</IonLabel>
+          <IonLabel>{currentUser?.name || "-"}</IonLabel>
         </IonItem>
       </IonList>
       <IonList>

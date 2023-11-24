@@ -17,7 +17,11 @@ import {
 import "./profile.scss";
 import { useHistory } from "react-router";
 
-const Profile = () => {
+type PropTypes = {
+  currentUser: any;
+};
+
+const Profile = ({ currentUser }: PropTypes) => {
   const history = useHistory();
   const handleCancel = () => {
     history.goBack();
@@ -29,23 +33,23 @@ const Profile = () => {
           <IonList>
             <IonItem>
               <IonLabel position="stacked">Name</IonLabel>
-              <p>Vendor 1</p>
+              <p>{currentUser?.name || "-"}</p>
             </IonItem>
             <IonItem>
               <IonLabel position="stacked">Email</IonLabel>
-              <p>vendor1@email.com</p>
+              <p>{currentUser?.email || "-"}</p>
             </IonItem>
             <IonItem>
               <IonLabel position="stacked">Address</IonLabel>
-              <p>Ghorepani, Poonhill</p>
+              <p>{currentUser?.address?.city || "-"}</p>
             </IonItem>
             <IonItem>
               <IonLabel position="stacked">Phone</IonLabel>
-              <p>+9779898989898</p>
+              <p>{currentUser?.phone || "-"}</p>
             </IonItem>
             <IonItem>
               <IonLabel position="stacked">Wallet Address</IonLabel>
-              <p>0xb794f5ea0ba39494ce839613fffba74279579268</p>
+              <p>{currentUser?.walletAddress || "-"}</p>
             </IonItem>
           </IonList>
         </IonCol>

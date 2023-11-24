@@ -6,8 +6,24 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import Profile from "@sections/profile";
+import useStorage from "@store/storage";
+import { useEffect, useState } from "react";
 
 const ProfilePage: React.FC = () => {
+  // const [currentUser, setCurrentUser] = useState({});
+
+  const getCurrentUser = useStorage.getState().getCurrentUser;
+  const currentUser = useStorage.getState().currentUser;
+
+  // useEffect(() => {
+  //   const getCurrentUsers = async () => {
+  //     const user = await getCurrentUser();
+  //     setCurrentUser(user);
+  //   };
+  //   getCurrentUsers();
+  // }, []);
+
+  useEffect(() => console.log("CURRENT USER", currentUser), [currentUser]);
   return (
     <IonPage>
       <IonHeader>
@@ -21,7 +37,7 @@ const ProfilePage: React.FC = () => {
             <IonTitle size="large">Profile</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Profile />
+        <Profile currentUser={currentUser} />
       </IonContent>
     </IonPage>
   );

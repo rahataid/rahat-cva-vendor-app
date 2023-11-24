@@ -3,15 +3,18 @@ import { Drivers, Storage } from "@ionic/storage";
 import { devtools } from "zustand/middleware";
 
 interface StorageState {
-  storage: Storage | null;
-  wallet: string | null;
-  currentUser: string | null;
+  wallet: any | null;
+  currentUser: any | null;
   loading: boolean;
 
-  initializeStorage: () => Promise<void>;
   setWallet: (wallet: string) => Promise<void>;
   setWalletState: (wallet: any) => Promise<void>;
   setCurrentUser: (user: string) => Promise<void>;
+  getCurrentUser: () => Promise<void>;
+  getCurrentWallet: () => Promise<void>;
+
+  storage: Storage | null;
+  initializeStorage: () => Promise<void>;
   logout: () => void;
 }
 
@@ -33,6 +36,9 @@ const useStorage = create<StorageState>()(
 
       const wallet = await storageInstance.get("wallet");
       set({ wallet, loading: false });
+
+      const currentUser = await storageInstance.get("currentUser");
+      set({ currentUser, loading: false });
     },
 
     setWallet: async (wallet: string) => {
@@ -52,6 +58,24 @@ const useStorage = create<StorageState>()(
         await storage.set("currentUser", user);
         set({ currentUser: user });
       }
+    },
+
+    getCurrentUser: async () => {
+      const { storage } = get();
+      let currentUser;
+      if (storage) {
+        currentUser = await storage.get("currentUser");
+      }
+      return currentUser;
+    },
+
+    getCurrentWallet: async () => {
+      const { storage } = get();
+      let currentWallet;
+      if (storage) {
+        currentWallet = await storage.get("wallet");
+      }
+      return currentWallet;
     },
 
     logout: async () => {

@@ -12,7 +12,12 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => {
-    console.log("error", error);
+    console.log(
+      "AXIOS INTERCEPTOR error",
+      JSON.stringify(error),
+      "=======",
+      error.message
+    );
     return Promise.reject(
       (error.response && error.response.data) || "Something went wrong"
     );
