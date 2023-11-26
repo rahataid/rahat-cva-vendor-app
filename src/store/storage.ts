@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Drivers, Storage } from "@ionic/storage";
 import { devtools } from "zustand/middleware";
+import { getCurrentUser, getWallet } from "@utils/sessionManager";
 
 interface StorageState {
   wallet: any | null;
@@ -9,9 +10,11 @@ interface StorageState {
 
   setWallet: (wallet: string) => Promise<void>;
   setWalletState: (wallet: any) => Promise<void>;
+  getCurrentWallet: () => Promise<void>;
+
+  setCurrentUserState: (user: any) => Promise<void>;
   setCurrentUser: (user: string) => Promise<void>;
   getCurrentUser: () => Promise<void>;
-  getCurrentWallet: () => Promise<void>;
 
   storage: Storage | null;
   initializeStorage: () => Promise<void>;
@@ -34,11 +37,13 @@ const useStorage = create<StorageState>()(
       const storageInstance = await store.create();
       set({ storage: storageInstance });
 
-      const wallet = await storageInstance.get("wallet");
+      // const wallet = await storageInstance.get("wallet");
+      const wallet = getWallet();
       set({ wallet, loading: false });
 
-      const currentUser = await storageInstance.get("currentUser");
-      set({ currentUser, loading: false });
+      // const currentUser = await storageInstance.get("currentUser");
+      // const currentUser = getCurrentUser();
+      // set({ currentUser, loading: false });
     },
 
     setWallet: async (wallet: string) => {
@@ -56,8 +61,11 @@ const useStorage = create<StorageState>()(
       const { storage } = get();
       if (storage) {
         await storage.set("currentUser", user);
-        set({ currentUser: user });
       }
+    },
+
+    setCurrentUserState: async (user: string) => {
+      set({ currentUser: user });
     },
 
     getCurrentUser: async () => {

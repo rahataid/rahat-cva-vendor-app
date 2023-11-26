@@ -1,30 +1,33 @@
-import { Preferences } from "@capacitor/preferences";
+import { DEFAULT_PASSCODE } from "../config";
+import { getWalletFromJson } from "./web3";
 
-export const setObject = async (key: string, value: string) => {
-  await Preferences.set({
-    key,
-    value: JSON.stringify(value),
-  });
+console.log("TYPEOF CONFIG", typeof window);
+
+export const saveKey = (key: string, value: any) =>
+  typeof window !== "undefined"
+    ? localStorage.setItem(key, JSON.stringify(value))
+    : "";
+export const getKey = (key: string) =>
+  typeof window !== "undefined" ? JSON.parse(localStorage.getItem(key)) : "";
+
+export const getCurrentUser = () => {
+  let user = null;
+  const data =
+    typeof window !== "undefined" ? localStorage.getItem("currentUser") : "";
+  if (data) user = JSON.parse(data);
+  return user;
 };
 
-export const getObject = async (key: string) => {
-  const ret = await Preferences.get({ key });
-  if (ret?.value) return JSON.parse(ret.value);
-  return undefined;
-};
+export const saveCurrentUser = (userData: any) =>
+  typeof window !== "undefined"
+    ? localStorage.setItem("currentUser", JSON.stringify(userData))
+    : "";
 
-export const saveCurrentUserInfo = async (userData: any) => {
-  await setObject("currentUser", userData);
-};
+export const saveWalletInfo = (wallet: any) =>
+  typeof window !== "undefined" ? localStorage.setItem("wallet", wallet) : "";
 
-export const saveWalletInfo = async (walletData: any) => {
-  await setObject("wallet", walletData);
-};
-
-export const getCurrentWalletInfo = () => {
-  return getObject("wallet");
-};
-
-export const getCurrentUserInfo = () => {
-  return getObject("currentUser");
+export const getWallet = () => {
+  const data =
+    typeof window !== "undefined" ? localStorage.getItem("wallet") : "";
+  return getWalletFromJson(data, DEFAULT_PASSCODE);
 };

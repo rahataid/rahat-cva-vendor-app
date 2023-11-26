@@ -6,7 +6,7 @@ import {
   IAppSettingsNetwork,
 } from "../types/app-settings";
 import { getWalletUsingMnemonic } from "../utils/web3";
-import { getObject, saveCurrentUserInfo } from "@utils/sessionManager";
+import { getObject, saveCurrentUserInfo } from "@utils/indexDbManager";
 
 export type AppStateType = {
   contracts: IAppSettingsContractsApiResponse | undefined;

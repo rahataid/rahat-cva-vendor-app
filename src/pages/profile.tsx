@@ -7,13 +7,16 @@ import {
 } from "@ionic/react";
 import Profile from "@sections/profile";
 import useStorage from "@store/storage";
+import { getCurrentUser } from "@utils/sessionManager";
 import { useEffect, useState } from "react";
 
 const ProfilePage: React.FC = () => {
   // const [currentUser, setCurrentUser] = useState({});
 
-  const getCurrentUser = useStorage.getState().getCurrentUser;
-  const currentUser = useStorage.getState().currentUser;
+  // const getCurrentUser = useStorage.getState().getCurrentUser;
+  // const currentUser = useStorage.getState().currentUser;
+
+  const currentUser = getCurrentUser();
 
   // useEffect(() => {
   //   const getCurrentUsers = async () => {
@@ -23,7 +26,6 @@ const ProfilePage: React.FC = () => {
   //   getCurrentUsers();
   // }, []);
 
-  useEffect(() => console.log("CURRENT USER", currentUser), [currentUser]);
   return (
     <IonPage>
       <IonHeader>

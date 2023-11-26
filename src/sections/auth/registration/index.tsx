@@ -50,12 +50,12 @@ const Register = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      console.log(data);
+      // console.log(data);
       const walletValue = await appStore.handleRegister(data);
-      console.log(walletValue);
-      console.log(walletValue.mnemonic.phrase);
+      // console.log(walletValue);
+      console.log("MNEMONIC PHRASE", walletValue.mnemonic.phrase);
       if (walletValue) {
-        setMnemonics(walletValue?.mnemonic?.phrase);
+        setMnemonics(walletValue.mnemonic.phrase);
       }
     } catch (error) {
       alert(JSON.stringify(error, null, 2));

@@ -8,6 +8,7 @@ import "./mnemonicDialog.scss";
 import { useHistory } from "react-router";
 
 function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
+  console.log("mnemonic dialog", mnemonics, isOpen);
   const history = useHistory();
 
   return (
@@ -15,16 +16,17 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
       <IonAlert
         backdropDismiss={false}
         isOpen={isOpen}
-        header="Please save the mnemonics safely"
+        header="Please write down the mnemonics safely"
         subHeader=""
         message={mnemonics}
         buttons={[
           {
-            text: "I have saved it",
+            text: "I have written it down",
             cssClass: "alert-button-confirm",
           },
         ]}
         onDidDismiss={() => {
+          console.log("DISMISS");
           history.push("/tabs/home");
         }}
       ></IonAlert>
