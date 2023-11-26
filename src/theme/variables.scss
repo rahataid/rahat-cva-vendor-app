@@ -107,6 +107,43 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-tint: var(--ion-color-blue-tint);
   }
 
+  // colors for android
+  --ion-background-color: #217ec2;
+  --ion-background-color-rgb: 33, 126, 194;
+
+  --ion-text-color: #000000;
+  --ion-text-color-rgb: 0, 0, 0;
+
+  --ion-color-selected: #217ec2;
+
+  --ion-border-color: #217ec2;
+
+  --ion-toolbar-background: #217ec2;
+  --ion-tab-bar-background: #ffffff;
+
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+
+  --ion-color-step-50: #ffffff;
+  --ion-color-step-100: #1e71af;
+  --ion-color-step-150: #1c6ba5;
+  --ion-color-step-200: #1a659b;
+  --ion-color-step-250: #195f92;
+  --ion-color-step-300: #175888;
+  --ion-color-step-350: #15527e;
+  --ion-color-step-400: #144c74;
+  --ion-color-step-450: #12456b;
+  --ion-color-step-500: #113f61;
+  --ion-color-step-550: #0f3957;
+  --ion-color-step-600: #0d324e;
+  --ion-color-step-650: #a9bac7;
+  --ion-color-step-700: #0a263a;
+  --ion-color-step-750: #082031;
+  --ion-color-step-800: #071927;
+  --ion-color-step-850: #05131d;
+  --ion-color-step-900: #030d13;
+  --ion-color-step-950: #02060a;
+
   // --ion-background-color: #217ec2;
   // --ion-item-background: #ffffff;
   // --ion-toolbar-background: #217ec2;
