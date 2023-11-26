@@ -31,3 +31,8 @@ export const getWallet = () => {
     typeof window !== "undefined" ? localStorage.getItem("wallet") : "";
   return getWalletFromJson(data, DEFAULT_PASSCODE);
 };
+
+export const logOut = () => {
+  localStorage.removeItem("wallet");
+  localStorage.removeItem("currentUser");
+};

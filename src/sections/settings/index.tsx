@@ -7,16 +7,18 @@ import {
   IonCard,
 } from "@ionic/react";
 import useStorage from "@store/storage";
+import { getCurrentUser, logOut as logOutUser } from "@utils/sessionManager";
 import { logOut } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 function Settings() {
-  const storage = useStorage();
-  const currentUser = useStorage.getState().currentUser;
+  // const storage = useStorage();
+  const currentUser = getCurrentUser();
 
   const history = useHistory();
   const handleLogout = () => {
-    storage.logout();
+    // storage.logout();
+    logOutUser();
     history.replace("/landing");
   };
   return (
