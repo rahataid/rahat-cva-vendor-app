@@ -44,6 +44,73 @@ export const useProject = () => {
   const acceptTokensByVendor = async (numberOfTokens: number) =>
     await contract?.acceptAllowanceByVendor(numberOfTokens.toString());
 
+  const getBeneficiaryBalance = async (walletAddress: string) => {
+    let balance = await contract
+      ?.beneficiaryClaims(walletAddress)
+      .catch(
+        (error: { error: { error: { error: { toString: () => any } } } }) => {
+          try {
+            let message = error.error.error.error.toString();
+            message = message.replace(
+              "Error: VM Exception while processing transaction: revert ",
+              ""
+            );
+            console.log(message);
+          } catch (e) {
+            console.log(
+              "Error occured calling contract. Please check logs for details."
+            );
+            console.error(error);
+          }
+        }
+      );
+    balance = balance?.toString();
+    return balance;
+  };
+
+  const requestTokenFromBeneficiary = async (to: string, amount: string) => {
+    try {
+      const transaction = await contract[
+        "requestTokenFromBeneficiary(address,uint256)"
+      ](
+        to,
+        amount?.toString()
+        // TODO: change this to the actual address
+        // '0xc0ECad507A3adC91076Df1D482e3D2423F9a9EF9'
+      );
+      console.log({ transaction });
+      const receipt = await transaction.wait();
+      console.log({ receipt });
+      const event = receipt.logs[0];
+      console.log({ event });
+      const decodedEventArgs = RahatClaim?.interface.decodeEventLog(
+        "ClaimCreated",
+        event.data,
+        event.topics
+      );
+      console.log({ decodedEventArgs });
+      return decodedEventArgs?.claimId?.toString();
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  const processTokenRequest = (beneficiary: string, otp: string) =>
+    contract?.processTokenRequest(beneficiary, otp).catch((error: any) => {
+      try {
+        let message = error.error.error.error.toString();
+        message = message.replace(
+          "Error: VM Exception while processing transaction: revert ",
+          ""
+        );
+        console.log({ message });
+        throw message;
+      } catch (e) {
+        console.error(error);
+        throw error;
+      }
+    });
+
   return {
     getProjectBalance,
     checkIsVendorApproved,
@@ -52,5 +119,8 @@ export const useProject = () => {
     getDisbursed,
     getVendorAllowance,
     acceptTokensByVendor,
+    getBeneficiaryBalance,
+    requestTokenFromBeneficiary,
+    processTokenRequest,
   };
 };

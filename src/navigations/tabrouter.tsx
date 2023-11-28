@@ -26,7 +26,7 @@ import {
 } from "ionicons/icons";
 import ProtectedRoute from "./protected-route";
 import HomePage from "@pages/home";
-import ChargeTokenPage from "@pages/charge-token";
+import ChargeBeneficiaryPage from "@pages/charge-beneficiary";
 import ProfilePage from "@pages/profile";
 import SettingsPage from "@pages/settings";
 import PrivateRoute from "./private-routes";
@@ -46,7 +46,7 @@ const Tabs: React.FC<PropTypes> = ({ isAuthenticated }) => {
           <Route path="/tabs/home" component={HomePage}></Route>
           <Route
             path="/tabs/charge-beneficiary"
-            component={ChargeTokenPage}
+            component={ChargeBeneficiaryPage}
           ></Route>
           <Route path="/tabs/profile" component={ProfilePage}></Route>
           <Route path="/tabs/settings" component={SettingsPage}></Route>

@@ -46,6 +46,9 @@ export const endpoints = {
     update: (walletAddress: string) => `/vendors/${walletAddress}`,
     add: `/vendors`,
   },
+  beneficiaries: {
+    list: "/beneficiaries",
+  },
   transactions: {
     list: "/transactions",
     details: (txHash: string) => `/transactions/${txHash}`,

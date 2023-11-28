@@ -45,7 +45,7 @@ const Home = ({
       />
       <DismissibleAlert
         title="Pending Tokens"
-        color="info"
+        color="success"
         dismissText="Accept"
         description={`You have ${pendingTokensToAccept} pending tokens.`}
         onButtonClick={() => acceptPendingTokens()}

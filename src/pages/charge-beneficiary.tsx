@@ -5,9 +5,9 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ChargeToken from "@sections/charge-token";
+import ChargeBeneficiary from "@sections/charge-beneficiary";
 
-const ChargeTokenPage: React.FC = () => {
+const ChargeBeneficiaryPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -21,10 +21,10 @@ const ChargeTokenPage: React.FC = () => {
             <IonTitle size="large">Charge Token</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ChargeToken />
+        <ChargeBeneficiary />
       </IonContent>
     </IonPage>
   );
 };
 
-export default ChargeTokenPage;
+export default ChargeBeneficiaryPage;

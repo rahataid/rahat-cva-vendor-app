@@ -25,6 +25,8 @@ export type AppStateType = {
   blockchain: IAppSettingsNetwork | undefined;
   wallet: Wallet | HDNodeWallet | undefined;
   currentUser: any | undefined;
+  claimId: string | undefined;
+  beneficiary: string | undefined;
 };
 
 type AppActionsType = {
@@ -36,6 +38,7 @@ type AppActionsType = {
   getAppSettings: () => Promise<any>;
   contractsFn: any;
   toggleIsAuthenticated: () => void;
+  setClaimId: (beneficiary: string, claimId: string) => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -47,6 +50,8 @@ const useAppStore = create<AppStoreType>()(
     chainUrl: undefined,
     chainId: undefined,
     chainWebSocket: undefined,
+    claimId: undefined,
+    beneficiary: undefined,
 
     contracts: undefined,
     blockchain: undefined,
@@ -171,6 +176,10 @@ const useAppStore = create<AppStoreType>()(
     toggleIsAuthenticated: () => {
       const { isAuthenticated } = get();
       set({ isAuthenticated: !isAuthenticated });
+    },
+
+    setClaimId: (beneficiary, claimId) => {
+      set({ beneficiary, claimId });
     },
   }))
 );

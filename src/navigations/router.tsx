@@ -4,7 +4,6 @@ import { IonReactRouter } from "@ionic/react-router";
 
 import ProtectedRoute from "./protected-route";
 import Tabs from "./tabrouter";
-import ChargeTokenPage from "@pages/charge-token";
 import LandingPage from "@pages/landing-screen";
 import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
