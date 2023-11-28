@@ -17,10 +17,11 @@ import TextInputField from "@components/input/form-text-input";
 import { getWalletUsingMnemonic } from "@utils/web3";
 import { DEFAULT_PASSCODE } from "../../../config";
 import useStorage from "../../../store/storage";
+import { saveCurrentUser, saveWalletInfo } from "@utils/sessionManager";
+import { axiosInstance, endpoints } from "@utils/axios";
 
 const RestoreWallet = () => {
   const history = useHistory();
-  const setWallet = useStorage.getState().setWallet;
   const setWalletState = useStorage.getState().setWalletState;
   const handleCancel = () => {
     history.goBack();
@@ -43,18 +44,29 @@ const RestoreWallet = () => {
   const onSubmit = async (data: any) => {
     try {
       const wallet = getWalletUsingMnemonic(data.pneumonics);
+      const walletAddress = wallet.address;
+      const { data: vendorInfo } = await axiosInstance.get(
+        endpoints.vendors.details(walletAddress)
+      );
 
-      //  save wallet info in localstorage by encrypting with passcode in .env file
+      //  save wallet info and current user in localstorage by encrypting with passcode in .env file
       const encryptedWallet = await wallet.encrypt(DEFAULT_PASSCODE);
-      await setWallet(encryptedWallet);
-
+      saveWalletInfo(encryptedWallet);
+      saveCurrentUser(vendorInfo);
       await setWalletState(wallet);
+
       history.replace("/tabs/home");
-    } catch (error) {
-      setError("root.serverError", {
-        type: "manual",
-        message: "Something went wrong! Try again later.",
-      });
+    } catch (error: any) {
+      if (error?.name === "P2025" && error?.message == "No Vendor found")
+        setError("root.serverError", {
+          type: "manual",
+          message: "Vendor doesn't exist.",
+        });
+      else
+        setError("root.serverError", {
+          type: "manual",
+          message: "Something went wrong! Try again later.",
+        });
     }
   };
 
