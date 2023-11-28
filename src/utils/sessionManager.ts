@@ -40,4 +40,5 @@ export const getWallet = () => {
 export const logOut = () => {
   localStorage.removeItem("wallet");
   localStorage.removeItem("currentUser");
+  localStorage.clear();
 };
