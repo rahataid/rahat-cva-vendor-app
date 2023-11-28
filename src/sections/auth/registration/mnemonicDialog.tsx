@@ -3,14 +3,10 @@ type PropTypes = {
   isOpen: boolean;
 };
 
-import { IonAlert, IonButton } from "@ionic/react";
+import { IonAlert } from "@ionic/react";
 import "./mnemonicDialog.scss";
-import { useHistory } from "react-router";
 
 function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
-  console.log("mnemonic dialog", mnemonics, isOpen);
-  const history = useHistory();
-
   return (
     <>
       <IonAlert
@@ -27,7 +23,8 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
         ]}
         onDidDismiss={() => {
           console.log("DISMISS");
-          history.push("/tabs/home");
+
+          window.location.replace("/tabs/home");
         }}
       ></IonAlert>
     </>

@@ -55,8 +55,10 @@ const useAppStore = create<AppStoreType>()(
 
     initialize: async () => {
       try {
+        console.log("initialize called");
         const { getAppSettings } = get();
         let wallet = await getWallet();
+        console.log("wallet in localstorage", wallet);
 
         if (wallet) {
           const { blockchainSettings, contractAddresses, contractDetails } =

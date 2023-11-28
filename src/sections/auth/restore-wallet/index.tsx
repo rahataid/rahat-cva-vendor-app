@@ -55,7 +55,7 @@ const RestoreWallet = () => {
       saveCurrentUser(vendorInfo);
       await setWalletState(wallet);
 
-      history.replace("/tabs/home");
+      window.location.replace("/tabs/home");
     } catch (error: any) {
       if (error?.name === "P2025" && error?.message == "No Vendor found")
         setError("root.serverError", {

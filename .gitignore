@@ -25,6 +25,7 @@
 /dist
 /android
 /ios
+/play
 
 npm-debug.log*
 yarn-debug.log*

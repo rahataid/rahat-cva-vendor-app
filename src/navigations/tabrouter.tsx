@@ -2,6 +2,7 @@ import { Redirect, Route } from "react-router-dom";
 import {
   IonIcon,
   IonLabel,
+  IonPage,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -32,25 +33,18 @@ import SettingsPage from "@pages/settings";
 const Tabs: React.FC = () => (
   <IonTabs>
     <IonRouterOutlet>
-      <Redirect exact path="/" to="/tabs/home" />
-      <Route exact path="/tabs/home">
-        <HomePage />
-      </Route>
-      <Route exact path="/tabs/charge-beneficiary">
-        {/* <RequireAuth> */}
-        <ChargeTokenPage />
-        {/* </RequireAuth> */}
-      </Route>
-      <Route path="/tabs/profile">
-        <ProfilePage />
-      </Route>
-      <Route path="/tabs/settings">
-        <SettingsPage />
-      </Route>
-      <Route exact path="/tabs">
-        <Redirect to="/tabs/home" />
-      </Route>
+      {/* <Redirect exact path="/" to="/tabs/home" /> */}
+
+      <Redirect exact path="/tabs" to="/tabs/home" />
+      <Route path="/tabs/home" component={HomePage}></Route>
+      <Route
+        path="/tabs/charge-beneficiary"
+        component={ChargeTokenPage}
+      ></Route>
+      <Route path="/tabs/profile" component={ProfilePage}></Route>
+      <Route path="/tabs/settings" component={SettingsPage}></Route>
     </IonRouterOutlet>
+
     <IonTabBar slot="bottom">
       <IonTabButton tab="home" href="/tabs/home">
         <IonIcon icon={home} />
