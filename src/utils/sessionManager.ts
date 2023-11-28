@@ -5,7 +5,12 @@ console.log("TYPEOF CONFIG", typeof window);
 
 export const saveKey = (key: string, value: any) =>
   typeof window !== "undefined"
-    ? localStorage.setItem(key, JSON.stringify(value))
+    ? localStorage.setItem(
+        key,
+        typeof value === "bigint"
+          ? JSON.stringify(value.toString())
+          : JSON.stringify(value)
+      )
     : "";
 export const getKey = (key: string) =>
   typeof window !== "undefined" ? JSON.parse(localStorage.getItem(key)) : "";

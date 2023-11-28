@@ -30,7 +30,7 @@ export const endpoints = {
   appSettings: {
     blockchain: "/app/blockchain",
     contracts: "/app/contracts",
-    settings: (name: string) => `/app/settings/name=${name}`,
+    settings: (name: string) => `/app/settings?name=${name}`,
   },
   auth: {
     loginWallet: "/auth/login-wallet",

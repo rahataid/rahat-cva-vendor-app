@@ -11,6 +11,8 @@ const AppSettingService = {
   getBlockchainSettings: (): Promise<BlockchainSettingsApiResponse> =>
     axiosInstance.get(endpoints.appSettings.blockchain),
   getContracts: () => axiosInstance.get(endpoints.appSettings.contracts),
+  getSettings: (name: any) =>
+    axiosInstance.get(endpoints.appSettings.settings(name)),
 };
 
 export default AppSettingService;

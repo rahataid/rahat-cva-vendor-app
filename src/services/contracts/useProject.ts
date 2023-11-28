@@ -1,168 +1,56 @@
-import { ContractTransactionResponse } from "ethers";
-import { useCallback, useMemo } from "react";
-import useContract from "../../hooks/contracts/useContract";
-import { useErrorHandler } from "../../hooks/use-error-handler";
-import { CONTRACTS } from "../../types/enums";
-import { IVendorChainData, ProjectContract } from "../../types/useProject";
+import useAppStore from "@store/app";
+import { CONTRACTS } from "../../config";
 
-const useProjectContract = (): ProjectContract => {
-  const { handleContractError } = useErrorHandler();
-  const [projectContract, abi] = useContract(CONTRACTS.CVAPROJECT);
-  const [projectContractWS] = useContract(CONTRACTS.CVAPROJECT, {
-    isWebsocket: true,
-  });
-  const [tokenContract] = useContract(CONTRACTS.RAHATTOKEN);
-  const [donorContract] = useContract(CONTRACTS.DONOR);
-  const [communityContract] = useContract(CONTRACTS.COMMUNITY);
+export const useProject = () => {
+  const { contractsFn, contracts } = useAppStore((state) => ({
+    contractsFn: state.contractsFn,
+    contracts: state.contracts,
+  }));
 
-  const acceptToken = useCallback(
-    async (amount: string): Promise<ContractTransactionResponse | void> => {
-      if (!projectContract || !donorContract) {
-        return;
-      }
-      await projectContract
-        .acceptToken(donorContract.target, amount)
-        .catch(handleContractError);
-    },
-    [projectContract, donorContract, handleContractError]
-  );
+  const contract = contractsFn?.[CONTRACTS.CVAPROJECT];
+  const communityContract = contractsFn?.[CONTRACTS.COMMUNITY];
+  const RahatToken = contractsFn?.[CONTRACTS.RAHATTOKEN];
+  const RahatClaim = contractsFn?.[CONTRACTS.CLAIM];
 
-  const getVendorBalance = useCallback(
-    async (walletAddress: string): Promise<number | undefined> => {
-      if (!tokenContract) {
-        return undefined;
-      }
-      const balance = await tokenContract.balanceOf(walletAddress);
-      return balance?.toString();
-    },
-    [tokenContract]
-  );
+  console.log("USE PROJECT CVAPROJECT", contracts[CONTRACTS.CVAPROJECT]);
 
-  const getVendorAllowance = useCallback(
-    async (vendorAddress: string): Promise<number | undefined> => {
-      if (!projectContract) {
-        return undefined;
-      }
-      const allowance = await projectContract.vendorAllowance(vendorAddress);
-      return allowance?.toString();
-    },
-    [projectContract]
-  );
+  const getProjectBalance = async () => {
+    let balance = await RahatToken?.balanceOf(contracts[CONTRACTS.CVAPROJECT]);
+    return balance?.toString();
+  };
 
-  const checkActiveVendor = useCallback(
-    async (address: string): Promise<boolean> => {
-      if (!communityContract) {
-        return false;
-      }
-      const role = await communityContract.VENDOR_ROLE();
-      return communityContract
-        .hasRole(role, address)
-        .catch(handleContractError);
-    },
-    [communityContract, handleContractError]
-  );
+  const checkIsVendorApproved = async (vendorAddress: string) => {
+    console.log("VENDOR ADDRESS====", vendorAddress);
+    const vendorRole = await communityContract?.VENDOR_ROLE();
+    // return communityContract?.hasRole(vendorRole, vendorAddress);
+    const casess = await communityContract?.hasRole(vendorRole, vendorAddress);
+    return casess;
+  };
 
-  const pendingVendorAllowance = useCallback(
-    async (vendorAddress: string): Promise<number | undefined> => {
-      if (!projectContract) {
-        return undefined;
-      }
-      const pending = await projectContract.vendorAllowancePending(
-        vendorAddress
-      );
-      return pending?.toString();
-    },
-    [projectContract]
-  );
+  const checkIsProjectLocked = () => contract?.isLocked();
 
-  const acceptTokensByVendors = useCallback(
-    async (numberOfTokens: string): Promise<void> => {
-      if (!projectContract) {
-        return;
-      }
-      await projectContract
-        .acceptAllowanceByVendor(numberOfTokens.toString())
-        .catch(handleContractError);
-    },
-    [projectContract, handleContractError]
-  );
+  const getPendingTokensToAccept = async (vendorAddress: string) => {
+    let res = await contract?.vendorAllowancePending(vendorAddress);
+    console.log(res, "get pending tokens to accept+++++");
+    return res;
+  };
 
-  const checkActiveBeneficiary = useCallback(
-    async (address: string): Promise<boolean> => {
-      if (!communityContract) {
-        return false;
-      }
-      return communityContract
-        .isBeneficiary(address)
-        .catch(handleContractError);
-    },
-    [communityContract, handleContractError]
-  );
+  const getDisbursed = async (walletAddress: string) =>
+    (await RahatToken?.balanceOf(walletAddress))?.toString();
 
-  const beneficiaryCounts = useCallback(async (): Promise<
-    number | undefined
-  > => {
-    if (!projectContract) {
-      return undefined;
-    }
-    return projectContract.beneficiaryCount();
-  }, [projectContract]);
+  const getVendorAllowance = async (vendorAddress: string) =>
+    (await contract?.vendorAllowance(vendorAddress))?.toString();
 
-  const getVendorChainData = useCallback(
-    async (address: string): Promise<IVendorChainData> => {
-      const [balance, allowance, isVendor, pending] = await Promise.all([
-        getVendorBalance(address),
-        getVendorAllowance(address),
-        checkActiveVendor(address),
-        pendingVendorAllowance(address),
-      ]);
-      return {
-        balance: allowance || 0,
-        isVendor: isVendor || null,
-        pending: pending || 0,
-        disbursed: balance || 0,
-      };
-    },
-    [
-      checkActiveVendor,
-      getVendorAllowance,
-      getVendorBalance,
-      pendingVendorAllowance,
-    ]
-  );
+  const acceptTokensByVendor = async (numberOfTokens: number) =>
+    await contract?.acceptAllowanceByVendor(numberOfTokens.toString());
 
-  return useMemo(
-    () => ({
-      projectContract,
-      projectContractWS,
-      abi,
-      communityContract,
-      acceptToken,
-      getVendorBalance,
-      getVendorAllowance,
-      checkActiveVendor,
-      pendingVendorAllowance,
-      acceptTokensByVendors,
-      checkActiveBeneficiary,
-      beneficiaryCounts,
-      getVendorChainData,
-    }),
-    [
-      projectContract,
-      projectContractWS,
-      abi,
-      communityContract,
-      acceptToken,
-      getVendorBalance,
-      getVendorAllowance,
-      checkActiveVendor,
-      pendingVendorAllowance,
-      acceptTokensByVendors,
-      checkActiveBeneficiary,
-      beneficiaryCounts,
-      getVendorChainData,
-    ]
-  );
+  return {
+    getProjectBalance,
+    checkIsVendorApproved,
+    checkIsProjectLocked,
+    getPendingTokensToAccept,
+    getDisbursed,
+    getVendorAllowance,
+    acceptTokensByVendor,
+  };
 };
-
-export default useProjectContract;

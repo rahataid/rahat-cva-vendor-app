@@ -27,14 +27,21 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
     <>
       {visible && (
         <IonItem
-          lines='none'
-          className={`ion-text-center ion-padding ${color}`}>
-          <IonIcon icon={alertCircleOutline} slot='start' />
+          color={color}
+          lines="none"
+          className={`ion-text-center ion-padding`}
+        >
+          <IonIcon icon={alertCircleOutline} slot="start" />
           <IonLabel>
             <h2>{title}</h2>
             <p>{description}</p>
           </IonLabel>
-          <IonButton fill='clear' size='small' onClick={onDismiss}>
+          <IonButton
+            color="white"
+            fill="solid"
+            size="small"
+            onClick={onDismiss}
+          >
             {dismissText}
           </IonButton>
         </IonItem>

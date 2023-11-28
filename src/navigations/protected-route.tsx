@@ -1,8 +1,10 @@
 import { useHistory } from "react-router";
-import { useIonRouter } from "@ionic/react";
+import { IonProgressBar, useIonRouter } from "@ionic/react";
 import { getCurrentWalletInfo } from "@utils/sessionManager";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useStorage from "@store/storage";
+import useAppStore from "@store/app";
+import IndeterminateLoader from "@components/loaders/Indeterminate";
 
 export const RequireAuth = ({ children }: { children: React.ReactNode }) => {
   const history = useHistory();
@@ -11,11 +13,28 @@ export const RequireAuth = ({ children }: { children: React.ReactNode }) => {
   console.log("wallet", wallet);
   console.log("history", history);
 
-  if (loading) {
-    return null;
+  const { initialize, isInitialized, isAuthenticated } = useAppStore(
+    (state) => ({
+      initialize: state.initialize,
+      isInitialized: state.isInitialized,
+      isAuthenticated: state.isAuthenticated,
+    })
+  );
+
+  useEffect(() => {
+    initialize();
+  }, []);
+
+  if (!isInitialized) {
+    console.log("NO INITIALIZED");
+    return (
+      <>
+        <IndeterminateLoader></IndeterminateLoader>
+      </>
+    );
   }
 
-  if (!wallet) {
+  if (!isAuthenticated) {
     console.log("protected routes -> /landing");
     history.replace("/landing");
   } else {
