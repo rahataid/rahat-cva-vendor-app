@@ -2,7 +2,7 @@ import { IonRouterOutlet } from "@ionic/react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
 
-import { RequireAuth } from "./protected-route";
+import ProtectedRoute from "./protected-route";
 import Tabs from "./tabrouter";
 import ChargeTokenPage from "@pages/charge-token";
 import LandingPage from "@pages/landing-screen";
@@ -39,12 +39,16 @@ const Router = () => {
     <IonReactRouter>
       <IonRouterOutlet>
         <Switch>
-          <Redirect exact from="/" to="/tabs" />
-          <PrivateRoute
+          {/* <PrivateRoute
             path="/tabs"
             component={Tabs}
             isAuthenticated={isAuthenticated}
-          />
+          /> */}
+          <Redirect exact from="/" to="/tabs" />
+          <Route path="/tabs">
+            <Tabs isAuthenticated={isAuthenticated} />
+          </Route>
+
           <Route exact path="/landing" component={LandingPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/restore-wallet" component={RestoreWalletPage} />

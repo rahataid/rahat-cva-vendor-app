@@ -6,6 +6,7 @@ import {
   IonIcon,
   IonCard,
 } from "@ionic/react";
+import useAppStore from "@store/app";
 import useStorage from "@store/storage";
 import { getCurrentUser, logOut as logOutUser } from "@utils/sessionManager";
 import { logOut } from "ionicons/icons";
@@ -13,12 +14,16 @@ import { useHistory } from "react-router";
 
 function Settings() {
   // const storage = useStorage();
+  const { toggleIsAuthenticated } = useAppStore((state) => ({
+    toggleIsAuthenticated: state.toggleIsAuthenticated,
+  }));
   const currentUser = getCurrentUser();
 
   const history = useHistory();
   const handleLogout = () => {
     // storage.logout();
     logOutUser();
+    toggleIsAuthenticated();
     history.replace("/landing");
   };
   return (

@@ -24,46 +24,55 @@ import {
   triangle,
   settings,
 } from "ionicons/icons";
-import { RequireAuth } from "./protected-route";
+import ProtectedRoute from "./protected-route";
 import HomePage from "@pages/home";
 import ChargeTokenPage from "@pages/charge-token";
 import ProfilePage from "@pages/profile";
 import SettingsPage from "@pages/settings";
+import PrivateRoute from "./private-routes";
 
-const Tabs: React.FC = () => (
-  <IonTabs>
-    <IonRouterOutlet>
-      {/* <Redirect exact path="/" to="/tabs/home" /> */}
+type PropTypes = {
+  isAuthenticated: boolean;
+};
 
-      <Redirect exact path="/tabs" to="/tabs/home" />
-      <Route path="/tabs/home" component={HomePage}></Route>
-      <Route
-        path="/tabs/charge-beneficiary"
-        component={ChargeTokenPage}
-      ></Route>
-      <Route path="/tabs/profile" component={ProfilePage}></Route>
-      <Route path="/tabs/settings" component={SettingsPage}></Route>
-    </IonRouterOutlet>
+const Tabs: React.FC<PropTypes> = ({ isAuthenticated }) => {
+  console.log("tabs", { isAuthenticated });
+  return (
+    <IonTabs>
+      <IonRouterOutlet>
+        {/* <Redirect exact path="/" to="/tabs/home" /> */}
+        <ProtectedRoute isAuthenticated={isAuthenticated}>
+          <Redirect exact path="/tabs" to="/tabs/home" />
+          <Route path="/tabs/home" component={HomePage}></Route>
+          <Route
+            path="/tabs/charge-beneficiary"
+            component={ChargeTokenPage}
+          ></Route>
+          <Route path="/tabs/profile" component={ProfilePage}></Route>
+          <Route path="/tabs/settings" component={SettingsPage}></Route>
+        </ProtectedRoute>
+      </IonRouterOutlet>
 
-    <IonTabBar slot="bottom">
-      <IonTabButton tab="home" href="/tabs/home">
-        <IonIcon icon={home} />
-        <IonLabel>Home</IonLabel>
-      </IonTabButton>
-      <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
-        <IonIcon icon={qrCode} />
-        <IonLabel>Charge Beneficiary</IonLabel>
-      </IonTabButton>
-      <IonTabButton tab="profile" href="/tabs/profile">
-        <IonIcon icon={person} />
-        <IonLabel>Profile</IonLabel>
-      </IonTabButton>
-      <IonTabButton tab="settings" href="/tabs/settings">
-        <IonIcon icon={settings} />
-        <IonLabel>Settings</IonLabel>
-      </IonTabButton>
-    </IonTabBar>
-  </IonTabs>
-);
+      <IonTabBar slot="bottom">
+        <IonTabButton tab="home" href="/tabs/home">
+          <IonIcon icon={home} />
+          <IonLabel>Home</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
+          <IonIcon icon={qrCode} />
+          <IonLabel>Charge Beneficiary</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="profile" href="/tabs/profile">
+          <IonIcon icon={person} />
+          <IonLabel>Profile</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="settings" href="/tabs/settings">
+          <IonIcon icon={settings} />
+          <IonLabel>Settings</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
+  );
+};
 
 export default Tabs;

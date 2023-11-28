@@ -35,6 +35,7 @@ type AppActionsType = {
   saveWallet: (wallet: any) => void;
   getAppSettings: () => Promise<any>;
   contractsFn: any;
+  toggleIsAuthenticated: () => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -165,6 +166,11 @@ const useAppStore = create<AppStoreType>()(
         blockchain,
         wallet,
       });
+    },
+
+    toggleIsAuthenticated: () => {
+      const { isAuthenticated } = get();
+      set({ isAuthenticated: !isAuthenticated });
     },
   }))
 );

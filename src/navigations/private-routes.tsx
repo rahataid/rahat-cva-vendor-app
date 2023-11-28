@@ -11,6 +11,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isAuthenticated,
   ...rest
 }) => {
+  console.log("PRIVATE ROUTE", isAuthenticated);
   return (
     <Route
       {...rest}
