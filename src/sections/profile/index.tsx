@@ -1,9 +1,12 @@
 import {
+  IonAvatar,
   IonButton,
+  IonCard,
   IonCol,
   IonContent,
   IonGrid,
   IonHeader,
+  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
@@ -16,6 +19,7 @@ import {
 
 import "./profile.scss";
 import { useHistory } from "react-router";
+import { mail, person, location, call, wallet } from "ionicons/icons";
 
 type PropTypes = {
   currentUser: any;
@@ -27,34 +31,30 @@ const Profile = ({ currentUser }: PropTypes) => {
     history.goBack();
   };
   return (
-    <IonGrid className="profile-container">
-      <IonRow className="profile-form-container">
-        <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
-          <IonList>
-            <IonItem>
-              <IonLabel position="stacked">Name</IonLabel>
-              <p>{currentUser?.name || "-"}</p>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="stacked">Email</IonLabel>
-              <p>{currentUser?.email || "-"}</p>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="stacked">Address</IonLabel>
-              <p>{currentUser?.address?.city || "-"}</p>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="stacked">Phone</IonLabel>
-              <p>{currentUser?.phone || "-"}</p>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="stacked">Wallet Address</IonLabel>
-              <p>{currentUser?.walletAddress || "-"}</p>
-            </IonItem>
-          </IonList>
-        </IonCol>
-      </IonRow>
-    </IonGrid>
+    <IonCard>
+      <IonList>
+        <IonItem>
+          <IonIcon aria-hidden="true" icon={person} slot="start"></IonIcon>
+          <IonLabel>{currentUser?.name || "-"}</IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonIcon aria-hidden="true" icon={mail} slot="start"></IonIcon>
+          <IonLabel>{currentUser?.email || "-"}</IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonIcon aria-hidden="true" icon={location} slot="start"></IonIcon>
+          <IonLabel>{currentUser?.address?.city || "-"}</IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonIcon aria-hidden="true" icon={call} slot="start"></IonIcon>
+          <IonLabel>{currentUser?.phone || "-"}</IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonIcon aria-hidden="true" icon={wallet} slot="start"></IonIcon>
+          <IonLabel>{currentUser?.walletAddress || "-"}</IonLabel>
+        </IonItem>
+      </IonList>
+    </IonCard>
   );
 };
 
