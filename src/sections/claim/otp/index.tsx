@@ -44,7 +44,6 @@ const OTP = () => {
       if (tx) {
         const receipt = await tx.wait();
         if (receipt.status) {
-          alert("SUCCESS TRANSFER");
           history.push("/tabs/home");
         }
       }

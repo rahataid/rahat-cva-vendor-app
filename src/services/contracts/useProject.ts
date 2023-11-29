@@ -92,6 +92,7 @@ export const useProject = () => {
       return decodedEventArgs?.claimId?.toString();
     } catch (err) {
       console.log("err", err);
+      throw err;
     }
   };
 
