@@ -5,17 +5,27 @@ import {
   IonList,
   IonIcon,
   IonCard,
+  IonToggle,
 } from "@ionic/react";
 import useAppStore from "@store/app";
 import useStorage from "@store/storage";
-import { getCurrentUser, logOut as logOutUser } from "@utils/sessionManager";
-import { logOut } from "ionicons/icons";
+import {
+  getCurrentUser,
+  logOut as logOutUser,
+  saveInternetAccess,
+} from "@utils/sessionManager";
+import { logOut, wifiOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 function Settings() {
-  // const storage = useStorage();
-  const { toggleIsAuthenticated } = useAppStore((state) => ({
+  const { setInternetAccess: setInternetAccessStorage } = useStorage(
+    (state) => ({
+      setInternetAccess: state.setInternetAccess,
+    })
+  );
+  const { toggleIsAuthenticated, setInternetAccess } = useAppStore((state) => ({
     toggleIsAuthenticated: state.toggleIsAuthenticated,
+    setInternetAccess: state.setInternetAccess,
   }));
   const currentUser = getCurrentUser();
 
@@ -25,6 +35,13 @@ function Settings() {
     logOutUser();
     toggleIsAuthenticated();
     history.replace("/landing");
+  };
+
+  const handleToggleInternetAccess = (e: any) => {
+    console.log("TOGGLE INTERNET ACCESS", e.target.checked);
+    setInternetAccess(e.target.checked);
+    setInternetAccessStorage(e.target.checked);
+    saveInternetAccess(e.target.checked);
   };
   return (
     <IonCard>
@@ -40,6 +57,11 @@ function Settings() {
         </IonItem>
       </IonList>
       <IonList>
+        <IonItem button={true} onClick={handleToggleInternetAccess}>
+          <IonToggle>Internet Access</IonToggle>
+          <IonIcon aria-hidden="true" icon={wifiOutline} slot="start"></IonIcon>
+          <IonLabel>Logout</IonLabel>
+        </IonItem>
         <IonItem button={true} onClick={handleLogout}>
           <IonIcon aria-hidden="true" icon={logOut} slot="start"></IonIcon>
           <IonLabel>Logout</IonLabel>

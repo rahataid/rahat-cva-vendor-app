@@ -2,21 +2,11 @@ import {
   IonButton,
   IonCard,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonCol,
-  IonContent,
   IonGrid,
-  IonHeader,
-  IonInput,
-  IonItem,
-  IonList,
   IonProgressBar,
   IonRow,
-  IonText,
-  IonTextarea,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 
 import "./charge-beneficiary.scss";
@@ -29,6 +19,7 @@ import { Controller, useForm } from "react-hook-form";
 import TextInputField from "@components/input/form-text-input";
 import ChargePhone from "./charge-phone";
 import ChargeQr from "./charge-qr";
+import useStorage from "@store/storage";
 
 type formDataType = {
   phone?: string | null;
@@ -37,14 +28,21 @@ type formDataType = {
 };
 
 const ChargeBeneficiary = () => {
+  const { internetAccess, setClaimId } = useAppStore((state) => ({
+    internetAccess: state.internetAccess,
+    setClaimId: state.setClaimId,
+  }));
+
+  const { addTransaction } = useStorage((state) => ({
+    addTransaction: state.addTransaction,
+  }));
+
   const [useQrCode, setUseQrCode] = useState(false);
+
   const history = useHistory();
   const handleCancel = () => {
     history.goBack();
   };
-
-  const { getBeneficiaryBalance, requestTokenFromBeneficiary } = useProject();
-  const { setClaimId } = useAppStore();
 
   const {
     handleSubmit,
@@ -67,71 +65,41 @@ const ChargeBeneficiary = () => {
   };
 
   const chargeBeneficiaryPhone = async (data: formDataType) => {
-    console.log("CHARGE PHONE");
-    const { phone, token } = data;
-    console.log({ phone, token });
-    if (!phone || !token) return;
+    console.log("CHARGE PHONE CALLED");
+    console.log("APP HAS INTERNET ACCESS = ", internetAccess);
 
-    //  1.  get beneficiary details
-    const {
-      data: { rows: beneficiaryData },
-    } = await BeneficiariesService.getByPhone(phone);
-    console.log({ beneficiaryData });
-
-    //  2.  check if valid beneficiary
-    if (beneficiaryData.length === 0) {
-      console.log("Invalid Beneficiary");
-      throw { message: "Invalid beneficiary" };
-    }
-
-    //  3.  get wallet address
-    const walletAddress = beneficiaryData[0].walletAddress;
-    console.log({ walletAddress });
-
-    //  4.  get beneficiary balance
-    const beneficiaryBalance = await getBeneficiaryBalance(walletAddress);
-    console.log({ beneficiaryBalance });
-    if (beneficiaryBalance == 0) throw { message: "Not enough balance" };
-
-    //  5.  request token from beneficiary
-    const claimId = await requestTokenFromBeneficiary(walletAddress, token);
-    console.log({ claimId });
-
-    //  6.  Check if claimId is returned
-    if (claimId) {
-      setClaimId(walletAddress, claimId);
-      history.push(`/otp`);
+    if (!internetAccess) {
+      console.log("NO INTERNET ACCESS", data);
+      const { phone, token } = data;
+      const createdAt = new Date();
+      const payload = {
+        phone,
+        amount: token,
+        createdAt,
+        status: "NEW",
+        isOffline: !internetAccess,
+      };
+      await addTransaction(payload);
     }
   };
 
   const chargeBeneficiaryQr = async (data: any) => {
     console.log("CHARGE QR", data);
-    const { qrCode, token } = data;
+    console.log("APP HAS INTERNET ACCESS = ", internetAccess);
 
-    //  1.  Check if the address is registered as a beneficiary
+    if (!internetAccess) {
+      console.log("NO INTERNET ACCESS", data);
 
-    const walletAddress = qrCode;
-    const allBeneficiary = await BeneficiariesService.getByWalletAddress(
-      walletAddress
-    );
-    const {
-      data: { rows: BeneficiaryData },
-    } = allBeneficiary;
-    if (!BeneficiaryData?.length) {
-      throw { message: "Invalid beneficiary" };
-    }
-
-    //  2.  Get beneficiary balance
-    let beneficiaryBalance = await getBeneficiaryBalance(walletAddress);
-    if (beneficiaryBalance == 0) throw { message: "Not enough balance" };
-
-    //  3.  Request token from beneficiary
-    const claimId = await requestTokenFromBeneficiary(walletAddress, token);
-
-    //  4.  Check if claimId is returned
-    if (claimId) {
-      setClaimId(walletAddress, claimId);
-      history.push(`/otp`);
+      const { qrCode, token } = data;
+      const createdAt = new Date();
+      const payload = {
+        walletAddress: qrCode,
+        amount: token,
+        createdAt,
+        status: "NEW",
+        isOffline: !internetAccess,
+      };
+      await addTransaction(payload);
     }
   };
 

@@ -17,8 +17,7 @@ import TextInputField from "@components/input/form-text-input";
 import { getWalletUsingMnemonic } from "@utils/web3";
 import { DEFAULT_PASSCODE } from "../../../config";
 import useStorage from "../../../store/storage";
-import { saveCurrentUser, saveWalletInfo } from "@utils/sessionManager";
-import { axiosInstance, endpoints } from "@utils/axios";
+import { saveWalletInfo } from "@utils/sessionManager";
 
 const RestoreWallet = () => {
   const history = useHistory();
@@ -44,15 +43,10 @@ const RestoreWallet = () => {
   const onSubmit = async (data: any) => {
     try {
       const wallet = getWalletUsingMnemonic(data.pneumonics);
-      const walletAddress = wallet.address;
-      const { data: vendorInfo } = await axiosInstance.get(
-        endpoints.vendors.details(walletAddress)
-      );
 
-      //  save wallet info and current user in localstorage by encrypting with passcode in .env file
+      //  save wallet info in localstorage by encrypting with passcode in .env file
       const encryptedWallet = await wallet.encrypt(DEFAULT_PASSCODE);
       saveWalletInfo(encryptedWallet);
-      saveCurrentUser(vendorInfo);
       await setWalletState(wallet);
 
       window.location.replace("/tabs/home");

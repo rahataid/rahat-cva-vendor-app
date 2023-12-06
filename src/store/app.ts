@@ -6,13 +6,7 @@ import {
 } from "../types/app-settings";
 import { getWalletUsingMnemonic } from "../utils/web3";
 import { getKey, getWallet } from "@utils/sessionManager";
-import {
-  Contract,
-  HDNodeWallet,
-  JsonRpcProvider,
-  Wallet,
-  ethers,
-} from "ethers";
+import { Contract, HDNodeWallet, JsonRpcProvider, Wallet } from "ethers";
 import AppSettingService from "@services/app-settings";
 
 export type AppStateType = {
@@ -27,6 +21,7 @@ export type AppStateType = {
   currentUser: any | undefined;
   claimId: string | undefined;
   beneficiary: string | undefined;
+  internetAccess: boolean;
 };
 
 type AppActionsType = {
@@ -39,6 +34,7 @@ type AppActionsType = {
   contractsFn: any;
   toggleIsAuthenticated: () => void;
   setClaimId: (beneficiary: string, claimId: string) => void;
+  setInternetAccess: (value: boolean) => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -52,6 +48,7 @@ const useAppStore = create<AppStoreType>()(
     chainWebSocket: undefined,
     claimId: undefined,
     beneficiary: undefined,
+    internetAccess: false,
 
     contracts: undefined,
     blockchain: undefined,
@@ -67,30 +64,9 @@ const useAppStore = create<AppStoreType>()(
         console.log("wallet in localstorage", wallet);
 
         if (wallet) {
-          const { blockchainSettings, contractAddresses, contractDetails } =
-            await getAppSettings();
-
-          wallet = wallet?.connect(
-            new JsonRpcProvider(blockchainSettings?.rpcUrl)
-          );
-
-          const contractsFn = contractDetails.reduce((acc, d) => {
-            acc[d.name] = new Contract(d.address, d.abi, wallet);
-            return acc;
-          }, {});
-
-          // const wei = await wallet?.provider?.getBalance(wallet?.address);
-          // const ethBalance = +ethers.formatEther(wei);
-          // const hasEnoughEth = ethBalance >= +MINIMUM_ETH_BALANCE_TO_CLAIM;
-
           set({
             isAuthenticated: true,
             isInitialized: true,
-            contractsFn,
-            chainUrl: blockchainSettings.rpcUrl,
-            chainId: blockchainSettings.chainId,
-            chainWebSocket: blockchainSettings.chainWebSocket,
-            contracts: contractAddresses,
             wallet,
           });
         } else {
@@ -180,6 +156,10 @@ const useAppStore = create<AppStoreType>()(
 
     setClaimId: (beneficiary, claimId) => {
       set({ beneficiary, claimId });
+    },
+
+    setInternetAccess: (value) => {
+      set({ internetAccess: value });
     },
   }))
 );

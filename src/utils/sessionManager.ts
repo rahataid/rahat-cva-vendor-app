@@ -37,6 +37,11 @@ export const getWallet = () => {
   return getWalletFromJson(data, DEFAULT_PASSCODE);
 };
 
+export const saveInternetAccess = (value: boolean) =>
+  typeof window !== "undefined"
+    ? localStorage.setItem("internetAccess", JSON.stringify(value))
+    : "";
+
 export const logOut = () => {
   localStorage.removeItem("wallet");
   localStorage.removeItem("currentUser");

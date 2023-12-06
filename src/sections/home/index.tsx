@@ -3,6 +3,8 @@ import useVendorStore from "../../store/vendors";
 import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
+import useStorage from "@store/storage";
+import { useEffect, useState } from "react";
 
 type PropTypes = {
   allowance?: string | null;
@@ -12,6 +14,7 @@ type PropTypes = {
   projectBalance?: string | null;
   pendingTokensToAccept?: string | null;
   acceptPendingTokens?: any;
+  isVendor?: string | null;
 };
 
 const Home = ({
@@ -22,9 +25,23 @@ const Home = ({
   projectBalance,
   pendingTokensToAccept,
   acceptPendingTokens,
+  isVendor,
 }: PropTypes) => {
+  const [transactionsList, setTransactionsList] = useState(null);
+  const { initializeStorage, addTransaction, getTransactionsList } =
+    useStorage();
+
   console.log(allowance, isVendorApproved, "PROPS IN CARD");
-  const chainData = useVendorStore((state) => state.chainData);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      const data = await getTransactionsList();
+      console.log("FETCH TRANSACTIONS", data);
+      if (data) setTransactionsList(data);
+    };
+    fetchTransactions();
+  }, []);
+
   return (
     <>
       <DismissibleAlert
@@ -33,7 +50,7 @@ const Home = ({
         dismissText="Reload"
         description="You are not a vendor."
         onButtonClick={() => window.location.reload()}
-        visible={chainData?.isVendor === false}
+        visible={!isVendor === false}
       />
       <DismissibleAlert
         title="Not Approved"
@@ -41,7 +58,7 @@ const Home = ({
         dismissText="Reload"
         description="You have not been approved. Please Contact admin."
         onButtonClick={() => window.location.reload()}
-        visible={!isVendorApproved}
+        visible={!isVendorApproved === false}
       />
       <DismissibleAlert
         title="Pending Tokens"
@@ -60,25 +77,11 @@ const Home = ({
           gap: "1rem",
         }}
       >
-        <CardComponent
-          subtitle="Allowance"
-          // title={
-          //   chainData?.balance ? chainData?.balance.toString() : "loading..."
-          // }
-          title={allowance || "loading..."}
-        />
-        <CardComponent
-          subtitle="Disbursed"
-          // title={
-          //   chainData?.disbursed
-          //     ? chainData?.disbursed.toString()
-          //     : "loading..."
-          // }
-          title={disbursed || "loading..."}
-        />
+        <CardComponent subtitle="Allowance" title={allowance || "loading..."} />
+        <CardComponent subtitle="Disbursed" title={disbursed || "loading..."} />
       </div>
       <div>
-        <TransactionCard />
+        <TransactionCard transactionsList={transactionsList} />
       </div>
 
       <IonText>VENDOR APPROVED = {isVendorApproved ? "true" : "false"}</IonText>
