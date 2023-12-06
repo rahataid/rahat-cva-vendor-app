@@ -12,6 +12,8 @@ import useAppStore from "@store/app";
 import IndeterminateLoader from "@components/loaders/Indeterminate";
 import { useEffect } from "react";
 import PrivateRoute from "./private-routes";
+import SelectProject from "@pages/project-select";
+import SelectProjectPage from "@pages/project-select";
 
 const Router = () => {
   const { initialize, isInitialized, isAuthenticated } = useAppStore(
@@ -51,6 +53,8 @@ const Router = () => {
           <Route exact path="/landing" component={LandingPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/restore-wallet" component={RestoreWalletPage} />
+
+          <Route exact path="/select-project" component={SelectProjectPage} />
           <Route exact path="/otp" component={OTPPage} />
           <Redirect from="/" to="/landing" />
         </Switch>
