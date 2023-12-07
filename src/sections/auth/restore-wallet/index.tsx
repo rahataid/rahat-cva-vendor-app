@@ -1,27 +1,23 @@
+import TextInputField from "@components/input/form-text-input";
 import {
   IonButton,
   IonCol,
   IonGrid,
-  IonInput,
-  IonItem,
-  IonList,
   IonProgressBar,
   IonRow,
   IonText,
-  IonTextarea,
 } from "@ionic/react";
-import { useHistory } from "react-router";
-import "./restore.scss";
-import { Controller, useForm } from "react-hook-form";
-import TextInputField from "@components/input/form-text-input";
-import { getWalletUsingMnemonic } from "@utils/web3";
-import { DEFAULT_PASSCODE } from "../../../config";
-import useStorage from "../../../store/storage";
+import useAppStore from "@store/app";
 import { saveWalletInfo } from "@utils/sessionManager";
+import { getWalletUsingMnemonic } from "@utils/web3";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router";
+import { DEFAULT_PASSCODE } from "../../../config";
+import "./restore.scss";
 
 const RestoreWallet = () => {
   const history = useHistory();
-  const setWalletState = useStorage.getState().setWalletState;
+  const saveWallet = useAppStore((state) => state.saveWallet);
   const handleCancel = () => {
     history.goBack();
   };
@@ -47,7 +43,7 @@ const RestoreWallet = () => {
       //  save wallet info in localstorage by encrypting with passcode in .env file
       const encryptedWallet = await wallet.encrypt(DEFAULT_PASSCODE);
       saveWalletInfo(encryptedWallet);
-      await setWalletState(wallet);
+      await saveWallet(wallet);
 
       window.location.replace("/tabs/home");
     } catch (error: any) {
@@ -66,15 +62,15 @@ const RestoreWallet = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <IonGrid className="restore-container">
-        <IonRow className="restore-form-container">
-          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+      <IonGrid className='restore-container'>
+        <IonRow className='restore-form-container'>
+          <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
             <Controller
               render={({ field }) => (
                 <TextInputField
-                  placeholder="Please enter 12 words pneumonics"
-                  type="text"
-                  label="Pneumonics*"
+                  placeholder='Please enter 12 words pneumonics'
+                  type='text'
+                  label='Pneumonics*'
                   errorText={errors.pneumonics?.message}
                   value={getValues("pneumonics")}
                   onInput={(e: any) => {
@@ -96,11 +92,11 @@ const RestoreWallet = () => {
                 },
               }}
               control={control}
-              name="pneumonics"
+              name='pneumonics'
             />
             <br />
             {errors?.root?.serverError?.message && (
-              <IonText color="danger">
+              <IonText color='danger'>
                 {errors?.root?.serverError.message}
               </IonText>
             )}
@@ -110,28 +106,26 @@ const RestoreWallet = () => {
                 ></IonTextarea> */}
           </IonCol>
         </IonRow>
-        <IonRow className="restore-button-container">
-          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+        <IonRow className='restore-button-container'>
+          <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
             <IonButton
-              type="submit"
-              expand="block"
-              color="white"
-              disabled={isDirty || !isValid || isSubmitting}
-            >
+              type='submit'
+              expand='block'
+              color='white'
+              disabled={isDirty || !isValid || isSubmitting}>
               {isSubmitting ? (
-                <IonProgressBar type="indeterminate"></IonProgressBar>
+                <IonProgressBar type='indeterminate'></IonProgressBar>
               ) : (
                 "Submit"
               )}
             </IonButton>
-            <IonRow className="gap-5"></IonRow>
+            <IonRow className='gap-5'></IonRow>
             <IonButton
-              color="white"
-              fill="outline"
-              expand="block"
+              color='white'
+              fill='outline'
+              expand='block'
               onClick={handleCancel}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
               Cancel
             </IonButton>
           </IonCol>

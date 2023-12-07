@@ -1,31 +1,17 @@
-import {
-  IonButton,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonInput,
-  IonItem,
-  IonList,
-  IonProgressBar,
-  IonRow,
-  IonText,
-  IonTextarea,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 
-import { useHistory } from "react-router";
-import { useForm, Controller } from "react-hook-form";
 import TextInputField from "@components/input/form-text-input";
+import useAppStore from "@store/app";
 import useAuthStore from "@store/auth";
-import { useState } from "react";
+import { saveAppSettings } from "@utils/sessionManager";
+import axios from "axios";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router";
 
-const Register = () => {
+const ProjectSelect = () => {
   const appStore = useAuthStore((state) => state);
   const history = useHistory();
-
-  const [mnemonics, setMnemonics] = useState(undefined);
+  const setAppSettingsIdx = useAppStore((state) => state.setAppSettings);
 
   const {
     handleSubmit,
@@ -43,7 +29,28 @@ const Register = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      //  get project info
+      const [contracts, blockchain] = await Promise.all([
+        axios.get(`${data?.project}/app/contracts`),
+        axios.get(`${data?.project}/app/blockchain`),
+      ]);
+
+      if (contracts?.data && blockchain?.data) {
+        const appSettings = {
+          baseUrl: data?.project,
+          contracts: contracts?.data?.value,
+          network: blockchain?.data?.value,
+        };
+        console.log("first", appSettings);
+        setAppSettingsIdx(appSettings);
+        saveAppSettings(appSettings);
+
+        history.push("/landing");
+      }
+
+      console.log({
+        contracts,
+        blockchain,
+      });
     } catch (error) {
       alert(JSON.stringify(error, null, 2));
       console.log("SELECT PROJECT SERVER ERROR", JSON.stringify(error));
@@ -61,15 +68,15 @@ const Register = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-        <IonGrid className="register-container">
-          <IonRow className="register-form-container">
-            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+        <IonGrid className='register-container'>
+          <IonRow className='register-form-container'>
+            <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
               <Controller
                 render={({ field }) => (
                   <TextInputField
-                    placeholder="Enter Project"
-                    type="text"
-                    label="Project*"
+                    placeholder='Enter Project'
+                    type='text'
+                    label='Project*'
                     value={getValues("project")}
                     errorText={errors?.project?.message}
                     onInput={(e: any) => {
@@ -84,39 +91,38 @@ const Register = () => {
                   required: "Please enter your project name",
                 }}
                 control={control}
-                name="project"
+                name='project'
               />
               <br />
 
               {errors?.root?.serverError?.message && (
-                <IonText color="danger">
+                <IonText color='danger'>
                   {errors?.root?.serverError.message}
                 </IonText>
               )}
             </IonCol>
           </IonRow>
-          <IonRow className="register-button-container">
-            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+          <IonRow className='register-button-container'>
+            <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
               <IonButton
-                type="submit"
-                expand="block"
-                color="white"
-                disabled={isDirty || !isValid || isSubmitting}
+                type='submit'
+                expand='block'
+                color='white'
+                // disabled={isDirty || !isValid || isSubmitting}
               >
-                {isSubmitting ? (
-                  <IonProgressBar type="indeterminate"></IonProgressBar>
+                Submit
+                {/* {isSubmitting ? (
+                  <IonProgressBar type='indeterminate'></IonProgressBar>
                 ) : (
-                  "Submit"
-                )}
+                )} */}
               </IonButton>
-              <IonRow className="gap-5"></IonRow>
+              <IonRow className='gap-5'></IonRow>
               <IonButton
-                color="white"
-                fill="outline"
-                expand="block"
+                color='white'
+                fill='outline'
+                expand='block'
                 onClick={handleCancel}
-                disabled={isSubmitting}
-              >
+                disabled={isSubmitting}>
                 Cancel
               </IonButton>
             </IonCol>
@@ -127,4 +133,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ProjectSelect;

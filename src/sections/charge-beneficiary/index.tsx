@@ -9,17 +9,13 @@ import {
   IonRow,
 } from "@ionic/react";
 
-import "./charge-beneficiary.scss";
-import { useHistory } from "react-router";
-import { useState } from "react";
-import BeneficiariesService from "@services/beneficiaries";
-import { useProject } from "@services/contracts/useProject";
 import useAppStore from "@store/app";
-import { Controller, useForm } from "react-hook-form";
-import TextInputField from "@components/input/form-text-input";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router";
+import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
 import ChargeQr from "./charge-qr";
-import useStorage from "@store/storage";
 
 type formDataType = {
   phone?: string | null;
@@ -28,12 +24,9 @@ type formDataType = {
 };
 
 const ChargeBeneficiary = () => {
-  const { internetAccess, setClaimId } = useAppStore((state) => ({
+  const { internetAccess, addTransaction } = useAppStore((state) => ({
     internetAccess: state.internetAccess,
     setClaimId: state.setClaimId,
-  }));
-
-  const { addTransaction } = useStorage((state) => ({
     addTransaction: state.addTransaction,
   }));
 
@@ -125,12 +118,12 @@ const ChargeBeneficiary = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <IonGrid className="charge-container">
-        <IonRow className="charge-form-container">
-          <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
+      <IonGrid className='charge-container'>
+        <IonRow className='charge-form-container'>
+          <IonCol size='11' sizeMd='11' sizeLg='11' sizeXl='11'>
             <IonCard>
               <IonCardHeader>
-                <IonCardTitle color="light">Charge Beneficiary</IonCardTitle>
+                <IonCardTitle color='light'>Charge Beneficiary</IonCardTitle>
                 {useQrCode ? (
                   <ChargeQr
                     getValues={getValues}
@@ -150,42 +143,37 @@ const ChargeBeneficiary = () => {
             </IonCard>
           </IonCol>
         </IonRow>
-        <IonRow className="charge-button-container">
+        <IonRow className='charge-button-container'>
           <IonCol
-            size="11"
-            sizeMd="11"
-            sizeLg="11"
-            sizeXl="11"
-            className="charge-button-wrapper"
-          >
+            size='11'
+            sizeMd='11'
+            sizeLg='11'
+            sizeXl='11'
+            className='charge-button-wrapper'>
             <IonButton
-              color="white"
-              fill="clear"
+              color='white'
+              fill='clear'
               onClick={handleToggle}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
               {useQrCode ? "Use Phone" : "Use QR"}
             </IonButton>
             <IonButton
-              color="white"
-              fill="outline"
-              expand="block"
+              color='white'
+              fill='outline'
+              expand='block'
               onClick={handleCancel}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
               Cancel
             </IonButton>
             <IonButton
-              type="submit"
-              expand="block"
-              color="white"
-              disabled={!isValid || isSubmitting}
-            >
+              type='submit'
+              expand='block'
+              color='white'
+              disabled={!isValid || isSubmitting}>
               {isSubmitting ? (
                 <IonProgressBar
-                  type="indeterminate"
-                  style={{ width: "60px" }}
-                ></IonProgressBar>
+                  type='indeterminate'
+                  style={{ width: "60px" }}></IonProgressBar>
               ) : (
                 "Submit"
               )}

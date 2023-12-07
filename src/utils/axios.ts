@@ -1,10 +1,9 @@
 import axios from "axios";
-import { HOST_API } from "../config";
-import { getKey } from "./sessionManager";
+import { getAppSettings, getKey } from "./sessionManager";
 // config
 
 // ----------------------------------------------------------------------
-console.log("HOST_API", HOST_API);
+const HOST_API = getAppSettings("baseUrl") || "";
 export const axiosInstance = axios.create({
   baseURL: HOST_API,
   //   headers: { Authorization: `Bearer ${token}` },
@@ -13,23 +12,21 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (req) => {
     let hasInternetAccess = getKey("internetAccess");
-    if (!hasInternetAccess) hasInternetAccess = true;
-    else if (hasInternetAccess === "true") hasInternetAccess = true;
-    else if (hasInternetAccess === "false") hasInternetAccess = false;
+
     console.log("AXIOS INTERCEPTOR REQ HAS INTERNET ACCESS", hasInternetAccess);
-    if (!hasInternetAccess) {
-      console.log("APP DOESNT HAVE INTERNET ACCESS");
-      throw { message: "APP DOESNT HAVE INTERNET ACCESS" };
-      const controller = new AbortController();
-      const cfg = {
-        ...req,
-        signal: controller.signal,
-      };
-      controller.abort("We gotta cancel this");
-      return cfg;
-    } else return req;
+
+    if (hasInternetAccess === null) {
+      hasInternetAccess = true;
+    }
+
+    if (hasInternetAccess === "false") {
+      console.log("APP DOESN'T HAVE INTERNET ACCESS");
+      throw new Error("APP DOESN'T HAVE INTERNET ACCESS");
+    }
+
+    return req;
   },
-  function (error) {
+  (error) => {
     console.log("---->", error);
     return Promise.reject(error);
   }

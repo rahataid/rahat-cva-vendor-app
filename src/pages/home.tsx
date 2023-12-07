@@ -5,9 +5,9 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import "../theme/title.css";
-import Home from "../sections/home";
 import { getCurrentUser } from "@utils/sessionManager";
+import Home from "../sections/home";
+import "../theme/title.css";
 
 const HomePage: React.FC = () => {
   const currentUser = getCurrentUser();
@@ -19,14 +19,13 @@ const HomePage: React.FC = () => {
   };
 
   const homeProps = {
-    projectBalance: "900",
-    allowance: "10",
-    isVendorApproved: "false",
-    isProjectLocked: "true",
-    pendingTokensToAccept: "1",
-    disbursed: "3",
-    acceptPendingTokens: () => {},
-    isVendor: "false",
+    projectBalance: null,
+    allowance: null,
+    isVendorApproved: null,
+    isProjectLocked: null,
+    pendingTokensToAccept: null,
+    disbursed: null,
+    isVendor: null,
   };
 
   console.log("VENDOR DATA", homeProps);
@@ -35,16 +34,16 @@ const HomePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle className="title-center">Home</IonTitle>
+          <IonTitle className='title-center'>Home</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
+        <IonHeader collapse='condense'>
           <IonToolbar>
-            <IonTitle size="large">Home</IonTitle>
+            <IonTitle size='large'>Home</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Home {...homeProps} />
+        <Home {...homeProps} acceptPendingTokens={acceptPendingTokens} />
       </IonContent>
     </IonPage>
   );

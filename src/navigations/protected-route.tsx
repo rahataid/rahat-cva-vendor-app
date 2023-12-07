@@ -1,10 +1,4 @@
-import { Redirect, useHistory } from "react-router";
-import { IonProgressBar, useIonRouter } from "@ionic/react";
-import { getCurrentWalletInfo } from "@utils/sessionManager";
-import { useEffect, useState } from "react";
-import useStorage from "@store/storage";
-import useAppStore from "@store/app";
-import IndeterminateLoader from "@components/loaders/Indeterminate";
+import { useHistory } from "react-router";
 
 type PropTypes = {
   children: React.ReactNode;

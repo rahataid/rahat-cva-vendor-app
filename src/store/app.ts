@@ -1,152 +1,112 @@
+import { Drivers, Storage } from "@ionic/storage";
+import { getKey } from "@utils/sessionManager";
+import { HDNodeWallet, Wallet } from "ethers";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import {
   IAppSettingsContractsApiResponse,
   IAppSettingsNetwork,
 } from "../types/app-settings";
-import { getWalletUsingMnemonic } from "../utils/web3";
-import { getKey, getWallet } from "@utils/sessionManager";
-import { Contract, HDNodeWallet, JsonRpcProvider, Wallet } from "ethers";
-import AppSettingService from "@services/app-settings";
+
+type StorageAppSettings = {
+  baseUrl: string;
+  network: IAppSettingsNetwork;
+  contracts: IAppSettingsContractsApiResponse;
+  projectId: string;
+} | null;
 
 export type AppStateType = {
   isAuthenticated: boolean;
   isInitialized: boolean;
-  chainUrl: string | undefined;
-  chainId: string | undefined;
-  chainWebSocket: string | undefined;
-  contracts: IAppSettingsContractsApiResponse | undefined;
-  blockchain: IAppSettingsNetwork | undefined;
   wallet: Wallet | HDNodeWallet | undefined;
   currentUser: any | undefined;
   claimId: string | undefined;
   beneficiary: string | undefined;
   internetAccess: boolean;
+  storage: Storage | null;
+  contractsFn: any;
+  appSettings: StorageAppSettings | null;
 };
 
 type AppActionsType = {
   initialize: () => Promise<void>;
-  setContracts: (contracts: any) => Promise<void>;
-  setBlockchain: (settings: any) => Promise<void>;
   saveCurrentUser: (user: any) => Promise<void>;
   saveWallet: (wallet: any) => void;
-  getAppSettings: () => Promise<any>;
-  contractsFn: any;
   toggleIsAuthenticated: () => void;
   setClaimId: (beneficiary: string, claimId: string) => void;
   setInternetAccess: (value: boolean) => void;
+  addTransaction: (data: object) => Promise<void>;
+  getTransactionsList: () => Promise<[]> | Promise<void>;
+  getTransaction: (id: string) => Promise<void>;
+  setAppSettings: (value: StorageAppSettings) => Promise<void>;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
 
 const useAppStore = create<AppStoreType>()(
   devtools((set, get) => ({
+    storage: null,
     isInitialized: false,
     isAuthenticated: false,
-    chainUrl: undefined,
-    chainId: undefined,
-    chainWebSocket: undefined,
     claimId: undefined,
     beneficiary: undefined,
     internetAccess: false,
-
-    contracts: undefined,
-    blockchain: undefined,
+    appSettings: null,
     wallet: undefined,
     currentUser: undefined,
     contractsFn: undefined,
+    projectId: undefined,
 
     initialize: async () => {
+      const store = new Storage({
+        driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
+        name: "RahatVendor",
+        version: 1,
+      });
+      const storageInstance = await store.create();
+      set({ storage: storageInstance });
+      await storageInstance.set("internetAccess", true);
+
       try {
-        console.log("initialize called");
-        const { getAppSettings } = get();
-        let wallet = await getWallet();
-        console.log("wallet in localstorage", wallet);
+        const currentUser = await storageInstance?.get("currentUser");
+        const internetAccess = await storageInstance?.get("internetAccess");
+        const appSettings = await storageInstance?.get("appSettings");
+        const wallet = await storageInstance?.get("wallet");
 
         if (wallet) {
-          set({
-            isAuthenticated: true,
-            isInitialized: true,
-            wallet,
-          });
-        } else {
-          set({
-            isAuthenticated: false,
-            isInitialized: true,
-            wallet: undefined,
-          });
+          set({ wallet, isAuthenticated: true, isInitialized: true });
         }
+
+        if (currentUser) {
+          set({ currentUser });
+        }
+
+        if (internetAccess) {
+          set({ internetAccess });
+        }
+
+        if (appSettings) {
+          set({ appSettings });
+        }
+
+        set({ isInitialized: true });
       } catch (error) {
         console.log("APP STORE INITIALIZE ERROR", error);
       }
     },
 
-    getAppSettings: async () => {
-      try {
-        const contractAddress = await AppSettingService.getSettings(
-          "CONTRACT_ADDRESS"
-        );
-        const blockchain = await AppSettingService.getSettings("BLOCKCHAIN");
-
-        const contractAddresses = Object.entries(
-          contractAddress.data.rows[0].value
-        ).reduce((acc, [r, i]) => {
-          acc[r] = i.address;
-          return acc;
-        }, {});
-
-        const blockchainSettings = blockchain?.data?.rows[0]?.value;
-        const contractDetails = Object.entries(
-          contractAddress.data.rows[0].value
-        ).map(([acc, d], i) => ({ name: acc, address: d.address, abi: d.abi }));
-
-        return {
-          contractDetails,
-          contractAddresses,
-          blockchainSettings,
-        };
-      } catch (err) {
-        console.error("Unable to Load App Setting from Server", err);
-      }
-    },
-
     saveCurrentUser: async (user: any) => {
       set({ currentUser: user });
+      const { storage } = get();
+      if (storage) {
+        await storage.set("currentUser", user);
+      }
     },
 
     saveWallet: (wallet: any) => {
       if (!wallet) wallet = getKey("wallet");
       set({ wallet });
-    },
-
-    setContracts: async (contracts) => {
-      set({ contracts });
-    },
-
-    setBlockchain: async (value) => {
-      const mnemoic =
-        "scrap strong ship ring female minor gown toss popular muscle future cross";
-      const blockchain = {
-        chainId: value?.chainId,
-        chainName: value?.chainName,
-        chainWebSocket: value?.chainWebSocket,
-        rpcUrl: value?.rpcUrl,
-        blockExplorerUrls: value?.blockExplorerUrls,
-        iconUrls: value?.iconUrls,
-        networkId: value?.networkId,
-        nativeCurrency: {
-          name: value.nativeCurrency.name as string,
-          symbol: value?.nativeCurrency?.symbol,
-          decimals: 18,
-        },
-      };
-      const wallet = getWalletUsingMnemonic(mnemoic).connect(
-        new JsonRpcProvider(blockchain?.rpcUrl)
-      );
-      set({
-        blockchain,
-        wallet,
-      });
+      get().storage?.set("wallet", wallet);
     },
 
     toggleIsAuthenticated: () => {
@@ -156,10 +116,59 @@ const useAppStore = create<AppStoreType>()(
 
     setClaimId: (beneficiary, claimId) => {
       set({ beneficiary, claimId });
+      get().storage?.set("beneficiary", beneficiary);
+    },
+
+    setWallet: (wallet: any) => {
+      set({ wallet });
+      get().storage?.set("wallet", wallet);
     },
 
     setInternetAccess: (value) => {
       set({ internetAccess: value });
+      get().storage?.set("internetAccess", value);
+    },
+
+    setAppSettings: async (value: StorageAppSettings) => {
+      const { storage } = get();
+      const data = await storage?.get("appSettings");
+      if (storage) await storage.set("appSettings", { ...data, ...value });
+    },
+
+    addTransaction: async (data) => {
+      console.log("ADD TRANSACTION");
+      const { storage } = get();
+      if (storage) {
+        let currentTransactions = await storage?.get("transactions");
+        if (currentTransactions?.length) {
+          const payload = [...currentTransactions, data];
+          console.log("PAYLOAD", payload);
+          await storage?.set("transactions", payload);
+        } else {
+          const payload = [data];
+          console.log("PAYLOAD", payload);
+          await storage?.set("transactions", payload);
+        }
+      }
+    },
+
+    getTransactionsList: async () => {
+      const { storage } = get();
+      let transactions;
+      if (storage) {
+        transactions = await storage.get("transactions");
+      }
+      return transactions;
+    },
+
+    getTransaction: async (id) => {
+      const { storage } = get();
+      let transaction;
+      if (storage) {
+        const transactions = await storage.get("transactions");
+        transaction = transactions.filter((el: any) => el.id === id);
+      }
+      return transaction;
     },
   }))
 );

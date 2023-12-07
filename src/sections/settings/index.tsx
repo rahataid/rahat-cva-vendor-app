@@ -1,14 +1,13 @@
 import {
   IonAvatar,
+  IonCard,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
-  IonIcon,
-  IonCard,
   IonToggle,
 } from "@ionic/react";
 import useAppStore from "@store/app";
-import useStorage from "@store/storage";
 import {
   getCurrentUser,
   logOut as logOutUser,
@@ -18,7 +17,7 @@ import { logOut, wifiOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 function Settings() {
-  const { setInternetAccess: setInternetAccessStorage } = useStorage(
+  const { setInternetAccess: setInternetAccessStorage } = useAppStore(
     (state) => ({
       setInternetAccess: state.setInternetAccess,
     })
@@ -47,10 +46,10 @@ function Settings() {
     <IonCard>
       <IonList>
         <IonItem>
-          <IonAvatar aria-hidden="true" slot="start">
+          <IonAvatar aria-hidden='true' slot='start'>
             <img
-              alt=""
-              src="https://ionicframework.com/docs/img/demos/avatar.svg"
+              alt=''
+              src='https://ionicframework.com/docs/img/demos/avatar.svg'
             />
           </IonAvatar>
           <IonLabel>{currentUser?.name || "-"}</IonLabel>
@@ -59,11 +58,11 @@ function Settings() {
       <IonList>
         <IonItem button={true} onClick={handleToggleInternetAccess}>
           <IonToggle>Internet Access</IonToggle>
-          <IonIcon aria-hidden="true" icon={wifiOutline} slot="start"></IonIcon>
+          <IonIcon aria-hidden='true' icon={wifiOutline} slot='start'></IonIcon>
           <IonLabel>Logout</IonLabel>
         </IonItem>
         <IonItem button={true} onClick={handleLogout}>
-          <IonIcon aria-hidden="true" icon={logOut} slot="start"></IonIcon>
+          <IonIcon aria-hidden='true' icon={logOut} slot='start'></IonIcon>
           <IonLabel>Logout</IonLabel>
         </IonItem>
       </IonList>

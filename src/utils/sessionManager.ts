@@ -42,6 +42,21 @@ export const saveInternetAccess = (value: boolean) =>
     ? localStorage.setItem("internetAccess", JSON.stringify(value))
     : "";
 
+export const saveAppSettings = (value: any) =>
+  typeof window !== "undefined"
+    ? localStorage.setItem("appSettings", JSON.stringify(value))
+    : "";
+
+export const getAppSettings = (key: string) => {
+  const data =
+    typeof window !== "undefined" ? localStorage.getItem("appSettings") : "";
+  if (key && data) {
+    const appSettings = JSON.parse(data as string);
+    return appSettings[key] || "";
+  }
+  return data;
+};
+
 export const logOut = () => {
   localStorage.removeItem("wallet");
   localStorage.removeItem("currentUser");

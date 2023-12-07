@@ -1,23 +1,17 @@
-import { create } from "zustand";
-import { IVendorChainData } from "../types/useProject";
-import { createRandomWallet, createRandomWalletWithPhone } from "@utils/web3";
-import VendorsService from "@services/vendors";
-import { addVendorPayload } from "../types/vendors";
-import { Preferences } from "@capacitor/preferences";
-import { DEFAULT_PASSCODE } from "../config";
-import useAppStore from "@store/app";
-import useStorage from "./storage";
 import { saveCurrentUser, saveWalletInfo } from "@utils/sessionManager";
+import { createRandomWalletWithPhone } from "@utils/web3";
+import { create } from "zustand";
+import { DEFAULT_PASSCODE } from "../config";
+import { addVendorPayload } from "../types/vendors";
+import useAppStore from "./app";
 console.log("DEFAULT PASS", DEFAULT_PASSCODE);
 
 type VendorStoreType = {
   handleRegister: any;
 };
 
-const setWallet = useStorage.getState().setWallet;
-const setWalletState = useStorage.getState().setWalletState;
-const setCurrentUser = useStorage.getState().setCurrentUser;
-const setCurrentUserState = useStorage.getState().setCurrentUserState;
+const setWallet = useAppStore.getState().saveWallet;
+const setCurrentUser = useAppStore.getState().saveCurrentUser;
 
 const useAuthStore = create<VendorStoreType>((set) => ({
   handleRegister: async (data: addVendorPayload) => {
@@ -31,8 +25,8 @@ const useAuthStore = create<VendorStoreType>((set) => ({
       ...data,
       walletAddress: walletValue?.address,
     };
-    const vendor = await VendorsService.add(vendorPayload);
-    console.log("VENDOR REGISTER", vendor);
+    // const vendor = await VendorsService.add(vendorPayload);
+    // console.log("VENDOR REGISTER", vendor);
 
     //  save wallet info in localstorage by encrypting with passcode in .env file
     const encryptedWallet = await walletValue.encrypt(DEFAULT_PASSCODE);
@@ -40,11 +34,11 @@ const useAuthStore = create<VendorStoreType>((set) => ({
     saveWalletInfo(encryptedWallet);
 
     //  save currentUser info in localstorage and set currentUser state in appstore
-    saveCurrentUser(vendor.data);
-    await setCurrentUserState(vendor.data);
+    saveCurrentUser(vendorPayload);
+    await setCurrentUser(vendorPayload);
 
     //  load wallet -> save wallet info state in appstore
-    await setWalletState(walletValue);
+    await setWallet(walletValue);
 
     return walletValue;
   },

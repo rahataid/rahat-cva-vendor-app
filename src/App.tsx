@@ -1,18 +1,5 @@
-import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact,
-} from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { qrCode, home, person } from "ionicons/icons";
-import { Redirect, Route } from "react-router-dom";
-import Home from "./pages/home";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -32,22 +19,21 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import { useEffect, useState } from "react";
-import AppContainer from "./app-container";
 import "./theme/variables.scss";
 
 import Router from "@navigations/router";
-import useStorage from "@store/storage";
+import useAppStore from "@store/app";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
 
-  const { initializeStorage } = useStorage();
+  const { initialize } = useAppStore();
 
   useEffect(() => {
     const init = async () => {
-      await initializeStorage();
+      await initialize();
     };
 
     init();
