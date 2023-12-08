@@ -1,3 +1,4 @@
+import { useVendorChainData } from "@api/vendors";
 import {
   IonContent,
   IonHeader,
@@ -12,23 +13,11 @@ import "../theme/title.css";
 const HomePage: React.FC = () => {
   const currentUser = getCurrentUser();
   const vendorAddress = currentUser?.walletAddress;
-  console.log(vendorAddress, "current user wallet address");
+  const { chainData } = useVendorChainData(vendorAddress);
 
   const acceptPendingTokens = async () => {
     console.log("ACCEPT PENDING TOKENS");
   };
-
-  const homeProps = {
-    projectBalance: null,
-    allowance: null,
-    isVendorApproved: null,
-    isProjectLocked: null,
-    pendingTokensToAccept: null,
-    disbursed: null,
-    isVendor: null,
-  };
-
-  console.log("VENDOR DATA", homeProps);
 
   return (
     <IonPage>
@@ -43,7 +32,14 @@ const HomePage: React.FC = () => {
             <IonTitle size='large'>Home</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Home {...homeProps} acceptPendingTokens={acceptPendingTokens} />
+        <Home
+          allowance={chainData?.allowance}
+          isVendor={chainData?.isVendorApproved}
+          isProjectLocked={chainData?.isProjectLocked}
+          disbursed={chainData?.distributed}
+          pendingTokensToAccept={chainData?.pending}
+          acceptPendingTokens={acceptPendingTokens}
+        />
       </IonContent>
     </IonPage>
   );

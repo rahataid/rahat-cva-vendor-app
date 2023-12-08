@@ -1,8 +1,6 @@
 import { DEFAULT_PASSCODE } from "../config";
 import { getWalletFromJson } from "./web3";
 
-console.log("TYPEOF CONFIG", typeof window);
-
 export const saveKey = (key: string, value: any) =>
   typeof window !== "undefined"
     ? localStorage.setItem(
@@ -36,11 +34,6 @@ export const getWallet = () => {
     typeof window !== "undefined" ? localStorage.getItem("wallet") : "";
   return getWalletFromJson(data, DEFAULT_PASSCODE);
 };
-
-export const saveInternetAccess = (value: boolean) =>
-  typeof window !== "undefined"
-    ? localStorage.setItem("internetAccess", JSON.stringify(value))
-    : "";
 
 export const saveAppSettings = (value: any) =>
   typeof window !== "undefined"

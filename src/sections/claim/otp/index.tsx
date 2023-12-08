@@ -3,13 +3,9 @@ import {
   IonButton,
   IonCol,
   IonGrid,
-  IonInput,
-  IonItem,
-  IonList,
   IonProgressBar,
   IonRow,
   IonText,
-  IonTextarea,
 } from "@ionic/react";
 import { useProject } from "@services/contracts/useProject";
 import useAppStore from "@store/app";
@@ -49,7 +45,6 @@ const OTP = () => {
       }
     } catch (error) {
       // alert(JSON.stringify(error, null, 2));
-      console.log("OTP SERVER ERROR", JSON.stringify(error));
       setError("root.serverError", {
         type: "manual",
         message: "Something went wrong! Try again later.",
@@ -62,15 +57,15 @@ const OTP = () => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <IonGrid className="restore-container">
-        <IonRow className="restore-form-container">
-          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+      <IonGrid className='restore-container'>
+        <IonRow className='restore-form-container'>
+          <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
             <Controller
               render={({ field }) => (
                 <TextInputField
-                  placeholder="Enter OTP"
-                  type="text"
-                  label="OTP*"
+                  placeholder='Enter OTP'
+                  type='text'
+                  label='OTP*'
                   value={getValues("otp")}
                   errorText={errors?.otp?.message}
                   onInput={(e: any) => {
@@ -85,38 +80,36 @@ const OTP = () => {
                 required: "Please enter OTP",
               }}
               control={control}
-              name="otp"
+              name='otp'
             />
             <br />
             {errors?.root?.serverError?.message && (
-              <IonText color="danger">
+              <IonText color='danger'>
                 {errors?.root?.serverError.message}
               </IonText>
             )}
           </IonCol>
         </IonRow>
-        <IonRow className="restore-button-container">
-          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+        <IonRow className='restore-button-container'>
+          <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
             <IonButton
-              type="submit"
-              expand="block"
-              color="white"
-              disabled={isDirty || !isValid || isSubmitting}
-            >
+              type='submit'
+              expand='block'
+              color='white'
+              disabled={isDirty || !isValid || isSubmitting}>
               {isSubmitting ? (
-                <IonProgressBar type="indeterminate"></IonProgressBar>
+                <IonProgressBar type='indeterminate'></IonProgressBar>
               ) : (
                 "Submit"
               )}
             </IonButton>
-            <IonRow className="gap-5"></IonRow>
+            <IonRow className='gap-5'></IonRow>
             <IonButton
-              color="white"
-              fill="outline"
-              expand="block"
+              color='white'
+              fill='outline'
+              expand='block'
               onClick={handleCancel}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
               Cancel
             </IonButton>
           </IonCol>

@@ -1,3 +1,4 @@
+import useAppStore from "@store/app";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import VendorsService from "../services/vendors";
@@ -32,6 +33,35 @@ export function useVendor(walletAddress: string): any {
 
   return {
     vendor,
+    isLoading,
+    error,
+  };
+}
+
+export function useVendorChainData(walletAddress: string): any {
+  const { internetAccess, setChainData, chainData, appSettings } =
+    useAppStore.getState();
+  const { data, isLoading, error } = useQuery(
+    ["vendors", walletAddress, "chainData"],
+    async () => {
+      const res = await VendorsService.getChainData(walletAddress);
+      return res;
+    },
+    {
+      enabled: internetAccess && !!appSettings?.baseUrl,
+      onSuccess: (data) => {
+        setChainData(data?.data);
+      },
+    }
+  );
+
+  const dataChain = useMemo(
+    () => (internetAccess ? data?.data : chainData),
+    [data?.data]
+  );
+
+  return {
+    chainData: dataChain,
     isLoading,
     error,
   };

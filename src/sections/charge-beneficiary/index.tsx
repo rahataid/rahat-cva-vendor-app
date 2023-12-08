@@ -9,6 +9,7 @@ import {
   IonRow,
 } from "@ionic/react";
 
+import { useChargeBeneficiary } from "@api/beneficiaries";
 import useAppStore from "@store/app";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,11 +25,14 @@ type formDataType = {
 };
 
 const ChargeBeneficiary = () => {
-  const { internetAccess, addTransaction } = useAppStore((state) => ({
+  const { internetAccess, addTransaction, setTasks } = useAppStore((state) => ({
     internetAccess: state.internetAccess,
     setClaimId: state.setClaimId,
     addTransaction: state.addTransaction,
+    setTasks: state.setTasks,
   }));
+
+  const { mutateAsync } = useChargeBeneficiary();
 
   const [useQrCode, setUseQrCode] = useState(false);
 
@@ -58,31 +62,19 @@ const ChargeBeneficiary = () => {
   };
 
   const chargeBeneficiaryPhone = async (data: formDataType) => {
-    console.log("CHARGE PHONE CALLED");
-    console.log("APP HAS INTERNET ACCESS = ", internetAccess);
-
-    if (!internetAccess) {
-      console.log("NO INTERNET ACCESS", data);
-      const { phone, token } = data;
-      const createdAt = new Date();
-      const payload = {
-        phone,
-        amount: token,
-        createdAt,
-        status: "NEW",
-        isOffline: !internetAccess,
-      };
-      await addTransaction(payload);
-    }
+    const { phone, token } = data;
+    const createdAt = new Date();
+    const payload = {
+      amount: token,
+      createdAt,
+      status: "NEW",
+      isOffline: !internetAccess,
+    };
+    await mutateAsync({ phone, data: payload });
   };
 
   const chargeBeneficiaryQr = async (data: any) => {
-    console.log("CHARGE QR", data);
-    console.log("APP HAS INTERNET ACCESS = ", internetAccess);
-
     if (!internetAccess) {
-      console.log("NO INTERNET ACCESS", data);
-
       const { qrCode, token } = data;
       const createdAt = new Date();
       const payload = {

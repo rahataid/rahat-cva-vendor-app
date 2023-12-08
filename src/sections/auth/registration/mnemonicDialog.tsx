@@ -12,8 +12,8 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
       <IonAlert
         backdropDismiss={false}
         isOpen={isOpen}
-        header="Please write down the mnemonics safely"
-        subHeader=""
+        header='Please write down the mnemonics safely'
+        subHeader=''
         message={mnemonics}
         buttons={[
           {
@@ -25,8 +25,7 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
           console.log("DISMISS");
 
           window.location.replace("/tabs/home");
-        }}
-      ></IonAlert>
+        }}></IonAlert>
     </>
   );
 }

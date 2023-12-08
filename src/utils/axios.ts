@@ -1,27 +1,14 @@
+import useAppStore from "@store/app";
 import axios from "axios";
-import { getAppSettings, getKey } from "./sessionManager";
-// config
 
-// ----------------------------------------------------------------------
-const HOST_API = getAppSettings("baseUrl") || "";
-export const axiosInstance = axios.create({
-  baseURL: HOST_API,
-  //   headers: { Authorization: `Bearer ${token}` },
-});
+export const axiosInstance = axios.create({});
 
 axiosInstance.interceptors.request.use(
   (req) => {
-    let hasInternetAccess = getKey("internetAccess");
+    let hasInternetAccess = useAppStore.getState().internetAccess;
 
-    console.log("AXIOS INTERCEPTOR REQ HAS INTERNET ACCESS", hasInternetAccess);
-
-    if (hasInternetAccess === null) {
-      hasInternetAccess = true;
-    }
-
-    if (hasInternetAccess === "false") {
-      console.log("APP DOESN'T HAVE INTERNET ACCESS");
-      throw new Error("APP DOESN'T HAVE INTERNET ACCESS");
+    if (hasInternetAccess === false) {
+      console.error("No internet access" + "URL:", req.url);
     }
 
     return req;
@@ -68,9 +55,13 @@ export const endpoints = {
     details: (walletAddress: string) => `/vendors/${walletAddress}`,
     update: (walletAddress: string) => `/vendors/${walletAddress}`,
     add: `/vendors`,
+    getChainData: (walletAddress: string) =>
+      `/vendors/${walletAddress}/chainData`,
   },
   beneficiaries: {
     list: "/beneficiaries",
+    details: (walletAddress: string) => `/beneficiaries/${walletAddress}`,
+    charge: (phone: string) => `/beneficiaries/${phone}/charge`,
   },
   transactions: {
     list: "/transactions",

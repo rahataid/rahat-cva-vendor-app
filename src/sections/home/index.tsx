@@ -1,6 +1,5 @@
-import { IonText } from "@ionic/react";
+import { IonTitle } from "@ionic/react";
 import useAppStore from "@store/app";
-import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
@@ -9,49 +8,45 @@ import TransactionCard from "./transaction-card";
 type PropTypes = {
   allowance?: string | null;
   disbursed?: string | null;
-  isVendorApproved?: string | null;
+  isVendor?: boolean | null;
   isProjectLocked?: string | null;
   projectBalance?: string | null;
   pendingTokensToAccept?: string | null;
   acceptPendingTokens?: any;
-  isVendor?: string | null;
 };
 
 const Home = ({
   allowance,
   disbursed,
-  isVendorApproved,
+  isVendor,
   isProjectLocked,
   projectBalance,
   pendingTokensToAccept,
   acceptPendingTokens,
-  isVendor,
 }: PropTypes) => {
-  const [transactionsList, setTransactionsList] = useState(null);
-  const { getTransactionsList, appSettings } = useAppStore();
+  const { appSettings } = useAppStore();
   const history = useHistory();
 
-  console.log(allowance, isVendorApproved, "PROPS IN CARD");
-
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      const data = await getTransactionsList();
-      console.log("FETCH TRANSACTIONS", data);
-      if (data) setTransactionsList(data);
-    };
-    fetchTransactions();
-  }, []);
+  if (!isVendor) {
+    return (
+      <>
+        <DismissibleAlert
+          title='Not Approved'
+          color='warning'
+          dismissText='Reload'
+          description='You have not been approved. Please Contact admin.'
+          onButtonClick={() => window.location.reload()}
+          visible={!isVendor}
+        />
+        <IonTitle className='title-center'>
+          You need to get approved to use all features.
+        </IonTitle>
+      </>
+    );
+  }
 
   return (
     <>
-      <DismissibleAlert
-        title='Not Vendor'
-        color='danger'
-        dismissText='Reload'
-        description='You are not a vendor.'
-        onButtonClick={() => window.location.reload()}
-        visible={!isVendor === false}
-      />
       <DismissibleAlert
         title='No Project'
         color='danger'
@@ -70,7 +65,8 @@ const Home = ({
         dismissText='Reload'
         description='You have not been approved. Please Contact admin.'
         onButtonClick={() => window.location.reload()}
-        visible={!isVendorApproved === false}
+        visible={!isVendor}
+        // visible={isVendor}
       />
       <DismissibleAlert
         title='Pending Tokens'
@@ -78,9 +74,7 @@ const Home = ({
         dismissText='Accept'
         description={`You have ${pendingTokensToAccept} pending tokens.`}
         onButtonClick={() => acceptPendingTokens()}
-        visible={
-          pendingTokensToAccept && pendingTokensToAccept > 0 ? true : false
-        }
+        visible={Boolean(pendingTokensToAccept && +pendingTokensToAccept > 0)}
       />
       <div
         style={{
@@ -92,18 +86,8 @@ const Home = ({
         <CardComponent subtitle='Disbursed' title={disbursed || "loading..."} />
       </div>
       <div>
-        <TransactionCard transactionsList={transactionsList} />
+        <TransactionCard transactionsList={[]} />
       </div>
-
-      <IonText>VENDOR APPROVED = {isVendorApproved ? "true" : "false"}</IonText>
-      <br />
-      <IonText>PROJECT LOCKED = {isProjectLocked ? "true" : "false"}</IonText>
-      <br />
-      <IonText>
-        Pending Tokens to accept = {Number(pendingTokensToAccept) || "-"}
-      </IonText>
-      <br />
-      <IonText>Project Balance = {projectBalance || "-"}</IonText>
     </>
   );
 };

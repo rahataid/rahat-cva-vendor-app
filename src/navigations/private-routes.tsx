@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 
 type PrivateRouteProps = {
   component: React.ComponentType<any>;
@@ -11,12 +11,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isAuthenticated,
   ...rest
 }) => {
-  console.log("PRIVATE ROUTE", isAuthenticated);
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated ? <Component {...props} /> : <Redirect to="/landing" />
+        isAuthenticated ? <Component {...props} /> : <Redirect to='/landing' />
       }
     />
   );

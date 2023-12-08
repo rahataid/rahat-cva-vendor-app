@@ -9,6 +9,10 @@ const BeneficiariesService = {
     axiosInstance.get(endpoints.beneficiaries.list, {
       params: { walletAddress },
     }),
+
+  chargeBeneficiary: (phone: string, data: any) => {
+    return axiosInstance.post(endpoints.beneficiaries.charge(phone), data);
+  },
 };
 
 export default BeneficiariesService;

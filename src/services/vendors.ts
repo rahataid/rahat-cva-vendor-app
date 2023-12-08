@@ -13,6 +13,8 @@ const VendorsService = {
     axiosInstance.patch(endpoints.vendors.update(walletAddress), { ...data }),
   add: (payload: addVendorPayload) =>
     axiosInstance.post(endpoints.vendors.add, payload),
+  getChainData: (walletAddress: string) =>
+    axiosInstance.get(endpoints.vendors.getChainData(walletAddress)),
 };
 
 export default VendorsService;

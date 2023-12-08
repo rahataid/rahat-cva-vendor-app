@@ -8,47 +8,50 @@ import {
   IonToggle,
 } from "@ionic/react";
 import useAppStore from "@store/app";
-import {
-  getCurrentUser,
-  logOut as logOutUser,
-  saveInternetAccess,
-} from "@utils/sessionManager";
-import { logOut, wifiOutline } from "ionicons/icons";
+import { getCurrentUser, logOut as logOutUser } from "@utils/sessionManager";
+import { chevronForwardOutline, logOut, wifiOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 function Settings() {
-  const { setInternetAccess: setInternetAccessStorage } = useAppStore(
-    (state) => ({
+  const { toggleIsAuthenticated, setInternetAccess, internetAccess } =
+    useAppStore((state) => ({
+      toggleIsAuthenticated: state.toggleIsAuthenticated,
       setInternetAccess: state.setInternetAccess,
-    })
-  );
-  const { toggleIsAuthenticated, setInternetAccess } = useAppStore((state) => ({
-    toggleIsAuthenticated: state.toggleIsAuthenticated,
-    setInternetAccess: state.setInternetAccess,
-  }));
+      internetAccess: state.internetAccess,
+    }));
   const currentUser = getCurrentUser();
 
   const history = useHistory();
+
   const handleLogout = () => {
-    // storage.logout();
     logOutUser();
     toggleIsAuthenticated();
     history.replace("/landing");
   };
 
-  const handleToggleInternetAccess = (e: any) => {
-    console.log("TOGGLE INTERNET ACCESS", e.target.checked);
-    setInternetAccess(e.target.checked);
-    setInternetAccessStorage(e.target.checked);
-    saveInternetAccess(e.target.checked);
-  };
+  const settingsOptions = [
+    {
+      label: "Offline Mode",
+      startIcon: wifiOutline,
+      action: () => history.push("/internet-center"),
+      checked: internetAccess,
+      isToggle: false,
+      endIcon: chevronForwardOutline,
+    },
+    {
+      label: "Logout",
+      icon: logOut,
+      action: handleLogout,
+    },
+  ];
+
   return (
     <IonCard>
       <IonList>
         <IonItem>
-          <IonAvatar aria-hidden='true' slot='start'>
+          <IonAvatar slot='start'>
             <img
-              alt=''
+              alt='User avatar'
               src='https://ionicframework.com/docs/img/demos/avatar.svg'
             />
           </IonAvatar>
@@ -56,15 +59,17 @@ function Settings() {
         </IonItem>
       </IonList>
       <IonList>
-        <IonItem button={true} onClick={handleToggleInternetAccess}>
-          <IonToggle>Internet Access</IonToggle>
-          <IonIcon aria-hidden='true' icon={wifiOutline} slot='start'></IonIcon>
-          <IonLabel>Logout</IonLabel>
-        </IonItem>
-        <IonItem button={true} onClick={handleLogout}>
-          <IonIcon aria-hidden='true' icon={logOut} slot='start'></IonIcon>
-          <IonLabel>Logout</IonLabel>
-        </IonItem>
+        {settingsOptions.map((option, index) => (
+          <IonItem key={index} button={true} onClick={option.action}>
+            {option?.isToggle ? (
+              <IonToggle checked={option.checked} />
+            ) : (
+              <IonIcon icon={option.startIcon} slot='start' />
+            )}
+            <IonLabel>{option.label}</IonLabel>
+            {option?.endIcon && <IonIcon icon={option.endIcon} slot='end' />}
+          </IonItem>
+        ))}
       </IonList>
     </IonCard>
   );

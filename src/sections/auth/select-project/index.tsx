@@ -2,16 +2,13 @@ import { IonButton, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 
 import TextInputField from "@components/input/form-text-input";
 import useAppStore from "@store/app";
-import useAuthStore from "@store/auth";
-import { saveAppSettings } from "@utils/sessionManager";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 
 const ProjectSelect = () => {
-  const appStore = useAuthStore((state) => state);
   const history = useHistory();
-  const setAppSettingsIdx = useAppStore((state) => state.setAppSettings);
+  const setAppSettings = useAppStore((state) => state.setAppSettings);
 
   const {
     handleSubmit,
@@ -39,21 +36,15 @@ const ProjectSelect = () => {
           baseUrl: data?.project,
           contracts: contracts?.data?.value,
           network: blockchain?.data?.value,
+          // TODO:Make it dynamic
+          projectId: "0x5001eb9c680a2690e7b1e97b1104574ab7b75cac",
         };
-        console.log("first", appSettings);
-        setAppSettingsIdx(appSettings);
-        saveAppSettings(appSettings);
+        setAppSettings(appSettings);
 
-        history.push("/landing");
+        history.push("/home");
       }
-
-      console.log({
-        contracts,
-        blockchain,
-      });
     } catch (error) {
       alert(JSON.stringify(error, null, 2));
-      console.log("SELECT PROJECT SERVER ERROR", JSON.stringify(error));
       setError("root.serverError", {
         type: "manual",
         message: "Something went wrong! Try again later.",

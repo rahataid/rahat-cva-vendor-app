@@ -8,7 +8,7 @@ interface DismissibleAlertProps {
   description: string;
   dismissText?: string;
   onButtonClick: () => void;
-  visible?: boolean;
+  visible?: boolean | null;
 }
 
 const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
@@ -17,7 +17,7 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
   description,
   dismissText = "Dismiss",
   onButtonClick,
-  visible = true,
+  visible = false,
 }) => {
   const onDismiss = () => {
     onButtonClick();

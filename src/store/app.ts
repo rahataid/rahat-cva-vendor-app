@@ -15,7 +15,14 @@ type StorageAppSettings = {
   projectId: string;
 } | null;
 
+type StorageOfflineTasks = {
+  payload: any;
+  callFn: any;
+  params: any[];
+} | null;
+
 export type AppStateType = {
+  chainData: any;
   isAuthenticated: boolean;
   isInitialized: boolean;
   wallet: Wallet | HDNodeWallet | undefined;
@@ -26,6 +33,7 @@ export type AppStateType = {
   storage: Storage | null;
   contractsFn: any;
   appSettings: StorageAppSettings | null;
+  offlineTasks: any;
 };
 
 type AppActionsType = {
@@ -39,12 +47,23 @@ type AppActionsType = {
   getTransactionsList: () => Promise<[]> | Promise<void>;
   getTransaction: (id: string) => Promise<void>;
   setAppSettings: (value: StorageAppSettings) => Promise<void>;
+  getAppSettings: () => Promise<void>;
+  setWallet: (wallet: any) => void;
+  setTasks: (key: string, value: StorageOfflineTasks) => Promise<void>;
+  setChainData: (data: any) => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
 
 const useAppStore = create<AppStoreType>()(
   devtools((set, get) => ({
+    chainData: {
+      allowance: 0,
+      balance: 0,
+      distributed: 0,
+      isVendorApproved: false,
+    },
+    offlineTasks: null,
     storage: null,
     isInitialized: false,
     isAuthenticated: false,
@@ -65,16 +84,20 @@ const useAppStore = create<AppStoreType>()(
       });
       const storageInstance = await store.create();
       set({ storage: storageInstance });
-      await storageInstance.set("internetAccess", true);
 
       try {
         const currentUser = await storageInstance?.get("currentUser");
         const internetAccess = await storageInstance?.get("internetAccess");
         const appSettings = await storageInstance?.get("appSettings");
         const wallet = await storageInstance?.get("wallet");
+        const chainData = await storageInstance?.get("chainData");
 
         if (wallet) {
-          set({ wallet, isAuthenticated: true, isInitialized: true });
+          set({
+            wallet,
+            isAuthenticated: true,
+            isInitialized: true,
+          });
         }
 
         if (currentUser) {
@@ -89,7 +112,9 @@ const useAppStore = create<AppStoreType>()(
           set({ appSettings });
         }
 
-        set({ isInitialized: true });
+        if (chainData) {
+          set({ chainData });
+        }
       } catch (error) {
         console.log("APP STORE INITIALIZE ERROR", error);
       }
@@ -124,29 +149,25 @@ const useAppStore = create<AppStoreType>()(
       get().storage?.set("wallet", wallet);
     },
 
-    setInternetAccess: (value) => {
-      set({ internetAccess: value });
-      get().storage?.set("internetAccess", value);
-    },
-
     setAppSettings: async (value: StorageAppSettings) => {
       const { storage } = get();
       const data = await storage?.get("appSettings");
       if (storage) await storage.set("appSettings", { ...data, ...value });
     },
 
+    getAppSettings: async () => {
+      return get()?.storage?.get("appSettings");
+    },
+
     addTransaction: async (data) => {
-      console.log("ADD TRANSACTION");
       const { storage } = get();
       if (storage) {
         let currentTransactions = await storage?.get("transactions");
         if (currentTransactions?.length) {
           const payload = [...currentTransactions, data];
-          console.log("PAYLOAD", payload);
           await storage?.set("transactions", payload);
         } else {
           const payload = [data];
-          console.log("PAYLOAD", payload);
           await storage?.set("transactions", payload);
         }
       }
@@ -169,6 +190,72 @@ const useAppStore = create<AppStoreType>()(
         transaction = transactions.filter((el: any) => el.id === id);
       }
       return transaction;
+    },
+
+    setChainData: (data) => {
+      set({ chainData: data });
+      get().storage?.set("chainData", data);
+    },
+
+    setTasks: async (key: string, value: StorageOfflineTasks) => {
+      console.log("key,value", key, value);
+      const { storage, internetAccess } = get();
+
+      if (internetAccess) {
+        if (value?.callFn && value?.params) {
+          const res = await value?.callFn(...value?.params);
+          return res;
+        } else {
+          console.log("Function or parameters are not defined");
+          throw new Error("Function or parameters are not defined");
+        }
+      }
+      if (!internetAccess && storage) {
+        let currentTasks = await storage?.get("offlineTasks");
+        if (currentTasks) {
+          const payload = {
+            ...currentTasks,
+            [key]: [
+              {
+                ...value,
+                callFn: value?.callFn.toString(), // Serialize the function to a string
+              },
+            ],
+          };
+          return storage?.set("offlineTasks", payload);
+        } else {
+          const payload = {
+            [key]: [
+              {
+                ...value,
+                callFn: value?.callFn.toString(), // Serialize the function to a string
+              },
+            ],
+          };
+          return storage?.set("offlineTasks", payload);
+        }
+      }
+    },
+
+    setInternetAccess: async (value: any) => {
+      set({ internetAccess: value });
+      get().storage?.set("internetAccess", value);
+
+      if (value === true) {
+        const { storage } = get();
+        if (storage) {
+          const tasks = await storage.get("offlineTasks");
+          if (tasks) {
+            for (const [key, value] of Object.entries(tasks)) {
+              for (const task of value) {
+                const { callFn, params } = task;
+                const fn = new Function(`return ${callFn}`)();
+                fn(...params);
+              }
+            }
+          }
+        }
+      }
     },
   }))
 );
