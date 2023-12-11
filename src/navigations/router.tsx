@@ -1,4 +1,4 @@
-import { IonRouterOutlet, IonTitle } from "@ionic/react";
+import { IonRouterOutlet } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route, Switch } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import RestoreWalletPage from "@pages/restore-wallet";
 import useAppStore from "@store/app";
 import { axiosInstance } from "@utils/axios";
 import { useEffect } from "react";
+import PrivateRoute from "./private-routes";
 import Tabs from "./tabrouter";
 
 const Router = () => {
@@ -44,7 +45,7 @@ const Router = () => {
 
   return (
     <>
-      {!internetAccess && (
+      {/* {!internetAccess && (
         <IonTitle
           style={{
             textAlign: "center",
@@ -61,30 +62,26 @@ const Router = () => {
           }}>
           Working Offline
         </IonTitle>
-      )}
+      )} */}
       <IonReactRouter>
         <IonRouterOutlet
-          style={
-            !internetAccess
-              ? {
-                  marginTop: "40px",
-                }
-              : {}
-          }>
+        // style={
+        //   !internetAccess
+        //     ? {
+        //         marginTop: "40px",
+        //       }
+        //     : {}
+        // }
+        >
           <Switch>
             <Redirect exact from='/' to='/tabs' />
-            <Route path='/tabs'>
-              <Tabs
-                isAuthenticated={isAuthenticated}
-                isVendorApproved={chainData?.isVendorApproved}
-              />
-            </Route>
+            <PrivateRoute path='/tabs' component={Tabs} />
             <Route exact path='/select-project' component={SelectProjectPage} />
             <Route exact path='/landing' component={LandingPage} />
             <Route exact path='/register' component={RegisterPage} />
             <Route exact path='/restore-wallet' component={RestoreWalletPage} />
             <Route exact path='/otp' component={OTPPage} />
-            <Route
+            <PrivateRoute
               exact
               path='/internet-center'
               component={InternetAccessCenter}

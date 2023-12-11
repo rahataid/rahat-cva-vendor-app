@@ -34,6 +34,7 @@ export type AppStateType = {
   contractsFn: any;
   appSettings: StorageAppSettings | null;
   offlineTasks: any;
+  transactions: any[];
 };
 
 type AppActionsType = {
@@ -75,6 +76,7 @@ const useAppStore = create<AppStoreType>()(
     currentUser: undefined,
     contractsFn: undefined,
     projectId: undefined,
+    transactions: [],
 
     initialize: async () => {
       const store = new Storage({
@@ -82,7 +84,13 @@ const useAppStore = create<AppStoreType>()(
         name: "RahatVendor",
         version: 1,
       });
+      const txStore = new Storage({
+        driverOrder: [Drivers.LocalStorage],
+        name: "RahatVendorTransactions",
+        version: 1,
+      });
       const storageInstance = await store.create();
+      const txStorageInstance = await txStore.create();
       set({ storage: storageInstance });
 
       try {
@@ -91,12 +99,11 @@ const useAppStore = create<AppStoreType>()(
         const appSettings = await storageInstance?.get("appSettings");
         const wallet = await storageInstance?.get("wallet");
         const chainData = await storageInstance?.get("chainData");
+        const transactions = await storageInstance?.get("transactions");
 
         if (wallet) {
           set({
             wallet,
-            isAuthenticated: true,
-            isInitialized: true,
           });
         }
 
@@ -115,6 +122,14 @@ const useAppStore = create<AppStoreType>()(
         if (chainData) {
           set({ chainData });
         }
+
+        if (transactions) {
+          set({ transactions });
+        }
+        set({
+          isInitialized: true,
+          isAuthenticated: !!currentUser && !!wallet,
+        });
       } catch (error) {
         console.log("APP STORE INITIALIZE ERROR", error);
       }
@@ -179,7 +194,7 @@ const useAppStore = create<AppStoreType>()(
       if (storage) {
         transactions = await storage.get("transactions");
       }
-      return transactions;
+      set({ transactions });
     },
 
     getTransaction: async (id) => {

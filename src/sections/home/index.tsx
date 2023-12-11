@@ -24,7 +24,7 @@ const Home = ({
   pendingTokensToAccept,
   acceptPendingTokens,
 }: PropTypes) => {
-  const { appSettings } = useAppStore();
+  const { appSettings, transactions } = useAppStore();
   const history = useHistory();
 
   if (!isVendor) {
@@ -86,7 +86,7 @@ const Home = ({
         <CardComponent subtitle='Disbursed' title={disbursed || "loading..."} />
       </div>
       <div>
-        <TransactionCard transactionsList={[]} />
+        <TransactionCard transactionsList={transactions} />
       </div>
     </>
   );

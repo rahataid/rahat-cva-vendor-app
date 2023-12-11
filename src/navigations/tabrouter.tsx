@@ -10,21 +10,18 @@ import ChargeBeneficiaryPage from "@pages/charge-beneficiary";
 import HomePage from "@pages/home";
 import ProfilePage from "@pages/profile";
 import SettingsPage from "@pages/settings";
+import useAppStore from "@store/app";
 import { home, person, qrCode, settings } from "ionicons/icons";
 import { Redirect, Route } from "react-router-dom";
-import ProtectedRoute from "./protected-route";
 
-type PropTypes = {
-  isAuthenticated: boolean;
-  isVendorApproved?: boolean | null;
-};
+const Tabs: React.FC = () => {
+  const { chainData } = useAppStore((state) => state.chainData);
 
-const Tabs: React.FC<PropTypes> = ({ isAuthenticated, isVendorApproved }) => {
   return (
     <IonTabs>
       <IonRouterOutlet>
         {/* <Redirect exact path="/" to="/tabs/home" /> */}
-        <ProtectedRoute isAuthenticated={isAuthenticated}>
+        <Route>
           <Redirect exact path='/tabs' to='/tabs/home' />
           <Route path='/tabs/home' component={HomePage}></Route>
           <Route
@@ -32,7 +29,7 @@ const Tabs: React.FC<PropTypes> = ({ isAuthenticated, isVendorApproved }) => {
             component={ChargeBeneficiaryPage}></Route>
           <Route path='/tabs/profile' component={ProfilePage}></Route>
           <Route path='/tabs/settings' component={SettingsPage}></Route>
-        </ProtectedRoute>
+        </Route>
       </IonRouterOutlet>
 
       <IonTabBar slot='bottom'>
@@ -40,7 +37,7 @@ const Tabs: React.FC<PropTypes> = ({ isAuthenticated, isVendorApproved }) => {
           <IonIcon icon={home} />
           <IonLabel>Home</IonLabel>
         </IonTabButton>
-        {isVendorApproved && (
+        {chainData?.isVendorApproved && (
           <IonTabButton tab='chargeBeneficiary' href='/tabs/charge-beneficiary'>
             <IonIcon icon={qrCode} />
             <IonLabel>Charge Beneficiary</IonLabel>

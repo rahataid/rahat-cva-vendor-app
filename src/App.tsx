@@ -19,10 +19,10 @@ import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
 import { useEffect, useState } from "react";
-import "./theme/variables.scss";
 
 import Router from "@navigations/router";
 import useAppStore from "@store/app";
+import "./theme/global.scss";
 
 setupIonicReact();
 

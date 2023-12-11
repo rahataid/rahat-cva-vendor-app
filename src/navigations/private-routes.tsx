@@ -1,16 +1,16 @@
+import useAppStore from "@store/app";
 import React from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 
 type PrivateRouteProps = {
   component: React.ComponentType<any>;
-  isAuthenticated: boolean;
 } & RouteProps;
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component: Component,
-  isAuthenticated,
   ...rest
 }) => {
+  const isAuthenticated = useAppStore((state) => state.isAuthenticated);
   return (
     <Route
       {...rest}

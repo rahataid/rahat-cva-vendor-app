@@ -14,6 +14,8 @@ const HomePage: React.FC = () => {
   const currentUser = getCurrentUser();
   const vendorAddress = currentUser?.walletAddress;
   const { chainData } = useVendorChainData(vendorAddress);
+  // const transactions = useAppStore((state) => state.transactions);
+  // console.log("transactions", transactions);
 
   const acceptPendingTokens = async () => {
     console.log("ACCEPT PENDING TOKENS");

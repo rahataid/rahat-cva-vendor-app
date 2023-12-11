@@ -4,17 +4,16 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
-  IonCol,
-  IonGrid,
+  IonChip,
   IonItem,
   IonLabel,
   IonList,
-  IonRow,
+  IonNote,
 } from "@ionic/react";
 import { TransactionItem } from "../../types/transactions";
 
 type PropTypes = {
-  transactionsList: [TransactionItem] | null;
+  transactionsList: TransactionItem[] | null;
 };
 
 const TransactionCard = ({ transactionsList }: PropTypes) => {
@@ -25,43 +24,34 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
       </IonCardHeader>
       <IonCardContent>
         <IonList>
-          <IonItem key={0}>
-            <IonLabel>
-              <IonGrid>
-                <IonRow>
-                  <IonCol size="3">Transaction Hash</IonCol>
-                  <IonCol size="2">Wallet Address </IonCol>
-                  <IonCol size="1">Tokens</IonCol>
-                  <IonCol size="1">Status</IonCol>
-                  <IonCol size="2">Is Offline</IonCol>
-                  <IonCol size="1">Created At</IonCol>
-                </IonRow>
-              </IonGrid>
-            </IonLabel>
-          </IonItem>
-          {transactionsList?.map((el) => (
-            <IonItem key={JSON.stringify(el?.createdAt)}>
+          {transactionsList?.map((el, index) => (
+            <IonItem key={index}>
               <IonLabel>
-                <IonGrid>
-                  <IonRow>
-                    <IonCol>{el?.hash || "-"} </IonCol>
-                    <IonCol>{el?.walletAddress || el.phone || "-"}</IonCol>
-                    <IonCol>{el?.amount || "-"}</IonCol>
-                    <IonCol>{el?.status || "-"}</IonCol>
-                    <IonCol>{el?.isOffline ? "true" : "false"}</IonCol>
-                    <IonCol>{JSON.stringify(el?.createdAt) || "-"}</IonCol>
-                  </IonRow>
-                </IonGrid>
+                <h2>Transaction Hash: {el?.hash || "-"}</h2>
+                <IonNote>
+                  Wallet Address: {el?.walletAddress || el.phone || "-"}
+                </IonNote>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}>
+                  <IonNote>Tokens: {el?.amount || "-"}</IonNote>
+                </div>
+                <IonNote>
+                  Created At: {new Date(el?.createdAt).toLocaleString() || "-"}
+                </IonNote>
+                {el?.isOffline ? (
+                  <IonChip style={{ color: "red" }}>Offline</IonChip>
+                ) : (
+                  <IonChip style={{ color: "green" }}>Online</IonChip>
+                )}
               </IonLabel>
             </IonItem>
           ))}
         </IonList>
         <IonButton
           disabled={true}
-          expand="block"
-          color="blue"
-          style={{ marginTop: "1rem" }}
-        >
+          expand='block'
+          color='blue'
+          style={{ marginTop: "1rem" }}>
           View All
         </IonButton>
       </IonCardContent>

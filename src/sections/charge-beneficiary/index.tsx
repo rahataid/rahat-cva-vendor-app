@@ -9,7 +9,6 @@ import {
   IonRow,
 } from "@ionic/react";
 
-import { useChargeBeneficiary } from "@api/beneficiaries";
 import useAppStore from "@store/app";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,14 +24,14 @@ type formDataType = {
 };
 
 const ChargeBeneficiary = () => {
-  const { internetAccess, addTransaction, setTasks } = useAppStore((state) => ({
+  const { internetAccess, addTransaction } = useAppStore((state) => ({
     internetAccess: state.internetAccess,
     setClaimId: state.setClaimId,
     addTransaction: state.addTransaction,
-    setTasks: state.setTasks,
+    // setTasks: state.setTasks,
   }));
 
-  const { mutateAsync } = useChargeBeneficiary();
+  // const { mutateAsync } = useChargeBeneficiary();
 
   const [useQrCode, setUseQrCode] = useState(false);
 
@@ -63,14 +62,15 @@ const ChargeBeneficiary = () => {
 
   const chargeBeneficiaryPhone = async (data: formDataType) => {
     const { phone, token } = data;
-    const createdAt = new Date();
     const payload = {
       amount: token,
-      createdAt,
+      createdAt: new Date(),
       status: "NEW",
       isOffline: !internetAccess,
+      phone,
     };
-    await mutateAsync({ phone, data: payload });
+    await addTransaction(payload);
+    // await mutateAsync({ phone, data: payload });
   };
 
   const chargeBeneficiaryQr = async (data: any) => {

@@ -48,11 +48,13 @@ const InternetAccessCenter = () => {
             <IonLabel>Internet Status</IonLabel>
             <IonToggle checked={internetAccess} onIonChange={handleToggle} />
           </IonItem>
-          <IonItem>
-            <IonButton expand='full' onClick={handleSync}>
-              Sync Transactions
-            </IonButton>
-          </IonItem>
+          {internetAccess && (
+            <IonItem>
+              <IonButton expand='full' onClick={handleSync}>
+                Sync Transactions
+              </IonButton>
+            </IonItem>
+          )}
         </IonList>
       </IonContent>
     </IonPage>
