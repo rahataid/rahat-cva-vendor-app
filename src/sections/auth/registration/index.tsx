@@ -16,7 +16,7 @@ import MnemonicDialog from "./mnemonicDialog";
 import "./register.scss";
 
 const Register = () => {
-  const appStore = useAuthStore((state) => state);
+  const authStore = useAuthStore((state) => state);
   const history = useHistory();
 
   const [mnemonics, setMnemonics] = useState(undefined);
@@ -41,7 +41,7 @@ const Register = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const walletValue = await appStore.handleRegister(data);
+      const walletValue = await authStore.handleRegister(data);
       if (walletValue) {
         setMnemonics(walletValue.mnemonic.phrase);
       }
@@ -63,15 +63,15 @@ const Register = () => {
     <>
       <MnemonicDialog isOpen={mnemonics ? true : false} mnemonics={mnemonics} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-        <IonGrid className='register-container'>
-          <IonRow className='register-form-container'>
-            <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
+        <IonGrid className="register-container">
+          <IonRow className="register-form-container">
+            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <Controller
                 render={({ field }) => (
                   <TextInputField
-                    placeholder='Enter Name'
-                    type='text'
-                    label='Name*'
+                    placeholder="Enter Name"
+                    type="text"
+                    label="Name*"
                     value={getValues("name")}
                     errorText={errors?.name?.message}
                     onInput={(e: any) => {
@@ -86,15 +86,15 @@ const Register = () => {
                   required: "Please enter your full name",
                 }}
                 control={control}
-                name='name'
+                name="name"
               />
               <br />
               <Controller
                 render={({ field }) => (
                   <TextInputField
-                    placeholder='Phone'
-                    type='text'
-                    label='Phone*'
+                    placeholder="Phone"
+                    type="text"
+                    label="Phone*"
                     errorText={errors?.phone?.message}
                     value={getValues("phone")}
                     onInput={(e: any) => {
@@ -116,36 +116,38 @@ const Register = () => {
                   },
                 }}
                 control={control}
-                name='phone'
+                name="phone"
               />
               <br />
               {errors?.root?.serverError?.message && (
-                <IonText color='danger'>
+                <IonText color="danger">
                   {errors?.root?.serverError.message}
                 </IonText>
               )}
             </IonCol>
           </IonRow>
-          <IonRow className='register-button-container'>
-            <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
+          <IonRow className="register-button-container">
+            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <IonButton
-                type='submit'
-                expand='block'
-                color='white'
-                disabled={isDirty || !isValid || isSubmitting}>
+                type="submit"
+                expand="block"
+                color="white"
+                disabled={isDirty || !isValid || isSubmitting}
+              >
                 {isSubmitting ? (
-                  <IonProgressBar type='indeterminate'></IonProgressBar>
+                  <IonProgressBar type="indeterminate"></IonProgressBar>
                 ) : (
                   "Submit"
                 )}
               </IonButton>
-              <IonRow className='gap-5'></IonRow>
+              <IonRow className="gap-5"></IonRow>
               <IonButton
-                color='white'
-                fill='outline'
-                expand='block'
+                color="white"
+                fill="outline"
+                expand="block"
                 onClick={handleCancel}
-                disabled={isSubmitting}>
+                disabled={isSubmitting}
+              >
                 Cancel
               </IonButton>
             </IonCol>

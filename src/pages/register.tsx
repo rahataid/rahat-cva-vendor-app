@@ -1,4 +1,6 @@
 import {
+  IonBackButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonPage,
@@ -8,15 +10,22 @@ import {
 } from "@ionic/react";
 import Register from "@sections/auth/registration";
 import "../theme/title.css";
+import { caretBack } from "ionicons/icons";
 
 const RegisterPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton color="white" icon={caretBack}></IonBackButton>
+          </IonButtons>
           <IonTitle className="title-center">
             <IonText>Register</IonText>
           </IonTitle>
+          <IonButtons slot="end">
+            <></>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>

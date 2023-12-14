@@ -1,18 +1,25 @@
 import {
+  IonBackButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonPage,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import "../theme/title.css";
 import RestoreWallet from "@sections/auth/restore-wallet";
+import { caretBack } from "ionicons/icons";
 
 const RestoreWalletPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton color="white" icon={caretBack}></IonBackButton>
+          </IonButtons>
           <IonTitle className="title-center">Restore Wallet</IonTitle>
         </IonToolbar>
       </IonHeader>

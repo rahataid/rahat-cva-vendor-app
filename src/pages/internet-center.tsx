@@ -35,7 +35,7 @@ const InternetAccessCenter = () => {
       <IonHeader>
         <IonToolbar>
           <IonIcon
-            slot='start'
+            slot="start"
             icon={chevronBackOutline}
             onClick={() => history.goBack()}
           />
@@ -50,7 +50,7 @@ const InternetAccessCenter = () => {
           </IonItem>
           {internetAccess && (
             <IonItem>
-              <IonButton expand='full' onClick={handleSync}>
+              <IonButton expand="full" onClick={handleSync}>
                 Sync Transactions
               </IonButton>
             </IonItem>

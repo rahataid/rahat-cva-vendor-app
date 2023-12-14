@@ -40,7 +40,7 @@ function Settings() {
     },
     {
       label: "Logout",
-      icon: logOut,
+      startIcon: logOut,
       action: handleLogout,
     },
   ];
@@ -49,10 +49,10 @@ function Settings() {
     <IonCard>
       <IonList>
         <IonItem>
-          <IonAvatar slot='start'>
+          <IonAvatar slot="start">
             <img
-              alt='User avatar'
-              src='https://ionicframework.com/docs/img/demos/avatar.svg'
+              alt="User avatar"
+              src="https://ionicframework.com/docs/img/demos/avatar.svg"
             />
           </IonAvatar>
           <IonLabel>{currentUser?.name || "-"}</IonLabel>
@@ -64,10 +64,10 @@ function Settings() {
             {option?.isToggle ? (
               <IonToggle checked={option.checked} />
             ) : (
-              <IonIcon icon={option.startIcon} slot='start' />
+              <IonIcon icon={option.startIcon} slot="start" />
             )}
             <IonLabel>{option.label}</IonLabel>
-            {option?.endIcon && <IonIcon icon={option.endIcon} slot='end' />}
+            {option?.endIcon && <IonIcon icon={option.endIcon} slot="end" />}
           </IonItem>
         ))}
       </IonList>
