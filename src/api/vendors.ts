@@ -39,7 +39,7 @@ export function useVendor(walletAddress: string): any {
 }
 
 export function useVendorChainData(walletAddress: string): any {
-  const { internetAccess, setChainData, chainData, appSettings } =
+  const { internetAccess, setChainData, chainData, projectSettings } =
     useAppStore.getState();
   const { data, isLoading, error } = useQuery(
     ["vendors", walletAddress, "chainData"],
@@ -48,7 +48,7 @@ export function useVendorChainData(walletAddress: string): any {
       return res;
     },
     {
-      enabled: internetAccess && !!appSettings?.baseUrl,
+      enabled: internetAccess && !!projectSettings?.baseUrl,
       onSuccess: (data) => {
         setChainData(data?.data);
       },

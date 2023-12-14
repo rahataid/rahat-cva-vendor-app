@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use(
 // ----------------------------------------------------------------------
 
 export const endpoints = {
-  appSettings: {
+  projectSettings: {
     blockchain: "/app/blockchain",
     contracts: "/app/contracts",
     settings: (name: string) => `/app/settings?name=${name}`,

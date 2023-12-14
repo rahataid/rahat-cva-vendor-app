@@ -4,14 +4,14 @@ import { HDNodeWallet, Wallet } from "ethers";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import {
-  IAppSettingsContractsApiResponse,
-  IAppSettingsNetwork,
-} from "../types/app-settings";
+  IProjectSettingsContractsApiResponse,
+  IProjectSettingsNetwork,
+} from "../types/project-settings";
 
-type StorageAppSettings = {
+type StorageProjectSettings = {
   baseUrl: string;
-  network: IAppSettingsNetwork;
-  contracts: IAppSettingsContractsApiResponse;
+  network: IProjectSettingsNetwork;
+  contracts: IProjectSettingsContractsApiResponse;
   projectId: string;
 } | null;
 
@@ -32,7 +32,7 @@ export type AppStateType = {
   internetAccess: boolean;
   storage: Storage | null;
   contractsFn: any;
-  appSettings: StorageAppSettings | null;
+  projectSettings: StorageProjectSettings | null;
   offlineTasks: any;
   transactions: any[];
 };
@@ -47,8 +47,8 @@ type AppActionsType = {
   addTransaction: (data: object) => Promise<void>;
   getTransactionsList: () => Promise<[]> | Promise<void>;
   getTransaction: (id: string) => Promise<void>;
-  setAppSettings: (value: StorageAppSettings) => Promise<void>;
-  getAppSettings: () => Promise<void>;
+  setProjectSettings: (value: StorageProjectSettings) => Promise<void>;
+  getProjectSettings: () => Promise<void>;
   setWallet: (wallet: any) => void;
   setTasks: (key: string, value: StorageOfflineTasks) => Promise<void>;
   setChainData: (data: any) => void;
@@ -71,7 +71,7 @@ const useAppStore = create<AppStoreType>()(
     claimId: undefined,
     beneficiary: undefined,
     internetAccess: false,
-    appSettings: null,
+    projectSettings: null,
     wallet: undefined,
     currentUser: undefined,
     contractsFn: undefined,
@@ -96,7 +96,7 @@ const useAppStore = create<AppStoreType>()(
       try {
         const currentUser = await storageInstance?.get("currentUser");
         const internetAccess = await storageInstance?.get("internetAccess");
-        const appSettings = await storageInstance?.get("appSettings");
+        const projectSettings = await storageInstance?.get("projectSettings");
         const wallet = await storageInstance?.get("wallet");
         const chainData = await storageInstance?.get("chainData");
         const transactions = await storageInstance?.get("transactions");
@@ -115,8 +115,8 @@ const useAppStore = create<AppStoreType>()(
           set({ internetAccess });
         }
 
-        if (appSettings) {
-          set({ appSettings });
+        if (projectSettings) {
+          set({ projectSettings });
         }
 
         if (chainData) {
@@ -164,14 +164,14 @@ const useAppStore = create<AppStoreType>()(
       get().storage?.set("wallet", wallet);
     },
 
-    setAppSettings: async (value: StorageAppSettings) => {
+    setProjectSettings: async (value: StorageProjectSettings) => {
       const { storage } = get();
-      const data = await storage?.get("appSettings");
-      if (storage) await storage.set("appSettings", { ...data, ...value });
+      const data = await storage?.get("projectSettings");
+      if (storage) await storage.set("projectSettings", { ...data, ...value });
     },
 
-    getAppSettings: async () => {
-      return get()?.storage?.get("appSettings");
+    getProjectSettings: async () => {
+      return get()?.storage?.get("projectSettings");
     },
 
     addTransaction: async (data) => {

@@ -35,17 +35,19 @@ export const getWallet = () => {
   return getWalletFromJson(data, DEFAULT_PASSCODE);
 };
 
-export const saveAppSettings = (value: any) =>
+export const saveProjectSettings = (value: any) =>
   typeof window !== "undefined"
-    ? localStorage.setItem("appSettings", JSON.stringify(value))
+    ? localStorage.setItem("projectSettings", JSON.stringify(value))
     : "";
 
-export const getAppSettings = (key: string) => {
+export const getProjectSettings = (key: string) => {
   const data =
-    typeof window !== "undefined" ? localStorage.getItem("appSettings") : "";
+    typeof window !== "undefined"
+      ? localStorage.getItem("projectSettings")
+      : "";
   if (key && data) {
-    const appSettings = JSON.parse(data as string);
-    return appSettings[key] || "";
+    const projectSettings = JSON.parse(data as string);
+    return projectSettings[key] || "";
   }
   return data;
 };

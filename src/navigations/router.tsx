@@ -20,13 +20,13 @@ const Router = () => {
     initialize,
     isInitialized,
     isAuthenticated,
-    appSettings,
+    projectSettings,
     chainData,
     internetAccess,
   } = useAppStore((state) => ({
     initialize: state.initialize,
     isInitialized: state.isInitialized,
-    appSettings: state.appSettings,
+    projectSettings: state.projectSettings,
     isAuthenticated: state.isAuthenticated,
     chainData: state.chainData,
     internetAccess: state.internetAccess,
@@ -34,10 +34,10 @@ const Router = () => {
 
   useEffect(() => {
     initialize();
-    if (appSettings?.baseUrl) {
-      axiosInstance.defaults.baseURL = appSettings.baseUrl;
+    if (projectSettings?.baseUrl) {
+      axiosInstance.defaults.baseURL = projectSettings.baseUrl;
     }
-  }, [initialize, appSettings]);
+  }, [initialize, projectSettings]);
 
   if (!isInitialized) {
     return <IndeterminateLoader />;
@@ -74,19 +74,19 @@ const Router = () => {
         // }
         >
           <Switch>
-            <Redirect exact from='/' to='/tabs' />
-            <PrivateRoute path='/tabs' component={Tabs} />
-            <Route exact path='/select-project' component={SelectProjectPage} />
-            <Route exact path='/landing' component={LandingPage} />
-            <Route exact path='/register' component={RegisterPage} />
-            <Route exact path='/restore-wallet' component={RestoreWalletPage} />
-            <Route exact path='/otp' component={OTPPage} />
+            <Redirect exact from="/" to="/tabs" />
+            <PrivateRoute path="/tabs" component={Tabs} />
+            <Route exact path="/select-project" component={SelectProjectPage} />
+            <Route exact path="/landing" component={LandingPage} />
+            <Route exact path="/register" component={RegisterPage} />
+            <Route exact path="/restore-wallet" component={RestoreWalletPage} />
+            <Route exact path="/otp" component={OTPPage} />
             <PrivateRoute
               exact
-              path='/internet-center'
+              path="/internet-center"
               component={InternetAccessCenter}
             />
-            <Redirect from='/' to='/landing' />
+            <Redirect from="/" to="/landing" />
           </Switch>
         </IonRouterOutlet>
       </IonReactRouter>

@@ -8,7 +8,7 @@ import { useHistory } from "react-router";
 
 const ProjectSelect = () => {
   const history = useHistory();
-  const setAppSettings = useAppStore((state) => state.setAppSettings);
+  const setProjectSettings = useAppStore((state) => state.setProjectSettings);
 
   const {
     handleSubmit,
@@ -32,14 +32,14 @@ const ProjectSelect = () => {
       ]);
 
       if (contracts?.data && blockchain?.data) {
-        const appSettings = {
+        const projectSettings = {
           baseUrl: data?.project,
           contracts: contracts?.data?.value,
           network: blockchain?.data?.value,
           // TODO:Make it dynamic
           projectId: "0x5001eb9c680a2690e7b1e97b1104574ab7b75cac",
         };
-        setAppSettings(appSettings);
+        setProjectSettings(projectSettings);
 
         history.push("/home");
       }
@@ -59,15 +59,15 @@ const ProjectSelect = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-        <IonGrid className='register-container'>
-          <IonRow className='register-form-container'>
-            <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
+        <IonGrid className="register-container">
+          <IonRow className="register-form-container">
+            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <Controller
                 render={({ field }) => (
                   <TextInputField
-                    placeholder='Enter Project'
-                    type='text'
-                    label='Project*'
+                    placeholder="Enter Project"
+                    type="text"
+                    label="Project*"
                     value={getValues("project")}
                     errorText={errors?.project?.message}
                     onInput={(e: any) => {
@@ -82,23 +82,23 @@ const ProjectSelect = () => {
                   required: "Please enter your project name",
                 }}
                 control={control}
-                name='project'
+                name="project"
               />
               <br />
 
               {errors?.root?.serverError?.message && (
-                <IonText color='danger'>
+                <IonText color="danger">
                   {errors?.root?.serverError.message}
                 </IonText>
               )}
             </IonCol>
           </IonRow>
-          <IonRow className='register-button-container'>
-            <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
+          <IonRow className="register-button-container">
+            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <IonButton
-                type='submit'
-                expand='block'
-                color='white'
+                type="submit"
+                expand="block"
+                color="white"
                 // disabled={isDirty || !isValid || isSubmitting}
               >
                 Submit
@@ -107,13 +107,14 @@ const ProjectSelect = () => {
                 ) : (
                 )} */}
               </IonButton>
-              <IonRow className='gap-5'></IonRow>
+              <IonRow className="gap-5"></IonRow>
               <IonButton
-                color='white'
-                fill='outline'
-                expand='block'
+                color="white"
+                fill="outline"
+                expand="block"
                 onClick={handleCancel}
-                disabled={isSubmitting}>
+                disabled={isSubmitting}
+              >
                 Cancel
               </IonButton>
             </IonCol>

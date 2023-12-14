@@ -7,12 +7,12 @@ interface BlockchainSettingsApiResponse extends AxiosInstance {
   };
 }
 
-const AppSettingService = {
+const ProjectSettingService = {
   getBlockchainSettings: (): Promise<BlockchainSettingsApiResponse> =>
-    axiosInstance.get(endpoints.appSettings.blockchain),
-  getContracts: () => axiosInstance.get(endpoints.appSettings.contracts),
+    axiosInstance.get(endpoints.projectSettings.blockchain),
+  getContracts: () => axiosInstance.get(endpoints.projectSettings.contracts),
   getSettings: (name: any) =>
-    axiosInstance.get(endpoints.appSettings.settings(name)),
+    axiosInstance.get(endpoints.projectSettings.settings(name)),
 };
 
-export default AppSettingService;
+export default ProjectSettingService;

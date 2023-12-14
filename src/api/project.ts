@@ -1,15 +1,15 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import AppSettingService from "../services/app-settings";
+import ProjectSettingService from "../services/project-settings";
 import useAppStore from "../store/app";
 
-export const useAppSettings = () => {
+export const useProjectSettings = () => {
   const queryClient = useQueryClient();
   const appStore = useAppStore((state) => state);
 
   const contracts = useQuery(
     ["contracts"],
     async () => {
-      const { data } = await AppSettingService.getContracts();
+      const { data } = await ProjectSettingService.getContracts();
       return data?.value;
     },
     {
@@ -22,7 +22,7 @@ export const useAppSettings = () => {
   const blockchain = useQuery(
     ["blockchain"],
     async () => {
-      const { data } = await AppSettingService.getBlockchainSettings();
+      const { data } = await ProjectSettingService.getBlockchainSettings();
       return data?.value;
     },
     {
