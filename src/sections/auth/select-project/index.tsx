@@ -6,7 +6,7 @@ import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 
-const ProjectSelect = () => {
+const SelectProject = () => {
   const history = useHistory();
   const setProjectSettings = useAppStore((state) => state.setProjectSettings);
 
@@ -125,4 +125,4 @@ const ProjectSelect = () => {
   );
 };
 
-export default ProjectSelect;
+export default SelectProject;

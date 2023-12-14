@@ -6,7 +6,6 @@ import IndeterminateLoader from "@components/loaders/Indeterminate";
 import InternetAccessCenter from "@pages/internet-center";
 import LandingPage from "@pages/landing-screen";
 import OTPPage from "@pages/otp";
-import SelectProjectPage from "@pages/project-select";
 import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
 import useAppStore from "@store/app";
@@ -14,6 +13,7 @@ import { axiosInstance } from "@utils/axios";
 import { useEffect } from "react";
 import PrivateRoute from "./private-routes";
 import Tabs from "./tabrouter";
+import SelectProjectPage from "@pages/select-project";
 
 const Router = () => {
   const {
