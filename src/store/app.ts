@@ -7,6 +7,7 @@ import {
   IProjectSettingsContractsApiResponse,
   IProjectSettingsNetwork,
 } from "../types/project-settings";
+import { axiosInstance } from "@utils/axios";
 
 type StorageProjectSettings = {
   baseUrl: string;
@@ -79,6 +80,7 @@ const useAppStore = create<AppStoreType>()(
     transactions: [],
 
     initialize: async () => {
+      console.log("INITIALIZE CALLED");
       const store = new Storage({
         driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
         name: "RahatVendor",
@@ -117,6 +119,9 @@ const useAppStore = create<AppStoreType>()(
 
         if (projectSettings) {
           set({ projectSettings });
+          if (projectSettings?.baseUrl) {
+            axiosInstance.defaults.baseURL = projectSettings.baseUrl;
+          }
         }
 
         if (chainData) {

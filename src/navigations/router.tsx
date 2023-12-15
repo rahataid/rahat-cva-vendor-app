@@ -34,9 +34,6 @@ const Router = () => {
 
   useEffect(() => {
     initialize();
-    if (projectSettings?.baseUrl) {
-      axiosInstance.defaults.baseURL = projectSettings.baseUrl;
-    }
   }, []);
 
   if (!isInitialized) {

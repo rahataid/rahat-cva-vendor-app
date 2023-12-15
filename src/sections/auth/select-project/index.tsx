@@ -10,10 +10,13 @@ import { HOST_API } from "../../../config";
 
 const SelectProject = () => {
   const history = useHistory();
-  const { setProjectSettings, initialize } = useAppStore((state) => ({
-    setProjectSettings: state.setProjectSettings,
-    initialize: state.initialize,
-  }));
+  const { setProjectSettings, initialize, currentUser } = useAppStore(
+    (state) => ({
+      setProjectSettings: state.setProjectSettings,
+      initialize: state.initialize,
+      currentUser: state.currentUser,
+    })
+  );
 
   const {
     handleSubmit,
@@ -25,7 +28,7 @@ const SelectProject = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      project: "",
+      projectURL: "",
     },
   });
 
@@ -48,25 +51,33 @@ const SelectProject = () => {
 
       //   history.push("/home");
       // }
-      const [blockchain, contracts, contractDetails] = await Promise.all([
-        axios.get(`${HOST_API}${endpoints.projectSettings.blockchain}`),
-        axios.get(`${HOST_API}${endpoints.projectSettings.contracts}`),
-        axios.get(
-          `${HOST_API}${endpoints.projectSettings.contractDetails(
-            data?.project
-          )}`
-        ),
-      ]);
+      const [blockchain, contracts, contractDetails, vendor] =
+        await Promise.all([
+          axios.get(
+            `${data?.projectURL}${endpoints.projectSettings.blockchain}`
+          ),
+          axios.get(
+            `${data?.projectURL}${endpoints.projectSettings.contracts}`
+          ),
+          axios.get(
+            `${data?.projectURL}${endpoints.projectSettings.contractDetails(
+              "CVAProject"
+            )}`
+          ),
+          axios.post(
+            `${data?.projectURL}${endpoints.vendors.add}`,
+            currentUser
+          ),
+        ]);
 
       if (contracts?.data && blockchain?.data && contractDetails?.data) {
         const projectSettings = {
-          baseUrl: data?.project,
+          baseUrl: data?.projectURL,
           contracts: contracts?.data?.value,
           network: blockchain?.data?.value,
-          // TODO:Make it dynamic
           projectId: contractDetails?.data?.address,
         };
-        setProjectSettings(projectSettings);
+        await setProjectSettings(projectSettings);
         await initialize();
         history.push("/tabs/home");
       }
@@ -92,13 +103,13 @@ const SelectProject = () => {
               <Controller
                 render={({ field }) => (
                   <TextInputField
-                    placeholder="Enter Project"
+                    placeholder="Enter Project URL"
                     type="text"
-                    label="Project*"
-                    value={getValues("project")}
-                    errorText={errors?.project?.message}
+                    label="Project URL*"
+                    value={getValues("projectURL")}
+                    errorText={errors?.projectURL?.message}
                     onInput={(e: any) => {
-                      setValue("project", e.target.value, {
+                      setValue("projectURL", e.target.value, {
                         shouldValidate: true,
                       });
                     }}
@@ -106,10 +117,10 @@ const SelectProject = () => {
                   />
                 )}
                 rules={{
-                  required: "Please enter your project name",
+                  required: "Please enter the project URL",
                 }}
                 control={control}
-                name="project"
+                name="projectURL"
               />
               <br />
 

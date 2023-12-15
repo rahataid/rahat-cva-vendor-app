@@ -42,7 +42,7 @@ export function useVendorChainData(walletAddress: string): any {
   const { internetAccess, setChainData, chainData, projectSettings } =
     useAppStore.getState();
   const { data, isLoading, error } = useQuery(
-    ["vendors", walletAddress, "chainData"],
+    ["vendors", walletAddress, chainData],
     async () => {
       const res = await VendorsService.getChainData(walletAddress);
       return res;
