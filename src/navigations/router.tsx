@@ -37,7 +37,7 @@ const Router = () => {
     if (projectSettings?.baseUrl) {
       axiosInstance.defaults.baseURL = projectSettings.baseUrl;
     }
-  }, [initialize, projectSettings]);
+  }, []);
 
   if (!isInitialized) {
     return <IndeterminateLoader />;

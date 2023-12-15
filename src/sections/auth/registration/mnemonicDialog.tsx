@@ -5,15 +5,20 @@ type PropTypes = {
 
 import { IonAlert } from "@ionic/react";
 import "./mnemonicDialog.scss";
+import { useHistory } from "react-router";
 
 function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
+  const history = useHistory();
+  const handleOnDidDismiss = () => {
+    history.push("/select-project");
+  };
   return (
     <>
       <IonAlert
         backdropDismiss={false}
         isOpen={isOpen}
-        header='Please write down the mnemonics safely'
-        subHeader=''
+        header="Please write down the mnemonics safely"
+        subHeader=""
         message={mnemonics}
         buttons={[
           {
@@ -21,11 +26,8 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
             cssClass: "alert-button-confirm",
           },
         ]}
-        onDidDismiss={() => {
-          console.log("DISMISS");
-
-          window.location.replace("/tabs/home");
-        }}></IonAlert>
+        onDidDismiss={handleOnDidDismiss}
+      ></IonAlert>
     </>
   );
 }

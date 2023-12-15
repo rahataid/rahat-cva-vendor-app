@@ -5,10 +5,15 @@ import useAppStore from "@store/app";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
+import { endpoints } from "@utils/axios";
+import { HOST_API } from "../../../config";
 
 const SelectProject = () => {
   const history = useHistory();
-  const setProjectSettings = useAppStore((state) => state.setProjectSettings);
+  const { setProjectSettings, initialize } = useAppStore((state) => ({
+    setProjectSettings: state.setProjectSettings,
+    initialize: state.initialize,
+  }));
 
   const {
     handleSubmit,
@@ -26,22 +31,44 @@ const SelectProject = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const [contracts, blockchain] = await Promise.all([
-        axios.get(`${data?.project}/app/contracts`),
-        axios.get(`${data?.project}/app/blockchain`),
+      // const [contracts, blockchain] = await Promise.all([
+      //   axios.get(`${data?.project}/app/contracts`),
+      //   axios.get(`${data?.project}/app/blockchain`),
+      // ]);
+
+      // if (contracts?.data && blockchain?.data) {
+      //   const projectSettings = {
+      //     baseUrl: data?.project,
+      //     contracts: contracts?.data?.value,
+      //     network: blockchain?.data?.value,
+      //     // TODO:Make it dynamic
+      //     projectId: "0x5001eb9c680a2690e7b1e97b1104574ab7b75cac",
+      //   };
+      //   setProjectSettings(projectSettings);
+
+      //   history.push("/home");
+      // }
+      const [blockchain, contracts, contractDetails] = await Promise.all([
+        axios.get(`${HOST_API}${endpoints.projectSettings.blockchain}`),
+        axios.get(`${HOST_API}${endpoints.projectSettings.contracts}`),
+        axios.get(
+          `${HOST_API}${endpoints.projectSettings.contractDetails(
+            data?.project
+          )}`
+        ),
       ]);
 
-      if (contracts?.data && blockchain?.data) {
+      if (contracts?.data && blockchain?.data && contractDetails?.data) {
         const projectSettings = {
           baseUrl: data?.project,
           contracts: contracts?.data?.value,
           network: blockchain?.data?.value,
           // TODO:Make it dynamic
-          projectId: "0x5001eb9c680a2690e7b1e97b1104574ab7b75cac",
+          projectId: contractDetails?.data?.address,
         };
         setProjectSettings(projectSettings);
-
-        history.push("/home");
+        await initialize();
+        history.push("/tabs/home");
       }
     } catch (error) {
       alert(JSON.stringify(error, null, 2));

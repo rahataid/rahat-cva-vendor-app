@@ -29,15 +29,15 @@ setupIonicReact();
 const App: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
 
-  const { initialize } = useAppStore();
+  // const { initialize } = useAppStore();
 
-  useEffect(() => {
-    const init = async () => {
-      await initialize();
-    };
+  // useEffect(() => {
+  //   const init = async () => {
+  //     await initialize();
+  //   };
 
-    init();
-  }, []);
+  //   init();
+  // }, []);
 
   return (
     <IonApp>

@@ -40,6 +40,7 @@ export const endpoints = {
   projectSettings: {
     blockchain: "/app/blockchain",
     contracts: "/app/contracts",
+    contractDetails: (name: string) => `/app/contracts/${name}`,
     settings: (name: string) => `/app/settings?name=${name}`,
   },
   auth: {
