@@ -25,7 +25,7 @@ type formDataType = {
 
 const ChargeBeneficiary = () => {
   const { internetAccess, addTransaction } = useAppStore((state) => ({
-    internetAccess: state.internetAccess,
+    internetAccess: state.projectSettings?.internetAccess,
     setClaimId: state.setClaimId,
     addTransaction: state.addTransaction,
     // setTasks: state.setTasks,
@@ -62,20 +62,24 @@ const ChargeBeneficiary = () => {
 
   const chargeBeneficiaryPhone = async (data: formDataType) => {
     const { phone, token } = data;
-    const payload = {
-      amount: token,
-      createdAt: new Date(),
-      status: "NEW",
-      isOffline: !internetAccess,
-      phone,
-    };
-    await addTransaction(payload);
-    // await mutateAsync({ phone, data: payload });
+    console.log("INTERNET ACCESS", internetAccess);
+    if (!internetAccess) {
+      const payload = {
+        amount: token,
+        createdAt: new Date(),
+        status: "NEW",
+        isOffline: !internetAccess,
+        phone,
+      };
+      await addTransaction(payload);
+      // await mutateAsync({ phone, data: payload });
+    }
   };
 
   const chargeBeneficiaryQr = async (data: any) => {
+    const { qrCode, token } = data;
+    console.log("INTERNET ACCESS", internetAccess);
     if (!internetAccess) {
-      const { qrCode, token } = data;
       const createdAt = new Date();
       const payload = {
         walletAddress: qrCode,
@@ -110,12 +114,12 @@ const ChargeBeneficiary = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <IonGrid className='charge-container'>
-        <IonRow className='charge-form-container'>
-          <IonCol size='11' sizeMd='11' sizeLg='11' sizeXl='11'>
+      <IonGrid className="charge-container">
+        <IonRow className="charge-form-container">
+          <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
             <IonCard>
               <IonCardHeader>
-                <IonCardTitle color='light'>Charge Beneficiary</IonCardTitle>
+                <IonCardTitle color="light">Charge Beneficiary</IonCardTitle>
                 {useQrCode ? (
                   <ChargeQr
                     getValues={getValues}
@@ -135,37 +139,42 @@ const ChargeBeneficiary = () => {
             </IonCard>
           </IonCol>
         </IonRow>
-        <IonRow className='charge-button-container'>
+        <IonRow className="charge-button-container">
           <IonCol
-            size='11'
-            sizeMd='11'
-            sizeLg='11'
-            sizeXl='11'
-            className='charge-button-wrapper'>
+            size="11"
+            sizeMd="11"
+            sizeLg="11"
+            sizeXl="11"
+            className="charge-button-wrapper"
+          >
             <IonButton
-              color='white'
-              fill='clear'
+              color="white"
+              fill="clear"
               onClick={handleToggle}
-              disabled={isSubmitting}>
+              disabled={isSubmitting}
+            >
               {useQrCode ? "Use Phone" : "Use QR"}
             </IonButton>
             <IonButton
-              color='white'
-              fill='outline'
-              expand='block'
+              color="white"
+              fill="outline"
+              expand="block"
               onClick={handleCancel}
-              disabled={isSubmitting}>
+              disabled={isSubmitting}
+            >
               Cancel
             </IonButton>
             <IonButton
-              type='submit'
-              expand='block'
-              color='white'
-              disabled={!isValid || isSubmitting}>
+              type="submit"
+              expand="block"
+              color="white"
+              disabled={!isValid || isSubmitting}
+            >
               {isSubmitting ? (
                 <IonProgressBar
-                  type='indeterminate'
-                  style={{ width: "60px" }}></IonProgressBar>
+                  type="indeterminate"
+                  style={{ width: "60px" }}
+                ></IonProgressBar>
               ) : (
                 "Submit"
               )}
