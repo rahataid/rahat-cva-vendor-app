@@ -3,7 +3,6 @@ import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import IndeterminateLoader from "@components/loaders/Indeterminate";
-import InternetAccessCenter from "@pages/internet-center";
 import LandingPage from "@pages/landing-screen";
 import OTPPage from "@pages/otp";
 import RegisterPage from "@pages/register";
@@ -14,22 +13,16 @@ import { useEffect } from "react";
 import PrivateRoute from "./private-routes";
 import Tabs from "./tabrouter";
 import SelectProjectPage from "@pages/select-project";
+import InternetAccessCenterPage from "@pages/internet-center";
 
 const Router = () => {
-  const {
-    initialize,
-    isInitialized,
-    isAuthenticated,
-    projectSettings,
-    chainData,
-    internetAccess,
-  } = useAppStore((state) => ({
+  console.log("ROUTER COMPONENT");
+  const { initialize, isInitialized } = useAppStore((state) => ({
     initialize: state.initialize,
     isInitialized: state.isInitialized,
     projectSettings: state.projectSettings,
     isAuthenticated: state.isAuthenticated,
     chainData: state.chainData,
-    internetAccess: state.internetAccess,
   }));
 
   useEffect(() => {
@@ -81,7 +74,7 @@ const Router = () => {
             <PrivateRoute
               exact
               path="/internet-center"
-              component={InternetAccessCenter}
+              component={InternetAccessCenterPage}
             />
             <Redirect from="/" to="/landing" />
           </Switch>
