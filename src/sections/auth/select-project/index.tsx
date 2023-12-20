@@ -6,7 +6,6 @@ import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
-import { HOST_API } from "../../../config";
 
 const SelectProject = () => {
   const history = useHistory();

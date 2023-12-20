@@ -288,15 +288,30 @@ const useAppStore = create<AppStoreType>()(
       //   }
       // }
     },
-    syncTransactions() {
+
+    async syncTransactions() {
       const transactions = get().transactions;
+      const wallet = get().wallet;
       const offlineTransactions = transactions.filter((t) => t.isOffline);
-      offlineTransactions.forEach(({ phone, ...data }) => {
-        const sendData = {
-          amount: data.amount,
-        };
-        return taskProcess.chargeBeneficiaryPhone.callFn(phone, sendData);
-      });
+      // offlineTransactions.forEach(({ phone, ...data }) => {
+      //   const sendData = {
+      //     amount: data.amount,
+      //   };
+      //   return taskProcess.chargeBeneficiaryPhone.callFn(phone, sendData);
+      // });
+
+      // for (const el of offlineTransactions) {
+      //   const { phone, amount } = el;
+      //   const payload = {
+      //     amount,
+      //     phone,
+      //   };
+      //   const res = await taskProcess.chargeBeneficiaryPhone.callFn(
+      //     wallet?.address,
+      //     payload
+      //   );
+      //   console.log(res);
+      // }
     },
   }))
 );

@@ -13,12 +13,11 @@ import { chevronForwardOutline, logOut, wifiOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 function Settings() {
-  const { toggleIsAuthenticated, setInternetAccess, internetAccess } =
-    useAppStore((state) => ({
-      toggleIsAuthenticated: state.toggleIsAuthenticated,
-      setInternetAccess: state.setInternetAccess,
-      internetAccess: state.projectSettings?.internetAccess,
-    }));
+  const { toggleIsAuthenticated, internetAccess } = useAppStore((state) => ({
+    toggleIsAuthenticated: state.toggleIsAuthenticated,
+    setInternetAccess: state.setInternetAccess,
+    internetAccess: state.projectSettings?.internetAccess,
+  }));
   const currentUser = getCurrentUser();
 
   const history = useHistory();

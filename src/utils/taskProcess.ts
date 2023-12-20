@@ -2,8 +2,8 @@ import BeneficiariesService from "@services/beneficiaries";
 
 const taskProcess = {
   chargeBeneficiaryPhone: {
-    callFn: (phone: any, data: any) =>
-      BeneficiariesService.chargeBeneficiary(phone, data),
+    callFn: (walletAddress: any, data: any) =>
+      BeneficiariesService.chargeBeneficiary(walletAddress, data),
   },
 };
 

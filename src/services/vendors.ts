@@ -15,6 +15,8 @@ const VendorsService = {
     axiosInstance.post(endpoints.vendors.add, payload),
   getChainData: (walletAddress: string) =>
     axiosInstance.get(endpoints.vendors.getChainData(walletAddress)),
+  acceptPendingTokens: (walletAddress: string) =>
+    axiosInstance.get(endpoints.vendors.acceptTokens(walletAddress)),
 };
 
 export default VendorsService;

@@ -9,16 +9,22 @@ import {
 import { getCurrentUser } from "@utils/sessionManager";
 import Home from "../sections/home";
 import "../theme/title.css";
+import VendorsService from "@services/vendors";
 
 const HomePage: React.FC = () => {
   const currentUser = getCurrentUser();
   const vendorAddress = currentUser?.walletAddress;
   const { chainData } = useVendorChainData(vendorAddress);
+  console.log("chainData", chainData);
   // const transactions = useAppStore((state) => state.transactions);
   // console.log("transactions", transactions);
 
   const acceptPendingTokens = async () => {
     console.log("ACCEPT PENDING TOKENS");
+    const res = await VendorsService.acceptPendingTokens(
+      currentUser?.walletAddress
+    );
+    console.log("ACCEPT PENDING TOKENS", res);
   };
 
   return (
@@ -39,7 +45,7 @@ const HomePage: React.FC = () => {
           isVendor={chainData?.isVendorApproved}
           isProjectLocked={chainData?.isProjectLocked}
           disbursed={chainData?.distributed}
-          pendingTokensToAccept={chainData?.pending}
+          pendingTokensToAccept={chainData?.pendingTokens}
           acceptPendingTokens={acceptPendingTokens}
         />
       </IonContent>

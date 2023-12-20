@@ -5,11 +5,13 @@ export const axiosInstance = axios.create({});
 
 axiosInstance.interceptors.request.use(
   (req) => {
-    let hasInternetAccess = useAppStore.getState().internetAccess;
+    let hasInternetAccess =
+      useAppStore.getState().projectSettings?.internetAccess;
 
     if (hasInternetAccess === false) {
       console.error("No internet access" + "URL:", req.url);
     }
+    console.log("Yes Internet Access");
 
     return req;
   },
@@ -58,11 +60,15 @@ export const endpoints = {
     add: `/vendors`,
     getChainData: (walletAddress: string) =>
       `/vendors/${walletAddress}/chainData`,
+    acceptTokens: (walletAddress: string) =>
+      `/vendors/${walletAddress}/acceptTokens`,
+    chargeByPhone: (walletAddress: string) =>
+      `/vendors/${walletAddress}/chargeBeneficiary`,
   },
   beneficiaries: {
     list: "/beneficiaries",
     details: (walletAddress: string) => `/beneficiaries/${walletAddress}`,
-    charge: (phone: string) => `/beneficiaries/${phone}/charge`,
+    chargeByPhone: (phone: string) => `/beneficiaries/${phone}/charge`,
   },
   transactions: {
     list: "/transactions",

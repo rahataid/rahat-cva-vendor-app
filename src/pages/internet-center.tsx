@@ -16,17 +16,16 @@ import {
 import InternetAccessCenter from "@sections/internet-access-center";
 import useAppStore from "@store/app";
 import { caretBack, chevronBackOutline } from "ionicons/icons";
-import { useHistory } from "react-router";
 
 const InternetAccessCenterPage = () => {
-  const { transactions } = useAppStore((state) => ({
+  const { transactions, syncTransactions } = useAppStore((state) => ({
     transactions: state.transactions,
+    syncTransactions: state.syncTransactions,
   }));
   const { projectSettings, setInternetAccess } = useAppStore((state) => ({
     projectSettings: state.projectSettings,
     setInternetAccess: state.setInternetAccess,
   }));
-  const history = useHistory();
 
   const handleToggle = () => {
     setInternetAccess(!projectSettings?.internetAccess);
@@ -34,12 +33,13 @@ const InternetAccessCenterPage = () => {
 
   const handleSync = async () => {
     console.log("HANDLE SYNC TRANSACTIONS");
-    let offlineTransactions = transactions;
-    console.log("offline transactions", offlineTransactions);
-    offlineTransactions?.sort(
-      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-    );
-    console.log("sorted transactions", offlineTransactions);
+    await syncTransactions();
+    // let offlineTransactions = transactions;
+    // console.log("offline transactions", offlineTransactions);
+    // offlineTransactions?.sort(
+    //   (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    // );
+    // console.log("sorted transactions", offlineTransactions);
 
     // Handle sync transactions here
   };

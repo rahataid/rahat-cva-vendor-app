@@ -10,9 +10,19 @@ const BeneficiariesService = {
       params: { walletAddress },
     }),
 
-  chargeBeneficiary: (phone: string, data: any) => {
-    return axiosInstance.post(endpoints.beneficiaries.charge(phone), data);
+  chargeBeneficiary: (walletAddress: string, data: any) => {
+    return axiosInstance.post(
+      endpoints.vendors.chargeByPhone(walletAddress),
+      data
+    );
   },
+
+  // chargeBeneficiary: (phone: string, data: any) => {
+  //   return axiosInstance.post(
+  //     endpoints.beneficiaries.chargeByPhone(phone),
+  //     data
+  //   );
+  // },
 };
 
 export default BeneficiariesService;

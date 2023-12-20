@@ -3,7 +3,7 @@ import useAppStore from "@store/app";
 import { useMutation } from "@tanstack/react-query";
 
 export const useChargeBeneficiary = () => {
-  const { internetAccess, setTasks } = useAppStore.getState();
+  const { setTasks } = useAppStore.getState();
   return useMutation(
     ({ data, phone }: { data: any; phone: string }) =>
       BeneficiariesService.chargeBeneficiary(phone, data),
