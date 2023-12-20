@@ -9,7 +9,12 @@ import {
 } from "@ionic/react";
 import useAppStore from "@store/app";
 import { getCurrentUser, logOut as logOutUser } from "@utils/sessionManager";
-import { chevronForwardOutline, logOut, wifiOutline } from "ionicons/icons";
+import {
+  chevronForwardOutline,
+  logOut,
+  wifiOutline,
+  people,
+} from "ionicons/icons";
 import { useHistory } from "react-router";
 
 function Settings() {
@@ -32,8 +37,15 @@ function Settings() {
     {
       label: "Offline Mode",
       startIcon: wifiOutline,
-      action: () => history.push("/internet-center"),
+      action: () => history.push("/tabs/settings/internet-center"),
       checked: internetAccess,
+      isToggle: false,
+      endIcon: chevronForwardOutline,
+    },
+    {
+      label: "Beneficiaries",
+      startIcon: people,
+      action: () => history.push("/tabs/settings/beneficiaries"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },

@@ -1,11 +1,15 @@
 import {
   IonButton,
   IonCard,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
+  IonSelect,
+  IonSelectOption,
   IonToggle,
 } from "@ionic/react";
+import { help, language } from "ionicons/icons";
 
 type Props = {
   handleSync: any;

@@ -8,12 +8,10 @@ import OTPPage from "@pages/otp";
 import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
 import useAppStore from "@store/app";
-import { axiosInstance } from "@utils/axios";
 import { useEffect } from "react";
 import PrivateRoute from "./private-routes";
 import Tabs from "./tabrouter";
 import SelectProjectPage from "@pages/select-project";
-import InternetAccessCenterPage from "@pages/internet-center";
 
 const Router = () => {
   console.log("ROUTER COMPONENT");
@@ -71,11 +69,7 @@ const Router = () => {
             <Route exact path="/register" component={RegisterPage} />
             <Route exact path="/restore-wallet" component={RestoreWalletPage} />
             <Route exact path="/otp" component={OTPPage} />
-            <PrivateRoute
-              exact
-              path="/internet-center"
-              component={InternetAccessCenterPage}
-            />
+
             <Redirect from="/" to="/landing" />
           </Switch>
         </IonRouterOutlet>

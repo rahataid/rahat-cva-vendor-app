@@ -13,7 +13,7 @@ import {
   IonToggle,
   IonToolbar,
 } from "@ionic/react";
-import InternetAccessCenter from "@sections/internet-access-center";
+import InternetAccessCenter from "@sections/settings/internet-access-center";
 import useAppStore from "@store/app";
 import { caretBack, chevronBackOutline } from "ionicons/icons";
 
@@ -55,7 +55,11 @@ const InternetAccessCenterPage = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton color="white" icon={caretBack}></IonBackButton>
+            <IonBackButton
+              color="white"
+              icon={caretBack}
+              defaultHref="/tabs/settings"
+            ></IonBackButton>
           </IonButtons>
           {/* <IonIcon
             slot="start"

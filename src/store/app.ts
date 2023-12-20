@@ -38,6 +38,7 @@ export type AppStateType = {
   projectSettings: StorageProjectSettings | null;
   offlineTasks: any;
   transactions: any[];
+  beneficiaries: any[];
 };
 
 type AppActionsType = {
@@ -56,6 +57,7 @@ type AppActionsType = {
   setTasks: (key: string, value: StorageOfflineTasks) => Promise<void>;
   setChainData: (data: any) => void;
   syncTransactions: () => void;
+  setBeneficiariesList: (data: any) => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -81,6 +83,7 @@ const useAppStore = create<AppStoreType>()(
     contractsFn: undefined,
     projectId: undefined,
     transactions: [],
+    beneficiaries: [],
 
     initialize: async () => {
       console.log("INITIALIZE CALLED");
@@ -103,6 +106,7 @@ const useAppStore = create<AppStoreType>()(
         const currentUser = await storageInstance?.get("currentUser");
         const projectSettings = await storageInstance?.get("projectSettings");
         const wallet = await storageInstance?.get("wallet");
+        const beneficiaries = await storageInstance?.get("beneficiaries");
         const chainData = await txStorageInstance?.get("chainData");
         const transactions = await txStorageInstance?.get("transactions");
 
@@ -110,6 +114,10 @@ const useAppStore = create<AppStoreType>()(
           set({
             wallet,
           });
+        }
+
+        if (beneficiaries) {
+          set({ beneficiaries });
         }
 
         if (currentUser) {
@@ -312,6 +320,12 @@ const useAppStore = create<AppStoreType>()(
       //   );
       //   console.log(res);
       // }
+    },
+
+    async setBeneficiariesList(data) {
+      console.log("SET BENEFICIARIES", data);
+      set({ beneficiaries: data });
+      await get().storage?.set("beneficiaries", { beneficiaries: data });
     },
   }))
 );

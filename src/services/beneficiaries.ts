@@ -1,3 +1,4 @@
+import { beneficiariesList } from "@utils/mockData";
 import { axiosInstance, endpoints } from "../utils/axios";
 
 const BeneficiariesService = {
@@ -16,6 +17,8 @@ const BeneficiariesService = {
       data
     );
   },
+
+  listMockBeneficiaries: () => beneficiariesList,
 
   // chargeBeneficiary: (phone: string, data: any) => {
   //   return axiosInstance.post(
