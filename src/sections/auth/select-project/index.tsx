@@ -76,6 +76,7 @@ const SelectProject = () => {
           contracts: contracts?.data?.value,
           network: blockchain?.data?.value,
           projectId: contractDetails?.data?.address,
+          internetAccess: false,
         };
         await setProjectSettings(projectSettings);
         await initialize();

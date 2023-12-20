@@ -17,7 +17,7 @@ function Settings() {
     useAppStore((state) => ({
       toggleIsAuthenticated: state.toggleIsAuthenticated,
       setInternetAccess: state.setInternetAccess,
-      internetAccess: state.internetAccess,
+      internetAccess: state.projectSettings?.internetAccess,
     }));
   const currentUser = getCurrentUser();
 
