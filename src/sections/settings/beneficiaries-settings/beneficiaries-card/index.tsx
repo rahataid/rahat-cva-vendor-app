@@ -8,8 +8,15 @@ import {
   IonCardContent,
 } from "@ionic/react";
 
+type IBeneficiary = {
+  name: string;
+  walletAddress: string;
+  token: string;
+  otp: string;
+};
+
 type Props = {
-  beneficiary: any[];
+  beneficiary: IBeneficiary;
 };
 const BeneficiaryCard = ({ beneficiary }: Props) => {
   console.log(beneficiary);
