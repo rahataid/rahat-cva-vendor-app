@@ -10,7 +10,9 @@ const BeneficiariesList = ({ data }: Props) => {
       {data?.length ? (
         data.map((el) => <BeneficiaryCard beneficiary={el} />)
       ) : (
-        <>No data found</>
+        <IonCard>
+          <IonText>No data available</IonText>
+        </IonCard>
       )}
     </>
   );
