@@ -325,7 +325,7 @@ const useAppStore = create<AppStoreType>()(
     async setBeneficiariesList(data) {
       console.log("SET BENEFICIARIES", data);
       set({ beneficiaries: data });
-      await get().storage?.set("beneficiaries", { beneficiaries: data });
+      await get().storage?.set("beneficiaries", data);
     },
   }))
 );
