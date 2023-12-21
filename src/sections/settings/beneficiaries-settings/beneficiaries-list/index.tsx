@@ -1,12 +1,13 @@
-import { IonCard, IonItem, IonList, IonText } from "@ionic/react";
+import {
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonItem,
+  IonList,
+  IonText,
+} from "@ionic/react";
 import BeneficiaryCard from "../beneficiaries-card";
-
-type IBeneficiary = {
-  name: string;
-  walletAddress: string;
-  token: string;
-  otp: string;
-};
+import { IBeneficiary } from "../../../../types/beneficiaries";
 
 type Props = {
   data: [IBeneficiary];
@@ -18,7 +19,11 @@ const BeneficiariesList = ({ data }: Props) => {
         data.map((el, i) => <BeneficiaryCard key={i} beneficiary={el} />)
       ) : (
         <IonCard>
-          <IonText>No data available</IonText>
+          <IonCardHeader>
+            <IonCardTitle className="ion-text-center">
+              No data available...
+            </IonCardTitle>
+          </IonCardHeader>
         </IonCard>
       )}
     </>

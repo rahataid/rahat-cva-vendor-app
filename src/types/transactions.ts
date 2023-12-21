@@ -1,12 +1,13 @@
 export enum Status {
   NEW,
-  PENDING,
+  OFFLINE,
+  ONLINE,
   SUCCESS,
   FAIL,
 }
 
-export type TransactionItem = {
-  createdAt: Date;
+export type ITransactionItem = {
+  createdAt: string;
   amount: string;
   status: Status;
   isOffline: boolean;

@@ -51,6 +51,8 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
         )}
         rules={{
           required: "Please enter token amount",
+          validate: (value) =>
+            parseFloat(value) !== 0 || "Token amount cannot be 0",
         }}
         control={control}
         name="token"
