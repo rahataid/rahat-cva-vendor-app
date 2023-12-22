@@ -11,6 +11,8 @@ import { axiosInstance } from "@utils/axios";
 import taskProcess from "@utils/taskProcess";
 import { ITransactionItem } from "../types/transactions";
 import { IBeneficiary } from "../types/beneficiaries";
+import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
+import VendorsService from "@services/vendors";
 
 type StorageProjectSettings = {
   baseUrl: string;
@@ -302,8 +304,23 @@ const useAppStore = create<AppStoreType>()(
 
     async syncTransactions() {
       const transactions = get().transactions;
-      const wallet = get().wallet;
-      const offlineTransactions = transactions.filter((t) => t.isOffline);
+      const stateWallet = get().wallet;
+      const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
+
+      // only get offline transactions with status = NEW
+      const cond1 = (item: any) => item.isOffline;
+      const cond2 = (item: any) => item.status === "NEW";
+      const offlineTransactions = transactions.filter(
+        (el) => cond1(el) && cond2(el)
+      );
+
+      const signedPayload = await signMessage({
+        wallet,
+        message: offlineTransactions,
+      });
+
+      await VendorsService.syncTransactions(signedPayload);
+
       // offlineTransactions.forEach(({ phone, ...data }) => {
       //   const sendData = {
       //     amount: data.amount,

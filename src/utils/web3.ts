@@ -1,4 +1,13 @@
-import { HDNodeWallet, Mnemonic, Provider, Wallet, ethers } from "ethers";
+import {
+  HDNodeWallet,
+  JsonRpcProvider,
+  Mnemonic,
+  Provider,
+  Wallet,
+  ethers,
+  getAddress,
+  isAddress,
+} from "ethers";
 import { DEFAULT_PASSCODE } from "../config";
 
 export function saveWalletInfo(wallet: Wallet): void {
@@ -57,3 +66,22 @@ function getRandomEntropy(): Buffer {
   const randomChars = getRandomString(128);
   return Buffer.from(randomChars, "utf-8");
 }
+
+export function validateWalletAddress(address: string): boolean {
+  try {
+    const addressInstance = getAddress(address);
+    return isAddress(addressInstance);
+  } catch (error) {
+    return false;
+  }
+}
+
+export const signMessage = async ({ wallet, message }: any) => {
+  try {
+    const signature = await wallet.signMessage(JSON.stringify(message));
+    return signature;
+  } catch (error: any) {
+    console.error("Error signing message:", error.message);
+    throw error.message;
+  }
+};

@@ -64,6 +64,7 @@ export const endpoints = {
       `/vendors/${walletAddress}/acceptTokens`,
     chargeByPhone: (walletAddress: string) =>
       `/vendors/${walletAddress}/chargeBeneficiary`,
+    syncTransactions: `/vendors/syncTransactions`,
   },
   beneficiaries: {
     list: "/beneficiaries",
