@@ -10,13 +10,15 @@ import {
   IonList,
   IonNote,
 } from "@ionic/react";
-import { TransactionItem } from "../../types/transactions";
+import { ITransactionItem } from "../../types/transactions";
+import { useHistory } from "react-router";
 
 type PropTypes = {
-  transactionsList: TransactionItem[] | null;
+  transactionsList: ITransactionItem[] | null;
 };
 
 const TransactionCard = ({ transactionsList }: PropTypes) => {
+  const history = useHistory();
   return (
     <IonCard>
       <IonCardHeader>
@@ -32,11 +34,12 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
                   Wallet Address: {el?.walletAddress || el.phone || "-"}
                 </IonNote>
                 <div
-                  style={{ display: "flex", justifyContent: "space-between" }}>
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <IonNote>Tokens: {el?.amount || "-"}</IonNote>
                 </div>
                 <IonNote>
-                  Created At: {new Date(el?.createdAt).toLocaleString() || "-"}
+                  Created At: {JSON.stringify(new Date(el?.createdAt)) || "-"}
                 </IonNote>
                 {el?.isOffline ? (
                   <IonChip style={{ color: "red" }}>Offline</IonChip>
@@ -48,10 +51,14 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
           ))}
         </IonList>
         <IonButton
-          disabled={true}
-          expand='block'
-          color='blue'
-          style={{ marginTop: "1rem" }}>
+          disabled={false}
+          expand="block"
+          color="blue"
+          style={{ marginTop: "1rem" }}
+          onClick={() =>
+            history.push("/tabs/settings", { direction: "forward" })
+          }
+        >
           View All
         </IonButton>
       </IonCardContent>

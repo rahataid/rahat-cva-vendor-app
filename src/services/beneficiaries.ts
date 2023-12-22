@@ -18,7 +18,12 @@ const BeneficiariesService = {
     );
   },
 
-  listMockBeneficiaries: () => beneficiariesList,
+  listMockBeneficiaries: async () =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(beneficiariesList);
+      }, 2000);
+    }),
 
   // chargeBeneficiary: (phone: string, data: any) => {
   //   return axiosInstance.post(

@@ -9,30 +9,21 @@ import {
   IonBackButton,
 } from "@ionic/react";
 import { caretBack } from "ionicons/icons";
-import BeneficiariesSettings from "@sections/settings/beneficiaries-settings";
 import useAppStore from "@store/app";
-import BeneficiariesService from "@services/beneficiaries";
+import TransactionsSettings from "@sections/settings/transactions-settings";
 
-const BeneficiariesSettingsPage: React.FC = () => {
-  const { projectSettings, setBeneficiariesList } = useAppStore();
+const TransactionsSettingsPage: React.FC = () => {
+  const { projectSettings, syncTransactions } = useAppStore();
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
 
-  const handleSync = async () => {
+  const handleSync = () => {
     console.log("HANDLE SYNC CALLED");
-    const data = await BeneficiariesService.listMockBeneficiaries();
-    console.log("BENEFICIARIES FROM SERVICE", data);
-    setBeneficiariesList(data);
-    setToastMessage("Beneficiaries synced");
-    setShowToast(true);
+    syncTransactions();
   };
 
   const handleButtonFocus = () => {
     console.log("HAANDLE BUTTON FOCUS");
-    if (!projectSettings?.internetAccess) {
-      setToastMessage("Must be online to sync");
-      setShowToast(true);
-    }
+    if (!projectSettings?.internetAccess) setShowToast(true);
   };
 
   const props = {
@@ -41,9 +32,8 @@ const BeneficiariesSettingsPage: React.FC = () => {
     showToast,
     setShowToast,
     handleButtonFocus,
-    toastMessage,
-    setToastMessage,
   };
+
   return (
     <IonPage>
       <IonHeader>
@@ -55,14 +45,14 @@ const BeneficiariesSettingsPage: React.FC = () => {
               defaultHref="/tabs/settings"
             ></IonBackButton>
           </IonButtons>
-          <IonTitle className="title-center">Beneficiaries</IonTitle>
+          <IonTitle className="title-center">Transactions</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <BeneficiariesSettings {...props} />
+        <TransactionsSettings {...props} />
       </IonContent>
     </IonPage>
   );
 };
 
-export default BeneficiariesSettingsPage;
+export default TransactionsSettingsPage;

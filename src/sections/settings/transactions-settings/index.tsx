@@ -9,8 +9,6 @@ import {
 } from "@ionic/react";
 import { chevronForwardOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
-import "./index.scss";
-import CustomToast from "@components/toast";
 
 type Props = {
   handleSync: any;
@@ -18,27 +16,23 @@ type Props = {
   showToast: boolean;
   setShowToast: any;
   handleButtonFocus: any;
-  toastMessage: string;
-  setToastMessage: any;
 };
 
-const BeneficiariesSettings = ({
+const TransactionsSettings = ({
   handleSync,
   projectSettings,
   showToast,
   setShowToast,
   handleButtonFocus,
-  toastMessage,
-  setToastMessage,
 }: Props) => {
   const history = useHistory();
   console.log(projectSettings?.internetAccess);
   return (
     <>
-      <CustomToast
+      <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
-        message={toastMessage}
+        message="Must go Online to sync"
         duration={2000}
         position="top"
       />
@@ -51,14 +45,14 @@ const BeneficiariesSettings = ({
                 onClick={handleSync}
                 disabled={!projectSettings?.internetAccess}
               >
-                Sync Beneficiaries
+                Sync Transactions
               </IonButton>
             </div>
           </IonItem>
           <IonItem
-            onClick={() => history.push("/tabs/settings/beneficiaries/list")}
+            onClick={() => history.push("/tabs/settings/transactions/list")}
           >
-            <IonLabel>View Beneficiaries List</IonLabel>
+            <IonLabel>View Transactions List</IonLabel>
             <IonIcon icon={chevronForwardOutline} slot="end" />
           </IonItem>
         </IonList>
@@ -67,4 +61,4 @@ const BeneficiariesSettings = ({
   );
 };
 
-export default BeneficiariesSettings;
+export default TransactionsSettings;

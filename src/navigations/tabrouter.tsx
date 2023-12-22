@@ -13,6 +13,8 @@ import HomePage from "@pages/home";
 import InternetAccessCenterPage from "@pages/internet-center";
 import ProfilePage from "@pages/profile";
 import SettingsPage from "@pages/settings";
+import TransactionsListPage from "@pages/transactions-list";
+import TransactionsSettingsPage from "@pages/transactions-settings";
 import useAppStore from "@store/app";
 import { home, person, qrCode, settings } from "ionicons/icons";
 import { Redirect, Route } from "react-router-dom";
@@ -49,6 +51,16 @@ const Tabs: React.FC = () => {
             exact
             path="/tabs/settings/beneficiaries/list"
             component={BeneficiariesListPage}
+          />
+          <Route
+            exact
+            path="/tabs/settings/transactions"
+            component={TransactionsSettingsPage}
+          />
+          <Route
+            exact
+            path="/tabs/settings/transactions/list"
+            component={TransactionsListPage}
           />
         </Route>
       </IonRouterOutlet>

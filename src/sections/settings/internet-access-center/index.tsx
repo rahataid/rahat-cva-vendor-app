@@ -31,13 +31,13 @@ const InternetAccessCenter = ({
             onIonChange={handleToggle}
           />
         </IonItem>
-        {projectSettings?.internetAccess && (
+        {/* {projectSettings?.internetAccess && (
           <IonItem>
             <IonButton expand="full" onClick={handleSync}>
               Sync Transactions
             </IonButton>
           </IonItem>
-        )}
+        )} */}
       </IonList>
     </IonCard>
   );

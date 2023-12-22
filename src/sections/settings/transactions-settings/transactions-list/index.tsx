@@ -1,15 +1,15 @@
 import { IonCard, IonCardHeader, IonCardTitle } from "@ionic/react";
-import BeneficiaryCard from "../beneficiaries-card";
-import { IBeneficiary } from "../../../../types/beneficiaries";
+import { ITransactionItem } from "../../../../types/transactions";
+import TransactionCard from "../transactions-card";
 
 type Props = {
-  data: [IBeneficiary];
+  data: [ITransactionItem] | [];
 };
-const BeneficiariesList = ({ data }: Props) => {
+const TransactionsList = ({ data }: Props) => {
   return (
     <>
       {data?.length ? (
-        data.map((el, i) => <BeneficiaryCard key={i} beneficiary={el} />)
+        data.map((el, i) => <TransactionCard key={i} transaction={el} />)
       ) : (
         <IonCard>
           <IonCardHeader>
@@ -23,4 +23,4 @@ const BeneficiariesList = ({ data }: Props) => {
   );
 };
 
-export default BeneficiariesList;
+export default TransactionsList;

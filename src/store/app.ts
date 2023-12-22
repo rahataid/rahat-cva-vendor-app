@@ -9,6 +9,8 @@ import {
 } from "../types/project-settings";
 import { axiosInstance } from "@utils/axios";
 import taskProcess from "@utils/taskProcess";
+import { ITransactionItem } from "../types/transactions";
+import { IBeneficiary } from "../types/beneficiaries";
 
 type StorageProjectSettings = {
   baseUrl: string;
@@ -37,8 +39,8 @@ export type AppStateType = {
   contractsFn: any;
   projectSettings: StorageProjectSettings | null;
   offlineTasks: any;
-  transactions: any[];
-  beneficiaries: any[];
+  transactions: [ITransactionItem] | [];
+  beneficiaries: [IBeneficiary] | [];
 };
 
 type AppActionsType = {
@@ -198,6 +200,7 @@ const useAppStore = create<AppStoreType>()(
           payload = [data];
           await txStorage?.set("transactions", payload);
         }
+        console.log("WHILE ADDING", payload);
         set({ transactions: payload });
       }
     },
