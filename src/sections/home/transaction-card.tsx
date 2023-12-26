@@ -26,38 +26,39 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
       </IonCardHeader>
       <IonCardContent>
         <IonList>
-          {transactionsList?.map((el, index) => (
-            <IonItem key={index}>
-              <IonLabel>
-                <h2>Transaction Hash: {el?.hash || "-"}</h2>
-                <IonNote>
-                  Wallet Address: {el?.walletAddress || el.phone || "-"}
-                </IonNote>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <IonNote>Tokens: {el?.amount || "-"}</IonNote>
-                </div>
-                <IonNote>
-                  Created At: {JSON.stringify(new Date(el?.createdAt)) || "-"}
-                </IonNote>
-                {el?.isOffline ? (
-                  <IonChip style={{ color: "red" }}>Offline</IonChip>
-                ) : (
-                  <IonChip style={{ color: "green" }}>Online</IonChip>
-                )}
-              </IonLabel>
-            </IonItem>
-          ))}
+          {transactionsList
+            ?.slice(-3)
+            .reverse()
+            .map((el, index) => (
+              <IonItem key={index}>
+                <IonLabel>
+                  <h2>Transaction Hash: {el?.hash || "-"}</h2>
+                  <IonNote>
+                    Wallet Address: {el?.walletAddress || el.phone || "-"}
+                  </IonNote>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <IonNote>Tokens: {el?.amount || "-"}</IonNote>
+                  </div>
+                  <IonNote>
+                    Created At: {JSON.stringify(new Date(el?.createdAt)) || "-"}
+                  </IonNote>
+                  {el?.isOffline ? (
+                    <IonChip style={{ color: "red" }}>Offline</IonChip>
+                  ) : (
+                    <IonChip style={{ color: "green" }}>Online</IonChip>
+                  )}
+                </IonLabel>
+              </IonItem>
+            ))}
         </IonList>
         <IonButton
           disabled={false}
           expand="block"
           color="blue"
           style={{ marginTop: "1rem" }}
-          onClick={() =>
-            history.push("/tabs/settings", { direction: "forward" })
-          }
+          onClick={() => history.push("/tabs/settings/transactions/list")}
         >
           View All
         </IonButton>
