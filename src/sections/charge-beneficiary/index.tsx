@@ -116,6 +116,7 @@ const ChargeBeneficiary = () => {
         status: "NEW",
         isOffline: !internetAccess,
         phone,
+        walletAddress: selectedBeneficiary.walletAddress,
       };
 
       history.push("/otp", {
