@@ -314,12 +314,17 @@ const useAppStore = create<AppStoreType>()(
         (el) => cond1(el) && cond2(el)
       );
 
-      const signedPayload = await signMessage({
+      const signedMessage = await signMessage({
         wallet,
         message: offlineTransactions,
       });
 
-      await VendorsService.syncTransactions(signedPayload);
+      const payload = {
+        message: offlineTransactions,
+        signedMessage,
+      };
+
+      await VendorsService.syncTransactions(payload);
 
       // offlineTransactions.forEach(({ phone, ...data }) => {
       //   const sendData = {

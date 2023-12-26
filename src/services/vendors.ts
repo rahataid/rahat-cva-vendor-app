@@ -5,6 +5,11 @@ type addVendorPayload = {
   phone: string;
 };
 
+type syncTransactionsPayload = {
+  message: any;
+  signedMessage: string;
+};
+
 const VendorsService = {
   list: (params?: any) => axiosInstance.get(endpoints.vendors.list, { params }),
   details: (walletAddress: string) =>
@@ -17,8 +22,8 @@ const VendorsService = {
     axiosInstance.get(endpoints.vendors.getChainData(walletAddress)),
   acceptPendingTokens: (walletAddress: string) =>
     axiosInstance.get(endpoints.vendors.acceptTokens(walletAddress)),
-  syncTransactions: (signedMessage: string) =>
-    axiosInstance.post(endpoints.vendors.syncTransactions, signedMessage),
+  syncTransactions: (payload: syncTransactionsPayload) =>
+    axiosInstance.post(endpoints.vendors.syncTransactions, payload),
 };
 
 export default VendorsService;
