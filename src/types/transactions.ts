@@ -1,7 +1,5 @@
 export enum Status {
   NEW,
-  OFFLINE,
-  ONLINE,
   SUCCESS,
   FAIL,
 }

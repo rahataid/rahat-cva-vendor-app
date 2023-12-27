@@ -31,15 +31,14 @@ const InternetAccessCenterPage = () => {
   };
 
   const handleSync = async () => {
-    console.log("HANDLE SYNC TRANSACTIONS");
-    await syncTransactions();
+    // console.log("HANDLE SYNC TRANSACTIONS");
+    // await syncTransactions();
     // let offlineTransactions = transactions;
     // console.log("offline transactions", offlineTransactions);
     // offlineTransactions?.sort(
     //   (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
     // );
     // console.log("sorted transactions", offlineTransactions);
-
     // Handle sync transactions here
   };
 

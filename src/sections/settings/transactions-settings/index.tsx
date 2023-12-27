@@ -16,6 +16,7 @@ type Props = {
   showToast: boolean;
   setShowToast: any;
   handleButtonFocus: any;
+  toastMessage: string;
 };
 
 const TransactionsSettings = ({
@@ -24,6 +25,7 @@ const TransactionsSettings = ({
   showToast,
   setShowToast,
   handleButtonFocus,
+  toastMessage,
 }: Props) => {
   const history = useHistory();
   console.log(projectSettings?.internetAccess);
@@ -32,9 +34,9 @@ const TransactionsSettings = ({
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
-        message="Must go Online to sync"
+        message={toastMessage}
         duration={2000}
-        position="top"
+        position="middle"
       />
       <IonCard>
         <IonList>

@@ -15,15 +15,25 @@ import TransactionsSettings from "@sections/settings/transactions-settings";
 const TransactionsSettingsPage: React.FC = () => {
   const { projectSettings, syncTransactions } = useAppStore();
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
-  const handleSync = () => {
-    console.log("HANDLE SYNC CALLED");
-    syncTransactions();
+  const handleSync = async () => {
+    try {
+      await syncTransactions();
+    } catch (error: any) {
+      error?.message
+        ? setToastMessage(error?.message)
+        : setToastMessage("Something went wrong!");
+      setShowToast(true);
+    }
   };
 
   const handleButtonFocus = () => {
     console.log("HAANDLE BUTTON FOCUS");
-    if (!projectSettings?.internetAccess) setShowToast(true);
+    if (!projectSettings?.internetAccess) {
+      setToastMessage("Must go online to sync transactions");
+      setShowToast(true);
+    }
   };
 
   const props = {
@@ -32,6 +42,7 @@ const TransactionsSettingsPage: React.FC = () => {
     showToast,
     setShowToast,
     handleButtonFocus,
+    toastMessage,
   };
 
   return (

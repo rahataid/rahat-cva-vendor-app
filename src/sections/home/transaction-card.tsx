@@ -32,7 +32,16 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
             .map((el, index) => (
               <IonItem key={index}>
                 <IonLabel>
+                  <IonNote>
+                    <IonChip style={{ color: "green" }}>{el?.status}</IonChip>
+                    {el?.isOffline ? (
+                      <IonChip style={{ color: "red" }}>Offline</IonChip>
+                    ) : (
+                      <IonChip style={{ color: "green" }}>Online</IonChip>
+                    )}
+                  </IonNote>
                   <h2>Transaction Hash: {el?.hash || "-"}</h2>
+
                   <IonNote>
                     Wallet Address: {el?.walletAddress || el.phone || "-"}
                   </IonNote>
@@ -44,11 +53,6 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
                   <IonNote>
                     Created At: {JSON.stringify(new Date(el?.createdAt)) || "-"}
                   </IonNote>
-                  {el?.isOffline ? (
-                    <IonChip style={{ color: "red" }}>Offline</IonChip>
-                  ) : (
-                    <IonChip style={{ color: "green" }}>Online</IonChip>
-                  )}
                 </IonLabel>
               </IonItem>
             ))}

@@ -112,7 +112,7 @@ const ChargeBeneficiary = () => {
       console.log("VALID BENEFICIARY");
       const transactionPayload = {
         amount: token,
-        createdAt: new Date(),
+        createdAt: Date.now(),
         status: "NEW",
         isOffline: !internetAccess,
         phone,

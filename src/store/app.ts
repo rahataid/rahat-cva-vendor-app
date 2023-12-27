@@ -13,6 +13,7 @@ import { ITransactionItem } from "../types/transactions";
 import { IBeneficiary } from "../types/beneficiaries";
 import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
 import VendorsService from "@services/vendors";
+import { setTransactionStatus } from "@utils/helperFunctions";
 
 type StorageProjectSettings = {
   baseUrl: string;
@@ -53,6 +54,7 @@ type AppActionsType = {
   setClaimId: (beneficiary: string, claimId: string) => void;
   setInternetAccess: (value: boolean) => void;
   addTransaction: (data: object) => Promise<void>;
+  setTransactions: (data: object) => Promise<void>;
   getTransactionsList: () => Promise<[]> | Promise<void>;
   getTransaction: (id: string) => Promise<void>;
   setProjectSettings: (value: StorageProjectSettings) => Promise<void>;
@@ -207,6 +209,14 @@ const useAppStore = create<AppStoreType>()(
       }
     },
 
+    setTransactions: async (data: ITransactionItem[]) => {
+      const { txStorage } = get();
+      if (txStorage) {
+        await txStorage?.set("transactions", data);
+        set({ transactions: data });
+      }
+    },
+
     getTransactionsList: async () => {
       const { txStorage } = get();
       let transactions;
@@ -309,10 +319,14 @@ const useAppStore = create<AppStoreType>()(
 
       // only get offline transactions with status = NEW
       const cond1 = (item: any) => item.isOffline;
-      const cond2 = (item: any) => item.status === "NEW";
+      const cond2 = (item: any) =>
+        item.status === "NEW" || item.status === "FAIL";
       const offlineTransactions = transactions.filter(
         (el) => cond1(el) && cond2(el)
       );
+
+      if (!offlineTransactions.length)
+        throw new Error("No pending transactions to sync");
 
       const signedMessage = await signMessage({
         wallet,
@@ -324,7 +338,23 @@ const useAppStore = create<AppStoreType>()(
         signedMessage,
       };
 
-      await VendorsService.syncTransactions(payload);
+      try {
+        await VendorsService.syncTransactions(payload);
+        const updatedTransactions = setTransactionStatus(
+          transactions,
+          offlineTransactions,
+          "SUCCESS"
+        );
+        get().setTransactions(updatedTransactions);
+      } catch (error) {
+        const updatedTransactions = setTransactionStatus(
+          transactions,
+          offlineTransactions,
+          "FAIL"
+        );
+        get().setTransactions(updatedTransactions);
+        throw error;
+      }
 
       // offlineTransactions.forEach(({ phone, ...data }) => {
       //   const sendData = {
