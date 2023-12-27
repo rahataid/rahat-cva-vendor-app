@@ -40,7 +40,7 @@ const BeneficiariesSettings = ({
         onDidDismiss={() => setShowToast(false)}
         message={toastMessage}
         duration={2000}
-        position="top"
+        position="middle"
       />
       <IonCard>
         <IonList>
