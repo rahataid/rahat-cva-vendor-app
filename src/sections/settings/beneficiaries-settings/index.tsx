@@ -66,6 +66,7 @@ const BeneficiariesSettings = ({
             </div>
           </IonItem>
           <IonItem
+            button={true}
             onClick={() => history.push("/tabs/settings/beneficiaries/list")}
           >
             <IonLabel>View Beneficiaries List</IonLabel>

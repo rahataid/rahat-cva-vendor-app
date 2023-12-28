@@ -68,7 +68,7 @@ const BeneficiariesSettingsPage: React.FC = () => {
               defaultHref="/tabs/settings"
             ></IonBackButton>
           </IonButtons>
-          <IonTitle className="title-center">Beneficiaries</IonTitle>
+          <IonTitle color="white">Beneficiaries</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

@@ -62,6 +62,7 @@ const TransactionsSettings = ({
             </div>
           </IonItem>
           <IonItem
+            button={true}
             onClick={() => history.push("/tabs/settings/transactions/list")}
           >
             <IonLabel>View Transactions List</IonLabel>
