@@ -20,7 +20,7 @@ const RegisterPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton color="white" icon={caretBack}></IonBackButton>
           </IonButtons>
-          <IonTitle className="title-center">
+          <IonTitle color="white">
             <IonText>Register</IonText>
           </IonTitle>
           <IonButtons slot="end">

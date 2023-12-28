@@ -25,7 +25,7 @@ const TransactionsListPage: React.FC = () => {
               defaultHref="/tabs/settings/transactions"
             ></IonBackButton>
           </IonButtons>
-          <IonTitle className="title-center">Transactions List</IonTitle>
+          <IonTitle color="white">Transactions List</IonTitle>
         </IonToolbar>
       </IonHeader>
 

@@ -3,7 +3,7 @@ import BeneficiaryCard from "../beneficiaries-card";
 import { IBeneficiary } from "../../../../types/beneficiaries";
 
 type Props = {
-  data: [IBeneficiary];
+  data: [IBeneficiary] | [];
 };
 const BeneficiariesList = ({ data }: Props) => {
   return (

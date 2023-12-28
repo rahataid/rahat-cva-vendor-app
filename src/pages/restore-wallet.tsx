@@ -20,7 +20,7 @@ const RestoreWalletPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton color="white" icon={caretBack}></IonBackButton>
           </IonButtons>
-          <IonTitle className="title-center">Restore Wallet</IonTitle>
+          <IonTitle color="white">Restore Wallet</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>

@@ -25,7 +25,7 @@ const BeneficiariesListPage: React.FC = () => {
               defaultHref="/tabs/settings/beneficiaries"
             ></IonBackButton>
           </IonButtons>
-          <IonTitle className="title-center">Beneficiaries List</IonTitle>
+          <IonTitle color="white">Beneficiaries List</IonTitle>
         </IonToolbar>
       </IonHeader>
 
