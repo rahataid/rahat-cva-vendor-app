@@ -6,6 +6,7 @@ import {
   IonLabel,
   IonList,
   IonToast,
+  IonLoading,
 } from "@ionic/react";
 import { chevronForwardOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
@@ -17,6 +18,8 @@ type Props = {
   setShowToast: any;
   handleButtonFocus: any;
   toastMessage: string;
+  showLoading: boolean;
+  setShowLoading: any;
 };
 
 const TransactionsSettings = ({
@@ -26,6 +29,8 @@ const TransactionsSettings = ({
   setShowToast,
   handleButtonFocus,
   toastMessage,
+  showLoading,
+  setShowLoading,
 }: Props) => {
   const history = useHistory();
   console.log(projectSettings?.internetAccess);
@@ -37,6 +42,11 @@ const TransactionsSettings = ({
         message={toastMessage}
         duration={2000}
         position="middle"
+      />
+      <IonLoading
+        isOpen={showLoading}
+        message={"Syncing..."}
+        onDidDismiss={() => setShowLoading(false)}
       />
       <IonCard>
         <IonList>

@@ -17,14 +17,25 @@ const BeneficiariesSettingsPage: React.FC = () => {
   const { projectSettings, setBeneficiariesList } = useAppStore();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [showLoading, setShowLoading] = useState(false);
 
   const handleSync = async () => {
     console.log("HANDLE SYNC CALLED");
-    const data = await BeneficiariesService.listMockBeneficiaries();
-    console.log("BENEFICIARIES FROM SERVICE", data);
-    setBeneficiariesList(data);
-    setToastMessage("Beneficiaries synced");
-    setShowToast(true);
+    setShowLoading(true);
+    try {
+      const data = await BeneficiariesService.listMockBeneficiaries();
+      console.log("BENEFICIARIES FROM SERVICE", data);
+      setBeneficiariesList(data);
+      setShowLoading(false);
+      setToastMessage("Beneficiaries synced");
+      setShowToast(true);
+    } catch (error: any) {
+      setShowLoading(false);
+      error?.message
+        ? setToastMessage(error?.message)
+        : setToastMessage("Something went wrong!");
+      setShowToast(true);
+    }
   };
 
   const handleButtonFocus = () => {
@@ -43,6 +54,8 @@ const BeneficiariesSettingsPage: React.FC = () => {
     handleButtonFocus,
     toastMessage,
     setToastMessage,
+    showLoading,
+    setShowLoading,
   };
   return (
     <IonPage>

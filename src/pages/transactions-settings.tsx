@@ -7,6 +7,7 @@ import {
   IonTitle,
   IonButtons,
   IonBackButton,
+  IonLoading,
 } from "@ionic/react";
 import { caretBack } from "ionicons/icons";
 import useAppStore from "@store/app";
@@ -16,11 +17,17 @@ const TransactionsSettingsPage: React.FC = () => {
   const { projectSettings, syncTransactions } = useAppStore();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [showLoading, setShowLoading] = useState(false);
 
   const handleSync = async () => {
     try {
+      setShowLoading(true);
       await syncTransactions();
+      setShowLoading(false);
+      setToastMessage("Pending offline transactions synced successfully");
+      setShowToast(true);
     } catch (error: any) {
+      setShowLoading(false);
       error?.message
         ? setToastMessage(error?.message)
         : setToastMessage("Something went wrong!");
@@ -43,6 +50,8 @@ const TransactionsSettingsPage: React.FC = () => {
     setShowToast,
     handleButtonFocus,
     toastMessage,
+    showLoading,
+    setShowLoading,
   };
 
   return (
