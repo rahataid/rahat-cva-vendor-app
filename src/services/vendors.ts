@@ -10,11 +10,20 @@ const VendorsService = {
   add: (payload: IAddVendorPayload) =>
     axiosInstance.post(endpoints.vendors.add, payload),
   getChainData: (walletAddress: string) =>
-    axiosInstance.get(endpoints.vendors.getChainData(walletAddress)),
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "getChainData",
+      params: [walletAddress],
+    }),
   acceptPendingTokens: (walletAddress: string) =>
-    axiosInstance.get(endpoints.vendors.acceptTokens(walletAddress)),
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "acceptPendingTokens",
+      params: [walletAddress],
+    }),
   syncTransactions: (payload: ISyncTransactionsPayload) =>
-    axiosInstance.post(endpoints.vendors.syncTransactions, payload),
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "syncTransactions",
+      params: [payload.message, payload.signedMessage],
+    }),
 };
 
 export default VendorsService;

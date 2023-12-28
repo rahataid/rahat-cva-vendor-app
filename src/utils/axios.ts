@@ -58,13 +58,9 @@ export const endpoints = {
     details: (walletAddress: string) => `/vendors/${walletAddress}`,
     update: (walletAddress: string) => `/vendors/${walletAddress}`,
     add: `/vendors`,
-    getChainData: (walletAddress: string) =>
-      `/vendors/${walletAddress}/chainData`,
-    acceptTokens: (walletAddress: string) =>
-      `/vendors/${walletAddress}/acceptTokens`,
     chargeByPhone: (walletAddress: string) =>
       `/vendors/${walletAddress}/chargeBeneficiary`,
-    syncTransactions: `/vendors/syncTransactions`,
+    blockchain: "/vendors/blockchain",
   },
   beneficiaries: {
     list: "/beneficiaries",
