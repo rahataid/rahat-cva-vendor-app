@@ -6,16 +6,31 @@ import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
+import { saveCurrentUser } from "@utils/sessionManager";
 
-const SelectProject = () => {
+enum From {
+  register = "register",
+  restore = "restore",
+}
+type Props = {
+  from: From;
+};
+
+const SelectProject = ({ from }: Props) => {
   const history = useHistory();
-  const { setProjectSettings, initialize, currentUser } = useAppStore(
-    (state) => ({
-      setProjectSettings: state.setProjectSettings,
-      initialize: state.initialize,
-      currentUser: state.currentUser,
-    })
-  );
+  const {
+    setProjectSettings,
+    initialize,
+    currentUser,
+    wallet,
+    saveCurrentUserInfo,
+  } = useAppStore((state) => ({
+    setProjectSettings: state.setProjectSettings,
+    initialize: state.initialize,
+    currentUser: state.currentUser,
+    wallet: state.wallet,
+    saveCurrentUserInfo: state.saveCurrentUser,
+  }));
 
   const {
     handleSubmit,
@@ -50,8 +65,52 @@ const SelectProject = () => {
 
       //   history.push("/home");
       // }
-      const [blockchain, contracts, contractDetails, vendor] =
-        await Promise.all([
+      console.log("SUBMIT FROM", from);
+      if (from === "register") {
+        const [blockchain, contracts, contractDetails, vendor] =
+          await Promise.all([
+            axios.get(
+              `${data?.projectURL}${endpoints.projectSettings.blockchain}`
+            ),
+            axios.get(
+              `${data?.projectURL}${endpoints.projectSettings.contracts}`
+            ),
+            axios.get(
+              `${data?.projectURL}${endpoints.projectSettings.contractDetails(
+                "CVAProject"
+              )}`
+            ),
+            axios.post(
+              `${data?.projectURL}${endpoints.vendors.add}`,
+              currentUser
+            ),
+          ]);
+
+        if (contracts?.data && blockchain?.data && contractDetails?.data) {
+          const projectSettings = {
+            baseUrl: data?.projectURL,
+            contracts: contracts?.data?.value,
+            network: blockchain?.data?.value,
+            projectId: contractDetails?.data?.address,
+            internetAccess: false,
+          };
+          await setProjectSettings(projectSettings);
+          await initialize();
+          history.push("/tabs/home");
+        }
+      } else if (from === "restore") {
+        const { data: vendor } = await axios.get(
+          `${data?.projectURL}${endpoints.vendors.details(wallet?.address)}`
+        );
+        const payload = {
+          name: vendor?.name,
+          phone: vendor?.phone,
+          walletAddress: vendor?.walletAddress,
+        };
+        saveCurrentUser(payload);
+        saveCurrentUserInfo(payload);
+
+        const [blockchain, contracts, contractDetails] = await Promise.all([
           axios.get(
             `${data?.projectURL}${endpoints.projectSettings.blockchain}`
           ),
@@ -63,26 +122,23 @@ const SelectProject = () => {
               "CVAProject"
             )}`
           ),
-          axios.post(
-            `${data?.projectURL}${endpoints.vendors.add}`,
-            currentUser
-          ),
         ]);
 
-      if (contracts?.data && blockchain?.data && contractDetails?.data) {
-        const projectSettings = {
-          baseUrl: data?.projectURL,
-          contracts: contracts?.data?.value,
-          network: blockchain?.data?.value,
-          projectId: contractDetails?.data?.address,
-          internetAccess: false,
-        };
-        await setProjectSettings(projectSettings);
-        await initialize();
-        history.push("/tabs/home");
+        if (contracts?.data && blockchain?.data && contractDetails?.data) {
+          const projectSettings = {
+            baseUrl: data?.projectURL,
+            contracts: contracts?.data?.value,
+            network: blockchain?.data?.value,
+            projectId: contractDetails?.data?.address,
+            internetAccess: false,
+          };
+          await setProjectSettings(projectSettings);
+          await initialize();
+          history.push("/tabs/home");
+        }
       }
     } catch (error) {
-      alert(JSON.stringify(error, null, 2));
+      console.log(error);
       setError("root.serverError", {
         type: "manual",
         message: "Something went wrong! Try again later.",

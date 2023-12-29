@@ -10,10 +10,11 @@ import { getCurrentUser } from "@utils/sessionManager";
 import Home from "../sections/home";
 import "../theme/title.css";
 import VendorsService from "@services/vendors";
+import useAppStore from "@store/app";
 
 const HomePage: React.FC = () => {
-  const currentUser = getCurrentUser();
-  const vendorAddress = currentUser?.walletAddress;
+  const wallet = useAppStore((state) => state.wallet);
+  const vendorAddress = wallet?.address;
   const { chainData } = useVendorChainData(vendorAddress);
   console.log("chainData", chainData);
   // const transactions = useAppStore((state) => state.transactions);
@@ -21,9 +22,7 @@ const HomePage: React.FC = () => {
 
   const acceptPendingTokens = async () => {
     console.log("ACCEPT PENDING TOKENS");
-    const res = await VendorsService.acceptPendingTokens(
-      currentUser?.walletAddress
-    );
+    const res = await VendorsService.acceptPendingTokens(vendorAddress);
     console.log("ACCEPT PENDING TOKENS", res);
   };
 

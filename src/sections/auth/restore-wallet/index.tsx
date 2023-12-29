@@ -14,10 +14,11 @@ import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { DEFAULT_PASSCODE } from "../../../config";
 import "./restore.scss";
+import useAuthStore from "@store/auth";
 
 const RestoreWallet = () => {
   const history = useHistory();
-  const saveWallet = useAppStore((state) => state.saveWallet);
+  const handleRestore = useAuthStore((state) => state.handleRestore);
   const handleCancel = () => {
     history.goBack();
   };
@@ -38,14 +39,11 @@ const RestoreWallet = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const wallet = getWalletUsingMnemonic(data.pneumonics);
+      await handleRestore(data.pneumonics);
 
-      //  save wallet info in localstorage by encrypting with passcode in .env file
-      const encryptedWallet = await wallet.encrypt(DEFAULT_PASSCODE);
-      saveWalletInfo(encryptedWallet);
-      await saveWallet(wallet);
-
-      window.location.replace("/tabs/home");
+      history.push("/select-project", {
+        data: { from: "restore" },
+      });
     } catch (error: any) {
       if (error?.name === "P2025" && error?.message == "No Vendor found")
         setError("root.serverError", {
@@ -62,15 +60,15 @@ const RestoreWallet = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <IonGrid className='restore-container'>
-        <IonRow className='restore-form-container'>
-          <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
+      <IonGrid className="restore-container">
+        <IonRow className="restore-form-container">
+          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
             <Controller
               render={({ field }) => (
                 <TextInputField
-                  placeholder='Please enter 12 words pneumonics'
-                  type='text'
-                  label='Pneumonics*'
+                  placeholder="Please enter 12 words pneumonics"
+                  type="text"
+                  label="Pneumonics*"
                   errorText={errors.pneumonics?.message}
                   value={getValues("pneumonics")}
                   onInput={(e: any) => {
@@ -92,11 +90,11 @@ const RestoreWallet = () => {
                 },
               }}
               control={control}
-              name='pneumonics'
+              name="pneumonics"
             />
             <br />
             {errors?.root?.serverError?.message && (
-              <IonText color='danger'>
+              <IonText color="danger">
                 {errors?.root?.serverError.message}
               </IonText>
             )}
@@ -106,26 +104,28 @@ const RestoreWallet = () => {
                 ></IonTextarea> */}
           </IonCol>
         </IonRow>
-        <IonRow className='restore-button-container'>
-          <IonCol size='11' sizeMd='11' sizeLg='6' sizeXl='4'>
+        <IonRow className="restore-button-container">
+          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
             <IonButton
-              type='submit'
-              expand='block'
-              color='white'
-              disabled={isDirty || !isValid || isSubmitting}>
+              type="submit"
+              expand="block"
+              color="white"
+              disabled={isDirty || !isValid || isSubmitting}
+            >
               {isSubmitting ? (
-                <IonProgressBar type='indeterminate'></IonProgressBar>
+                <IonProgressBar type="indeterminate"></IonProgressBar>
               ) : (
                 "Submit"
               )}
             </IonButton>
-            <IonRow className='gap-5'></IonRow>
+            <IonRow className="gap-5"></IonRow>
             <IonButton
-              color='white'
-              fill='outline'
-              expand='block'
+              color="white"
+              fill="outline"
+              expand="block"
               onClick={handleCancel}
-              disabled={isSubmitting}>
+              disabled={isSubmitting}
+            >
               Cancel
             </IonButton>
           </IonCol>

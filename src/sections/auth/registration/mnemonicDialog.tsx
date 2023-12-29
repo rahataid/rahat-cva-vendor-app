@@ -10,7 +10,9 @@ import { useHistory } from "react-router";
 function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
   const history = useHistory();
   const handleOnDidDismiss = () => {
-    history.push("/select-project");
+    history.push("/select-project", {
+      data: { from: "register" },
+    });
   };
   return (
     <>
