@@ -5,7 +5,8 @@ import { Controller } from "react-hook-form";
 const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
   return (
     <>
-      <IonCardSubtitle>
+      <IonCardSubtitle>Scanner will be here soon...</IonCardSubtitle>
+      {/* <IonCardSubtitle>
         You are about to send tokens to this beneficiary. Please enter QR code
         of the beneficiary.
       </IonCardSubtitle>
@@ -58,7 +59,7 @@ const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
       <br />
       {errors?.root?.serverError?.message && (
         <IonText color="danger">{errors?.root?.serverError.message}</IonText>
-      )}
+      )} */}
     </>
   );
 };

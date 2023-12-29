@@ -70,7 +70,7 @@ function Settings() {
   return (
     <IonCard>
       <IonList>
-        <IonItem onClick={() => history.push("/tabs/profile")}>
+        <IonItem button={true} onClick={() => history.push("/tabs/profile")}>
           <IonAvatar slot="start">
             <img
               alt="User avatar"
