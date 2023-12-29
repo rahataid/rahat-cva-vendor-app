@@ -1,5 +1,5 @@
 import { Drivers, Storage } from "@ionic/storage";
-import { getKey } from "@utils/sessionManager";
+import { getKey, logOut } from "@utils/sessionManager";
 import { HDNodeWallet, Wallet } from "ethers";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -64,6 +64,7 @@ type AppActionsType = {
   setChainData: (data: any) => void;
   syncTransactions: () => void;
   setBeneficiariesList: (data: any) => void;
+  logout: () => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -87,7 +88,6 @@ const useAppStore = create<AppStoreType>()(
     wallet: undefined,
     currentUser: undefined,
     contractsFn: undefined,
-    projectId: undefined,
     transactions: [],
     beneficiaries: [],
 
@@ -381,6 +381,30 @@ const useAppStore = create<AppStoreType>()(
       console.log("SET BENEFICIARIES", data);
       set({ beneficiaries: data });
       await get().storage?.set("beneficiaries", data);
+    },
+
+    async logout() {
+      set({
+        chainData: {
+          allowance: 0,
+          balance: 0,
+          distributed: 0,
+          isVendorApproved: false,
+        },
+        offlineTasks: null,
+        storage: null,
+        txStorage: null,
+        isAuthenticated: false,
+        claimId: undefined,
+        beneficiary: undefined,
+        projectSettings: null,
+        wallet: undefined,
+        currentUser: undefined,
+        contractsFn: undefined,
+        transactions: [],
+        beneficiaries: [],
+      });
+      logOut();
     },
   }))
 );

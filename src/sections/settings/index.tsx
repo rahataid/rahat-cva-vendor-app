@@ -8,7 +8,6 @@ import {
   IonToggle,
 } from "@ionic/react";
 import useAppStore from "@store/app";
-import { getCurrentUser, logOut as logOutUser } from "@utils/sessionManager";
 import {
   chevronForwardOutline,
   logOut,
@@ -19,13 +18,13 @@ import {
 import { useHistory } from "react-router";
 
 function Settings() {
-  const { toggleIsAuthenticated, internetAccess, setInternetAccess } =
+  const { internetAccess, setInternetAccess, currentUser, logout } =
     useAppStore((state) => ({
-      toggleIsAuthenticated: state.toggleIsAuthenticated,
       setInternetAccess: state.setInternetAccess,
       internetAccess: state.projectSettings?.internetAccess,
+      currentUser: state.currentUser,
+      logout: state.logout,
     }));
-  const currentUser = getCurrentUser();
 
   const history = useHistory();
 
@@ -34,8 +33,7 @@ function Settings() {
   };
 
   const handleLogout = () => {
-    logOutUser();
-    toggleIsAuthenticated();
+    logout();
     history.replace("/landing");
   };
 
