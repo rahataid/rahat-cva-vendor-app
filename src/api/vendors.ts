@@ -2,6 +2,7 @@ import useAppStore from "@store/app";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import VendorsService from "../services/vendors";
+import { saveCurrentUser } from "@utils/sessionManager";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -21,15 +22,41 @@ export function useVendors(params?: any): any {
 }
 
 export function useVendor(walletAddress: string): any {
+  const {
+    saveCurrentUser: saveCurrentUserInfo,
+    projectSettings,
+    currentUser,
+  } = useAppStore.getState();
+  if (currentUser)
+    return { vendor: currentUser, isLoading: false, error: null };
+  const queryEnabled =
+    projectSettings?.internetAccess &&
+    !!projectSettings?.baseUrl &&
+    !currentUser;
+
   const { data, isLoading, error } = useQuery(
-    ["vendors", walletAddress],
+    ["vendorDetails", walletAddress],
     async () => {
       const res = await VendorsService.details(walletAddress);
       return res;
+    },
+    {
+      enabled: queryEnabled,
+      staleTime: 60000,
+      onSuccess: (data: any) => {
+        const payload = {
+          name: data?.data?.name,
+          phone: data?.data?.phone,
+          walletAddress: data?.data?.walletAddress,
+        };
+        saveCurrentUser(payload);
+        saveCurrentUserInfo(payload);
+      },
     }
   );
 
-  const vendor = useMemo(() => data?.data || ({} as any), [data?.data]);
+  // const vendor = useMemo(() => currentUser, [data?.data]);
+  const vendor = currentUser;
 
   return {
     vendor,
@@ -39,10 +66,11 @@ export function useVendor(walletAddress: string): any {
 }
 
 export function useVendorChainData(walletAddress: string): any {
-  const { setChainData, chainData, projectSettings } = useAppStore.getState();
+  const { setChainData, chainData, projectSettings, transactions } =
+    useAppStore.getState();
   console.log("USE VENDOR CHAIN DATA");
   const { data, isLoading, error } = useQuery(
-    ["vendors", , walletAddress, chainData],
+    ["vendors", , walletAddress, chainData, transactions],
     async () => {
       console.log("EXECUTE VENDOR CHAIN");
       const res = await VendorsService.getChainData(walletAddress);

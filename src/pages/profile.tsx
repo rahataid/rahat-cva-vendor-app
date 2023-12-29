@@ -1,3 +1,4 @@
+import { useVendor } from "@api/vendors";
 import {
   IonContent,
   IonHeader,
@@ -6,38 +7,28 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import Profile from "@sections/profile";
-import { getCurrentUser } from "@utils/sessionManager";
+import useAppStore from "@store/app";
 
 const ProfilePage: React.FC = () => {
-  // const [currentUser, setCurrentUser] = useState({});
-
-  // const getCurrentUser = useStorage.getState().getCurrentUser;
-  // const currentUser = useStorage.getState().currentUser;
-
-  const currentUser = getCurrentUser();
-
-  // useEffect(() => {
-  //   const getCurrentUsers = async () => {
-  //     const user = await getCurrentUser();
-  //     setCurrentUser(user);
-  //   };
-  //   getCurrentUsers();
-  // }, []);
-
+  let { wallet } = useAppStore.getState();
+  const { vendor, isLoading, error } = useVendor(wallet?.address);
+  const props = {
+    currentUser: vendor,
+  };
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle className='title-center'>Profile</IonTitle>
+          <IonTitle className="title-center">Profile</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>
-        <IonHeader collapse='condense'>
+        <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size='large'>Profile</IonTitle>
+            <IonTitle size="large">Profile</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Profile currentUser={currentUser} />
+        <Profile {...props} />
       </IonContent>
     </IonPage>
   );
