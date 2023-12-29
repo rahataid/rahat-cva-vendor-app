@@ -65,6 +65,7 @@ type AppActionsType = {
   syncTransactions: () => void;
   setBeneficiariesList: (data: any) => void;
   logout: () => void;
+  chargeBeneficiary: (payload: ITransactionItem) => Promise<void>;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -317,7 +318,7 @@ const useAppStore = create<AppStoreType>()(
       const stateWallet = get().wallet;
       const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
 
-      // only get offline transactions with status = NEW
+      // only get offline transactions with status = NEW || FAIL
       const cond1 = (item: any) => item.isOffline;
       const cond2 = (item: any) =>
         item.status === "NEW" || item.status === "FAIL";
@@ -375,6 +376,34 @@ const useAppStore = create<AppStoreType>()(
       //   );
       //   console.log(res);
       // }
+    },
+
+    async chargeBeneficiary(data: ITransactionItem) {
+      const stateWallet = get().wallet;
+      const transactions = get().transactions;
+      const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
+      const signedMessage = await signMessage({ wallet, message: data });
+      const payload = {
+        message: data,
+        signedMessage,
+      };
+      try {
+        await VendorsService.chargeBeneficiary(payload);
+        const updatedTransactions = setTransactionStatus(
+          transactions,
+          [data],
+          "SUCCESS"
+        );
+        get().setTransactions(updatedTransactions);
+      } catch (error) {
+        const updatedTransactions = setTransactionStatus(
+          transactions,
+          [data],
+          "FAIL"
+        );
+        get().setTransactions(updatedTransactions);
+        throw error;
+      }
     },
 
     async setBeneficiariesList(data) {

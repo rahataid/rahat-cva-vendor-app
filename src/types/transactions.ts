@@ -1,7 +1,7 @@
 export enum Status {
-  NEW,
-  SUCCESS,
-  FAIL,
+  NEW = "NEW",
+  SUCCESS = "SUCCESS",
+  FAIL = "FAIL",
 }
 
 export type ITransactionItem = {

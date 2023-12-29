@@ -24,6 +24,11 @@ const VendorsService = {
       method: "syncTransactions",
       params: [payload.message, payload.signedMessage],
     }),
+  chargeBeneficiary: (payload: any) =>
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "chargeBeneficiary",
+      params: [payload.message, payload.signedMessage],
+    }),
 };
 
 export default VendorsService;

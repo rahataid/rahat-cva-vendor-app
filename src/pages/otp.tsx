@@ -14,6 +14,7 @@ import { ITransactionItem } from "../types/transactions";
 type Props = {
   transactionPayload: ITransactionItem;
   selectedBeneficiary: IBeneficiary;
+  internetAccess: boolean;
 };
 interface LocationState {
   data: Props;

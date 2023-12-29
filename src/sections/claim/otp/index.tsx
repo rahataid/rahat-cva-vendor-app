@@ -19,15 +19,17 @@ type Props = {
   data: {
     transactionPayload: ITransactionItem;
     selectedBeneficiary: IBeneficiary;
+    internetAccess: boolean;
   };
 };
 
 const OTP = ({ data }: Props) => {
-  const { transactionPayload, selectedBeneficiary } = data;
+  const { transactionPayload, selectedBeneficiary, internetAccess } = data;
   const history = useHistory();
   const { processTokenRequest } = useProject();
-  const { addTransaction } = useAppStore((state) => ({
+  const { addTransaction, chargeBeneficiary } = useAppStore((state) => ({
     addTransaction: state.addTransaction,
+    chargeBeneficiary: state.chargeBeneficiary,
   }));
   const {
     handleSubmit,
@@ -59,6 +61,8 @@ const OTP = ({ data }: Props) => {
         throw new Error("OTP doesn't match");
 
       await addTransaction(transactionPayload);
+
+      if (internetAccess) chargeBeneficiary(transactionPayload);
 
       history.push("/tabs/home");
     } catch (error: any) {

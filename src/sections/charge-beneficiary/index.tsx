@@ -87,54 +87,49 @@ const ChargeBeneficiary = () => {
   const chargeBeneficiaryPhone = async (formData: formDataType) => {
     const { phone, token } = formData;
     console.log("INTERNET ACCESS", internetAccess);
-    if (!internetAccess) {
-      console.log("====", formData, beneficiaries);
 
-      // 1. check if beneficiary is valid
+    // 1. check if beneficiary is valid
 
-      if (!beneficiaries?.length)
-        throw new Error("Please sync beneficiaries to charge in offline mode");
-      const isValidBeneficiary = isObjectInArray(beneficiaries, formData);
-      if (!isValidBeneficiary) throw new Error("Invalid beneficiary");
+    if (!beneficiaries?.length)
+      throw new Error("Please sync beneficiaries to charge in offline mode");
+    const isValidBeneficiary = isObjectInArray(beneficiaries, formData);
+    if (!isValidBeneficiary) throw new Error("Invalid beneficiary");
 
-      const selectedBeneficiary = findObjectInArray(beneficiaries, formData);
+    const selectedBeneficiary = findObjectInArray(beneficiaries, formData);
 
-      //  2. check if token amount is valid
+    //  2. check if token amount is valid
 
-      const hasValidTokenAmount = validateTokenAmount(
-        selectedBeneficiary,
-        formData
-      );
-      if (!hasValidTokenAmount) throw new Error("Not enough balance");
+    const hasValidTokenAmount = validateTokenAmount(
+      selectedBeneficiary,
+      formData
+    );
+    if (!hasValidTokenAmount) throw new Error("Not enough balance");
 
-      //  3. transfer data to the OTP page
+    //  3. transfer data to the OTP page
 
-      console.log("VALID BENEFICIARY");
-      const transactionPayload = {
-        amount: token,
-        createdAt: Date.now(),
-        status: "NEW",
-        isOffline: !internetAccess,
-        phone,
-        walletAddress: selectedBeneficiary.walletAddress,
-      };
+    const transactionPayload = {
+      amount: token,
+      createdAt: Date.now(),
+      status: "NEW",
+      isOffline: !internetAccess,
+      phone,
+      walletAddress: selectedBeneficiary.walletAddress,
+    };
 
-      history.push("/otp", {
-        data: { transactionPayload, selectedBeneficiary },
-      });
-      // await mutateAsync({ phone, data: payload });
-    }
+    history.push("/otp", {
+      data: { transactionPayload, selectedBeneficiary, internetAccess },
+    });
+    // await mutateAsync({ phone, data: payload });
   };
 
   const chargeBeneficiaryQr = async (data: any) => {
     const { qrCode, token } = data;
     console.log("INTERNET ACCESS", internetAccess);
     if (!internetAccess) {
-      const createdAt = new Date();
       const payload = {
         walletAddress: qrCode,
         amount: token,
-        createdAt,
+        createdAt: Date.now(),
         status: "NEW",
         isOffline: !internetAccess,
       };

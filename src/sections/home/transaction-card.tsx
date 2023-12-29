@@ -33,11 +33,15 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
               <IonItem key={index}>
                 <IonLabel>
                   <IonNote>
-                    <IonChip style={{ color: "green" }}>{el?.status}</IonChip>
-                    {el?.isOffline ? (
-                      <IonChip style={{ color: "red" }}>Offline</IonChip>
+                    {el?.status == "SUCCESS" ? (
+                      <IonChip style={{ color: "green" }}>{el?.status}</IonChip>
                     ) : (
-                      <IonChip style={{ color: "green" }}>Online</IonChip>
+                      <IonChip style={{ color: "red" }}>{el?.status}</IonChip>
+                    )}
+                    {el?.isOffline ? (
+                      <IonChip style={{ color: "grey" }}>OFFLINE</IonChip>
+                    ) : (
+                      <IonChip style={{ color: "blue" }}>ONLINE</IonChip>
                     )}
                   </IonNote>
                   <h2>Transaction Hash: {el?.hash || "-"}</h2>
