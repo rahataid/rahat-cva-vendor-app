@@ -17,9 +17,11 @@ import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
 import ChargeQr from "./charge-qr";
 import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
+import { validateWalletAddress } from "@utils/web3";
+import { IBeneficiary } from "@types/beneficiaries";
 
 type formDataType = {
-  phone?: string | null;
+  phoneWalletInput?: string | null;
   qrCode?: string | null;
   token: string | null;
 };
@@ -54,7 +56,7 @@ const ChargeBeneficiary = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      phone: "",
+      phoneWalletInput: "",
       token: "",
       qrCode: "",
     },
@@ -66,10 +68,11 @@ const ChargeBeneficiary = () => {
 
   const validateTokenAmount = (
     selectedBeneficiary: any,
-    formData: formDataType
+    formData: formDataType,
+    key: string
   ) => {
     const currentBeneficiaryTransactions = transactions.filter(
-      (el) => el.phone === formData.phone
+      (el: any) => el[key] === formData[key]
     );
 
     let totalAmount = 0;
@@ -84,24 +87,43 @@ const ChargeBeneficiary = () => {
     return true;
   };
 
-  const chargeBeneficiaryPhone = async (formData: formDataType) => {
-    const { phone, token } = formData;
+  const chargeBeneficiaryPhoneQr = async (formData: formDataType) => {
+    const { phoneWalletInput: input, token } = formData;
+
+    let selectedInput;
+    const isInputWalletAddress = validateWalletAddress(input);
+    if (!isInputWalletAddress) selectedInput = "phone";
+    else selectedInput = "walletAddress";
     console.log("INTERNET ACCESS", internetAccess);
+
+    const checkObj = {
+      [selectedInput]: input,
+      token,
+    };
 
     // 1. check if beneficiary is valid
 
     if (!beneficiaries?.length)
       throw new Error("Please sync beneficiaries to charge in offline mode");
-    const isValidBeneficiary = isObjectInArray(beneficiaries, formData);
+    const isValidBeneficiary = isObjectInArray(
+      beneficiaries,
+      checkObj,
+      selectedInput
+    );
     if (!isValidBeneficiary) throw new Error("Invalid beneficiary");
 
-    const selectedBeneficiary = findObjectInArray(beneficiaries, formData);
+    const selectedBeneficiary = findObjectInArray(
+      beneficiaries,
+      checkObj,
+      selectedInput
+    );
 
     //  2. check if token amount is valid
 
     const hasValidTokenAmount = validateTokenAmount(
       selectedBeneficiary,
-      formData
+      checkObj,
+      selectedInput
     );
     if (!hasValidTokenAmount) throw new Error("Not enough balance");
 
@@ -112,7 +134,7 @@ const ChargeBeneficiary = () => {
       createdAt: Date.now(),
       status: "NEW",
       isOffline: !internetAccess,
-      phone,
+      phone: selectedBeneficiary.phone,
       walletAddress: selectedBeneficiary.walletAddress,
     };
 
@@ -140,7 +162,7 @@ const ChargeBeneficiary = () => {
   const onSubmit = async (data: any) => {
     try {
       if (useQrCode) await chargeBeneficiaryQr(data);
-      else await chargeBeneficiaryPhone(data);
+      else await chargeBeneficiaryPhoneQr(data);
     } catch (error: any) {
       const validErrors = [
         "Invalid beneficiary",

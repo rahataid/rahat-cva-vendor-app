@@ -7,19 +7,19 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
     <>
       <IonCardSubtitle>
         You are about to send tokens to this beneficiary. Please enter phone
-        number of the beneficiary.
+        number / wallet address of the beneficiary.
       </IonCardSubtitle>
       <IonRow className="gap-25"></IonRow>
       <Controller
         render={({ field }) => (
           <TextInputField
-            placeholder="Enter Phone"
+            placeholder="Enter Phone / Wallet Address"
             type="text"
-            label="Phone*"
-            value={getValues("phone")}
-            errorText={errors?.phone?.message}
+            label="Phone / Wallet *"
+            value={getValues("phoneWalletInput")}
+            errorText={errors?.phoneWalletInput?.message}
             onInput={(e: any) => {
-              setValue("phone", e.target.value, {
+              setValue("phoneWalletInput", e.target.value, {
                 shouldValidate: true,
               });
             }}
@@ -27,10 +27,10 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
           />
         )}
         rules={{
-          required: "Please enter phone number",
+          required: "Please enter phone number / wallet address",
         }}
         control={control}
-        name="phone"
+        name="phoneWalletInput"
       />
       <br />
       <Controller
