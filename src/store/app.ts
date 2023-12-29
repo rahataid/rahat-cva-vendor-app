@@ -384,6 +384,8 @@ const useAppStore = create<AppStoreType>()(
     },
 
     async logout() {
+      await get().storage?.clear();
+      await get().txStorage?.clear();
       set({
         chainData: {
           allowance: 0,
@@ -405,6 +407,7 @@ const useAppStore = create<AppStoreType>()(
         beneficiaries: [],
       });
       logOut();
+      get().initialize();
     },
   }))
 );
