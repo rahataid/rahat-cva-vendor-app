@@ -13,6 +13,7 @@ type PropTypes = {
   projectBalance?: string | null;
   pendingTokensToAccept?: string | null;
   acceptPendingTokens?: any;
+  handleReload?: any;
 };
 
 const Home = ({
@@ -23,6 +24,7 @@ const Home = ({
   projectBalance,
   pendingTokensToAccept,
   acceptPendingTokens,
+  handleReload,
 }: PropTypes) => {
   const { projectSettings, transactions } = useAppStore();
   const history = useHistory();
@@ -35,7 +37,7 @@ const Home = ({
           color="warning"
           dismissText="Reload"
           description="You have not been approved. Please Contact admin."
-          onButtonClick={() => window.location.reload()}
+          onButtonClick={handleReload}
           visible={!isVendor}
         />
         <IonTitle className="title-center">

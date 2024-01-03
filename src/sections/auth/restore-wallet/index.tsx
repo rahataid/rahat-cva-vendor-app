@@ -45,6 +45,7 @@ const RestoreWallet = () => {
         data: { from: "restore" },
       });
     } catch (error: any) {
+      console.log(error);
       if (error?.name === "P2025" && error?.message == "No Vendor found")
         setError("root.serverError", {
           type: "manual",

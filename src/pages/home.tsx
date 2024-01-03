@@ -11,8 +11,14 @@ import Home from "../sections/home";
 import "../theme/title.css";
 import VendorsService from "@services/vendors";
 import useAppStore from "@store/app";
+import { useState } from "react";
 
 const HomePage: React.FC = () => {
+  const [forceRender, setForceRender] = useState(false);
+  const handleReload = () => {
+    setForceRender(!forceRender);
+  };
+
   const wallet = useAppStore((state) => state.wallet);
   const vendorAddress = wallet?.address;
   const { chainData } = useVendorChainData(vendorAddress);
@@ -46,6 +52,7 @@ const HomePage: React.FC = () => {
           disbursed={chainData?.distributed}
           pendingTokensToAccept={chainData?.pendingTokens}
           acceptPendingTokens={acceptPendingTokens}
+          handleReload={handleReload}
         />
       </IonContent>
     </IonPage>
