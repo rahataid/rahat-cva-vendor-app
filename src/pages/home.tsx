@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
 
   const wallet = useAppStore((state) => state.wallet);
   const vendorAddress = wallet?.address;
-  const { chainData } = useVendorChainData(vendorAddress);
+  const { chainData } = useVendorChainData(vendorAddress, forceRender);
   console.log("chainData", chainData);
   // const transactions = useAppStore((state) => state.transactions);
   // console.log("transactions", transactions);
