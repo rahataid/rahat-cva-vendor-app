@@ -65,12 +65,15 @@ export function useVendor(walletAddress: string): any {
   };
 }
 
-export function useVendorChainData(walletAddress: string): any {
+export function useVendorChainData(
+  walletAddress: string,
+  forceRender: boolean
+): any {
   const { setChainData, chainData, projectSettings, transactions } =
     useAppStore.getState();
   console.log("USE VENDOR CHAIN DATA");
   const { data, isLoading, error } = useQuery(
-    ["vendors", , walletAddress, chainData, transactions],
+    ["vendors", walletAddress, chainData, transactions, forceRender],
     async () => {
       console.log("EXECUTE VENDOR CHAIN");
       const res = await VendorsService.getChainData(walletAddress);
