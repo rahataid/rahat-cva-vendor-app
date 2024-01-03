@@ -1,18 +1,35 @@
+import useAppStore from "@store/app";
 import axios from "axios";
-import { HOST_API } from "../config";
-// config
 
-// ----------------------------------------------------------------------
-console.log("HOST_API", HOST_API);
-export const axiosInstance = axios.create({
-  baseURL: HOST_API,
-  //   headers: { Authorization: `Bearer ${token}` },
-});
+export const axiosInstance = axios.create({});
+
+axiosInstance.interceptors.request.use(
+  (req) => {
+    let hasInternetAccess =
+      useAppStore.getState().projectSettings?.internetAccess;
+
+    if (hasInternetAccess === false) {
+      console.error("No internet access" + "URL:", req.url);
+    }
+    console.log("Yes Internet Access");
+
+    return req;
+  },
+  (error) => {
+    console.log("---->", error);
+    return Promise.reject(error);
+  }
+);
 
 axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => {
-    console.log("error", error);
+    console.log(
+      "AXIOS INTERCEPTOR RES error",
+      JSON.stringify(error),
+      "=======",
+      error.message
+    );
     return Promise.reject(
       (error.response && error.response.data) || "Something went wrong"
     );
@@ -22,9 +39,11 @@ axiosInstance.interceptors.response.use(
 // ----------------------------------------------------------------------
 
 export const endpoints = {
-  appSettings: {
+  projectSettings: {
     blockchain: "/app/blockchain",
     contracts: "/app/contracts",
+    contractDetails: (name: string) => `/app/contracts/${name}`,
+    settings: (name: string) => `/app/settings?name=${name}`,
   },
   auth: {
     loginWallet: "/auth/login-wallet",
@@ -38,6 +57,15 @@ export const endpoints = {
     list: "/vendors",
     details: (walletAddress: string) => `/vendors/${walletAddress}`,
     update: (walletAddress: string) => `/vendors/${walletAddress}`,
+    add: `/vendors`,
+    chargeByPhone: (walletAddress: string) =>
+      `/vendors/${walletAddress}/chargeBeneficiary`,
+    blockchain: "/vendors/blockchain",
+  },
+  beneficiaries: {
+    list: "/beneficiaries",
+    details: (walletAddress: string) => `/beneficiaries/${walletAddress}`,
+    chargeByPhone: (phone: string) => `/beneficiaries/${phone}/charge`,
   },
   transactions: {
     list: "/transactions",
