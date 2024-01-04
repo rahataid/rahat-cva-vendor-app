@@ -101,16 +101,18 @@ const ChargeBeneficiary = () => {
       token,
     };
 
-    // 1. check if beneficiary is valid
+    if (!internetAccess) {
+      // 1. check if beneficiary is valid
 
-    if (!beneficiaries?.length)
-      throw new Error("Please sync beneficiaries to charge in offline mode");
-    const isValidBeneficiary = isObjectInArray(
-      beneficiaries,
-      checkObj,
-      selectedInput
-    );
-    if (!isValidBeneficiary) throw new Error("Invalid beneficiary");
+      if (!beneficiaries?.length)
+        throw new Error("Please sync beneficiaries to charge in offline mode");
+      const isValidBeneficiary = isObjectInArray(
+        beneficiaries,
+        checkObj,
+        selectedInput
+      );
+      if (!isValidBeneficiary) throw new Error("Invalid beneficiary");
+    }
 
     const selectedBeneficiary = findObjectInArray(
       beneficiaries,
