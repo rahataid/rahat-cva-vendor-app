@@ -1,168 +1,116 @@
-import { ContractTransactionResponse } from "ethers";
-import { useCallback, useMemo } from "react";
-import useContract from "../../hooks/contracts/useContract";
-import { useErrorHandler } from "../../hooks/use-error-handler";
-import { CONTRACTS } from "../../types/enums";
-import { IVendorChainData, ProjectContract } from "../../types/useProject";
+import useAppStore from "@store/app";
+import { CONTRACTS } from "../../config";
 
-const useProjectContract = (): ProjectContract => {
-  const { handleContractError } = useErrorHandler();
-  const [projectContract, abi] = useContract(CONTRACTS.CVAPROJECT);
-  const [projectContractWS] = useContract(CONTRACTS.CVAPROJECT, {
-    isWebsocket: true,
-  });
-  const [tokenContract] = useContract(CONTRACTS.RAHATTOKEN);
-  const [donorContract] = useContract(CONTRACTS.DONOR);
-  const [communityContract] = useContract(CONTRACTS.COMMUNITY);
+export const useProject = () => {
+  const { contractsFn, contracts } = useAppStore((state) => ({
+    contractsFn: state.contractsFn,
+    contracts: state.contracts,
+  }));
 
-  const acceptToken = useCallback(
-    async (amount: string): Promise<ContractTransactionResponse | void> => {
-      if (!projectContract || !donorContract) {
-        return;
-      }
-      await projectContract
-        .acceptToken(donorContract.target, amount)
-        .catch(handleContractError);
-    },
-    [projectContract, donorContract, handleContractError]
-  );
+  const contract = contractsFn?.[CONTRACTS.CVAPROJECT];
+  const communityContract = contractsFn?.[CONTRACTS.COMMUNITY];
+  const RahatToken = contractsFn?.[CONTRACTS.RAHATTOKEN];
+  const RahatClaim = contractsFn?.[CONTRACTS.CLAIM];
 
-  const getVendorBalance = useCallback(
-    async (walletAddress: string): Promise<number | undefined> => {
-      if (!tokenContract) {
-        return undefined;
-      }
-      const balance = await tokenContract.balanceOf(walletAddress);
-      return balance?.toString();
-    },
-    [tokenContract]
-  );
+  const getProjectBalance = async () => {
+    let balance = await RahatToken?.balanceOf(contracts[CONTRACTS.CVAPROJECT]);
+    return balance?.toString();
+  };
 
-  const getVendorAllowance = useCallback(
-    async (vendorAddress: string): Promise<number | undefined> => {
-      if (!projectContract) {
-        return undefined;
-      }
-      const allowance = await projectContract.vendorAllowance(vendorAddress);
-      return allowance?.toString();
-    },
-    [projectContract]
-  );
+  const checkIsVendorApproved = async (vendorAddress: string) => {
+    const vendorRole = await communityContract?.VENDOR_ROLE();
+    // return communityContract?.hasRole(vendorRole, vendorAddress);
+    const casess = await communityContract?.hasRole(vendorRole, vendorAddress);
+    return casess;
+  };
 
-  const checkActiveVendor = useCallback(
-    async (address: string): Promise<boolean> => {
-      if (!communityContract) {
-        return false;
-      }
-      const role = await communityContract.VENDOR_ROLE();
-      return communityContract
-        .hasRole(role, address)
-        .catch(handleContractError);
-    },
-    [communityContract, handleContractError]
-  );
+  const checkIsProjectLocked = () => contract?.isLocked();
 
-  const pendingVendorAllowance = useCallback(
-    async (vendorAddress: string): Promise<number | undefined> => {
-      if (!projectContract) {
-        return undefined;
-      }
-      const pending = await projectContract.vendorAllowancePending(
-        vendorAddress
+  const getPendingTokensToAccept = async (vendorAddress: string) => {
+    let res = await contract?.vendorAllowancePending(vendorAddress);
+    return res;
+  };
+
+  const getDisbursed = async (walletAddress: string) =>
+    (await RahatToken?.balanceOf(walletAddress))?.toString();
+
+  const getVendorAllowance = async (vendorAddress: string) =>
+    (await contract?.vendorAllowance(vendorAddress))?.toString();
+
+  const acceptTokensByVendor = async (numberOfTokens: number) =>
+    await contract?.acceptAllowanceByVendor(numberOfTokens.toString());
+
+  const getBeneficiaryBalance = async (walletAddress: string) => {
+    let balance = await contract
+      ?.beneficiaryClaims(walletAddress)
+      .catch(
+        (error: { error: { error: { error: { toString: () => any } } } }) => {
+          try {
+            let message = error.error.error.error.toString();
+            message = message.replace(
+              "Error: VM Exception while processing transaction: revert ",
+              ""
+            );
+          } catch (e) {
+            console.log(
+              "Error occured calling contract. Please check logs for details."
+            );
+            console.error(error);
+          }
+        }
       );
-      return pending?.toString();
-    },
-    [projectContract]
-  );
+    balance = balance?.toString();
+    return balance;
+  };
 
-  const acceptTokensByVendors = useCallback(
-    async (numberOfTokens: string): Promise<void> => {
-      if (!projectContract) {
-        return;
-      }
-      await projectContract
-        .acceptAllowanceByVendor(numberOfTokens.toString())
-        .catch(handleContractError);
-    },
-    [projectContract, handleContractError]
-  );
-
-  const checkActiveBeneficiary = useCallback(
-    async (address: string): Promise<boolean> => {
-      if (!communityContract) {
-        return false;
-      }
-      return communityContract
-        .isBeneficiary(address)
-        .catch(handleContractError);
-    },
-    [communityContract, handleContractError]
-  );
-
-  const beneficiaryCounts = useCallback(async (): Promise<
-    number | undefined
-  > => {
-    if (!projectContract) {
-      return undefined;
+  const requestTokenFromBeneficiary = async (to: string, amount: string) => {
+    try {
+      const transaction = await contract[
+        "requestTokenFromBeneficiary(address,uint256)"
+      ](
+        to,
+        amount?.toString()
+        // TODO: change this to the actual address
+        // '0xc0ECad507A3adC91076Df1D482e3D2423F9a9EF9'
+      );
+      const receipt = await transaction.wait();
+      const event = receipt.logs[0];
+      const decodedEventArgs = RahatClaim?.interface.decodeEventLog(
+        "ClaimCreated",
+        event.data,
+        event.topics
+      );
+      return decodedEventArgs?.claimId?.toString();
+    } catch (err) {
+      throw err;
     }
-    return projectContract.beneficiaryCount();
-  }, [projectContract]);
+  };
 
-  const getVendorChainData = useCallback(
-    async (address: string): Promise<IVendorChainData> => {
-      const [balance, allowance, isVendor, pending] = await Promise.all([
-        getVendorBalance(address),
-        getVendorAllowance(address),
-        checkActiveVendor(address),
-        pendingVendorAllowance(address),
-      ]);
-      return {
-        balance: allowance || 0,
-        isVendor: isVendor || null,
-        pending: pending || 0,
-        disbursed: balance || 0,
-      };
-    },
-    [
-      checkActiveVendor,
-      getVendorAllowance,
-      getVendorBalance,
-      pendingVendorAllowance,
-    ]
-  );
+  const processTokenRequest = (beneficiary: string, otp: string) =>
+    contract?.processTokenRequest(beneficiary, otp).catch((error: any) => {
+      try {
+        let message = error.error.error.error.toString();
+        message = message.replace(
+          "Error: VM Exception while processing transaction: revert ",
+          ""
+        );
+        throw message;
+      } catch (e) {
+        console.error(error);
+        throw error;
+      }
+    });
 
-  return useMemo(
-    () => ({
-      projectContract,
-      projectContractWS,
-      abi,
-      communityContract,
-      acceptToken,
-      getVendorBalance,
-      getVendorAllowance,
-      checkActiveVendor,
-      pendingVendorAllowance,
-      acceptTokensByVendors,
-      checkActiveBeneficiary,
-      beneficiaryCounts,
-      getVendorChainData,
-    }),
-    [
-      projectContract,
-      projectContractWS,
-      abi,
-      communityContract,
-      acceptToken,
-      getVendorBalance,
-      getVendorAllowance,
-      checkActiveVendor,
-      pendingVendorAllowance,
-      acceptTokensByVendors,
-      checkActiveBeneficiary,
-      beneficiaryCounts,
-      getVendorChainData,
-    ]
-  );
+  return {
+    getProjectBalance,
+    checkIsVendorApproved,
+    checkIsProjectLocked,
+    getPendingTokensToAccept,
+    getDisbursed,
+    getVendorAllowance,
+    acceptTokensByVendor,
+    getBeneficiaryBalance,
+    requestTokenFromBeneficiary,
+    processTokenRequest,
+  };
 };
-
-export default useProjectContract;

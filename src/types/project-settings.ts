@@ -1,13 +1,13 @@
 import { InterfaceAbi } from "ethers";
 
-export type IAppSettingsContractsApiResponse = {
+export type IProjectSettingsContractsApiResponse = {
   [key: string]: {
     address: string;
     abi: InterfaceAbi;
   };
 };
 
-export type IAppSettingsNetworkApiResponse = {
+export type IProjectSettingsNetworkApiResponse = {
   chainId: number;
   chainName: string;
   nativeCurrency: {
@@ -21,4 +21,4 @@ export type IAppSettingsNetworkApiResponse = {
   chainWebSocket?: string;
   networkId: number;
 };
-export type IAppSettingsNetwork = IAppSettingsNetworkApiResponse;
+export type IProjectSettingsNetwork = IProjectSettingsNetworkApiResponse;

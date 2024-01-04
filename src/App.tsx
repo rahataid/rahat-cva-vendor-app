@@ -1,19 +1,5 @@
-import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact,
-} from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ellipse, triangle } from "ionicons/icons";
-import { Redirect, Route } from "react-router-dom";
-import ChargeToken from "./pages/charge-token";
-import Home from "./pages/home";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -32,47 +18,34 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import { useState } from "react";
-import AppContainer from "./app-container";
-import "./theme/variables.css";
+import { useEffect, useState } from "react";
+
+import Router from "@navigations/router";
+import useAppStore from "@store/app";
+import "./theme/global.scss";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
 
+  // const { initialize } = useAppStore();
+
+  // useEffect(() => {
+  //   const init = async () => {
+  //     await initialize();
+  //   };
+
+  //   init();
+  // }, []);
+
   return (
     <IonApp>
-      <IonReactRouter>
-        <QueryClientProvider client={queryClient}>
-          <AppContainer>
-            <IonTabs>
-              <IonRouterOutlet>
-                <Route exact path='/home'>
-                  <Home />
-                </Route>
-                <Route exact path='/charge-token'>
-                  <ChargeToken />
-                </Route>
-
-                <Route exact path='/'>
-                  <Redirect to='/home' />
-                </Route>
-              </IonRouterOutlet>
-              <IonTabBar slot='bottom'>
-                <IonTabButton tab='home' href='/home'>
-                  <IonIcon aria-hidden='true' icon={triangle} />
-                  <IonLabel>Home</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab='charge-token' href='/charge-token'>
-                  <IonIcon aria-hidden='true' icon={ellipse} />
-                  <IonLabel>Charge</IonLabel>
-                </IonTabButton>
-              </IonTabBar>
-            </IonTabs>
-          </AppContainer>
-        </QueryClientProvider>
-      </IonReactRouter>
+      <QueryClientProvider client={queryClient}>
+        {/* <AppContainer> */}
+        <Router />
+        {/* </AppContainer> */}
+      </QueryClientProvider>
     </IonApp>
   );
 };

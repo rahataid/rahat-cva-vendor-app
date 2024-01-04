@@ -5,24 +5,26 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import Settings from "@sections/settings";
 
-const Tab2: React.FC = () => {
+const SettingsPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Charge Token</IonTitle>
+          <IonTitle className="title-center">Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse='condense'>
+        <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size='large'>Charge Token</IonTitle>
+            <IonTitle size="large">Settings</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <Settings />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Tab2;
+export default SettingsPage;

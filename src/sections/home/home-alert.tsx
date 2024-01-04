@@ -8,7 +8,7 @@ interface DismissibleAlertProps {
   description: string;
   dismissText?: string;
   onButtonClick: () => void;
-  visible?: boolean;
+  visible?: boolean | null;
 }
 
 const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
@@ -17,7 +17,7 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
   description,
   dismissText = "Dismiss",
   onButtonClick,
-  visible = true,
+  visible = false,
 }) => {
   const onDismiss = () => {
     onButtonClick();
@@ -27,14 +27,19 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
     <>
       {visible && (
         <IonItem
+          color={color}
           lines='none'
-          className={`ion-text-center ion-padding ${color}`}>
+          className={`ion-text-center ion-padding`}>
           <IonIcon icon={alertCircleOutline} slot='start' />
           <IonLabel>
             <h2>{title}</h2>
             <p>{description}</p>
           </IonLabel>
-          <IonButton fill='clear' size='small' onClick={onDismiss}>
+          <IonButton
+            color='white'
+            fill='solid'
+            size='small'
+            onClick={onDismiss}>
             {dismissText}
           </IonButton>
         </IonItem>

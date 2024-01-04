@@ -1,0 +1,112 @@
+@import "@theme/r-variables.scss";
+
+.primary-button {
+  --background: #{$r-primary-button};
+  --background-hover: #{$r-primary-button-hover};
+  --background-activated: #{$r-success-alert};
+  --background-focused: #{$r-success-alert};
+
+  --color: #{$r-white};
+
+  --border-radius: #{$r-button-border-radius};
+  --border-color: #{$r-primary-button};
+  --border-style: solid;
+  --border-width: 0.5px;
+
+  --box-shadow: #{$r-button-box-shadow};
+  --ripple-color: #{$r-success-background};
+  --padding-start: 30px;
+  --padding-end: 30px;
+}
+
+.outlined-button {
+  --background: #{$r-white};
+  --background-hover: #{$r-background-dark};
+  --background-activated: #{$r-background-dark};
+  --background-focused: #{$r-background-dark};
+
+  --color: #{$r-caption-text};
+
+  --border-radius: #{$r-button-border-radius};
+  --border-color: #{$r-border};
+  --border-style: solid;
+  --border-width: 1px;
+
+  --box-shadow: #{$r-button-box-shadow};
+  --ripple-color: #{$r-background-dark};
+  --padding-start: 30px;
+  --padding-end: 30px;
+}
+
+.facebook-button {
+  --background: #{$facebook};
+  --color: #{$r-white};
+  --border-color: #{$r-border};
+  --border-radius: #{$r-button-border-radius};
+  --border-style: solid;
+  --border-width: 0.5px;
+  --box-shadow: #{$r-button-box-shadow};
+  --padding-start: 30px;
+  --padding-end: 30px;
+  --ripple-color: #{$r-background-dark};
+}
+
+.google-button {
+  --background: #{$r-white};
+  --color: #{$r-caption-text};
+  --border-color: #{$r-border};
+  --border-radius: #{$r-button-border-radius};
+  --border-style: solid;
+  --border-width: 0.5px;
+  --box-shadow: #{$r-button-box-shadow};
+  --padding-start: 30px;
+  --padding-end: 30px;
+  --ripple-color: #{$r-background-dark};
+}
+
+.apple-button {
+  --background: #{$apple};
+  --color: #{$r-white};
+  --border-color: #{$r-border};
+  --border-radius: #{$r-button-border-radius};
+  --border-style: solid;
+  --border-width: 0.1px;
+  --box-shadow: #{$r-button-box-shadow};
+  --padding-start: 30px;
+  --padding-end: 30px;
+  --ripple-color: #{$r-background-dark};
+}
+
+.fab-button {
+  --box-shadow: #{$r-button-box-shadow};
+}
+
+.text-button {
+  --ripple-color: transparent;
+}
+
+.text-button:active,
+.text-button:focus {
+  --color: #{$r-input-focused};
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  padding-bottom: 2px;
+}
+
+/* button text large*/
+.button-text-large {
+  font-family: "InterSemiBold";
+  font-size: 16px;
+  font-style: normal;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/*button text small*/
+.button-text-small {
+  font-family: "InterMedium";
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0;
+  text-transform: none;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppSettings } from "./api/app";
+import { useProjectSettings } from "./api/project";
 import useAppStore from "./store/app";
 
 interface AppContainerProps {
@@ -7,10 +7,11 @@ interface AppContainerProps {
 }
 
 const AppContainer: React.FC<AppContainerProps> = ({ children }) => {
-  const appSettings = useAppSettings();
+  const projectSettings = useProjectSettings();
   const appStore = useAppStore();
 
-  console.log("appSettings", appStore);
+  // console.log("projectSettings", projectSettings);
+  // console.log("appstore", appStore);
 
   return children;
 };

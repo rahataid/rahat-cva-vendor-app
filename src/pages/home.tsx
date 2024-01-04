@@ -1,3 +1,4 @@
+import { useVendorChainData } from "@api/vendors";
 import {
   IonContent,
   IonHeader,
@@ -5,63 +6,57 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { useCallback, useEffect } from "react";
+import { getCurrentUser } from "@utils/sessionManager";
 import Home from "../sections/home";
-import useProjectContract from "../services/contracts/useProject";
-import useVendorStore from "../store/vendors";
+import "../theme/title.css";
+import VendorsService from "@services/vendors";
+import useAppStore from "@store/app";
+import { useState } from "react";
 
-const Tab1: React.FC = () => {
-  const { getVendorChainData, projectContractWS: ProjectContractWS } =
-    useProjectContract();
-  const { chainData, setChainData } = useVendorStore((state) => ({
-    chainData: state.chainData,
-    setChainData: state.setChainData,
-  }));
+const HomePage: React.FC = () => {
+  const [forceRender, setForceRender] = useState(false);
+  const handleReload = () => {
+    setForceRender(!forceRender);
+  };
 
+  const wallet = useAppStore((state) => state.wallet);
+  const vendorAddress = wallet?.address;
+  const { chainData } = useVendorChainData(vendorAddress, forceRender);
   console.log("chainData", chainData);
+  // const transactions = useAppStore((state) => state.transactions);
+  // console.log("transactions", transactions);
 
-  const handleGetVendorChainData = useCallback(async () => {
-    const vendorChainData = await getVendorChainData(
-      "0xd55B0c06274fA99a9276D5E3497f005C0636AC1c"
-    );
-
-    setChainData(vendorChainData);
-  }, [getVendorChainData, setChainData]);
-
-  useEffect(() => {
-    if (chainData?.isVendor !== null) return;
-
-    // handleGetVendorChainData();
-  }, [chainData, getVendorChainData, handleGetVendorChainData]);
-
-  useEffect(() => {
-    if (!ProjectContractWS) return;
-
-    ProjectContractWS.on("VendorAllowance", handleGetVendorChainData);
-    ProjectContractWS.on("VendorAllowanceAccept", handleGetVendorChainData);
-
-    return () => {
-      ProjectContractWS?.removeAllListeners();
-    };
-  }, [ProjectContractWS, handleGetVendorChainData]);
+  const acceptPendingTokens = async () => {
+    console.log("ACCEPT PENDING TOKENS");
+    const res = await VendorsService.acceptPendingTokens(vendorAddress);
+    console.log("ACCEPT PENDING TOKENS", res);
+  };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle className="title-center">Home</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse='condense'>
+        <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size='large'>Home</IonTitle>
+            <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Home />
+        <Home
+          allowance={chainData?.allowance}
+          isVendor={chainData?.isVendorApproved}
+          isProjectLocked={chainData?.isProjectLocked}
+          disbursed={chainData?.distributed}
+          pendingTokensToAccept={chainData?.pendingTokens}
+          acceptPendingTokens={acceptPendingTokens}
+          handleReload={handleReload}
+        />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Tab1;
+export default HomePage;
