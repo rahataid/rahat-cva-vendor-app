@@ -12,6 +12,7 @@ import ChargeBeneficiaryPage from "@pages/charge-beneficiary";
 import HomePage from "@pages/home";
 import InternetAccessCenterPage from "@pages/internet-center";
 import ProfilePage from "@pages/profile";
+import ProjectSettingsPage from "@pages/project-settings";
 import SettingsPage from "@pages/settings";
 import TransactionsListPage from "@pages/transactions-list";
 import TransactionsSettingsPage from "@pages/transactions-settings";
@@ -61,6 +62,11 @@ const Tabs: React.FC = () => {
             exact
             path="/tabs/settings/transactions/list"
             component={TransactionsListPage}
+          />
+          <Route
+            exact
+            path="/tabs/settings/project"
+            component={ProjectSettingsPage}
           />
         </Route>
       </IonRouterOutlet>

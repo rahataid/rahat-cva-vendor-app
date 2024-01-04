@@ -14,6 +14,7 @@ import {
   wifiOutline,
   people,
   cashOutline,
+  hammerOutline,
 } from "ionicons/icons";
 import { useHistory } from "react-router";
 
@@ -57,6 +58,13 @@ function Settings() {
       label: "Transactions",
       startIcon: cashOutline,
       action: () => history.push("/tabs/settings/transactions"),
+      isToggle: false,
+      endIcon: chevronForwardOutline,
+    },
+    {
+      label: "Projects",
+      startIcon: hammerOutline,
+      action: () => history.push("/tabs/settings/project"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },

@@ -16,11 +16,11 @@ import VendorsService from "@services/vendors";
 import { setTransactionStatus } from "@utils/helperFunctions";
 
 type StorageProjectSettings = {
-  baseUrl: string;
-  network: IProjectSettingsNetwork;
-  contracts: IProjectSettingsContractsApiResponse;
-  projectId: string;
-  internetAccess: boolean;
+  baseUrl?: string;
+  network?: IProjectSettingsNetwork;
+  contracts?: IProjectSettingsContractsApiResponse;
+  projectId?: string;
+  internetAccess?: boolean;
 } | null;
 
 type StorageOfflineTasks = {
@@ -184,9 +184,13 @@ const useAppStore = create<AppStoreType>()(
     },
 
     setProjectSettings: async (value: StorageProjectSettings) => {
+      set((state) => ({
+        projectSettings: { ...state.projectSettings, ...value },
+      }));
       const { storage } = get();
       const data = await storage?.get("projectSettings");
       if (storage) await storage.set("projectSettings", { ...data, ...value });
+      if (value?.baseUrl) axiosInstance.defaults.baseURL = value.baseUrl;
     },
 
     getProjectSettings: async () => {
