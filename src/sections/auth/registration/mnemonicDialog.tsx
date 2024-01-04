@@ -14,6 +14,15 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
       data: { from: "register" },
     });
   };
+  const handleCopyClick = async (event: React.MouseEvent) => {
+    try {
+      await navigator.clipboard.writeText(mnemonics);
+    } catch (error) {
+      console.error("Error copying text to clipboard:", error);
+    }
+
+    event.stopPropagation();
+  };
   return (
     <>
       <IonAlert
@@ -26,6 +35,11 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
           {
             text: "I have written it down",
             cssClass: "alert-button-confirm",
+          },
+          {
+            text: "Copy",
+            cssClass: "alert-button-confirm",
+            handler: (event: React.MouseEvent) => handleCopyClick(event),
           },
         ]}
         onDidDismiss={handleOnDidDismiss}
