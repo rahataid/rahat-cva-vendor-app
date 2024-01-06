@@ -88,6 +88,7 @@ const ChargeBeneficiary = () => {
   };
 
   const chargeBeneficiaryPhoneQr = async (formData: formDataType) => {
+    console.log("CARGE PHONE QR");
     const { phoneWalletInput: input, token } = formData;
 
     let selectedInput;
@@ -101,6 +102,8 @@ const ChargeBeneficiary = () => {
       token,
     };
 
+    let selectedBeneficiary;
+
     if (!internetAccess) {
       // 1. check if beneficiary is valid
 
@@ -112,37 +115,62 @@ const ChargeBeneficiary = () => {
         selectedInput
       );
       if (!isValidBeneficiary) throw new Error("Invalid beneficiary");
+
+      selectedBeneficiary = findObjectInArray(
+        beneficiaries,
+        checkObj,
+        selectedInput
+      );
+
+      //  2. check if token amount is valid
+
+      const hasValidTokenAmount = validateTokenAmount(
+        selectedBeneficiary,
+        checkObj,
+        selectedInput
+      );
+      console.log("SELECTED BENEFICIARY", selectedBeneficiary);
+      if (!hasValidTokenAmount) throw new Error("Not enough balance");
+
+      //  3. transfer data to the OTP page
+
+      const transactionPayload = {
+        amount: token,
+        createdAt: Date.now(),
+        status: "NEW",
+        isOffline: !internetAccess,
+        phone: selectedBeneficiary.phone,
+        walletAddress: selectedBeneficiary.walletAddress,
+      };
+
+      history.push("/otp", {
+        data: { transactionPayload, selectedBeneficiary, internetAccess },
+      });
+    } else {
+      let transactionPayload;
+      if (selectedInput === "phone") {
+        transactionPayload = {
+          amount: token,
+          createdAt: Date.now(),
+          status: "NEW",
+          isOffline: !internetAccess,
+          phone: input,
+        };
+      } else {
+        transactionPayload = {
+          amount: token,
+          createdAt: Date.now(),
+          status: "NEW",
+          isOffline: !internetAccess,
+          walletAddress: input,
+        };
+      }
+
+      history.push("/otp", {
+        data: { transactionPayload, selectedBeneficiary, internetAccess },
+      });
     }
 
-    const selectedBeneficiary = findObjectInArray(
-      beneficiaries,
-      checkObj,
-      selectedInput
-    );
-
-    //  2. check if token amount is valid
-
-    const hasValidTokenAmount = validateTokenAmount(
-      selectedBeneficiary,
-      checkObj,
-      selectedInput
-    );
-    if (!hasValidTokenAmount) throw new Error("Not enough balance");
-
-    //  3. transfer data to the OTP page
-
-    const transactionPayload = {
-      amount: token,
-      createdAt: Date.now(),
-      status: "NEW",
-      isOffline: !internetAccess,
-      phone: selectedBeneficiary.phone,
-      walletAddress: selectedBeneficiary.walletAddress,
-    };
-
-    history.push("/otp", {
-      data: { transactionPayload, selectedBeneficiary, internetAccess },
-    });
     // await mutateAsync({ phone, data: payload });
   };
 
@@ -166,6 +194,7 @@ const ChargeBeneficiary = () => {
       if (useQrCode) await chargeBeneficiaryQr(data);
       else await chargeBeneficiaryPhoneQr(data);
     } catch (error: any) {
+      console.log(error);
       const validErrors = [
         "Invalid beneficiary",
         "Not enough balance",

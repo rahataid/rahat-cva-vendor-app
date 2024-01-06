@@ -57,7 +57,7 @@ const OTP = ({ data }: Props) => {
       // }
       const otpHash = ethers.id(formData?.otp);
 
-      if (otpHash !== selectedBeneficiary?.otp)
+      if (otpHash !== selectedBeneficiary?.otpHash)
         throw new Error("OTP doesn't match");
 
       await addTransaction(transactionPayload);
