@@ -18,6 +18,7 @@ import ChargePhone from "./charge-phone";
 import ChargeQr from "./charge-qr";
 import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
 import { validateWalletAddress } from "@utils/web3";
+import VendorsService from "@services/vendors";
 import { IBeneficiary } from "@types/beneficiaries";
 
 type formDataType = {
@@ -27,13 +28,14 @@ type formDataType = {
 };
 
 const ChargeBeneficiary = () => {
-  const { internetAccess, addTransaction, beneficiaries, transactions } =
+  const { internetAccess, addTransaction, beneficiaries, transactions, wallet } =
     useAppStore((state) => ({
       internetAccess: state.projectSettings?.internetAccess,
       setClaimId: state.setClaimId,
       addTransaction: state.addTransaction,
       beneficiaries: state.beneficiaries,
       transactions: state.transactions,
+      wallet: state.wallet,
       // setTasks: state.setTasks,
     }));
 
@@ -165,6 +167,12 @@ const ChargeBeneficiary = () => {
           walletAddress: input,
         };
       }
+
+      const { data } = await VendorsService.initiateTransaction({
+        vendorAddress: wallet?.address || "",
+        beneficiaryAddress: input || "",
+        amount: token || "",
+      });
 
       history.push("/otp", {
         data: { transactionPayload, selectedBeneficiary, internetAccess },

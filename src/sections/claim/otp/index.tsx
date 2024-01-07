@@ -14,6 +14,8 @@ import { ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { IBeneficiary } from "../../../types/beneficiaries";
+import VendorsService from "@services/vendors";
+
 
 type Props = {
   data: {
@@ -27,9 +29,10 @@ const OTP = ({ data }: Props) => {
   const { transactionPayload, selectedBeneficiary, internetAccess } = data;
   const history = useHistory();
   const { processTokenRequest } = useProject();
-  const { addTransaction, chargeBeneficiary } = useAppStore((state) => ({
+  const { addTransaction, chargeBeneficiary, wallet } = useAppStore((state) => ({
     addTransaction: state.addTransaction,
     chargeBeneficiary: state.chargeBeneficiary,
+    wallet: state.wallet,
   }));
   const {
     handleSubmit,
@@ -55,14 +58,24 @@ const OTP = ({ data }: Props) => {
       //     history.push("/tabs/home");
       //   }
       // }
-      const otpHash = ethers.id(formData?.otp);
+      if (!internetAccess) {
+        const otpHash = ethers.id(formData?.otp);
 
-      if (otpHash !== selectedBeneficiary?.otpHash)
-        throw new Error("OTP doesn't match");
+        if (otpHash !== selectedBeneficiary?.otpHash)
+          throw new Error("OTP doesn't match");
 
-      await addTransaction(transactionPayload);
-
-      if (internetAccess) chargeBeneficiary(transactionPayload);
+        await addTransaction(transactionPayload);
+      } else {
+        console.log(transactionPayload)
+        const { data } = await VendorsService.processTransaction({
+          vendorAddress: wallet?.address || "",
+          beneficiaryAddress: transactionPayload?.phone || "",
+          otp: formData?.otp || "",
+        });
+        if (!data.hash) throw new Error("Something went wrong with OTP Verification")
+        await addTransaction({ ...transactionPayload, status: "SUCCESS", hash: data.hash });
+      }
+      //if (internetAccess) chargeBeneficiary(transactionPayload);
 
       history.push("/tabs/home");
     } catch (error: any) {

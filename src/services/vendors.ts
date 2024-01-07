@@ -1,4 +1,4 @@
-import { IAddVendorPayload, ISyncTransactionsPayload } from "../types/vendors";
+import { IAddVendorPayload, ISyncTransactionsPayload, IOnlineVendorTx, IOnlineVendorTxVerify } from "../types/vendors";
 import { axiosInstance, endpoints } from "../utils/axios";
 
 const VendorsService = {
@@ -28,6 +28,18 @@ const VendorsService = {
     axiosInstance.post(endpoints.vendors.blockchain, {
       method: "chargeBeneficiary",
       params: [payload.message, payload.signedMessage],
+    }),
+
+  initiateTransaction: (payload: IOnlineVendorTx) =>
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "initiateTransactionForVendor",
+      params: [payload.vendorAddress, payload.beneficiaryAddress, payload.amount],
+    }),
+
+  processTransaction: (payload: IOnlineVendorTxVerify) =>
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "processTransactionForVendor",
+      params: [payload.vendorAddress, payload.beneficiaryAddress, payload.otp],
     }),
 };
 
