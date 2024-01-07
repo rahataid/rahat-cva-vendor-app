@@ -31,3 +31,7 @@ export const setTransactionStatus = (
 
   return updatedTransactions;
 };
+
+export const cropString = (str: string, cropLength: number = 5) => {
+  return str.length > 2 * cropLength ? str.substring(0, cropLength) + "..." + str.substring(str.length - cropLength) : str;
+}
