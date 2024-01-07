@@ -12,6 +12,7 @@ import {
 } from "@ionic/react";
 import { ITransactionItem } from "../../types/transactions";
 import { useHistory } from "react-router";
+import { cropString } from "@utils/helperFunctions";
 
 type PropTypes = {
   transactionsList: ITransactionItem[] | null;
@@ -44,18 +45,26 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
                       <IonChip style={{ color: "blue" }}>ONLINE</IonChip>
                     )}
                   </IonNote>
-                  <h2>Transaction Hash: {el?.hash || "-"}</h2>
+                  <h2>Transaction Hash: {el?.hash ? cropString(el.hash) : "-"}</h2>
 
                   <IonNote>
-                    Wallet Address: {el?.walletAddress || el.phone || "-"}
+                    Wallet Address: {el?.walletAddress ? cropString(el.walletAddress) : "-"}
                   </IonNote>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <IonNote>
+                      Phone: {el.phone || "-"}
+                    </IonNote>
+                  </div>
+
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <IonNote>Tokens: {el?.amount || "-"}</IonNote>
                   </div>
                   <IonNote>
-                    Created At: {JSON.stringify(new Date(el?.createdAt)) || "-"}
+                    Created At: {JSON.stringify(new Date(el?.createdAt).toLocaleString()) || "-"}
                   </IonNote>
                 </IonLabel>
               </IonItem>

@@ -71,4 +71,8 @@ export const endpoints = {
     list: "/transactions",
     details: (txHash: string) => `/transactions/${txHash}`,
   },
+  projects: {
+    getProjectOfflineBeneficaries: (contractAddress: string) =>
+      `/projects/${contractAddress}/offlineBeneficiaries`,
+  },
 };

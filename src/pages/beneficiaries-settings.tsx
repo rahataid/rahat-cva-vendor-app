@@ -12,6 +12,7 @@ import { caretBack } from "ionicons/icons";
 import BeneficiariesSettings from "@sections/settings/beneficiaries-settings";
 import useAppStore from "@store/app";
 import BeneficiariesService from "@services/beneficiaries";
+import ProjectsService from "@services/projects";
 
 const BeneficiariesSettingsPage: React.FC = () => {
   const { projectSettings, setBeneficiariesList } = useAppStore();
@@ -20,12 +21,15 @@ const BeneficiariesSettingsPage: React.FC = () => {
   const [showLoading, setShowLoading] = useState(false);
 
   const handleSync = async () => {
-    console.log("HANDLE SYNC CALLED");
     setShowLoading(true);
     try {
-      const data = await BeneficiariesService.listMockBeneficiaries();
-      console.log("BENEFICIARIES FROM SERVICE", data);
-      setBeneficiariesList(data);
+      // const data = await BeneficiariesService.listMockBeneficiaries();
+      const data = await ProjectsService.getProjectOfflineBeneficaries(
+        projectSettings?.contracts?.CVAProject?.address
+      );
+      console.log("DATAAA", data);
+      console.log("BENEFICIARIES FROM SERVICE", data?.data);
+      setBeneficiariesList(data?.data);
       setShowLoading(false);
       setToastMessage("Beneficiaries synced");
       setShowToast(true);
