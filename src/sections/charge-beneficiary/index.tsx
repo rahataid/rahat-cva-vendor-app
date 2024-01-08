@@ -28,16 +28,21 @@ type formDataType = {
 };
 
 const ChargeBeneficiary = () => {
-  const { internetAccess, addTransaction, beneficiaries, transactions, wallet } =
-    useAppStore((state) => ({
-      internetAccess: state.projectSettings?.internetAccess,
-      setClaimId: state.setClaimId,
-      addTransaction: state.addTransaction,
-      beneficiaries: state.beneficiaries,
-      transactions: state.transactions,
-      wallet: state.wallet,
-      // setTasks: state.setTasks,
-    }));
+  const {
+    internetAccess,
+    addTransaction,
+    beneficiaries,
+    transactions,
+    wallet,
+  } = useAppStore((state) => ({
+    internetAccess: state.projectSettings?.internetAccess,
+    setClaimId: state.setClaimId,
+    addTransaction: state.addTransaction,
+    beneficiaries: state.beneficiaries,
+    transactions: state.transactions,
+    wallet: state.wallet,
+    // setTasks: state.setTasks,
+  }));
 
   // const { mutateAsync } = useChargeBeneficiary();
 
@@ -175,7 +180,12 @@ const ChargeBeneficiary = () => {
       });
 
       history.push("/otp", {
-        data: { transactionPayload, selectedBeneficiary, internetAccess },
+        data: {
+          transactionPayload,
+          selectedBeneficiary,
+          internetAccess,
+          selectedInput,
+        },
       });
     }
 

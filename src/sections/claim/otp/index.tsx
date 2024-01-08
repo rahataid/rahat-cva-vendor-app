@@ -16,24 +16,31 @@ import { useHistory } from "react-router";
 import { IBeneficiary } from "../../../types/beneficiaries";
 import VendorsService from "@services/vendors";
 
-
 type Props = {
   data: {
     transactionPayload: ITransactionItem;
     selectedBeneficiary: IBeneficiary;
     internetAccess: boolean;
+    selectedInput: "phone" | "walletAddress";
   };
 };
 
 const OTP = ({ data }: Props) => {
-  const { transactionPayload, selectedBeneficiary, internetAccess } = data;
+  const {
+    transactionPayload,
+    selectedBeneficiary,
+    internetAccess,
+    selectedInput,
+  } = data;
   const history = useHistory();
   const { processTokenRequest } = useProject();
-  const { addTransaction, chargeBeneficiary, wallet } = useAppStore((state) => ({
-    addTransaction: state.addTransaction,
-    chargeBeneficiary: state.chargeBeneficiary,
-    wallet: state.wallet,
-  }));
+  const { addTransaction, chargeBeneficiary, wallet } = useAppStore(
+    (state) => ({
+      addTransaction: state.addTransaction,
+      chargeBeneficiary: state.chargeBeneficiary,
+      wallet: state.wallet,
+    })
+  );
   const {
     handleSubmit,
     setError,
@@ -50,14 +57,6 @@ const OTP = ({ data }: Props) => {
 
   const onSubmit = async (formData: any) => {
     try {
-      // const tx = await processTokenRequest(beneficiary, data.otp);
-
-      // if (tx) {
-      //   const receipt = await tx.wait();
-      //   if (receipt.status) {
-      //     history.push("/tabs/home");
-      //   }
-      // }
       if (!internetAccess) {
         const otpHash = ethers.id(formData?.otp);
 
@@ -66,16 +65,23 @@ const OTP = ({ data }: Props) => {
 
         await addTransaction(transactionPayload);
       } else {
-        console.log(transactionPayload)
         const { data } = await VendorsService.processTransaction({
           vendorAddress: wallet?.address || "",
-          beneficiaryAddress: transactionPayload?.phone || "",
+          beneficiaryAddress:
+            (selectedInput === "phone" && transactionPayload?.phone) ||
+            (selectedInput === "walletAddress" &&
+              transactionPayload?.walletAddress) ||
+            "",
           otp: formData?.otp || "",
         });
-        if (!data.hash) throw new Error("Something went wrong with OTP Verification")
-        await addTransaction({ ...transactionPayload, status: "SUCCESS", hash: data.hash });
+        if (!data.hash)
+          throw new Error("Something went wrong with OTP Verification");
+        await addTransaction({
+          ...transactionPayload,
+          status: "SUCCESS",
+          hash: data.hash,
+        });
       }
-      //if (internetAccess) chargeBeneficiary(transactionPayload);
 
       history.push("/tabs/home");
     } catch (error: any) {
