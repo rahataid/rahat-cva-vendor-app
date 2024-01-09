@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IonIcon,
   IonLabel,
@@ -18,7 +19,7 @@ import TransactionsListPage from "@pages/transactions-list";
 import TransactionsSettingsPage from "@pages/transactions-settings";
 import useAppStore from "@store/app";
 import { home, person, qrCode, settings } from "ionicons/icons";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 const Tabs: React.FC = () => {
   const { chainData } = useAppStore((state) => ({
@@ -28,47 +29,47 @@ const Tabs: React.FC = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/tabs/home" component={HomePage} exact />
-        <Route
-          path="/tabs/charge-beneficiary"
-          component={ChargeBeneficiaryPage}
-          exact
-        />
-        <Route path="/tabs/profile" component={ProfilePage} exact />
-        <Route path="/tabs/settings" component={SettingsPage} exact />
-        <Route
-          path="/tabs/settings/internet-center"
-          component={InternetAccessCenterPage}
-          exact
-        />
-        <Route
-          path="/tabs/settings/beneficiaries"
-          component={BeneficiariesSettingsPage}
-          exact
-        />
-        <Route
-          path="/tabs/settings/beneficiaries/list"
-          component={BeneficiariesListPage}
-          exact
-        />
-        <Route
-          path="/tabs/settings/transactions"
-          component={TransactionsSettingsPage}
-          exact
-        />
-        <Route
-          path="/tabs/settings/transactions/list"
-          component={TransactionsListPage}
-          exact
-        />
-        <Route
-          path="/tabs/settings/project"
-          component={ProjectSettingsPage}
-          exact
-        />
-
-        <Redirect exact from="/tabs" to="/tabs/home" />
-        <Redirect to="/landing" />
+        <Switch>
+          <Route path="/tabs/home" component={HomePage} exact />
+          <Route
+            path="/tabs/charge-beneficiary"
+            component={ChargeBeneficiaryPage}
+            exact
+          />
+          <Route path="/tabs/profile" component={ProfilePage} exact />
+          <Route path="/tabs/settings" component={SettingsPage} exact />
+          <Route
+            path="/tabs/settings/internet-center"
+            component={InternetAccessCenterPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/beneficiaries"
+            component={BeneficiariesSettingsPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/beneficiaries/list"
+            component={BeneficiariesListPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/transactions"
+            component={TransactionsSettingsPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/transactions/list"
+            component={TransactionsListPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/project"
+            component={ProjectSettingsPage}
+            exact
+          />
+          <Redirect to="/landing" />
+        </Switch>
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
