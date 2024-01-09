@@ -18,7 +18,11 @@ const RestoreWalletPage: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton color="white" icon={caretBack}></IonBackButton>
+            <IonBackButton
+              color="white"
+              icon={caretBack}
+              defaultHref="/landing"
+            ></IonBackButton>
           </IonButtons>
           <IonTitle color="white">Restore Wallet</IonTitle>
         </IonToolbar>

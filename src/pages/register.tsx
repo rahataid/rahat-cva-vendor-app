@@ -18,14 +18,15 @@ const RegisterPage: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton color="white" icon={caretBack}></IonBackButton>
+            <IonBackButton
+              color="white"
+              icon={caretBack}
+              defaultHref="/landing"
+            ></IonBackButton>
           </IonButtons>
           <IonTitle color="white">
             <IonText>Register</IonText>
           </IonTitle>
-          <IonButtons slot="end">
-            <></>
-          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>
