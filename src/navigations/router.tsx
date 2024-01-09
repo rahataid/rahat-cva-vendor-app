@@ -52,25 +52,19 @@ const Router = () => {
         </IonTitle>
       )} */}
       <IonReactRouter>
-        <IonRouterOutlet
-        // style={
-        //   !internetAccess
-        //     ? {
-        //         marginTop: "40px",
-        //       }
-        //     : {}
-        // }
-        >
+        <IonRouterOutlet>
           <Switch>
-            <Redirect exact from="/" to="/tabs" />
-            <PrivateRoute path="/tabs" component={Tabs} />
+            <Redirect exact from="/" to="/landing" />
+
             <Route exact path="/select-project" component={SelectProjectPage} />
             <Route exact path="/landing" component={LandingPage} />
             <Route exact path="/register" component={RegisterPage} />
             <Route exact path="/restore-wallet" component={RestoreWalletPage} />
             <Route exact path="/otp" component={OTPPage} />
 
-            <Redirect from="/" to="/landing" />
+            <PrivateRoute path="/tabs" component={Tabs} />
+
+            <Redirect to="/landing" />
           </Switch>
         </IonRouterOutlet>
       </IonReactRouter>
