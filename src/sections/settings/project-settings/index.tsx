@@ -40,7 +40,7 @@ const ProjectSettings = ({
                     <IonInput
                       value={inputValue}
                       placeholder="Enter value"
-                      onIonChange={handleInputChange}
+                      onIonInput={handleInputChange}
                     ></IonInput>
                   ) : (
                     <div>{inputValue}</div>
