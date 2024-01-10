@@ -11,11 +11,18 @@ export const findObjectInArray = (arr: any, obj: any, key: any) => {
 export const setTransactionStatus = (
   transactions: ITransactionItem[],
   offlineTransactions: ITransactionItem[],
-  status: Status
+  status: Status,
+  response?: any
 ) => {
-  offlineTransactions.forEach((el: ITransactionItem) => {
-    el.status = status;
-  });
+  if (status === "SUCCESS")
+    offlineTransactions.forEach((el: ITransactionItem) => {
+      el.status = status;
+      el.hash = response?.hash;
+    });
+  else
+    offlineTransactions.forEach((el: ITransactionItem) => {
+      el.status = status;
+    });
 
   const updatedArrayIds = offlineTransactions.map((obj) => obj.createdAt);
 
@@ -33,5 +40,9 @@ export const setTransactionStatus = (
 };
 
 export const cropString = (str: string, cropLength: number = 5) => {
-  return str.length > 2 * cropLength ? str.substring(0, cropLength) + "..." + str.substring(str.length - cropLength) : str;
-}
+  return str.length > 2 * cropLength
+    ? str.substring(0, cropLength) +
+        "..." +
+        str.substring(str.length - cropLength)
+    : str;
+};
