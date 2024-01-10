@@ -215,6 +215,7 @@ const ChargeBeneficiary = () => {
       console.log(error);
       const validErrors = [
         "Invalid beneficiary",
+        "Invalid Beneficiary Address",
         "Not enough balance",
         "Please sync beneficiaries to charge in offline mode",
       ];
