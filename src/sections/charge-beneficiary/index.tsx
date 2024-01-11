@@ -19,8 +19,8 @@ import ChargeQr from "./charge-qr";
 import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
 import { validateWalletAddress } from "@utils/web3";
 import VendorsService from "@services/vendors";
-import { IBeneficiary } from "@types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import { ITransactionItem, Status } from "@types/transactions";
 
 type formDataType = {
   phoneWalletInput?: string | null;
@@ -142,35 +142,38 @@ const ChargeBeneficiary = () => {
 
       //  3. transfer data to the OTP page
 
-      const transactionPayload = {
+      const transactionPayload: ITransactionItem = {
         amount: token,
         createdAt: Date.now(),
-        status: "NEW",
+        status: Status.NEW,
         isOffline: !internetAccess,
         phone: selectedBeneficiary.phone,
         walletAddress: selectedBeneficiary.walletAddress,
+        vendorWalletAddress: wallet?.address,
       };
 
       history.push("/otp", {
         data: { transactionPayload, selectedBeneficiary, internetAccess },
       });
     } else {
-      let transactionPayload;
+      let transactionPayload: ITransactionItem;
       if (selectedInput === "phone") {
         transactionPayload = {
           amount: token,
           createdAt: Date.now(),
-          status: "NEW",
+          status: Status.NEW,
           isOffline: !internetAccess,
           phone: input,
+          vendorWalletAddress: wallet?.address,
         };
       } else {
         transactionPayload = {
           amount: token,
           createdAt: Date.now(),
-          status: "NEW",
+          status: Status.NEW,
           isOffline: !internetAccess,
           walletAddress: input,
+          vendorWalletAddress: wallet?.address,
         };
       }
 
