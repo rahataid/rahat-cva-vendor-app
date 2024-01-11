@@ -1,3 +1,4 @@
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
   IonButton,
   IonCard,
@@ -30,7 +31,7 @@ const ProjectSettings = ({
 
   return (
     <>
-      <IonCard>
+      <TransparentCard>
         <IonList>
           <IonItem>
             <IonGrid>
@@ -61,7 +62,7 @@ const ProjectSettings = ({
             </IonGrid>
           </IonItem>
         </IonList>
-      </IonCard>
+      </TransparentCard>
     </>
   );
 };

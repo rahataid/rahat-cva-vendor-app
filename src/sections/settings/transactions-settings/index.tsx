@@ -1,3 +1,4 @@
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
   IonButton,
   IonCard,
@@ -48,7 +49,7 @@ const TransactionsSettings = ({
         message={"Syncing..."}
         onDidDismiss={() => setShowLoading(false)}
       />
-      <IonCard>
+      <TransparentCard>
         <IonList>
           <IonItem>
             <div onClick={handleButtonFocus} className="button-full-width">
@@ -69,7 +70,7 @@ const TransactionsSettings = ({
             <IonIcon icon={chevronForwardOutline} slot="end" />
           </IonItem>
         </IonList>
-      </IonCard>
+      </TransparentCard>
     </>
   );
 };

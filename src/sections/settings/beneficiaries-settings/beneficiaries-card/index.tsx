@@ -7,13 +7,14 @@ import {
   IonCardContent,
 } from "@ionic/react";
 import { IBeneficiary } from "../../../../types/beneficiaries";
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
   beneficiary: IBeneficiary;
 };
 const BeneficiaryCard = ({ beneficiary }: Props) => {
   return (
-    <IonCard>
+    <TransparentCard>
       <IonCardHeader>
         <IonCardTitle>{beneficiary?.name}</IonCardTitle>
       </IonCardHeader>
@@ -26,7 +27,7 @@ const BeneficiaryCard = ({ beneficiary }: Props) => {
           <strong>Token:</strong> {beneficiary?.token}
         </p>
       </IonCardContent>
-    </IonCard>
+    </TransparentCard>
   );
 };
 

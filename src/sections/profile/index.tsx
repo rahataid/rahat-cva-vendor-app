@@ -20,6 +20,7 @@ import {
 
 import "./profile.scss";
 import { mail, person, location, call, wallet } from "ionicons/icons";
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type PropTypes = {
   currentUser: any;
@@ -30,7 +31,7 @@ const Profile = ({ currentUser }: PropTypes) => {
   return (
     <>
       {/* <IonLoading isOpen={isLoading} message={"Syncing..."} /> */}
-      <IonCard>
+      <TransparentCard>
         <IonList>
           <IonItem>
             <IonIcon aria-hidden="true" icon={person} slot="start"></IonIcon>
@@ -53,7 +54,7 @@ const Profile = ({ currentUser }: PropTypes) => {
             <IonLabel>{currentUser?.walletAddress || "-"}</IonLabel>
           </IonItem>
         </IonList>
-      </IonCard>
+      </TransparentCard>
     </>
   );
 };

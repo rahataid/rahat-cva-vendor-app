@@ -1,3 +1,4 @@
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
   IonCard,
   IonCardContent,
@@ -16,14 +17,14 @@ interface CardProps {
 
 const CardComponent: React.FC<CardProps> = ({ title, subtitle, image }) => {
   return (
-    <IonCard>
+    <TransparentCard>
       {image && <IonImg src={image} />}
       <IonCardHeader>
         <IonCardSubtitle>{subtitle}</IonCardSubtitle>
         <IonCardTitle>{title}</IonCardTitle>
       </IonCardHeader>
       <IonCardContent>{/* Add any additional content here */}</IonCardContent>
-    </IonCard>
+    </TransparentCard>
   );
 };
 

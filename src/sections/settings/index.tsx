@@ -1,6 +1,7 @@
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
+  IonAlert,
   IonAvatar,
-  IonCard,
   IonIcon,
   IonItem,
   IonLabel,
@@ -16,9 +17,12 @@ import {
   cashOutline,
   hammerOutline,
 } from "ionicons/icons";
+import { useState } from "react";
 import { useHistory } from "react-router";
+import "../auth/registration/mnemonicDialog.scss";
 
 function Settings() {
+  const [showAlert, setShowAlert] = useState(false);
   const { internetAccess, setInternetAccess, currentUser, logout } =
     useAppStore((state) => ({
       setInternetAccess: state.setInternetAccess,
@@ -34,8 +38,16 @@ function Settings() {
   };
 
   const handleLogout = () => {
+    setShowAlert(true);
+  };
+
+  const handleConfirmLogout = () => {
     logout();
     history.replace("/landing");
+  };
+
+  const handleCancelLogout = () => {
+    setShowAlert(false);
   };
 
   const settingsOptions = [
@@ -76,34 +88,54 @@ function Settings() {
   ];
 
   return (
-    <IonCard>
-      <IonList>
-        <IonItem button={true} onClick={() => history.push("/tabs/profile")}>
-          <IonAvatar slot="start">
-            <img
-              alt="User avatar"
-              src="https://ionicframework.com/docs/img/demos/avatar.svg"
-            />
-          </IonAvatar>
-          <IonLabel>{currentUser?.name || "-"}</IonLabel>
-        </IonItem>
-      </IonList>
-      <IonList>
-        <IonItem>
-          <IonIcon icon={wifiOutline} slot="start" />
-          <IonLabel>Internet Status</IonLabel>
-          <IonToggle checked={internetAccess} onIonChange={handleToggle} />
-        </IonItem>
-        {settingsOptions.map((option, index) => (
-          <IonItem key={index} button={true} onClick={option.action}>
-            <IonIcon icon={option.startIcon} slot="start" />
-
-            <IonLabel>{option.label}</IonLabel>
-            {option?.endIcon && <IonIcon icon={option.endIcon} slot="end" />}
+    <>
+      <IonAlert
+        isOpen={showAlert}
+        onDidDismiss={() => setShowAlert(false)}
+        header={"Confirm Logout"}
+        message={"Are you sure you want to logout?"}
+        buttons={[
+          {
+            text: "Cancel",
+            cssClass: "alert-button-confirm",
+            handler: handleCancelLogout,
+          },
+          {
+            text: "Confirm",
+            cssClass: "alert-button-confirm",
+            handler: handleConfirmLogout,
+          },
+        ]}
+      />
+      <TransparentCard>
+        <IonList>
+          <IonItem button={true} onClick={() => history.push("/tabs/profile")}>
+            <IonAvatar slot="start">
+              <img
+                alt="User avatar"
+                src="https://ionicframework.com/docs/img/demos/avatar.svg"
+              />
+            </IonAvatar>
+            <IonLabel>{currentUser?.name || "-"}</IonLabel>
           </IonItem>
-        ))}
-      </IonList>
-    </IonCard>
+        </IonList>
+        <IonList>
+          <IonItem>
+            <IonIcon icon={wifiOutline} slot="start" />
+            <IonLabel>Internet Status</IonLabel>
+            <IonToggle checked={internetAccess} onIonChange={handleToggle} />
+          </IonItem>
+          {settingsOptions.map((option, index) => (
+            <IonItem key={index} button={true} onClick={option.action}>
+              <IonIcon icon={option.startIcon} slot="start" />
+
+              <IonLabel>{option.label}</IonLabel>
+              {option?.endIcon && <IonIcon icon={option.endIcon} slot="end" />}
+            </IonItem>
+          ))}
+        </IonList>
+      </TransparentCard>
+    </>
   );
 }
 export default Settings;
