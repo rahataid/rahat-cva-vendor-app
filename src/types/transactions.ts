@@ -5,11 +5,12 @@ export enum Status {
 }
 
 export type ITransactionItem = {
-  createdAt: string;
+  createdAt: string | number;
   amount: string;
   status: Status;
   isOffline: boolean;
   hash?: string;
   walletAddress?: string;
   phone?: string;
+  vendorWalletAddress: string;
 };

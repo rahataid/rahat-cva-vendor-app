@@ -143,7 +143,13 @@ const useAppStore = create<AppStoreType>()(
         }
 
         if (transactions) {
-          set({ transactions });
+          if (wallet) {
+            let filteredTransactions = transactions.filter(
+              (transaction: ITransactionItem) =>
+                transaction.vendorWalletAddress === wallet.address
+            );
+            set({ transactions: filteredTransactions });
+          }
         }
         set({
           isInitialized: true,
