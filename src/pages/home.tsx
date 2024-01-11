@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
           allowance={chainData?.allowance}
           isVendor={chainData?.isVendorApproved}
           isProjectLocked={chainData?.isProjectLocked}
-          disbursed={chainData?.distributed}
+          disbursed={chainData?.disbursed}
           pendingTokensToAccept={chainData?.pendingTokens}
           acceptPendingTokens={acceptPendingTokens}
           handleReload={handleReload}
