@@ -20,6 +20,7 @@ import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
 import { validateWalletAddress } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import { IBeneficiary } from "@types/beneficiaries";
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type formDataType = {
   phoneWalletInput?: string | null;
@@ -215,6 +216,7 @@ const ChargeBeneficiary = () => {
       console.log(error);
       const validErrors = [
         "Invalid beneficiary",
+        "Invalid Beneficiary Address",
         "Not enough balance",
         "Please sync beneficiaries to charge in offline mode",
       ];
@@ -233,7 +235,7 @@ const ChargeBeneficiary = () => {
       <IonGrid className="charge-container">
         <IonRow className="charge-form-container">
           <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
-            <IonCard>
+            <TransparentCard>
               <IonCardHeader>
                 <IonCardTitle color="light">Charge Beneficiary</IonCardTitle>
                 {useQrCode ? (
@@ -252,7 +254,7 @@ const ChargeBeneficiary = () => {
                   />
                 )}
               </IonCardHeader>
-            </IonCard>
+            </TransparentCard>
           </IonCol>
         </IonRow>
         <IonRow className="charge-button-container">

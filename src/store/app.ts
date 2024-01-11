@@ -9,7 +9,7 @@ import {
 } from "../types/project-settings";
 import { axiosInstance } from "@utils/axios";
 import taskProcess from "@utils/taskProcess";
-import { ITransactionItem } from "../types/transactions";
+import { ITransactionItem, Status } from "../types/transactions";
 import { IBeneficiary } from "../types/beneficiaries";
 import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
 import VendorsService from "@services/vendors";
@@ -344,18 +344,19 @@ const useAppStore = create<AppStoreType>()(
       };
 
       try {
-        await VendorsService.syncTransactions(payload);
+        const res = await VendorsService.syncTransactions(payload);
         const updatedTransactions = setTransactionStatus(
           transactions,
           offlineTransactions,
-          "SUCCESS"
+          Status.SUCCESS,
+          res?.data
         );
         get().setTransactions(updatedTransactions);
       } catch (error) {
         const updatedTransactions = setTransactionStatus(
           transactions,
           offlineTransactions,
-          "FAIL"
+          Status.FAIL
         );
         get().setTransactions(updatedTransactions);
         throw error;

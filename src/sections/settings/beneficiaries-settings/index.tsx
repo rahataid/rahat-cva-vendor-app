@@ -12,6 +12,7 @@ import { chevronForwardOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 import "./index.scss";
 import CustomToast from "@components/toast";
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
   handleSync: any;
@@ -52,7 +53,7 @@ const BeneficiariesSettings = ({
         message={"Syncing..."}
         onDidDismiss={() => setShowLoading(false)}
       />
-      <IonCard>
+      <TransparentCard>
         <IonList>
           <IonItem>
             <div onClick={handleButtonFocus} className="button-full-width">
@@ -73,7 +74,7 @@ const BeneficiariesSettings = ({
             <IonIcon icon={chevronForwardOutline} slot="end" />
           </IonItem>
         </IonList>
-      </IonCard>
+      </TransparentCard>
     </>
   );
 };

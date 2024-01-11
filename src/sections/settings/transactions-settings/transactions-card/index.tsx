@@ -1,5 +1,6 @@
 import { IonCard, IonCardContent } from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
   transaction: ITransactionItem;
@@ -9,7 +10,7 @@ const TransactionCard = ({ transaction }: Props) => {
     transaction;
 
   return (
-    <IonCard>
+    <TransparentCard>
       <IonCardContent>
         <h2>
           <b>Transaction Hash: {hash || "N/A"}</b>
@@ -21,7 +22,7 @@ const TransactionCard = ({ transaction }: Props) => {
         <p>Phone: {phone || "N/A"}</p>
         <p>Created At: {createdAt?.toString() || "N/A"}</p>
       </IonCardContent>
-    </IonCard>
+    </TransparentCard>
   );
 };
 
