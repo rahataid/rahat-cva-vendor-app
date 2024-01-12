@@ -27,8 +27,6 @@ const ProjectSettings = ({
   handleSaveClick,
   handleInputChange,
 }: Props) => {
-  console.log(projectSettings?.internetAccess);
-
   return (
     <>
       <TransparentCard>

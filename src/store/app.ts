@@ -55,6 +55,9 @@ type AppActionsType = {
   setInternetAccess: (value: boolean) => void;
   addTransaction: (data: object) => Promise<void>;
   setTransactions: (data: object) => Promise<void>;
+  getVendorTransactionsList: (
+    address: string
+  ) => Promise<ITransactionItem[] | []>;
   getTransactionsList: () => Promise<[]> | Promise<void>;
   getTransaction: (id: string) => Promise<void>;
   setProjectSettings: (value: StorageProjectSettings) => Promise<void>;
@@ -93,7 +96,6 @@ const useAppStore = create<AppStoreType>()(
     beneficiaries: [],
 
     initialize: async () => {
-      console.log("INITIALIZE CALLED");
       const store = new Storage({
         driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
         name: "RahatVendor",
@@ -144,11 +146,11 @@ const useAppStore = create<AppStoreType>()(
 
         if (transactions) {
           if (wallet) {
-            let filteredTransactions = transactions.filter(
-              (transaction: ITransactionItem) =>
-                transaction.vendorWalletAddress === wallet.address
+            const { getVendorTransactionsList, wallet } = get();
+            const vendorTransactions = await getVendorTransactionsList(
+              wallet?.address
             );
-            set({ transactions: filteredTransactions });
+            set({ transactions: vendorTransactions });
           }
         }
         set({
@@ -204,9 +206,9 @@ const useAppStore = create<AppStoreType>()(
     },
 
     addTransaction: async (data) => {
-      const { txStorage } = get();
+      const { txStorage, wallet, getVendorTransactionsList } = get();
       if (txStorage) {
-        let currentTransactions = await txStorage?.get("transactions");
+        const currentTransactions = await txStorage?.get("transactions");
         let payload;
         if (currentTransactions?.length) {
           payload = [...currentTransactions, data];
@@ -215,26 +217,41 @@ const useAppStore = create<AppStoreType>()(
           payload = [data];
           await txStorage?.set("transactions", payload);
         }
-        console.log("WHILE ADDING", payload);
-        set({ transactions: payload });
+        const vendorTransactions = await getVendorTransactionsList(
+          wallet?.address
+        );
+        set({ transactions: vendorTransactions });
       }
     },
 
     setTransactions: async (data: ITransactionItem[]) => {
-      const { txStorage } = get();
+      const { txStorage, getVendorTransactionsList, wallet } = get();
       if (txStorage) {
         await txStorage?.set("transactions", data);
-        set({ transactions: data });
+        const vendorTransactions = await getVendorTransactionsList(
+          wallet?.address
+        );
+        set({ transactions: vendorTransactions });
       }
+    },
+
+    getVendorTransactionsList: async (vendorWalletAddress: string) => {
+      const { getTransactionsList } = get();
+      const transactions = await getTransactionsList();
+      if (!transactions?.length) return [];
+      const filteredTransactions = transactions.filter(
+        (transaction) => transaction.vendorWalletAddress === vendorWalletAddress
+      );
+      return filteredTransactions;
     },
 
     getTransactionsList: async () => {
       const { txStorage } = get();
-      let transactions;
+      let transactions = [];
       if (txStorage) {
         transactions = await txStorage.get("transactions");
       }
-      set({ transactions });
+      return transactions;
     },
 
     getTransaction: async (id) => {
@@ -253,7 +270,6 @@ const useAppStore = create<AppStoreType>()(
     },
 
     setTasks: async (key: string, value: StorageOfflineTasks) => {
-      console.log("key,value", key, value);
       const { storage, projectSettings } = get();
 
       if (projectSettings?.internetAccess) {
@@ -324,16 +340,17 @@ const useAppStore = create<AppStoreType>()(
     },
 
     async syncTransactions() {
-      const transactions = get().transactions;
+      const transactions = await get().getTransactionsList();
       const stateWallet = get().wallet;
       const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
 
-      // only get offline transactions with status = NEW || FAIL
+      // only get vendor's offline transactions with status = NEW || FAIL
       const cond1 = (item: any) => item.isOffline;
       const cond2 = (item: any) =>
         item.status === "NEW" || item.status === "FAIL";
+      const cond3 = (item: any) => item.vendorWalletAddress === wallet?.address;
       const offlineTransactions = transactions.filter(
-        (el) => cond1(el) && cond2(el)
+        (el) => cond1(el) && cond2(el) && cond3(el)
       );
 
       if (!offlineTransactions.length)
@@ -418,14 +435,15 @@ const useAppStore = create<AppStoreType>()(
     },
 
     async setBeneficiariesList(data) {
-      console.log("SET BENEFICIARIES", data);
       set({ beneficiaries: data });
       await get().storage?.set("beneficiaries", data);
     },
 
     async logout() {
       await get().storage?.clear();
-      await get().txStorage?.clear();
+      await get().txStorage?.remove("wallet");
+      await get().txStorage?.remove("currentUser");
+      await get().txStorage?.remove("chainData");
       set({
         chainData: {
           allowance: 0,

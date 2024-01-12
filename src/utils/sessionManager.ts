@@ -55,5 +55,4 @@ export const getProjectSettings = (key: string) => {
 export const logOut = () => {
   localStorage.removeItem("wallet");
   localStorage.removeItem("currentUser");
-  localStorage.clear();
 };

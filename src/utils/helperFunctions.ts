@@ -46,3 +46,7 @@ export const cropString = (str: string, cropLength: number = 5) => {
         str.substring(str.length - cropLength)
     : str;
 };
+
+export const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text);
+};

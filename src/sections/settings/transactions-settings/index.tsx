@@ -34,7 +34,6 @@ const TransactionsSettings = ({
   setShowLoading,
 }: Props) => {
   const history = useHistory();
-  console.log(projectSettings?.internetAccess);
   return (
     <>
       <IonToast

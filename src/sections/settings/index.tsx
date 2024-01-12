@@ -97,7 +97,7 @@ function Settings() {
         buttons={[
           {
             text: "Cancel",
-            cssClass: "alert-button-confirm",
+            cssClass: "alert-button-cancel",
             handler: handleCancelLogout,
           },
           {

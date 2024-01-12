@@ -2,3 +2,8 @@ button.alert-button.alert-button-confirm {
   background-color: var(--ion-color-white);
   color: var(--ion-color-white-contrast);
 }
+
+button.alert-button.alert-button-cancel {
+  border: 1px solid #fff;
+  color: var(--ion-color-white);
+}

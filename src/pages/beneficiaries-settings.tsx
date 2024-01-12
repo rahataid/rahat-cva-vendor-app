@@ -27,8 +27,6 @@ const BeneficiariesSettingsPage: React.FC = () => {
       const data = await ProjectsService.getProjectOfflineBeneficaries(
         projectSettings?.contracts?.CVAProject?.address
       );
-      console.log("DATAAA", data);
-      console.log("BENEFICIARIES FROM SERVICE", data?.data);
       setBeneficiariesList(data?.data);
       setShowLoading(false);
       setToastMessage("Beneficiaries synced");
@@ -43,7 +41,6 @@ const BeneficiariesSettingsPage: React.FC = () => {
   };
 
   const handleButtonFocus = () => {
-    console.log("HAANDLE BUTTON FOCUS");
     if (!projectSettings?.internetAccess) {
       setToastMessage("Must be online to sync");
       setShowToast(true);

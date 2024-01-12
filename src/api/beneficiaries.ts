@@ -10,7 +10,6 @@ export const useChargeBeneficiary = () => {
     {
       onMutate: async ({ data, phone }) => {
         const key = "chargeBeneficiary";
-        console.log("data", data);
 
         await setTasks(key, {
           payload: {

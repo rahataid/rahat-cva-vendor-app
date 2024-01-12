@@ -38,7 +38,6 @@ const BeneficiariesSettings = ({
   setShowLoading,
 }: Props) => {
   const history = useHistory();
-  console.log(projectSettings?.internetAccess);
   return (
     <>
       <CustomToast

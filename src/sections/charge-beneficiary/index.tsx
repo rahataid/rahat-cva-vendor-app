@@ -5,6 +5,7 @@ import {
   IonCardTitle,
   IonCol,
   IonGrid,
+  IonLoading,
   IonProgressBar,
   IonRow,
 } from "@ionic/react";
@@ -20,7 +21,7 @@ import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
 import { validateWalletAddress } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { ITransactionItem, Status } from "@types/transactions";
+import { ITransactionItem, Status } from "../../types/transactions";
 
 type formDataType = {
   phoneWalletInput?: string | null;
@@ -88,22 +89,17 @@ const ChargeBeneficiary = () => {
 
     if (formData.token) totalAmount += +formData.token;
 
-    console.log("TOTAL AMOUNT", totalAmount);
-    console.log("TOTAL CHARGEABLE AMOUNT", +selectedBeneficiary.token);
-
     if (totalAmount > +selectedBeneficiary.token) return false;
     return true;
   };
 
   const chargeBeneficiaryPhoneQr = async (formData: formDataType) => {
-    console.log("CARGE PHONE QR");
     const { phoneWalletInput: input, token } = formData;
 
     let selectedInput;
     const isInputWalletAddress = validateWalletAddress(input);
     if (!isInputWalletAddress) selectedInput = "phone";
     else selectedInput = "walletAddress";
-    console.log("INTERNET ACCESS", internetAccess);
 
     const checkObj = {
       [selectedInput]: input,
@@ -137,7 +133,6 @@ const ChargeBeneficiary = () => {
         checkObj,
         selectedInput
       );
-      console.log("SELECTED BENEFICIARY", selectedBeneficiary);
       if (!hasValidTokenAmount) throw new Error("Not enough balance");
 
       //  3. transfer data to the OTP page
@@ -198,7 +193,6 @@ const ChargeBeneficiary = () => {
 
   const chargeBeneficiaryQr = async (data: any) => {
     const { qrCode, token } = data;
-    console.log("INTERNET ACCESS", internetAccess);
     if (!internetAccess) {
       const payload = {
         walletAddress: qrCode,
@@ -234,76 +228,72 @@ const ChargeBeneficiary = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <IonGrid className="charge-container">
-        <IonRow className="charge-form-container">
-          <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
-            <TransparentCard>
-              <IonCardHeader>
-                <IonCardTitle color="light">Charge Beneficiary</IonCardTitle>
-                {useQrCode ? (
-                  <ChargeQr
-                    getValues={getValues}
-                    errors={errors}
-                    setValue={setValue}
-                    control={control}
-                  />
-                ) : (
-                  <ChargePhone
-                    getValues={getValues}
-                    errors={errors}
-                    setValue={setValue}
-                    control={control}
-                  />
-                )}
-              </IonCardHeader>
-            </TransparentCard>
-          </IonCol>
-        </IonRow>
-        <IonRow className="charge-button-container">
-          <IonCol
-            size="11"
-            sizeMd="11"
-            sizeLg="11"
-            sizeXl="11"
-            className="charge-button-wrapper"
-          >
-            <IonButton
-              color="white"
-              fill="clear"
-              onClick={handleToggle}
-              disabled={isSubmitting}
+    <>
+      <IonLoading isOpen={isSubmitting} message={"Please wait..."} />
+      <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
+        <IonGrid className="charge-container">
+          <IonRow className="charge-form-container">
+            <IonCol size="11" sizeMd="12" sizeXs="12" sizeLg="11" sizeXl="11">
+              <TransparentCard>
+                <IonCardHeader>
+                  <IonCardTitle>Charge Beneficiary</IonCardTitle>
+                  {useQrCode ? (
+                    <ChargeQr
+                      getValues={getValues}
+                      errors={errors}
+                      setValue={setValue}
+                      control={control}
+                    />
+                  ) : (
+                    <ChargePhone
+                      getValues={getValues}
+                      errors={errors}
+                      setValue={setValue}
+                      control={control}
+                    />
+                  )}
+                </IonCardHeader>
+              </TransparentCard>
+            </IonCol>
+          </IonRow>
+          <IonRow className="charge-button-container">
+            <IonCol
+              size="11"
+              sizeMd="11"
+              sizeLg="11"
+              sizeXl="11"
+              className="charge-button-wrapper"
             >
-              {useQrCode ? "Use Phone" : "Use QR"}
-            </IonButton>
-            <IonButton
-              color="white"
-              fill="outline"
-              expand="block"
-              onClick={handleCancel}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </IonButton>
-            <IonButton
-              type="submit"
-              expand="block"
-              color="white"
-              disabled={!isValid || isSubmitting}
-            >
-              {isSubmitting ? (
-                <IonProgressBar
-                  type="indeterminate"
-                  style={{ width: "60px" }}
-                ></IonProgressBar>
-              ) : (
-                "Submit"
-              )}
-            </IonButton>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-    </form>
+              <IonButton
+                color="white"
+                fill="clear"
+                onClick={handleToggle}
+                disabled={isSubmitting}
+              >
+                {useQrCode ? "Use Phone" : "Use QR"}
+              </IonButton>
+              <IonButton
+                color="white"
+                fill="outline"
+                expand="block"
+                onClick={handleCancel}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </IonButton>
+              <IonButton
+                type="submit"
+                expand="block"
+                color="white"
+                disabled={!isValid || isSubmitting}
+              >
+                Submit
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+      </form>
+    </>
   );
 };
 
