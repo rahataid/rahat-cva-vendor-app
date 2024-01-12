@@ -9,14 +9,14 @@ axiosInstance.interceptors.request.use(
       useAppStore.getState().projectSettings?.internetAccess;
 
     if (hasInternetAccess === false) {
-      console.error("No internet access" + "URL:", req.url);
+      console.error("No internet access" + " URL:", req.url);
+      throw new Error("NO INTERNET ACCESS");
     }
-    console.log("Yes Internet Access");
 
     return req;
   },
   (error) => {
-    console.log("---->", error);
+    console.error("---->", error);
     return Promise.reject(error);
   }
 );
@@ -24,7 +24,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => {
-    console.log(
+    console.error(
       "AXIOS INTERCEPTOR RES error",
       JSON.stringify(error),
       "=======",
