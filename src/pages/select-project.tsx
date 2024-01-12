@@ -26,7 +26,6 @@ const SelectProjectPage: React.FC = () => {
   const {
     data: { from },
   } = location.state || { data: null };
-  console.log(from);
   return (
     <IonPage>
       <IonHeader>

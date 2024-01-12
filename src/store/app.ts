@@ -96,7 +96,6 @@ const useAppStore = create<AppStoreType>()(
     beneficiaries: [],
 
     initialize: async () => {
-      console.log("INITIALIZE CALLED");
       const store = new Storage({
         driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
         name: "RahatVendor",
@@ -218,7 +217,6 @@ const useAppStore = create<AppStoreType>()(
           payload = [data];
           await txStorage?.set("transactions", payload);
         }
-        console.log("WHILE ADDING", payload);
         const vendorTransactions = await getVendorTransactionsList(
           wallet?.address
         );
@@ -230,11 +228,9 @@ const useAppStore = create<AppStoreType>()(
       const { txStorage, getVendorTransactionsList, wallet } = get();
       if (txStorage) {
         await txStorage?.set("transactions", data);
-        console.log("SET TRANSACTIONS DATA", data);
         const vendorTransactions = await getVendorTransactionsList(
           wallet?.address
         );
-        console.log("UPDATED VENDOR TRANSACTIONS DATA", vendorTransactions);
         set({ transactions: vendorTransactions });
       }
     },
@@ -246,7 +242,6 @@ const useAppStore = create<AppStoreType>()(
       const filteredTransactions = transactions.filter(
         (transaction) => transaction.vendorWalletAddress === vendorWalletAddress
       );
-      console.log("VENDOR TRANSACTIONS ==>", filteredTransactions);
       return filteredTransactions;
     },
 
@@ -256,7 +251,6 @@ const useAppStore = create<AppStoreType>()(
       if (txStorage) {
         transactions = await txStorage.get("transactions");
       }
-      console.log("ALL TRANSACTIONS", transactions);
       return transactions;
     },
 
@@ -276,7 +270,6 @@ const useAppStore = create<AppStoreType>()(
     },
 
     setTasks: async (key: string, value: StorageOfflineTasks) => {
-      console.log("key,value", key, value);
       const { storage, projectSettings } = get();
 
       if (projectSettings?.internetAccess) {
@@ -348,7 +341,6 @@ const useAppStore = create<AppStoreType>()(
 
     async syncTransactions() {
       const transactions = await get().getTransactionsList();
-      console.log("ALL TRANSACTIONS ==>", transactions);
       const stateWallet = get().wallet;
       const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
 
@@ -360,7 +352,6 @@ const useAppStore = create<AppStoreType>()(
       const offlineTransactions = transactions.filter(
         (el) => cond1(el) && cond2(el) && cond3(el)
       );
-      console.log("VENDORS TRANSACTIONS ===>", offlineTransactions);
 
       if (!offlineTransactions.length)
         throw new Error("No pending transactions to sync");
@@ -444,7 +435,6 @@ const useAppStore = create<AppStoreType>()(
     },
 
     async setBeneficiariesList(data) {
-      console.log("SET BENEFICIARIES", data);
       set({ beneficiaries: data });
       await get().storage?.set("beneficiaries", data);
     },

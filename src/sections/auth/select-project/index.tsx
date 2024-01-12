@@ -65,7 +65,6 @@ const SelectProject = ({ from }: Props) => {
 
       //   history.push("/home");
       // }
-      console.log("SUBMIT FROM", from);
       if (from === "register") {
         const [blockchain, contracts, contractDetails, vendor] =
           await Promise.all([

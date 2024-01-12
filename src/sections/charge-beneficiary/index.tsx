@@ -21,7 +21,7 @@ import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
 import { validateWalletAddress } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { ITransactionItem, Status } from "@types/transactions";
+import { ITransactionItem, Status } from "../../types/transactions";
 
 type formDataType = {
   phoneWalletInput?: string | null;
@@ -89,22 +89,17 @@ const ChargeBeneficiary = () => {
 
     if (formData.token) totalAmount += +formData.token;
 
-    console.log("TOTAL AMOUNT", totalAmount);
-    console.log("TOTAL CHARGEABLE AMOUNT", +selectedBeneficiary.token);
-
     if (totalAmount > +selectedBeneficiary.token) return false;
     return true;
   };
 
   const chargeBeneficiaryPhoneQr = async (formData: formDataType) => {
-    console.log("CARGE PHONE QR");
     const { phoneWalletInput: input, token } = formData;
 
     let selectedInput;
     const isInputWalletAddress = validateWalletAddress(input);
     if (!isInputWalletAddress) selectedInput = "phone";
     else selectedInput = "walletAddress";
-    console.log("INTERNET ACCESS", internetAccess);
 
     const checkObj = {
       [selectedInput]: input,
@@ -138,7 +133,6 @@ const ChargeBeneficiary = () => {
         checkObj,
         selectedInput
       );
-      console.log("SELECTED BENEFICIARY", selectedBeneficiary);
       if (!hasValidTokenAmount) throw new Error("Not enough balance");
 
       //  3. transfer data to the OTP page
@@ -199,7 +193,6 @@ const ChargeBeneficiary = () => {
 
   const chargeBeneficiaryQr = async (data: any) => {
     const { qrCode, token } = data;
-    console.log("INTERNET ACCESS", internetAccess);
     if (!internetAccess) {
       const payload = {
         walletAddress: qrCode,
