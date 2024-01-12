@@ -3,6 +3,7 @@ import {
   IonButton,
   IonCol,
   IonGrid,
+  IonLoading,
   IonProgressBar,
   IonRow,
   IonText,
@@ -98,68 +99,67 @@ const OTP = ({ data }: Props) => {
     history.goBack();
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <IonGrid className="restore-container">
-        <IonRow className="restore-form-container">
-          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
-            <Controller
-              render={({ field }) => (
-                <TextInputField
-                  placeholder="Enter OTP"
-                  type="text"
-                  label="OTP*"
-                  value={getValues("otp")}
-                  errorText={errors?.otp?.message}
-                  onInput={(e: any) => {
-                    setValue("otp", e.target.value, {
-                      shouldValidate: true,
-                    });
-                  }}
-                  onBlur={field.onBlur}
-                />
+    <>
+      <IonLoading isOpen={isSubmitting} message={"Please wait..."} />
+      <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
+        <IonGrid className="restore-container">
+          <IonRow className="restore-form-container">
+            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+              <Controller
+                render={({ field }) => (
+                  <TextInputField
+                    placeholder="Enter OTP"
+                    type="text"
+                    label="OTP*"
+                    value={getValues("otp")}
+                    errorText={errors?.otp?.message}
+                    onInput={(e: any) => {
+                      setValue("otp", e.target.value, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onBlur={field.onBlur}
+                  />
+                )}
+                rules={{
+                  required: "Please enter OTP",
+                }}
+                control={control}
+                name="otp"
+              />
+              <br />
+              {errors?.root?.serverError?.message && (
+                <IonText color="danger">
+                  {errors?.root?.serverError.message}
+                </IonText>
               )}
-              rules={{
-                required: "Please enter OTP",
-              }}
-              control={control}
-              name="otp"
-            />
-            <br />
-            {errors?.root?.serverError?.message && (
-              <IonText color="danger">
-                {errors?.root?.serverError.message}
-              </IonText>
-            )}
-          </IonCol>
-        </IonRow>
-        <IonRow className="restore-button-container">
-          <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
-            <IonButton
-              type="submit"
-              expand="block"
-              color="white"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <IonProgressBar type="indeterminate"></IonProgressBar>
-              ) : (
-                "Submit"
-              )}
-            </IonButton>
-            <IonRow className="gap-5"></IonRow>
-            <IonButton
-              color="white"
-              fill="outline"
-              expand="block"
-              onClick={handleCancel}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </IonButton>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-    </form>
+            </IonCol>
+          </IonRow>
+          <IonRow className="restore-button-container">
+            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+              <IonButton
+                type="submit"
+                expand="block"
+                color="white"
+                disabled={isSubmitting}
+              >
+                Submit
+              </IonButton>
+              <IonRow className="gap-5"></IonRow>
+              <IonButton
+                color="white"
+                fill="outline"
+                expand="block"
+                onClick={handleCancel}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+      </form>
+    </>
   );
 };
 
