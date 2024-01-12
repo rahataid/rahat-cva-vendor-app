@@ -237,7 +237,7 @@ const ChargeBeneficiary = () => {
     <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
       <IonGrid className="charge-container">
         <IonRow className="charge-form-container">
-          <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
+          <IonCol size="11" sizeMd="12" sizeXs="12" sizeLg="11" sizeXl="11">
             <TransparentCard>
               <IonCardHeader>
                 <IonCardTitle>Charge Beneficiary</IonCardTitle>

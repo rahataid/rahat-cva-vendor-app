@@ -31,6 +31,7 @@ import {
 import { copyToClipboard, cropString } from "@utils/helperFunctions";
 import { useState } from "react";
 import CustomToast from "@components/toast";
+import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type PropTypes = {
   currentUser: any;
@@ -53,7 +54,7 @@ const Profile = ({ currentUser }: PropTypes) => {
         duration={2000}
         position="middle"
       />
-      <IonCard>
+      <TransparentCard>
         <IonList>
           <IonItem>
             <IonIcon aria-hidden="true" icon={person} slot="start"></IonIcon>
@@ -86,7 +87,7 @@ const Profile = ({ currentUser }: PropTypes) => {
             />
           </IonItem>
         </IonList>
-      </IonCard>
+      </TransparentCard>
     </>
   );
 };
