@@ -55,6 +55,7 @@ type AppActionsType = {
   setInternetAccess: (value: boolean) => void;
   addTransaction: (data: object) => Promise<void>;
   setTransactions: (data: object) => Promise<void>;
+  getVendorTransactionsList: (address: string) => [] | ITransactionItem[];
   getTransactionsList: () => Promise<[]> | Promise<void>;
   getTransaction: (id: string) => Promise<void>;
   setProjectSettings: (value: StorageProjectSettings) => Promise<void>;
@@ -204,9 +205,9 @@ const useAppStore = create<AppStoreType>()(
     },
 
     addTransaction: async (data) => {
-      const { txStorage } = get();
+      const { txStorage, wallet } = get();
       if (txStorage) {
-        let currentTransactions = await txStorage?.get("transactions");
+        const currentTransactions = await txStorage?.get("transactions");
         let payload;
         if (currentTransactions?.length) {
           payload = [...currentTransactions, data];
@@ -216,25 +217,45 @@ const useAppStore = create<AppStoreType>()(
           await txStorage?.set("transactions", payload);
         }
         console.log("WHILE ADDING", payload);
-        set({ transactions: payload });
+        const filteredTransactions = payload.filter(
+          (transaction: ITransactionItem) =>
+            transaction.vendorWalletAddress === wallet?.address
+        );
+        set({ transactions: filteredTransactions });
       }
     },
 
     setTransactions: async (data: ITransactionItem[]) => {
-      const { txStorage } = get();
+      const { txStorage, getVendorTransactionsList, wallet } = get();
       if (txStorage) {
         await txStorage?.set("transactions", data);
-        set({ transactions: data });
+        console.log("SET TRANSACTIONS DATA", data);
+        const vendorTransactions = await getVendorTransactionsList(
+          wallet?.address
+        );
+        console.log("UPDATED VENDOR TRANSACTIONS DATA", vendorTransactions);
+        set({ transactions: vendorTransactions });
       }
+    },
+
+    getVendorTransactionsList: async (vendorWalletAddress: string) => {
+      const { getTransactionsList } = get();
+      const transactions = await getTransactionsList();
+      if (!transactions?.length) return [];
+      const filteredTransactions = transactions.filter(
+        (transaction) => transaction.vendorWalletAddress === vendorWalletAddress
+      );
+      return filteredTransactions;
     },
 
     getTransactionsList: async () => {
       const { txStorage } = get();
-      let transactions;
+      let transactions = [];
       if (txStorage) {
         transactions = await txStorage.get("transactions");
       }
-      set({ transactions });
+      console.log("ALL TRANSACTIONS", transactions);
+      return transactions;
     },
 
     getTransaction: async (id) => {
@@ -324,17 +345,20 @@ const useAppStore = create<AppStoreType>()(
     },
 
     async syncTransactions() {
-      const transactions = get().transactions;
+      const transactions = await get().getTransactionsList();
+      console.log("ALL TRANSACTIONS ==>", transactions);
       const stateWallet = get().wallet;
       const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
 
-      // only get offline transactions with status = NEW || FAIL
+      // only get vendor's offline transactions with status = NEW || FAIL
       const cond1 = (item: any) => item.isOffline;
       const cond2 = (item: any) =>
         item.status === "NEW" || item.status === "FAIL";
+      const cond3 = (item: any) => item.vendorWalletAddress === wallet?.address;
       const offlineTransactions = transactions.filter(
-        (el) => cond1(el) && cond2(el)
+        (el) => cond1(el) && cond2(el) && cond3(el)
       );
+      console.log("VENDORS TRANSACTIONS ===>", offlineTransactions);
 
       if (!offlineTransactions.length)
         throw new Error("No pending transactions to sync");
@@ -425,7 +449,9 @@ const useAppStore = create<AppStoreType>()(
 
     async logout() {
       await get().storage?.clear();
-      await get().txStorage?.clear();
+      await get().txStorage?.remove("wallet");
+      await get().txStorage?.remove("currentUser");
+      await get().txStorage?.remove("chainData");
       set({
         chainData: {
           allowance: 0,
