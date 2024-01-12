@@ -23,6 +23,9 @@ const BeneficiaryCard = ({ beneficiary }: Props) => {
         <p>
           <strong>Wallet Address:</strong> {beneficiary?.walletAddress}
         </p>
+        {/* <p>
+          <strong>Phone:</strong> {beneficiary?.phone}
+        </p> */}
         <p>
           <strong>Token:</strong> {beneficiary?.token}
         </p>

@@ -1,4 +1,9 @@
-import { IonCard, IonCardContent } from "@ionic/react";
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+} from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
@@ -11,16 +16,34 @@ const TransactionCard = ({ transaction }: Props) => {
 
   return (
     <TransparentCard>
+      {/* <IonCardHeader>
+        <IonCardTitle>Transaction Hash: {hash || "N/A"}</IonCardTitle>
+      </IonCardHeader> */}
       <IonCardContent>
-        <h2>
-          <b>Transaction Hash: {hash || "N/A"}</b>
-        </h2>
-        <p>amount: {amount || "N/A"}</p>
-        <p>Status: {status || "N/A"}</p>
-        <p>Offline: {isOffline ? "Yes" : "No"}</p>
-        <p>Wallet Address: {walletAddress || "N/A"}</p>
-        <p>Phone: {phone || "N/A"}</p>
-        <p>Created At: {createdAt?.toString() || "N/A"}</p>
+        <p>
+          <strong>Transaction Hash:</strong> {hash || "N/A"}
+        </p>
+        <p>
+          <strong>amount:</strong> {amount || "N/A"}
+        </p>
+        <p>
+          <strong>Status:</strong> {status || "N/A"}
+        </p>
+        <p>
+          <strong>Offline: </strong>
+          {isOffline ? "Yes" : "No"}
+        </p>
+        <p>
+          <strong>Wallet Address:</strong> {walletAddress || "N/A"}
+        </p>
+        <p>
+          <strong>Phone: </strong>
+          {phone || "N/A"}
+        </p>
+        <p>
+          <strong>Created At: </strong>
+          {new Date(createdAt).toLocaleString() || "-" || "N/A"}
+        </p>
       </IonCardContent>
     </TransparentCard>
   );
