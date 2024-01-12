@@ -55,7 +55,9 @@ type AppActionsType = {
   setInternetAccess: (value: boolean) => void;
   addTransaction: (data: object) => Promise<void>;
   setTransactions: (data: object) => Promise<void>;
-  getVendorTransactionsList: (address: string) => [] | ITransactionItem[];
+  getVendorTransactionsList: (
+    address: string
+  ) => Promise<ITransactionItem[] | []>;
   getTransactionsList: () => Promise<[]> | Promise<void>;
   getTransaction: (id: string) => Promise<void>;
   setProjectSettings: (value: StorageProjectSettings) => Promise<void>;
@@ -145,11 +147,11 @@ const useAppStore = create<AppStoreType>()(
 
         if (transactions) {
           if (wallet) {
-            let filteredTransactions = transactions.filter(
-              (transaction: ITransactionItem) =>
-                transaction.vendorWalletAddress === wallet.address
+            const { getVendorTransactionsList, wallet } = get();
+            const vendorTransactions = await getVendorTransactionsList(
+              wallet?.address
             );
-            set({ transactions: filteredTransactions });
+            set({ transactions: vendorTransactions });
           }
         }
         set({
@@ -205,7 +207,7 @@ const useAppStore = create<AppStoreType>()(
     },
 
     addTransaction: async (data) => {
-      const { txStorage, wallet } = get();
+      const { txStorage, wallet, getVendorTransactionsList } = get();
       if (txStorage) {
         const currentTransactions = await txStorage?.get("transactions");
         let payload;
@@ -217,11 +219,10 @@ const useAppStore = create<AppStoreType>()(
           await txStorage?.set("transactions", payload);
         }
         console.log("WHILE ADDING", payload);
-        const filteredTransactions = payload.filter(
-          (transaction: ITransactionItem) =>
-            transaction.vendorWalletAddress === wallet?.address
+        const vendorTransactions = await getVendorTransactionsList(
+          wallet?.address
         );
-        set({ transactions: filteredTransactions });
+        set({ transactions: vendorTransactions });
       }
     },
 
@@ -245,6 +246,7 @@ const useAppStore = create<AppStoreType>()(
       const filteredTransactions = transactions.filter(
         (transaction) => transaction.vendorWalletAddress === vendorWalletAddress
       );
+      console.log("VENDOR TRANSACTIONS ==>", filteredTransactions);
       return filteredTransactions;
     },
 
