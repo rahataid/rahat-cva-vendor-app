@@ -240,7 +240,7 @@ const ChargeBeneficiary = () => {
           <IonCol size="11" sizeMd="11" sizeLg="11" sizeXl="11">
             <TransparentCard>
               <IonCardHeader>
-                <IonCardTitle color="light">Charge Beneficiary</IonCardTitle>
+                <IonCardTitle>Charge Beneficiary</IonCardTitle>
                 {useQrCode ? (
                   <ChargeQr
                     getValues={getValues}
