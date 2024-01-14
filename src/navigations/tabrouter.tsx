@@ -68,7 +68,8 @@ const Tabs: React.FC = () => {
             component={ProjectSettingsPage}
             exact
           />
-          <Redirect to="/landing" />
+          <Redirect exact from="/tabs" to="/tabs/home" />
+          <Redirect to="/not-found" />
         </Switch>
       </IonRouterOutlet>
 

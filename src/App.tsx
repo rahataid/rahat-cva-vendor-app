@@ -18,10 +18,9 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Router from "@navigations/router";
-import useAppStore from "@store/app";
 import "./theme/global.scss";
 
 setupIonicReact();
@@ -29,22 +28,10 @@ setupIonicReact();
 const App: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
 
-  // const { initialize } = useAppStore();
-
-  // useEffect(() => {
-  //   const init = async () => {
-  //     await initialize();
-  //   };
-
-  //   init();
-  // }, []);
-
   return (
     <IonApp>
       <QueryClientProvider client={queryClient}>
-        {/* <AppContainer> */}
         <Router />
-        {/* </AppContainer> */}
       </QueryClientProvider>
     </IonApp>
   );
