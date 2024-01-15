@@ -1,13 +1,12 @@
 import {
   IonButton,
-  IonCard,
   IonCardHeader,
   IonCardTitle,
   IonCol,
   IonGrid,
   IonLoading,
-  IonProgressBar,
   IonRow,
+  useIonViewWillLeave,
 } from "@ionic/react";
 
 import useAppStore from "@store/app";
@@ -43,10 +42,9 @@ const ChargeBeneficiary = () => {
     beneficiaries: state.beneficiaries,
     transactions: state.transactions,
     wallet: state.wallet,
-    // setTasks: state.setTasks,
   }));
 
-  // const { mutateAsync } = useChargeBeneficiary();
+  const [loadingVisible, setLoadingVisible] = useState(false);
 
   const [useQrCode, setUseQrCode] = useState(false);
 
@@ -61,7 +59,7 @@ const ChargeBeneficiary = () => {
     control,
     setValue,
     getValues,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -69,6 +67,10 @@ const ChargeBeneficiary = () => {
       token: "",
       qrCode: "",
     },
+  });
+
+  useIonViewWillLeave(() => {
+    setLoadingVisible(false);
   });
 
   const handleToggle = () => {
@@ -146,10 +148,11 @@ const ChargeBeneficiary = () => {
         walletAddress: selectedBeneficiary.walletAddress,
         vendorWalletAddress: wallet?.address,
       };
-
+      console.log("iS SUBMITTING", isSubmitting);
       history.push("/otp", {
         data: { transactionPayload, selectedBeneficiary, internetAccess },
       });
+      console.log("iS SUBMITTING", isSubmitting);
     } else {
       let transactionPayload: ITransactionItem;
       if (selectedInput === "phone") {
@@ -187,8 +190,6 @@ const ChargeBeneficiary = () => {
         },
       });
     }
-
-    // await mutateAsync({ phone, data: payload });
   };
 
   const chargeBeneficiaryQr = async (data: any) => {
@@ -207,6 +208,7 @@ const ChargeBeneficiary = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      setLoadingVisible(true);
       if (useQrCode) await chargeBeneficiaryQr(data);
       else await chargeBeneficiaryPhoneQr(data);
     } catch (error: any) {
@@ -229,7 +231,7 @@ const ChargeBeneficiary = () => {
 
   return (
     <>
-      <IonLoading isOpen={isSubmitting} message={"Please wait..."} />
+      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="charge-container">
           <IonRow className="charge-form-container">
