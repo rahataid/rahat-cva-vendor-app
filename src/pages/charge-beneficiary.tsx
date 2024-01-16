@@ -1,3 +1,4 @@
+import CustomHeader from "@components/header/customHeader";
 import {
   IonContent,
   IonHeader,
@@ -10,17 +11,8 @@ import ChargeBeneficiary from "@sections/charge-beneficiary";
 const ChargeBeneficiaryPage: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle className="title-center">Charge Token</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Charge Beneficiaries" showStatus />
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Charge Token</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <ChargeBeneficiary />
       </IonContent>
     </IonPage>

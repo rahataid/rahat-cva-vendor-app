@@ -11,12 +11,14 @@ import {
 import { caretBack } from "ionicons/icons";
 import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
 import useAppStore from "@store/app";
+import CustomHeader from "@components/header/customHeader";
 
 const TransactionsListPage: React.FC = () => {
   const { transactions } = useAppStore();
   return (
     <IonPage>
-      <IonHeader>
+      <CustomHeader title="Transactions List" showStatus showBackButton />
+      {/* <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
             <IonBackButton
@@ -27,7 +29,7 @@ const TransactionsListPage: React.FC = () => {
           </IonButtons>
           <IonTitle color="white">Transactions List</IonTitle>
         </IonToolbar>
-      </IonHeader>
+      </IonHeader> */}
 
       <IonContent>
         <TransactionsList data={transactions} />

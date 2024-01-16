@@ -1,3 +1,4 @@
+import CustomHeader from "@components/header/customHeader";
 import {
   IonContent,
   IonHeader,
@@ -10,17 +11,8 @@ import Settings from "@sections/settings";
 const SettingsPage: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle className="title-center">Settings</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Settings" showStatus={true} />
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Settings</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <Settings />
       </IonContent>
     </IonPage>

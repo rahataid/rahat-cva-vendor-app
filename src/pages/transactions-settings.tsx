@@ -12,6 +12,7 @@ import {
 import { caretBack } from "ionicons/icons";
 import useAppStore from "@store/app";
 import TransactionsSettings from "@sections/settings/transactions-settings";
+import CustomHeader from "@components/header/customHeader";
 
 const TransactionsSettingsPage: React.FC = () => {
   const { projectSettings, syncTransactions } = useAppStore();
@@ -55,18 +56,7 @@ const TransactionsSettingsPage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton
-              color="white"
-              icon={caretBack}
-              defaultHref="/tabs/settings"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle color="white">Transactions</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Transactions" showStatus showBackButton />
       <IonContent>
         <TransactionsSettings {...props} />
       </IonContent>
