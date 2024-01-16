@@ -118,12 +118,10 @@ function Settings() {
             </IonAvatar>
             <IonLabel>{currentUser?.name || "-"}</IonLabel>
           </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
+          <IonItem button={true} onClick={handleToggle}>
             <IonIcon icon={wifiOutline} slot="start" />
             <IonLabel>Internet Status</IonLabel>
-            <IonToggle checked={internetAccess} onIonChange={handleToggle} />
+            <IonToggle checked={internetAccess} />
           </IonItem>
           {settingsOptions.map((option, index) => (
             <IonItem key={index} button={true} onClick={option.action}>

@@ -4,9 +4,9 @@ import {
   IonCol,
   IonGrid,
   IonLoading,
-  IonProgressBar,
   IonRow,
   IonText,
+  useIonViewWillLeave,
 } from "@ionic/react";
 import { useProject } from "@services/contracts/useProject";
 import useAppStore from "@store/app";
@@ -16,6 +16,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { IBeneficiary } from "../../../types/beneficiaries";
 import VendorsService from "@services/vendors";
+import { useState } from "react";
 
 type Props = {
   data: {
@@ -34,14 +35,12 @@ const OTP = ({ data }: Props) => {
     selectedInput,
   } = data;
   const history = useHistory();
-  const { processTokenRequest } = useProject();
-  const { addTransaction, chargeBeneficiary, wallet } = useAppStore(
-    (state) => ({
-      addTransaction: state.addTransaction,
-      chargeBeneficiary: state.chargeBeneficiary,
-      wallet: state.wallet,
-    })
-  );
+  const [loadingVisible, setLoadingVisible] = useState(false);
+  const { addTransaction, wallet } = useAppStore((state) => ({
+    addTransaction: state.addTransaction,
+    chargeBeneficiary: state.chargeBeneficiary,
+    wallet: state.wallet,
+  }));
   const {
     handleSubmit,
     setError,
@@ -54,6 +53,10 @@ const OTP = ({ data }: Props) => {
     defaultValues: {
       otp: "",
     },
+  });
+
+  useIonViewWillLeave(() => {
+    setLoadingVisible(false);
   });
 
   const onSubmit = async (formData: any) => {
@@ -100,7 +103,7 @@ const OTP = ({ data }: Props) => {
   };
   return (
     <>
-      <IonLoading isOpen={isSubmitting} message={"Please wait..."} />
+      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="restore-container">
           <IonRow className="restore-form-container">

@@ -8,12 +8,12 @@ import {
   IProjectSettingsNetwork,
 } from "../types/project-settings";
 import { axiosInstance } from "@utils/axios";
-import taskProcess from "@utils/taskProcess";
 import { ITransactionItem, Status } from "../types/transactions";
 import { IBeneficiary } from "../types/beneficiaries";
 import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import { setTransactionStatus } from "@utils/helperFunctions";
+import ProjectsService from "@services/projects";
 
 type StorageProjectSettings = {
   baseUrl?: string;
@@ -60,12 +60,14 @@ type AppActionsType = {
   ) => Promise<ITransactionItem[] | []>;
   getTransactionsList: () => Promise<[]> | Promise<void>;
   getTransaction: (id: string) => Promise<void>;
+  getPendingOfflineTransactions: () => Promise<[] | ITransactionItem[]>;
   setProjectSettings: (value: StorageProjectSettings) => Promise<void>;
   getProjectSettings: () => Promise<void>;
   setWallet: (wallet: any) => void;
   setTasks: (key: string, value: StorageOfflineTasks) => Promise<void>;
   setChainData: (data: any) => void;
-  syncTransactions: () => void;
+  syncTransactions: () => Promise<void>;
+  syncBeneficiaries: () => Promise<void>;
   setBeneficiariesList: (data: any) => void;
   logout: () => void;
   chargeBeneficiary: (payload: ITransactionItem) => Promise<void>;
@@ -321,22 +323,25 @@ const useAppStore = create<AppStoreType>()(
         ...currentProjectSettings,
         internetAccess: value,
       });
+    },
 
-      // if (value === true) {
-      //   const { storage } = get();
-      //   if (storage) {
-      //     const tasks = await storage.get("offlineTasks");
-      //     if (tasks) {
-      //       for (const [key, value] of Object.entries(tasks)) {
-      //         for (const task of value) {
-      //           const { callFn, params } = task;
-      //           const fn = new Function(`return ${callFn}`)();
-      //           fn(...params);
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
+    async getPendingOfflineTransactions() {
+      // only get vendor's offline transactions with status = NEW || FAIL
+      const transactions = await get().getTransactionsList();
+      const wallet = get().wallet;
+
+      if (!transactions?.length) return [];
+
+      const cond1 = (item: any) => item.isOffline;
+      const cond2 = (item: any) =>
+        item.status === "NEW" || item.status === "FAIL";
+      const cond3 = (item: any) => item.vendorWalletAddress === wallet?.address;
+
+      const offlineTransactions = transactions.filter(
+        (el) => cond1(el) && cond2(el) && cond3(el)
+      );
+
+      return offlineTransactions;
     },
 
     async syncTransactions() {
@@ -344,16 +349,8 @@ const useAppStore = create<AppStoreType>()(
       const stateWallet = get().wallet;
       const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
 
-      // only get vendor's offline transactions with status = NEW || FAIL
-      const cond1 = (item: any) => item.isOffline;
-      const cond2 = (item: any) =>
-        item.status === "NEW" || item.status === "FAIL";
-      const cond3 = (item: any) => item.vendorWalletAddress === wallet?.address;
-      const offlineTransactions = transactions.filter(
-        (el) => cond1(el) && cond2(el) && cond3(el)
-      );
-
-      if (!offlineTransactions.length)
+      const offlineTransactions = await get().getPendingOfflineTransactions();
+      if (!offlineTransactions?.length)
         throw new Error("No pending transactions to sync");
 
       const signedMessage = await signMessage({
@@ -384,26 +381,24 @@ const useAppStore = create<AppStoreType>()(
         get().setTransactions(updatedTransactions);
         throw error;
       }
+    },
 
-      // offlineTransactions.forEach(({ phone, ...data }) => {
-      //   const sendData = {
-      //     amount: data.amount,
-      //   };
-      //   return taskProcess.chargeBeneficiaryPhone.callFn(phone, sendData);
-      // });
+    async syncBeneficiaries() {
+      const {
+        getPendingOfflineTransactions,
+        setBeneficiariesList,
+        projectSettings,
+      } = get();
+      const pendingOfflineTransactions = await getPendingOfflineTransactions();
+      if (pendingOfflineTransactions?.length)
+        throw new Error(
+          "Please sync pending offline transactions first to sync beneficiaries again"
+        );
 
-      // for (const el of offlineTransactions) {
-      //   const { phone, amount } = el;
-      //   const payload = {
-      //     amount,
-      //     phone,
-      //   };
-      //   const res = await taskProcess.chargeBeneficiaryPhone.callFn(
-      //     wallet?.address,
-      //     payload
-      //   );
-      //   console.log(res);
-      // }
+      const data = await ProjectsService.getProjectOfflineBeneficaries(
+        projectSettings?.contracts?.CVAProject?.address
+      );
+      setBeneficiariesList(data?.data);
     },
 
     async chargeBeneficiary(data: ITransactionItem) {

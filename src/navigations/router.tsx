@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route, Switch } from "react-router-dom";
-
 import IndeterminateLoader from "@components/loaders/Indeterminate";
 import LandingPage from "@pages/landing-screen";
 import OTPPage from "@pages/otp";
@@ -9,14 +8,18 @@ import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
 import useAppStore from "@store/app";
 import PrivateRoute from "./private-routes";
-import Tabs from "./tabrouter"; // Updated import
+import Tabs from "./tabrouter";
 import SelectProjectPage from "@pages/select-project";
+import NotFoundPage from "@sections/auth/not-found";
 
 const Router = () => {
-  const { initialize, isInitialized } = useAppStore((state) => ({
-    initialize: state.initialize,
-    isInitialized: state.isInitialized,
-  }));
+  const { initialize, isInitialized, isAuthenticated } = useAppStore(
+    (state) => ({
+      initialize: state.initialize,
+      isInitialized: state.isInitialized,
+      isAuthenticated: state.isAuthenticated,
+    })
+  );
 
   useEffect(() => {
     initialize();
@@ -37,8 +40,13 @@ const Router = () => {
 
         <PrivateRoute path="/tabs" component={Tabs} />
 
-        <Redirect exact from="/" to="/landing" />
+        {isAuthenticated ? (
+          <Redirect exact from="/" to="/tabs/home" />
+        ) : (
+          <Redirect exact from="/" to="/landing" />
+        )}
 
+        <Route path="*" component={NotFoundPage} />
         <Redirect to="/landing" />
       </Switch>
     </IonReactRouter>
