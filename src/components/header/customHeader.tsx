@@ -1,5 +1,3 @@
-// CustomHeader.tsx
-
 import React from "react";
 import {
   IonHeader,
@@ -12,7 +10,6 @@ import {
 } from "@ionic/react";
 import { caretBack, wifi } from "ionicons/icons";
 import useAppStore from "@store/app";
-import { useHistory } from "react-router";
 
 interface CustomHeaderProps {
   title: string;
@@ -25,22 +22,15 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
   showBackButton = false,
   showStatus = false,
 }) => {
-  const {
-    projectSettings: { internetAccess },
-  } = useAppStore();
-
-  const history = useHistory();
-
-  const handleBack = () => {
-    history.goBack();
-  };
+  const { projectSettings } = useAppStore();
+  const internetAccess = projectSettings?.internetAccess || false;
 
   return (
     <IonHeader>
       <IonToolbar>
         {showBackButton && (
           <IonButtons slot="start">
-            <IonButton color="white" icon={caretBack} onClick={handleBack} />
+            <IonBackButton color="white" icon={caretBack} />
           </IonButtons>
         )}
         <IonTitle color="white">{title}</IonTitle>

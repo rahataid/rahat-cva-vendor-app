@@ -6,8 +6,8 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
   return (
     <>
       <IonCardSubtitle>
-        You are about to send tokens to this beneficiary. Please enter phone
-        number / wallet address of the beneficiary.
+        You are about to send tokens a beneficiary. Please enter phone number /
+        wallet address of the beneficiary.
       </IonCardSubtitle>
       <IonRow className="gap-25"></IonRow>
       <Controller

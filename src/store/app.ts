@@ -40,7 +40,7 @@ export type AppStateType = {
   storage: Storage | null;
   txStorage: Storage | null;
   contractsFn: any;
-  projectSettings: StorageProjectSettings | null;
+  projectSettings: StorageProjectSettings;
   offlineTasks: any;
   transactions: [ITransactionItem] | [];
   beneficiaries: [IBeneficiary] | [];

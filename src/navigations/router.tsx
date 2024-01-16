@@ -11,6 +11,7 @@ import PrivateRoute from "./private-routes";
 import Tabs from "./tabrouter";
 import SelectProjectPage from "@pages/select-project";
 import NotFoundPage from "@sections/auth/not-found";
+import { IonRouterOutlet } from "@ionic/react";
 
 const Router = () => {
   const { initialize, isInitialized, isAuthenticated } = useAppStore(
@@ -31,24 +32,26 @@ const Router = () => {
 
   return (
     <IonReactRouter>
-      <Switch>
-        <Route exact path="/landing" component={LandingPage} />
-        <Route exact path="/register" component={RegisterPage} />
-        <Route exact path="/restore-wallet" component={RestoreWalletPage} />
-        <Route exact path="/select-project" component={SelectProjectPage} />
-        <Route exact path="/otp" component={OTPPage} />
+      <IonRouterOutlet>
+        <Switch>
+          <Route exact path="/landing" component={LandingPage} />
+          <Route exact path="/register" component={RegisterPage} />
+          <Route exact path="/restore-wallet" component={RestoreWalletPage} />
+          <Route exact path="/select-project" component={SelectProjectPage} />
+          <Route exact path="/otp" component={OTPPage} />
 
-        <PrivateRoute path="/tabs" component={Tabs} />
+          <PrivateRoute path="/tabs" component={Tabs} />
 
-        {isAuthenticated ? (
-          <Redirect exact from="/" to="/tabs/home" />
-        ) : (
-          <Redirect exact from="/" to="/landing" />
-        )}
+          {isAuthenticated ? (
+            <Redirect exact from="/" to="/tabs/home" />
+          ) : (
+            <Redirect exact from="/" to="/landing" />
+          )}
 
-        <Route path="*" component={NotFoundPage} />
-        <Redirect to="/landing" />
-      </Switch>
+          <Route path="*" component={NotFoundPage} />
+          <Redirect to="/landing" />
+        </Switch>
+      </IonRouterOutlet>
     </IonReactRouter>
   );
 };

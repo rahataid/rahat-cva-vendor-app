@@ -1,7 +1,6 @@
 import {
   IonButton,
   IonCardHeader,
-  IonCardTitle,
   IonCol,
   IonGrid,
   IonLoading,
@@ -238,7 +237,6 @@ const ChargeBeneficiary = () => {
             <IonCol size="11" sizeMd="12" sizeXs="12" sizeLg="11" sizeXl="11">
               <TransparentCard>
                 <IonCardHeader>
-                  <IonCardTitle>Charge Beneficiary</IonCardTitle>
                   {useQrCode ? (
                     <ChargeQr
                       getValues={getValues}

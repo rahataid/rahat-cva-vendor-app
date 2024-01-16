@@ -1,17 +1,11 @@
 import CustomHeader from "@components/header/customHeader";
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import ChargeBeneficiary from "@sections/charge-beneficiary";
 
 const ChargeBeneficiaryPage: React.FC = () => {
   return (
     <IonPage>
-      <CustomHeader title="Charge Beneficiaries" showStatus />
+      <CustomHeader title="Charge Beneficiary" showStatus />
       <IonContent fullscreen>
         <ChargeBeneficiary />
       </IonContent>

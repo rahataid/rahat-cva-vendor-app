@@ -7,7 +7,7 @@ const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
     <>
       <IonCardSubtitle>Scanner will be here soon...</IonCardSubtitle>
       {/* <IonCardSubtitle>
-        You are about to send tokens to this beneficiary. Please enter QR code
+        You are about to send tokens a beneficiary. Please enter QR code
         of the beneficiary.
       </IonCardSubtitle>
       <IonRow className="gap-25"></IonRow>
