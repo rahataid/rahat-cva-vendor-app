@@ -40,40 +40,39 @@ axiosInstance.interceptors.response.use(
 
 export const endpoints = {
   projectSettings: {
-    blockchain: "/api/v1/app/blockchain",
-    contracts: "/api/v1/app/contracts",
-    contractDetails: (name: string) => `/api/v1/app/contracts/${name}`,
-    settings: (name: string) => `/api/v1/app/settings?name=${name}`,
+    blockchain: "/app/blockchain",
+    contracts: "/app/contracts",
+    contractDetails: (name: string) => `/app/contracts/${name}`,
+    settings: (name: string) => `/app/settings?name=${name}`,
   },
   auth: {
-    loginWallet: "/api/v1/auth/login-wallet",
-    login: "/api/v1/auth/login",
-    register: "/api/v1/auth/register",
-    sendOtp: "/api/v1/auth/send-otp",
-    create: "/api/v1/users",
+    loginWallet: "/auth/login-wallet",
+    login: "/auth/login",
+    register: "/auth/register",
+    sendOtp: "/auth/send-otp",
+    create: "/users",
   },
 
   vendors: {
-    list: "/api/v1/vendors",
-    details: (walletAddress: string) => `/api/v1/vendors/${walletAddress}`,
-    update: (walletAddress: string) => `/api/v1/vendors/${walletAddress}`,
-    add: `/api/v1/vendors`,
+    list: "/vendors",
+    details: (walletAddress: string) => `/vendors/${walletAddress}`,
+    update: (walletAddress: string) => `/vendors/${walletAddress}`,
+    add: `/vendors`,
     chargeByPhone: (walletAddress: string) =>
-      `/api/v1/vendors/${walletAddress}/chargeBeneficiary`,
-    blockchain: "/api/v1/vendors/blockchain",
+      `/vendors/${walletAddress}/chargeBeneficiary`,
+    blockchain: "/vendors/blockchain",
   },
   beneficiaries: {
-    list: "/api/v1/beneficiaries",
-    details: (walletAddress: string) =>
-      `/api/v1/beneficiaries/${walletAddress}`,
-    chargeByPhone: (phone: string) => `/api/v1/beneficiaries/${phone}/charge`,
+    list: "/beneficiaries",
+    details: (walletAddress: string) => `/beneficiaries/${walletAddress}`,
+    chargeByPhone: (phone: string) => `/beneficiaries/${phone}/charge`,
   },
   transactions: {
-    list: "/api/v1/transactions",
-    details: (txHash: string) => `/api/v1/transactions/${txHash}`,
+    list: "/transactions",
+    details: (txHash: string) => `/transactions/${txHash}`,
   },
   projects: {
     getProjectOfflineBeneficaries: (contractAddress: string) =>
-      `/api/v1/projects/${contractAddress}/offlineBeneficiaries`,
+      `/projects/${contractAddress}/offlineBeneficiaries`,
   },
 };

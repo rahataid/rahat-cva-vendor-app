@@ -1,3 +1,4 @@
+import { ENV } from "../config";
 import { ITransactionItem, Status } from "../types/transactions";
 
 export const isObjectInArray = (arr: any, obj: any, key: any) => {
@@ -49,4 +50,9 @@ export const cropString = (str: string, cropLength: number = 5) => {
 
 export const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text);
+};
+
+export const fixProjectUrl = (text: string) => {
+  if (ENV === "DEV") return `http://${text}/api/v1`;
+  else if (ENV === "PROD") return `https://${text}.rahat.io/api/v1`;
 };

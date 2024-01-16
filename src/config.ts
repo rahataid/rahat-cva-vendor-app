@@ -9,3 +9,5 @@ export const CONTRACTS = {
   DONOR: "RahatDonor",
   CLAIM: "RahatClaim",
 };
+
+export const ENV = "DEV";
