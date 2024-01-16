@@ -130,6 +130,7 @@ const SelectProject = ({ from }: Props) => {
         }
       }
     } catch (error: any) {
+      console.log(error);
       const validErrors = ["No Vendor found"];
       const errorMessage = validErrors.includes(error?.response?.data?.message)
         ? error?.response?.data?.message

@@ -36,7 +36,6 @@ const RestoreWallet = () => {
   const onSubmit = async (data: any) => {
     try {
       await handleRestore(data.pneumonics);
-
       history.push("/select-project", {
         data: { from: "restore" },
       });
