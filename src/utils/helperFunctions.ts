@@ -1,5 +1,5 @@
-import { ENV } from "../config";
 import { ITransactionItem, Status } from "../types/transactions";
+import { ENV } from "../config";
 
 export const isObjectInArray = (arr: any, obj: any, key: any) => {
   return arr.find((el: any) => el[key] === obj[key]) !== undefined;
