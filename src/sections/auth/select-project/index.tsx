@@ -96,7 +96,7 @@ const SelectProject = ({ from }: Props) => {
         }
       } else if (from === "restore") {
         const { data: vendor } = await axios.get(
-          `${data?.projectURL}${endpoints.vendors.details(wallet?.address)}`
+          `${projectUrl}${endpoints.vendors.details(wallet?.address)}`
         );
         const payload = {
           name: vendor?.name,
@@ -107,14 +107,10 @@ const SelectProject = ({ from }: Props) => {
         saveCurrentUserInfo(payload);
 
         const [blockchain, contracts, contractDetails] = await Promise.all([
+          axios.get(`${projectUrl}${endpoints.projectSettings.blockchain}`),
+          axios.get(`${projectUrl}${endpoints.projectSettings.contracts}`),
           axios.get(
-            `${data?.projectURL}${endpoints.projectSettings.blockchain}`
-          ),
-          axios.get(
-            `${data?.projectURL}${endpoints.projectSettings.contracts}`
-          ),
-          axios.get(
-            `${data?.projectURL}${endpoints.projectSettings.contractDetails(
+            `${projectUrl}${endpoints.projectSettings.contractDetails(
               "CVAProject"
             )}`
           ),
