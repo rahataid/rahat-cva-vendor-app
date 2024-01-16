@@ -1,11 +1,5 @@
-export const HOST_API =
-  import.meta.env.API_HOST || "http://127.0.0.1:5500/api/v1";
-export const DEFAULT_PASSCODE = import.meta.env.DEFAULT_PASSCODE || "9670";
+import { ENV as environment } from "./env/env.dev";
 
-export const CONTRACTS = {
-  RAHATTOKEN: "RahatToken",
-  CVAPROJECT: "CVAProject",
-  COMMUNITY: "RahatCommunity",
-  DONOR: "RahatDonor",
-  CLAIM: "RahatClaim",
-};
+export const ENV = environment.ENV;
+export const DEFAULT_PASSCODE = environment.DEFAULT_PASSCODE;
+export const CONTRACTS = environment.CONTRACTS;

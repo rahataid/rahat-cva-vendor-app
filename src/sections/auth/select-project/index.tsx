@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
 import { saveCurrentUser } from "@utils/sessionManager";
+import { fixProjectUrl } from "@utils/helperFunctions";
 
 enum From {
   register = "register",
@@ -65,24 +66,20 @@ const SelectProject = ({ from }: Props) => {
 
       //   history.push("/home");
       // }
+
+      const projectUrl = fixProjectUrl(data?.projectURL);
+      console.log("FIXED PROJECT URL", projectUrl);
       if (from === "register") {
         const [blockchain, contracts, contractDetails, vendor] =
           await Promise.all([
+            axios.get(`${projectUrl}${endpoints.projectSettings.blockchain}`),
+            axios.get(`${projectUrl}${endpoints.projectSettings.contracts}`),
             axios.get(
-              `${data?.projectURL}${endpoints.projectSettings.blockchain}`
-            ),
-            axios.get(
-              `${data?.projectURL}${endpoints.projectSettings.contracts}`
-            ),
-            axios.get(
-              `${data?.projectURL}${endpoints.projectSettings.contractDetails(
+              `${projectUrl}${endpoints.projectSettings.contractDetails(
                 "CVAProject"
               )}`
             ),
-            axios.post(
-              `${data?.projectURL}${endpoints.vendors.add}`,
-              currentUser
-            ),
+            axios.post(`${projectUrl}${endpoints.vendors.add}`, currentUser),
           ]);
 
         if (contracts?.data && blockchain?.data && contractDetails?.data) {
@@ -99,7 +96,7 @@ const SelectProject = ({ from }: Props) => {
         }
       } else if (from === "restore") {
         const { data: vendor } = await axios.get(
-          `${data?.projectURL}${endpoints.vendors.details(wallet?.address)}`
+          `${projectUrl}${endpoints.vendors.details(wallet?.address)}`
         );
         const payload = {
           name: vendor?.name,
@@ -110,14 +107,10 @@ const SelectProject = ({ from }: Props) => {
         saveCurrentUserInfo(payload);
 
         const [blockchain, contracts, contractDetails] = await Promise.all([
+          axios.get(`${projectUrl}${endpoints.projectSettings.blockchain}`),
+          axios.get(`${projectUrl}${endpoints.projectSettings.contracts}`),
           axios.get(
-            `${data?.projectURL}${endpoints.projectSettings.blockchain}`
-          ),
-          axios.get(
-            `${data?.projectURL}${endpoints.projectSettings.contracts}`
-          ),
-          axios.get(
-            `${data?.projectURL}${endpoints.projectSettings.contractDetails(
+            `${projectUrl}${endpoints.projectSettings.contractDetails(
               "CVAProject"
             )}`
           ),
