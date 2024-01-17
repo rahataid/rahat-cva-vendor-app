@@ -1,3 +1,4 @@
+import CustomHeader from "@components/header/customHeader";
 import {
   IonBackButton,
   IonButton,
@@ -50,29 +51,8 @@ const InternetAccessCenterPage = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton
-              color="white"
-              icon={caretBack}
-              defaultHref="/tabs/settings"
-            ></IonBackButton>
-          </IonButtons>
-          {/* <IonIcon
-            slot="start"
-            icon={chevronBackOutline}
-            onClick={() => history.goBack()}
-          /> */}
-          <IonTitle className="title-center">Internet Access Center</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Internet Access Center" showStatus showBackButton />
       <IonContent>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Internet Access Center</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <InternetAccessCenter {...props} />
       </IonContent>
     </IonPage>

@@ -1,26 +1,12 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import CustomHeader from "@components/header/customHeader";
+import { IonContent, IonPage } from "@ionic/react";
 import Settings from "@sections/settings";
 
 const SettingsPage: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle className="title-center">Settings</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Settings" showStatus />
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Settings</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <Settings />
       </IonContent>
     </IonPage>

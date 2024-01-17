@@ -7,12 +7,8 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import useAppStore from "@store/app";
-import { saveWalletInfo } from "@utils/sessionManager";
-import { getWalletUsingMnemonic } from "@utils/web3";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { DEFAULT_PASSCODE } from "../../../config";
 import "./restore.scss";
 import useAuthStore from "@store/auth";
 
@@ -40,7 +36,6 @@ const RestoreWallet = () => {
   const onSubmit = async (data: any) => {
     try {
       await handleRestore(data.pneumonics);
-
       history.push("/select-project", {
         data: { from: "restore" },
       });

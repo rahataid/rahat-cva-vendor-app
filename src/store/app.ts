@@ -12,7 +12,7 @@ import { ITransactionItem, Status } from "../types/transactions";
 import { IBeneficiary } from "../types/beneficiaries";
 import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
 import VendorsService from "@services/vendors";
-import { setTransactionStatus } from "@utils/helperFunctions";
+import { fixProjectUrl, setTransactionStatus } from "@utils/helperFunctions";
 import ProjectsService from "@services/projects";
 
 type StorageProjectSettings = {
@@ -40,7 +40,7 @@ export type AppStateType = {
   storage: Storage | null;
   txStorage: Storage | null;
   contractsFn: any;
-  projectSettings: StorageProjectSettings | null;
+  projectSettings: StorageProjectSettings;
   offlineTasks: any;
   transactions: [ITransactionItem] | [];
   beneficiaries: [IBeneficiary] | [];
@@ -138,7 +138,9 @@ const useAppStore = create<AppStoreType>()(
         if (projectSettings) {
           set({ projectSettings });
           if (projectSettings?.baseUrl) {
-            axiosInstance.defaults.baseURL = projectSettings.baseUrl;
+            axiosInstance.defaults.baseURL = fixProjectUrl(
+              projectSettings.baseUrl
+            );
           }
         }
 
@@ -200,7 +202,8 @@ const useAppStore = create<AppStoreType>()(
       const { storage } = get();
       const data = await storage?.get("projectSettings");
       if (storage) await storage.set("projectSettings", { ...data, ...value });
-      if (value?.baseUrl) axiosInstance.defaults.baseURL = value.baseUrl;
+      if (value?.baseUrl)
+        axiosInstance.defaults.baseURL = fixProjectUrl(value.baseUrl);
     },
 
     getProjectSettings: async () => {

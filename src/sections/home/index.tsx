@@ -1,4 +1,11 @@
-import { IonTitle } from "@ionic/react";
+import {
+  IonCol,
+  IonGrid,
+  IonItem,
+  IonRow,
+  IonText,
+  IonTitle,
+} from "@ionic/react";
 import useAppStore from "@store/app";
 import { useHistory } from "react-router";
 import DismissibleAlert from "./home-alert";
@@ -40,9 +47,27 @@ const Home = ({
           onButtonClick={handleReload}
           visible={!isVendor}
         />
-        <IonTitle className="title-center">
-          You need to get approved to use all features.
-        </IonTitle>
+        <IonItem
+          color="primary"
+          lines="none"
+          className={`ion-padding`}
+          style={{
+            paddingTop: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <IonGrid>
+            <IonRow>
+              <IonCol className="ion-text-center">
+                <IonText color="white">
+                  You need to get approved to use all features.
+                </IonText>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonItem>
       </>
     );
   }

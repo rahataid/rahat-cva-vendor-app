@@ -1,34 +1,14 @@
 import React from "react";
-import {
-  IonPage,
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonBackButton,
-} from "@ionic/react";
-import { caretBack } from "ionicons/icons";
+import { IonPage, IonContent } from "@ionic/react";
 import BeneficiariesList from "@sections/settings/beneficiaries-settings/beneficiaries-list";
 import useAppStore from "@store/app";
+import CustomHeader from "@components/header/customHeader";
 
 const BeneficiariesListPage: React.FC = () => {
   const { beneficiaries } = useAppStore();
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton
-              color="white"
-              icon={caretBack}
-              defaultHref="/tabs/settings/beneficiaries"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle color="white">Beneficiaries List</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
+      <CustomHeader title="Beneficiaries List" showBackButton showStatus />
       <IonContent>
         <BeneficiariesList data={beneficiaries} />
       </IonContent>

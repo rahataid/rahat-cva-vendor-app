@@ -11,6 +11,7 @@ import {
 import { caretBack } from "ionicons/icons";
 import BeneficiariesSettings from "@sections/settings/beneficiaries-settings";
 import useAppStore from "@store/app";
+import CustomHeader from "@components/header/customHeader";
 
 const BeneficiariesSettingsPage: React.FC = () => {
   const { projectSettings, syncBeneficiaries } = useAppStore();
@@ -54,18 +55,7 @@ const BeneficiariesSettingsPage: React.FC = () => {
   };
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton
-              color="white"
-              icon={caretBack}
-              defaultHref="/tabs/settings"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle color="white">Beneficiaries</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Beneficiaries" showStatus showBackButton />
       <IonContent>
         <BeneficiariesSettings {...props} />
       </IonContent>

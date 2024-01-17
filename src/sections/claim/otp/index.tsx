@@ -61,6 +61,7 @@ const OTP = ({ data }: Props) => {
 
   const onSubmit = async (formData: any) => {
     try {
+      setLoadingVisible(true);
       if (!internetAccess) {
         const otpHash = ethers.id(formData?.otp);
 
@@ -86,9 +87,10 @@ const OTP = ({ data }: Props) => {
           hash: data.hash,
         });
       }
-
+      setLoadingVisible(false);
       history.push("/tabs/home");
     } catch (error: any) {
+      setLoadingVisible(false);
       setError("root.serverError", {
         type: "manual",
         message: error?.message

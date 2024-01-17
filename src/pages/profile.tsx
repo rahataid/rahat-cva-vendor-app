@@ -1,4 +1,5 @@
 import { useVendor } from "@api/vendors";
+import CustomHeader from "@components/header/customHeader";
 import {
   IonContent,
   IonHeader,
@@ -17,17 +18,8 @@ const ProfilePage: React.FC = () => {
   };
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle className="title-center">Profile</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Profile" showStatus />
       <IonContent fullscreen scrollY={false}>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Profile</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <Profile {...props} />
       </IonContent>
     </IonPage>

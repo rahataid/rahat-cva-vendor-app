@@ -1,15 +1,10 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import OTP from "@sections/claim/otp";
 import "../theme/title.css";
 import { useLocation } from "react-router-dom";
 import { IBeneficiary } from "../types/beneficiaries";
 import { ITransactionItem } from "../types/transactions";
+import CustomHeader from "@components/header/customHeader";
 
 type Props = {
   transactionPayload: ITransactionItem;
@@ -25,17 +20,8 @@ const OTPPage: React.FC = () => {
   const { data } = location.state || { data: null };
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle className="title-center">OTP</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="OTP" />
       <IonContent fullscreen scrollY={false}>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">OTP</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <OTP data={data} />
       </IonContent>
     </IonPage>

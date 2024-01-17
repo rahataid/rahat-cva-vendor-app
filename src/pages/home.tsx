@@ -12,6 +12,7 @@ import "../theme/title.css";
 import VendorsService from "@services/vendors";
 import useAppStore from "@store/app";
 import { useState } from "react";
+import CustomHeader from "@components/header/customHeader";
 
 const HomePage: React.FC = () => {
   const [forceRender, setForceRender] = useState(false);
@@ -29,17 +30,8 @@ const HomePage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle className="title-center">Home</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Home" showStatus />
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Home</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <Home
           allowance={chainData?.allowance}
           isVendor={chainData?.isVendorApproved}

@@ -11,6 +11,7 @@ import {
 import { caretBack } from "ionicons/icons";
 import useAppStore from "@store/app";
 import ProjectSettings from "@sections/settings/project-settings";
+import CustomHeader from "@components/header/customHeader";
 
 const ProjectSettingsPage: React.FC = () => {
   const { projectSettings, setProjectSettings } = useAppStore();
@@ -42,18 +43,7 @@ const ProjectSettingsPage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton
-              color="white"
-              icon={caretBack}
-              defaultHref="/tabs/settings"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle color="white">Project</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <CustomHeader title="Project" showStatus showBackButton />
       <IonContent>
         <ProjectSettings {...props} />
       </IonContent>
