@@ -210,7 +210,9 @@ const ChargeBeneficiary = () => {
       setLoadingVisible(true);
       if (useQrCode) await chargeBeneficiaryQr(data);
       else await chargeBeneficiaryPhoneQr(data);
+      setLoadingVisible(false);
     } catch (error: any) {
+      setLoadingVisible(false);
       console.log(error);
       const validErrors = [
         "Invalid beneficiary",
