@@ -20,6 +20,8 @@ import { validateWalletAddress } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { ITransactionItem, Status } from "../../types/transactions";
+import useTransactionsStore from "@store/transactions";
+import useBeneficiaryStore from "@store/beneficiaries";
 
 type formDataType = {
   phoneWalletInput?: string | null;
@@ -29,19 +31,12 @@ type formDataType = {
 
 const ChargeBeneficiary = () => {
   const {
-    internetAccess,
-    addTransaction,
-    beneficiaries,
-    transactions,
+    projectSettings: { internetAccess },
     wallet,
-  } = useAppStore((state) => ({
-    internetAccess: state.projectSettings?.internetAccess,
-    setClaimId: state.setClaimId,
-    addTransaction: state.addTransaction,
-    beneficiaries: state.beneficiaries,
-    transactions: state.transactions,
-    wallet: state.wallet,
-  }));
+  } = useAppStore();
+
+  const { addTransaction, transactions } = useTransactionsStore();
+  const { beneficiaries } = useBeneficiaryStore();
 
   const [loadingVisible, setLoadingVisible] = useState(false);
 

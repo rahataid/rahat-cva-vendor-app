@@ -13,9 +13,11 @@ import { caretBack } from "ionicons/icons";
 import useAppStore from "@store/app";
 import TransactionsSettings from "@sections/settings/transactions-settings";
 import CustomHeader from "@components/header/customHeader";
+import useTransactionsStore from "@store/transactions";
 
 const TransactionsSettingsPage: React.FC = () => {
-  const { projectSettings, syncTransactions } = useAppStore();
+  const { projectSettings } = useAppStore();
+  const { syncTransactions } = useTransactionsStore();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [showLoading, setShowLoading] = useState(false);

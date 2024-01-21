@@ -11,6 +11,7 @@ import { useHistory } from "react-router";
 import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
+import useTransactionsStore from "@store/transactions";
 
 type PropTypes = {
   allowance?: string | null;
@@ -33,7 +34,8 @@ const Home = ({
   acceptPendingTokens,
   handleReload,
 }: PropTypes) => {
-  const { projectSettings, transactions } = useAppStore();
+  const { projectSettings } = useAppStore();
+  const { vendorTransactions } = useTransactionsStore();
   const history = useHistory();
 
   if (!isVendor) {
@@ -114,7 +116,7 @@ const Home = ({
         <CardComponent subtitle="Disbursed" title={disbursed || "loading..."} />
       </div>
       <div>
-        <TransactionCard transactionsList={transactions} />
+        <TransactionCard transactionsList={vendorTransactions} />
       </div>
     </>
   );

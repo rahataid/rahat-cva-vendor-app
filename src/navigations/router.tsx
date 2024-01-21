@@ -6,25 +6,43 @@ import LandingPage from "@pages/landing-screen";
 import OTPPage from "@pages/otp";
 import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
-import useAppStore from "@store/app";
+// import useAppStore from "@store/app";
 import PrivateRoute from "./private-routes";
 import Tabs from "./tabrouter";
 import SelectProjectPage from "@pages/select-project";
 import NotFoundPage from "@sections/auth/not-found";
 import { IonRouterOutlet } from "@ionic/react";
+import useAppStore from "@store/app";
+import useBeneficiaryStore from "@store/beneficiaries";
+import useTransactionsStore from "@store/transactions";
 
 const Router = () => {
-  const { initialize, isInitialized, isAuthenticated } = useAppStore(
-    (state) => ({
-      initialize: state.initialize,
-      isInitialized: state.isInitialized,
-      isAuthenticated: state.isAuthenticated,
-    })
-  );
+  const {
+    chainData,
+    isAuthenticated,
+    isInitialized,
+    setChainData,
+    initialize,
+  } = useAppStore();
+  const { initializeTransactions } = useTransactionsStore();
+  // console.log({ chainData, isAuthenticated, setChainData });
+
+  // useEffect(() => {
+  //   // setChainData({
+  //   //   allowance: 2222,
+  //   //   disbursed: 2,
+  //   //   distributed: 3,
+  //   //   isVendorApproved: true,
+  //   // });
+  //   initialize();
+  // }, []);
 
   useEffect(() => {
     initialize();
+    initializeTransactions();
   }, []);
+
+  useEffect(() => console.log("ROUTER"));
 
   if (!isInitialized) {
     return <IndeterminateLoader />;

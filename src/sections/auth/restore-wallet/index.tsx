@@ -10,11 +10,11 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./restore.scss";
-import useAuthStore from "@store/auth";
+import useAppStore from "@store/app";
 
 const RestoreWallet = () => {
   const history = useHistory();
-  const handleRestore = useAuthStore((state) => state.handleRestore);
+  const { handleRestore } = useAppStore();
   const handleCancel = () => {
     history.goBack();
   };

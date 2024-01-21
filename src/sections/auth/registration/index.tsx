@@ -14,9 +14,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import MnemonicDialog from "./mnemonicDialog";
 import "./register.scss";
+import useAppStore from "@store/app";
 
 const Register = () => {
-  const authStore = useAuthStore((state) => state);
+  const { handleRegister } = useAppStore();
   const history = useHistory();
 
   const [mnemonics, setMnemonics] = useState(undefined);
@@ -41,7 +42,7 @@ const Register = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const walletValue = await authStore.handleRegister(data);
+      const walletValue = await handleRegister(data);
       if (walletValue) {
         setMnemonics(walletValue.mnemonic.phrase);
       }

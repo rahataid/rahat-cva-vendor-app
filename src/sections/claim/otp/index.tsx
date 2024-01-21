@@ -17,6 +17,7 @@ import { useHistory } from "react-router";
 import { IBeneficiary } from "../../../types/beneficiaries";
 import VendorsService from "@services/vendors";
 import { useState } from "react";
+import useTransactionsStore from "@store/transactions";
 
 type Props = {
   data: {
@@ -36,11 +37,8 @@ const OTP = ({ data }: Props) => {
   } = data;
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
-  const { addTransaction, wallet } = useAppStore((state) => ({
-    addTransaction: state.addTransaction,
-    chargeBeneficiary: state.chargeBeneficiary,
-    wallet: state.wallet,
-  }));
+  const { wallet } = useAppStore();
+  const { addTransaction } = useTransactionsStore();
   const {
     handleSubmit,
     setError,
@@ -105,7 +103,7 @@ const OTP = ({ data }: Props) => {
   };
   return (
     <>
-      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
+      <IonLoading isOpen={loadingVisible} message={"Please wait....xxx"} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="restore-container">
           <IonRow className="restore-form-container">

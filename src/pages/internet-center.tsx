@@ -19,13 +19,10 @@ import useAppStore from "@store/app";
 import { caretBack, chevronBackOutline } from "ionicons/icons";
 
 const InternetAccessCenterPage = () => {
-  const { projectSettings, setInternetAccess, syncTransactions } = useAppStore(
-    (state) => ({
-      projectSettings: state.projectSettings,
-      setInternetAccess: state.setInternetAccess,
-      syncTransactions: state.syncTransactions,
-    })
-  );
+  const { projectSettings, setInternetAccess } = useAppStore((state) => ({
+    projectSettings: state.projectSettings,
+    setInternetAccess: state.setInternetAccess,
+  }));
 
   const handleToggle = () => {
     setInternetAccess(!projectSettings?.internetAccess);

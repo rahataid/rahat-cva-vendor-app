@@ -11,7 +11,7 @@ import Profile from "@sections/profile";
 import useAppStore from "@store/app";
 
 const ProfilePage: React.FC = () => {
-  let { wallet } = useAppStore.getState();
+  let { wallet } = useAppStore();
   const { vendor, isLoading, error } = useVendor(wallet?.address);
   const props = {
     currentUser: vendor,
