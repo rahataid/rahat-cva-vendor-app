@@ -6,9 +6,7 @@ import {
   IonLoading,
   IonRow,
   IonText,
-  useIonViewWillLeave,
 } from "@ionic/react";
-import { useProject } from "@services/contracts/useProject";
 import useAppStore from "@store/app";
 import { ITransactionItem } from "../../../types/transactions";
 import { ethers } from "ethers";
@@ -17,7 +15,7 @@ import { useHistory } from "react-router";
 import { IBeneficiary } from "../../../types/beneficiaries";
 import VendorsService from "@services/vendors";
 import { useState } from "react";
-import useTransactionsStore from "@store/transactions";
+import useTransactionStore from "@store/transaction";
 
 type Props = {
   data: {
@@ -38,14 +36,14 @@ const OTP = ({ data }: Props) => {
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
   const { wallet } = useAppStore();
-  const { addTransaction } = useTransactionsStore();
+  const { addTransaction } = useTransactionStore();
   const {
     handleSubmit,
     setError,
     control,
     setValue,
     getValues,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -53,14 +51,11 @@ const OTP = ({ data }: Props) => {
     },
   });
 
-  useIonViewWillLeave(() => {
-    setLoadingVisible(false);
-  });
-
   const onSubmit = async (formData: any) => {
     try {
       setLoadingVisible(true);
       if (!internetAccess) {
+        await new Promise((resolve) => setTimeout(resolve, 0));
         const otpHash = ethers.id(formData?.otp);
 
         if (otpHash !== selectedBeneficiary?.otpHash)
