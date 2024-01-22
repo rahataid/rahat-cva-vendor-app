@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
 import { fixProjectUrl } from "@utils/helperFunctions";
-import useTransactionsStore from "@store/transactions";
+import useTransactionStore from "@store/transaction";
 
 enum From {
   register = "register",
@@ -28,7 +28,7 @@ const SelectProject = ({ from }: Props) => {
     setCurrentUser,
   } = useAppStore();
 
-  const { initializeTransactions } = useTransactionsStore();
+  const { triggerUpdate } = useTransactionStore();
 
   const {
     handleSubmit,
@@ -89,6 +89,7 @@ const SelectProject = ({ from }: Props) => {
           };
           await setProjectSettings(projectSettings);
           await initialize();
+          triggerUpdate();
           history.push("/tabs/home");
         }
       } else if (from === "restore") {
@@ -122,7 +123,7 @@ const SelectProject = ({ from }: Props) => {
           };
           await setProjectSettings(projectSettings);
           await initialize();
-          await initializeTransactions();
+          triggerUpdate();
           history.push("/tabs/home");
         }
       }

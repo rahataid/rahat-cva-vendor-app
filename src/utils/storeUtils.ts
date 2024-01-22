@@ -38,7 +38,6 @@ export const localPersistStorage: StateStorage = {
   getItem: (name) => {
     const str = localStorage.getItem(name);
     if (!str) return null;
-    console.log(name, "===> LOCAL RETRIEVE", JSON.parse(str));
     return JSON.parse(str);
   },
   setItem: (name, value) => {
@@ -50,17 +49,16 @@ export const localPersistStorage: StateStorage = {
 const ionicIndexDBStorage: (storage: Storage) => StateStorage = (storage) => ({
   getItem: async (name: string): Promise<any | null> => {
     const value = await storage.get(name);
-    console.log(name);
-    console.log(name, "===> has been retrieved", JSON.parse(value));
+    // console.log(name, "===> has been retrieved", JSON.parse(value));
 
-    return JSON.parse(value) || null;
+    return value || null;
   },
   setItem: async (name: string, value: string): Promise<void> => {
-    console.log(name, "with value", value, "has been saved");
+    // console.log(name, "with value", value, "has been saved");
     await storage.set(name, value);
   },
   removeItem: async (name: string): Promise<void> => {
-    console.log(name, "has been deleted");
+    // console.log(name, "has been deleted");
     await storage.remove(name);
   },
 });

@@ -7,42 +7,47 @@ import {
   localPersistStorage,
 } from "@utils/storeUtils";
 import { createJSONStorage } from "zustand/middleware";
-import useAppStore from "./app";
-import useTransactionsStore from "./transactions";
+import useAppStore, { AppStoreType } from "./app";
+import useTransactionStore, { TransactionStoreType } from "./transaction";
 import ProjectsService from "@services/projects";
 import VendorsService from "@services/vendors";
 import { setTransactionStatus } from "@utils/helperFunctions";
 import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
 
-export type AppStoreType = AppStateType & AppActionsType;
+export type BeneficiaryStoreType = BeneficiaryStateType &
+  BeneficiaryActionsType;
 
-export type AppStateType = {
+export type BeneficiaryStateType = {
   beneficiaries: IBeneficiary[] | [];
 };
 
-type AppActionsType = {
-  initializeBeneficiaries: () => Promise<void>;
+type BeneficiaryActionsType = {
+  referredAppStoreState: () => AppStoreType;
+  referredTransactionStoreState: () => TransactionStoreType;
   setBeneficiaries: (data: IBeneficiary[]) => Promise<void>;
   syncBeneficiaries: () => Promise<void>;
   chargeBeneficiary: (data: ITransactionItem) => Promise<void>;
+  logoutBeneficiaries: () => void;
 };
 
-const { wallet: stateWallet, projectSettings } = useAppStore.getState();
-const { getPendingOfflineTransactions, setTransactions, transactions } =
-  useTransactionsStore.getState();
-
-const useBeneficiaryStore = createStore<AppStoreType>(
+const useBeneficiaryStore = createStore<BeneficiaryStoreType>(
   (set, get) => ({
     beneficiaries: [],
-
-    initializeBeneficiaries: async () => {},
+    referredAppStoreState: () => useAppStore.getState(),
+    referredTransactionStoreState: () => useTransactionStore.getState(),
 
     setBeneficiaries: async (beneficiaries: IBeneficiary[]) => {
       set({ beneficiaries });
     },
 
     syncBeneficiaries: async () => {
-      const { setBeneficiaries } = get();
+      const {
+        setBeneficiaries,
+        referredAppStoreState,
+        referredTransactionStoreState,
+      } = get();
+      const { projectSettings } = referredAppStoreState();
+      const { getPendingOfflineTransactions } = referredTransactionStoreState();
       const pendingOfflineTransactions = await getPendingOfflineTransactions();
       if (pendingOfflineTransactions?.length)
         throw new Error(
@@ -56,6 +61,9 @@ const useBeneficiaryStore = createStore<AppStoreType>(
     },
 
     chargeBeneficiary: async (data: ITransactionItem) => {
+      const { referredAppStoreState, referredTransactionStoreState } = get();
+      const { wallet: stateWallet } = referredAppStoreState();
+      const { transactions, setTransactions } = referredTransactionStoreState();
       const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
       const signedMessage = await signMessage({ wallet, message: data });
       const payload = {
@@ -80,17 +88,18 @@ const useBeneficiaryStore = createStore<AppStoreType>(
         throw error;
       }
     },
+
+    logoutBeneficiaries: () => {
+      set({ beneficiaries: [] });
+    },
   }),
   {
     persistOptions: {
       name: "BeneficiariesStore",
-      storage: localPersistStorage,
+      storage: createJSONStorage(() => ionicIdbStorage("BeneficiariesStore")),
       partialize: (state) => ({
         beneficiaries: state.beneficiaries,
       }),
-      onRehydrateStorage: (state) => {
-        console.log("REHYDRATED", state);
-      },
     },
 
     devtoolsEnabled: true,

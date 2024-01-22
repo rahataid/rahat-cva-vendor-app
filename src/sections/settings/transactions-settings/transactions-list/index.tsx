@@ -1,10 +1,10 @@
-import { IonCard, IonCardHeader, IonCardTitle } from "@ionic/react";
+import { IonCardHeader, IonCardTitle } from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
-  data: [ITransactionItem] | [];
+  data: ITransactionItem[] | [];
 };
 const TransactionsList = ({ data }: Props) => {
   return (

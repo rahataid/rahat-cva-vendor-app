@@ -20,8 +20,8 @@ import { validateWalletAddress } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { ITransactionItem, Status } from "../../types/transactions";
-import useTransactionsStore from "@store/transactions";
-import useBeneficiaryStore from "@store/beneficiaries";
+import useTransactionStore from "@store/transaction";
+import useBeneficiaryStore from "@store/beneficiary";
 
 type formDataType = {
   phoneWalletInput?: string | null;
@@ -35,7 +35,7 @@ const ChargeBeneficiary = () => {
     wallet,
   } = useAppStore();
 
-  const { addTransaction, transactions } = useTransactionsStore();
+  const { addTransaction, transactions } = useTransactionStore();
   const { beneficiaries } = useBeneficiaryStore();
 
   const [loadingVisible, setLoadingVisible] = useState(false);
@@ -142,11 +142,9 @@ const ChargeBeneficiary = () => {
         walletAddress: selectedBeneficiary.walletAddress,
         vendorWalletAddress: wallet?.address,
       };
-      console.log("iS SUBMITTING", isSubmitting);
       history.push("/otp", {
         data: { transactionPayload, selectedBeneficiary, internetAccess },
       });
-      console.log("iS SUBMITTING", isSubmitting);
     } else {
       let transactionPayload: ITransactionItem;
       if (selectedInput === "phone") {

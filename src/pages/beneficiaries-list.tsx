@@ -2,7 +2,7 @@ import React from "react";
 import { IonPage, IonContent } from "@ionic/react";
 import BeneficiariesList from "@sections/settings/beneficiaries-settings/beneficiaries-list";
 import CustomHeader from "@components/header/customHeader";
-import useBeneficiaryStore from "@store/beneficiaries";
+import useBeneficiaryStore from "@store/beneficiary";
 
 const BeneficiariesListPage: React.FC = () => {
   const { beneficiaries } = useBeneficiaryStore();

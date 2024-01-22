@@ -12,7 +12,7 @@ import { caretBack } from "ionicons/icons";
 import BeneficiariesSettings from "@sections/settings/beneficiaries-settings";
 import useAppStore from "@store/app";
 import CustomHeader from "@components/header/customHeader";
-import useBeneficiaryStore from "@store/beneficiaries";
+import useBeneficiaryStore from "@store/beneficiary";
 
 const BeneficiariesSettingsPage: React.FC = () => {
   const { projectSettings } = useAppStore();

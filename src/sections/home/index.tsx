@@ -6,12 +6,10 @@ import {
   IonText,
   IonTitle,
 } from "@ionic/react";
-import useAppStore from "@store/app";
 import { useHistory } from "react-router";
 import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
-import useTransactionsStore from "@store/transactions";
 
 type PropTypes = {
   allowance?: string | null;
@@ -21,6 +19,8 @@ type PropTypes = {
   projectBalance?: string | null;
   pendingTokensToAccept?: string | null;
   acceptPendingTokens?: any;
+  projectSettings?: any;
+  vendorTransactions?: any;
   handleReload?: any;
 };
 
@@ -32,10 +32,10 @@ const Home = ({
   projectBalance,
   pendingTokensToAccept,
   acceptPendingTokens,
+  projectSettings,
+  vendorTransactions,
   handleReload,
 }: PropTypes) => {
-  const { projectSettings } = useAppStore();
-  const { vendorTransactions } = useTransactionsStore();
   const history = useHistory();
 
   if (!isVendor) {

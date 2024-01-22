@@ -6,82 +6,71 @@ import {
   localPersistStorage,
 } from "@utils/storeUtils";
 import { createJSONStorage } from "zustand/middleware";
-import useAppStore from "./app";
+import useAppStore, { AppStoreType } from "./app";
 import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import { setTransactionStatus } from "@utils/helperFunctions";
 
-export type AppStoreType = AppStateType & AppActionsType;
+export type TransactionStoreType = TransactionStateType &
+  TransactionActionsType;
 
-export type AppStateType = {
-  wallet: any;
+export type TransactionStateType = {
   transactions: ITransactionItem[] | [];
   vendorTransactions: ITransactionItem[] | [];
+  triggerUpdateState: boolean;
 };
 
-type AppActionsType = {
-  setWallet: (data: any) => void;
-  initializeTransactions: () => Promise<void>;
+type TransactionActionsType = {
+  referredAppStoreState: () => AppStoreType;
   addTransaction: (data: ITransactionItem) => Promise<void>;
   setTransactions: (data: ITransactionItem[]) => Promise<void>;
-  getVendorTransactionsList: (data: string) => Promise<[] | ITransactionItem[]>;
+  triggerUpdate: () => void;
+  setVendorTransactions: (data: ITransactionItem[]) => Promise<void>;
+  getVendorTransactions: () => Promise<[] | ITransactionItem[]>;
   getPendingOfflineTransactions: () => Promise<[] | ITransactionItem[]>;
   syncTransactions: () => Promise<void>;
+  logoutTransactions: () => void;
 };
 
-const { wallet } = useAppStore.getState();
-
-const useTransactionsStore = createStore<AppStoreType>(
+const useTransactionStore = createStore<TransactionStoreType>(
   (set, get) => ({
-    wallet: undefined,
     transactions: [],
     vendorTransactions: [],
-
-    setWallet: (wallet: any) => {
-      set({ wallet });
-    },
-
-    initializeTransactions: async () => {
-      console.log("TRANSACTION INITIALIZE");
-      const { getVendorTransactionsList } = get();
-
-      const vendorTransactions = await getVendorTransactionsList(
-        wallet?.address
-      );
-      console.log(
-        "TRANSACTION INITIALIZE",
-        wallet?.address,
-        vendorTransactions
-      );
-      set({
-        vendorTransactions,
-      });
-    },
+    triggerUpdateState: false,
+    referredAppStoreState: () => useAppStore.getState(),
 
     setTransactions: async (data: ITransactionItem[]) => {
       set({ transactions: data });
     },
 
-    addTransaction: async (data: ITransactionItem) => {
-      const { transactions, getVendorTransactionsList } = get();
-      const vendorTransactions = await getVendorTransactionsList(
-        wallet?.address
-      );
-      set({ transactions: [...transactions, data], vendorTransactions });
+    setVendorTransactions: async (data: ITransactionItem[]) => {
+      set({ vendorTransactions: data });
     },
 
-    getVendorTransactionsList: async (vendorWalletAddress: string) => {
-      const { transactions } = get();
+    triggerUpdate: () => {
+      set({ triggerUpdateState: !get().triggerUpdateState });
+    },
+
+    addTransaction: async (data: ITransactionItem) => {
+      const { transactions, getVendorTransactions } = get();
+      // const vendorTransactions = await getVendorTransactions(wallet?.address);
+      set({ transactions: [...transactions, data] });
+    },
+
+    getVendorTransactions: async () => {
+      const { transactions, referredAppStoreState } = get();
+      const { wallet } = referredAppStoreState();
       if (!transactions?.length) return [];
       const filteredTransactions = transactions.filter(
-        (transaction) => transaction.vendorWalletAddress === vendorWalletAddress
+        (transaction) => transaction.vendorWalletAddress === wallet?.address
       );
       return filteredTransactions;
     },
 
     getPendingOfflineTransactions: async () => {
       // only get vendor's offline transactions with status = NEW || FAIL
-      const { transactions } = get();
+      const { transactions, referredAppStoreState } = get();
+      const { wallet } = referredAppStoreState();
 
       if (!transactions?.length) return [];
 
@@ -99,7 +88,8 @@ const useTransactionsStore = createStore<AppStoreType>(
 
     syncTransactions: async () => {
       try {
-        const { transactions, setTransactions } = get();
+        const { transactions, setTransactions, referredAppStoreState } = get();
+        const { wallet } = referredAppStoreState();
         const walletValue = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
         const offlineTransactions = await get().getPendingOfflineTransactions();
@@ -138,17 +128,24 @@ const useTransactionsStore = createStore<AppStoreType>(
         console.log(error);
       }
     },
+
+    logoutTransactions: () => {
+      set({ vendorTransactions: [] });
+    },
   }),
   {
     devtoolsEnabled: true,
     persistOptions: {
       name: "TransactionsStore",
-      storage: localPersistStorage,
+      storage: createJSONStorage(() => ionicIdbStorage("TransactionsStore")),
       partialize: (state) => ({
         transactions: state.transactions,
       }),
+      // onRehydrateStorage: (state) => {
+      //   console.log("REHYDRATED", state);
+      // },
     },
   }
 );
 
-export default useTransactionsStore;
+export default useTransactionStore;

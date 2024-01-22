@@ -20,7 +20,8 @@ import {
 import { useState } from "react";
 import { useHistory } from "react-router";
 import "../auth/registration/mnemonicDialog.scss";
-import useTransactionsStore from "@store/transactions";
+import useTransactionStore from "@store/transaction";
+import useBeneficiaryStore from "@store/beneficiary";
 
 function Settings() {
   const [showAlert, setShowAlert] = useState(false);
@@ -31,7 +32,8 @@ function Settings() {
       currentUser: state.currentUser,
       logout: state.logout,
     }));
-  const { initializeTransactions } = useTransactionsStore();
+  const { logoutTransactions } = useTransactionStore();
+  const { logoutBeneficiaries } = useBeneficiaryStore();
 
   const history = useHistory();
 
@@ -45,7 +47,8 @@ function Settings() {
 
   const handleConfirmLogout = () => {
     logout();
-    initializeTransactions();
+    logoutTransactions();
+    logoutBeneficiaries();
     history.replace("/landing");
   };
 

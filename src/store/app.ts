@@ -12,7 +12,6 @@ import {
 } from "@utils/web3";
 import { DEFAULT_PASSCODE } from "../config";
 import { HDNodeWallet, Wallet } from "ethers";
-import useTransactionsStore from "./transactions";
 
 type StorageChainData = {
   allowance: number;
@@ -71,9 +70,7 @@ const useAppStore = createStore<AppStoreType>(
     chainData: undefined,
 
     initialize: async () => {
-      console.log("initialize called");
       const { currentUser, wallet, projectSettings } = get();
-      console.log(currentUser, wallet);
 
       if (projectSettings?.baseUrl)
         axiosInstance.defaults.baseURL = fixProjectUrl(projectSettings.baseUrl);
@@ -146,15 +143,12 @@ const useAppStore = createStore<AppStoreType>(
     logout: async () => {
       set({
         isAuthenticated: false,
-        isInitialized: false,
+        isInitialized: true,
         wallet: undefined,
         currentUser: undefined,
         projectSettings: undefined,
         chainData: undefined,
       });
-      localPersistStorage.removeItem("AppStore");
-      localPersistStorage.removeItem("BeneficiariesStore");
-      get().initialize();
     },
   }),
   {
@@ -168,9 +162,6 @@ const useAppStore = createStore<AppStoreType>(
         currentUser: state.currentUser,
         projectSettings: state.projectSettings,
       }),
-      onRehydrateStorage: (state) => {
-        console.log(state, ` has been rehydrated`);
-      },
     },
   }
 );
