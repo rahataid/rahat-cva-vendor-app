@@ -6,8 +6,8 @@ import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
-import { saveCurrentUser } from "@utils/sessionManager";
 import { fixProjectUrl } from "@utils/helperFunctions";
+import useTransactionStore from "@store/transaction";
 
 enum From {
   register = "register",
@@ -19,19 +19,16 @@ type Props = {
 
 const SelectProject = ({ from }: Props) => {
   const history = useHistory();
+
   const {
     setProjectSettings,
     initialize,
     currentUser,
     wallet,
-    saveCurrentUserInfo,
-  } = useAppStore((state) => ({
-    setProjectSettings: state.setProjectSettings,
-    initialize: state.initialize,
-    currentUser: state.currentUser,
-    wallet: state.wallet,
-    saveCurrentUserInfo: state.saveCurrentUser,
-  }));
+    setCurrentUser,
+  } = useAppStore();
+
+  const { triggerUpdate } = useTransactionStore();
 
   const {
     handleSubmit,
@@ -92,6 +89,7 @@ const SelectProject = ({ from }: Props) => {
           };
           await setProjectSettings(projectSettings);
           await initialize();
+          triggerUpdate();
           history.push("/tabs/home");
         }
       } else if (from === "restore") {
@@ -103,8 +101,7 @@ const SelectProject = ({ from }: Props) => {
           phone: vendor?.phone,
           walletAddress: vendor?.walletAddress,
         };
-        saveCurrentUser(payload);
-        saveCurrentUserInfo(payload);
+        setCurrentUser(payload);
 
         const [blockchain, contracts, contractDetails] = await Promise.all([
           axios.get(`${projectUrl}${endpoints.projectSettings.blockchain}`),
@@ -126,6 +123,7 @@ const SelectProject = ({ from }: Props) => {
           };
           await setProjectSettings(projectSettings);
           await initialize();
+          triggerUpdate();
           history.push("/tabs/home");
         }
       }

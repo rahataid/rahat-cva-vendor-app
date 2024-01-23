@@ -1,11 +1,11 @@
 import React from "react";
 import { IonPage, IonContent } from "@ionic/react";
 import BeneficiariesList from "@sections/settings/beneficiaries-settings/beneficiaries-list";
-import useAppStore from "@store/app";
 import CustomHeader from "@components/header/customHeader";
+import useBeneficiaryStore from "@store/beneficiary";
 
 const BeneficiariesListPage: React.FC = () => {
-  const { beneficiaries } = useAppStore();
+  const { beneficiaries } = useBeneficiaryStore();
   return (
     <IonPage>
       <CustomHeader title="Beneficiaries List" showBackButton showStatus />

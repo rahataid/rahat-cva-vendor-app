@@ -12,9 +12,11 @@ import { caretBack } from "ionicons/icons";
 import BeneficiariesSettings from "@sections/settings/beneficiaries-settings";
 import useAppStore from "@store/app";
 import CustomHeader from "@components/header/customHeader";
+import useBeneficiaryStore from "@store/beneficiary";
 
 const BeneficiariesSettingsPage: React.FC = () => {
-  const { projectSettings, syncBeneficiaries } = useAppStore();
+  const { projectSettings } = useAppStore();
+  const { syncBeneficiaries } = useBeneficiaryStore();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [showLoading, setShowLoading] = useState(false);

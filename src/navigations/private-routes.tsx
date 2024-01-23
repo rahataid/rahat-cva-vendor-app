@@ -15,7 +15,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated ? <Component {...props} /> : <Redirect to='/landing' />
+        isAuthenticated ? <Component {...props} /> : <Redirect to="/landing" />
       }
     />
   );

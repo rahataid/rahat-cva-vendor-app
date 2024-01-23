@@ -1,21 +1,13 @@
 import React, { useState } from "react";
-import {
-  IonPage,
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonBackButton,
-  IonLoading,
-} from "@ionic/react";
-import { caretBack } from "ionicons/icons";
+import { IonPage, IonContent } from "@ionic/react";
 import useAppStore from "@store/app";
 import TransactionsSettings from "@sections/settings/transactions-settings";
 import CustomHeader from "@components/header/customHeader";
+import useTransactionStore from "@store/transaction";
 
 const TransactionsSettingsPage: React.FC = () => {
-  const { projectSettings, syncTransactions } = useAppStore();
+  const { projectSettings } = useAppStore();
+  const { syncTransactions } = useTransactionStore();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [showLoading, setShowLoading] = useState(false);

@@ -1,31 +1,26 @@
 import { useVendorChainData } from "@api/vendors";
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { getCurrentUser } from "@utils/sessionManager";
+import { IonContent, IonPage } from "@ionic/react";
 import Home from "../sections/home";
 import "../theme/title.css";
 import VendorsService from "@services/vendors";
 import useAppStore from "@store/app";
 import { useState } from "react";
 import CustomHeader from "@components/header/customHeader";
+import useTransactionStore from "@store/transaction";
 
 const HomePage: React.FC = () => {
+  const { wallet, projectSettings } = useAppStore();
+  const { vendorTransactions } = useTransactionStore();
+
   const [forceRender, setForceRender] = useState(false);
   const handleReload = () => {
     setForceRender(!forceRender);
   };
 
-  const wallet = useAppStore((state) => state.wallet);
-  const vendorAddress = wallet?.address;
-  const { chainData } = useVendorChainData(vendorAddress, forceRender);
+  const { chainData } = useVendorChainData(wallet?.address, forceRender);
 
   const acceptPendingTokens = async () => {
-    const res = await VendorsService.acceptPendingTokens(vendorAddress);
+    await VendorsService.acceptPendingTokens(vendorAddress);
   };
 
   return (
@@ -39,6 +34,8 @@ const HomePage: React.FC = () => {
           disbursed={chainData?.disbursed}
           pendingTokensToAccept={chainData?.pendingTokens}
           acceptPendingTokens={acceptPendingTokens}
+          projectSettings={projectSettings}
+          vendorTransactions={vendorTransactions}
           handleReload={handleReload}
         />
       </IonContent>

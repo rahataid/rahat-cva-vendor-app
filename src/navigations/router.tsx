@@ -6,21 +6,18 @@ import LandingPage from "@pages/landing-screen";
 import OTPPage from "@pages/otp";
 import RegisterPage from "@pages/register";
 import RestoreWalletPage from "@pages/restore-wallet";
-import useAppStore from "@store/app";
 import PrivateRoute from "./private-routes";
 import Tabs from "./tabrouter";
 import SelectProjectPage from "@pages/select-project";
 import NotFoundPage from "@sections/auth/not-found";
 import { IonRouterOutlet } from "@ionic/react";
+import useAppStore from "@store/app";
+import { useTransactionsRehydrate } from "@hooks/use-transactions-rehydrate";
 
 const Router = () => {
-  const { initialize, isInitialized, isAuthenticated } = useAppStore(
-    (state) => ({
-      initialize: state.initialize,
-      isInitialized: state.isInitialized,
-      isAuthenticated: state.isAuthenticated,
-    })
-  );
+  const { isAuthenticated, isInitialized, initialize } = useAppStore();
+
+  useTransactionsRehydrate();
 
   useEffect(() => {
     initialize();

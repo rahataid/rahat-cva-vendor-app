@@ -6,9 +6,7 @@ import {
   IonLoading,
   IonRow,
   IonText,
-  useIonViewWillLeave,
 } from "@ionic/react";
-import { useProject } from "@services/contracts/useProject";
 import useAppStore from "@store/app";
 import { ITransactionItem } from "../../../types/transactions";
 import { ethers } from "ethers";
@@ -17,6 +15,7 @@ import { useHistory } from "react-router";
 import { IBeneficiary } from "../../../types/beneficiaries";
 import VendorsService from "@services/vendors";
 import { useState } from "react";
+import useTransactionStore from "@store/transaction";
 
 type Props = {
   data: {
@@ -36,18 +35,15 @@ const OTP = ({ data }: Props) => {
   } = data;
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
-  const { addTransaction, wallet } = useAppStore((state) => ({
-    addTransaction: state.addTransaction,
-    chargeBeneficiary: state.chargeBeneficiary,
-    wallet: state.wallet,
-  }));
+  const { wallet } = useAppStore();
+  const { addTransaction } = useTransactionStore();
   const {
     handleSubmit,
     setError,
     control,
     setValue,
     getValues,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -55,14 +51,11 @@ const OTP = ({ data }: Props) => {
     },
   });
 
-  useIonViewWillLeave(() => {
-    setLoadingVisible(false);
-  });
-
   const onSubmit = async (formData: any) => {
     try {
       setLoadingVisible(true);
       if (!internetAccess) {
+        await new Promise((resolve) => setTimeout(resolve, 0));
         const otpHash = ethers.id(formData?.otp);
 
         if (otpHash !== selectedBeneficiary?.otpHash)
@@ -105,7 +98,7 @@ const OTP = ({ data }: Props) => {
   };
   return (
     <>
-      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
+      <IonLoading isOpen={loadingVisible} message={"Please wait....xxx"} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="restore-container">
           <IonRow className="restore-form-container">
