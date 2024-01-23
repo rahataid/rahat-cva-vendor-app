@@ -8,7 +8,7 @@ import {
   IonText,
 } from "@ionic/react";
 import useAppStore from "@store/app";
-import { ITransactionItem } from "../../../types/transactions";
+import { ITransactionItem, Status } from "../../../types/transactions";
 import { ethers } from "ethers";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
@@ -76,7 +76,7 @@ const OTP = ({ data }: Props) => {
           throw new Error("Something went wrong with OTP Verification");
         await addTransaction({
           ...transactionPayload,
-          status: "SUCCESS",
+          status: Status.SUCCESS,
           hash: data.hash,
         });
       }

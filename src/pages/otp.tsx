@@ -10,6 +10,7 @@ type Props = {
   transactionPayload: ITransactionItem;
   selectedBeneficiary: IBeneficiary;
   internetAccess: boolean;
+  selectedInput: "phone" | "walletAddress";
 };
 interface LocationState {
   data: Props;
