@@ -207,18 +207,20 @@ const ChargeBeneficiary = () => {
     } catch (error: any) {
       setLoadingVisible(false);
       console.log(error);
-      const validErrors = [
-        "Invalid beneficiary",
-        "Invalid Beneficiary Address",
-        "Not enough balance",
-        "Please sync beneficiaries to charge in offline mode",
-      ];
-      const errorMessage = validErrors.includes(error.message)
-        ? error.message
-        : "Something went wrong. Try again later";
+
+      // const validErrors = [
+      //   "Invalid beneficiary",
+      //   "Invalid Beneficiary Address",
+      //   "Not enough balance",
+      //   "Please sync beneficiaries to charge in offline mode",
+      // ];
+      // const errorMessage = validErrors.includes(error.message)
+      //   ? error.message
+      //   : "Something went wrong. Try again later";
+
       setError("root.serverError", {
         type: "manual",
-        message: errorMessage || "Something went wrong! Try again later.",
+        message: error.message || "Something went wrong! Try again later.",
       });
     }
   };

@@ -129,13 +129,18 @@ const SelectProject = ({ from }: Props) => {
       }
     } catch (error: any) {
       console.log(error);
-      const validErrors = ["No Vendor found"];
-      const errorMessage = validErrors.includes(error?.response?.data?.message)
-        ? error?.response?.data?.message
-        : "Something went wrong. Try again later";
+      // const validErrors = [
+      //   "No Vendor found",
+      //   "Duplicate entry in [phone] is not allowed.",
+      // ];
+      // const errorMessage = validErrors.includes(error?.response?.data?.message)
+      //   ? error?.response?.data?.message
+      //   : "Something went wrong. Try again later";
       setError("root.serverError", {
         type: "manual",
-        message: errorMessage || "Something went wrong! Try again later.",
+        message:
+          error?.response?.data?.message ||
+          "Something went wrong! Try again later.",
       });
     }
   };
