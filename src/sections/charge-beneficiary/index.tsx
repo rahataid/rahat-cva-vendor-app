@@ -33,6 +33,7 @@ const ChargeBeneficiary = () => {
   const {
     projectSettings: { internetAccess },
     wallet,
+    chainData: { allowance },
   } = useAppStore();
 
   const { transactions } = useTransactionStore();
@@ -69,6 +70,11 @@ const ChargeBeneficiary = () => {
 
   const handleToggle = () => {
     setUseQrCode((prev) => !prev);
+  };
+
+  const validateVendorAllowance = (allowance: number) => {
+    if (!allowance || allowance <= 0) return false;
+    return true;
   };
 
   const validateTokenAmount = (
@@ -123,13 +129,10 @@ const ChargeBeneficiary = () => {
       );
 
       //  2. check if token amount is valid
-
-      const hasValidTokenAmount = validateTokenAmount(
-        selectedBeneficiary,
-        checkObj,
-        selectedInput
-      );
-      if (!hasValidTokenAmount) throw new Error("Not enough balance");
+      if (!validateVendorAllowance(+allowance))
+        throw new Error("Not enough vendor balance");
+      if (!validateTokenAmount(selectedBeneficiary, checkObj, selectedInput))
+        throw new Error("Not enough beneficiary balance");
 
       //  3. transfer data to the OTP page
 
