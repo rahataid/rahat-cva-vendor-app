@@ -56,6 +56,7 @@ const TransactionsSettings = ({
                 expand="full"
                 onClick={handleSync}
                 disabled={!projectSettings?.internetAccess}
+                className="btn-text-white"
               >
                 Sync Transactions
               </IonButton>

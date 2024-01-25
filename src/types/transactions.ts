@@ -6,7 +6,7 @@ export enum Status {
 
 export type ITransactionItem = {
   createdAt: string | number;
-  amount: string;
+  amount: number | string | undefined;
   status: Status;
   isOffline: boolean;
   hash?: string;

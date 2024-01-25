@@ -87,45 +87,41 @@ const useTransactionStore = createStore<TransactionStoreType>(
     },
 
     syncTransactions: async () => {
+      const { transactions, setTransactions, referredAppStoreState } = get();
+      const { wallet } = referredAppStoreState();
+      const walletValue = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+      const offlineTransactions = await get().getPendingOfflineTransactions();
+      if (!offlineTransactions?.length)
+        throw new Error("No pending transactions to sync");
+
+      const signedMessage = await signMessage({
+        wallet: walletValue,
+        message: offlineTransactions,
+      });
+
+      const payload = {
+        message: offlineTransactions,
+        signedMessage,
+      };
+
       try {
-        const { transactions, setTransactions, referredAppStoreState } = get();
-        const { wallet } = referredAppStoreState();
-        const walletValue = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
-
-        const offlineTransactions = await get().getPendingOfflineTransactions();
-        if (!offlineTransactions?.length)
-          throw new Error("No pending transactions to sync");
-
-        const signedMessage = await signMessage({
-          wallet: walletValue,
-          message: offlineTransactions,
-        });
-
-        const payload = {
-          message: offlineTransactions,
-          signedMessage,
-        };
-
-        try {
-          const res = await VendorsService.syncTransactions(payload);
-          const updatedTransactions = setTransactionStatus(
-            transactions,
-            offlineTransactions,
-            Status.SUCCESS,
-            res?.data
-          );
-          setTransactions(updatedTransactions);
-        } catch (error) {
-          const updatedTransactions = setTransactionStatus(
-            transactions,
-            offlineTransactions,
-            Status.FAIL
-          );
-          setTransactions(updatedTransactions);
-          throw error;
-        }
+        const res = await VendorsService.syncTransactions(payload);
+        const updatedTransactions = setTransactionStatus(
+          transactions,
+          offlineTransactions,
+          Status.SUCCESS,
+          res?.data
+        );
+        setTransactions(updatedTransactions);
       } catch (error) {
-        console.log(error);
+        const updatedTransactions = setTransactionStatus(
+          transactions,
+          offlineTransactions,
+          Status.FAIL
+        );
+        setTransactions(updatedTransactions);
+        throw error;
       }
     },
 

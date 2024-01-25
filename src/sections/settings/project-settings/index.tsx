@@ -11,7 +11,6 @@ import {
 } from "@ionic/react";
 
 type Props = {
-  projectSettings: any;
   isEditing: boolean;
   inputValue: string;
   handleEditClick: any;
@@ -20,7 +19,6 @@ type Props = {
 };
 
 const ProjectSettings = ({
-  projectSettings,
   isEditing,
   inputValue,
   handleEditClick,
@@ -47,11 +45,19 @@ const ProjectSettings = ({
                 </IonCol>
                 <IonCol size="4">
                   {isEditing ? (
-                    <IonButton expand="full" onClick={handleSaveClick}>
+                    <IonButton
+                      className="btn-text-white"
+                      expand="full"
+                      onClick={handleSaveClick}
+                    >
                       Save
                     </IonButton>
                   ) : (
-                    <IonButton expand="full" onClick={handleEditClick}>
+                    <IonButton
+                      className="btn-text-white"
+                      expand="full"
+                      onClick={handleEditClick}
+                    >
                       Edit
                     </IonButton>
                   )}

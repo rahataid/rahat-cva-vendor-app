@@ -47,7 +47,7 @@ const OTP = ({ data }: Props) => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      otp: "",
+      otp: undefined,
     },
   });
 
@@ -98,7 +98,7 @@ const OTP = ({ data }: Props) => {
   };
   return (
     <>
-      <IonLoading isOpen={loadingVisible} message={"Please wait....xxx"} />
+      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="restore-container">
           <IonRow className="restore-form-container">
@@ -107,7 +107,7 @@ const OTP = ({ data }: Props) => {
                 render={({ field }) => (
                   <TextInputField
                     placeholder="Enter OTP"
-                    type="text"
+                    type="number"
                     label="OTP*"
                     value={getValues("otp")}
                     errorText={errors?.otp?.message}
