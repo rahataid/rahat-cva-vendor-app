@@ -41,16 +41,10 @@ const RestoreWallet = () => {
       });
     } catch (error: any) {
       console.log(error);
-      if (error?.name === "P2025" && error?.message == "No Vendor found")
-        setError("root.serverError", {
-          type: "manual",
-          message: "Vendor doesn't exist.",
-        });
-      else
-        setError("root.serverError", {
-          type: "manual",
-          message: "Something went wrong! Try again later.",
-        });
+      setError("root.serverError", {
+        type: "manual",
+        message: error?.message || "Something went wrong! Try again later.",
+      });
     }
   };
 

@@ -210,7 +210,7 @@ const ChargeBeneficiary = () => {
 
       setError("root.serverError", {
         type: "manual",
-        message: error.message || "Something went wrong! Try again later.",
+        message: error?.message || "Something went wrong! Try again later.",
       });
     }
   };

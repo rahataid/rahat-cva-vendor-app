@@ -140,6 +140,7 @@ const SelectProject = ({ from }: Props) => {
         type: "manual",
         message:
           error?.response?.data?.message ||
+          error?.message ||
           "Something went wrong! Try again later.",
       });
     }

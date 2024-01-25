@@ -87,7 +87,7 @@ const OTP = ({ data }: Props) => {
       setError("root.serverError", {
         type: "manual",
         message: error?.message
-          ? error.message
+          ? error?.message
           : "Something went wrong! Try again later.",
       });
     }
