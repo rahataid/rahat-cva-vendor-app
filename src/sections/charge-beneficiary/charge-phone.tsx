@@ -37,7 +37,7 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
         render={({ field }) => (
           <TextInputField
             placeholder="Token"
-            type="text"
+            type="number"
             label="Token*"
             errorText={errors?.token?.message}
             value={getValues("token")}

@@ -8,7 +8,6 @@ import {
 } from "@ionic/react";
 
 import TextInputField from "@components/input/form-text-input";
-import useAuthStore from "@store/auth";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
@@ -33,7 +32,7 @@ const Register = () => {
     mode: "all",
     defaultValues: {
       name: "",
-      phone: "",
+      phone: undefined,
       address: {
         city: "ktm",
       },
@@ -94,7 +93,7 @@ const Register = () => {
                 render={({ field }) => (
                   <TextInputField
                     placeholder="Phone"
-                    type="text"
+                    type="number"
                     label="Phone*"
                     errorText={errors?.phone?.message}
                     value={getValues("phone")}

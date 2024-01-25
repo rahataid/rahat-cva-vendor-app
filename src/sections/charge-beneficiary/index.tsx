@@ -26,7 +26,7 @@ import useBeneficiaryStore from "@store/beneficiary";
 type formDataType = {
   phoneWalletInput?: string | null;
   qrCode?: string | null;
-  token: string | null;
+  token: number | undefined;
 };
 
 const ChargeBeneficiary = () => {
@@ -35,7 +35,7 @@ const ChargeBeneficiary = () => {
     wallet,
   } = useAppStore();
 
-  const { addTransaction, transactions } = useTransactionStore();
+  const { transactions } = useTransactionStore();
   const { beneficiaries } = useBeneficiaryStore();
 
   const [loadingVisible, setLoadingVisible] = useState(false);
@@ -58,7 +58,7 @@ const ChargeBeneficiary = () => {
     mode: "all",
     defaultValues: {
       phoneWalletInput: "",
-      token: "",
+      token: undefined,
       qrCode: "",
     },
   });
@@ -184,24 +184,14 @@ const ChargeBeneficiary = () => {
     }
   };
 
-  const chargeBeneficiaryQr = async (data: any) => {
-    const { qrCode, token } = data;
-    if (!internetAccess) {
-      const payload = {
-        walletAddress: qrCode,
-        amount: token,
-        createdAt: Date.now(),
-        status: "NEW",
-        isOffline: !internetAccess,
-      };
-      await addTransaction(payload);
-    }
+  const chargeBeneficiaryQr = async () => {
+    // IMPLEMENT QR SCAN CODE HERE
   };
 
   const onSubmit = async (data: any) => {
     try {
       setLoadingVisible(true);
-      if (useQrCode) await chargeBeneficiaryQr(data);
+      if (useQrCode) await chargeBeneficiaryQr();
       else await chargeBeneficiaryPhoneQr(data);
       setLoadingVisible(false);
     } catch (error: any) {

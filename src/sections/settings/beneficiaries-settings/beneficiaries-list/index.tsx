@@ -4,7 +4,7 @@ import { IBeneficiary } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
-  data: [IBeneficiary] | [];
+  data: IBeneficiary[] | [];
 };
 const BeneficiariesList = ({ data }: Props) => {
   return (

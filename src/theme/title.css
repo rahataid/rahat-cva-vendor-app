@@ -2,3 +2,7 @@
   text-align: center;
   color: #ffffff;
 }
+
+.btn-text-white {
+  --color: #ffffff;
+}

@@ -60,6 +60,7 @@ const BeneficiariesSettings = ({
                 expand="full"
                 onClick={handleSync}
                 disabled={!projectSettings?.internetAccess}
+                className="btn-text-white"
               >
                 Sync Beneficiaries
               </IonButton>
