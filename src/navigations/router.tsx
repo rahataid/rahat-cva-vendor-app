@@ -13,6 +13,7 @@ import NotFoundPage from "@sections/auth/not-found";
 import { IonRouterOutlet } from "@ionic/react";
 import useAppStore from "@store/app";
 import { useTransactionsRehydrate } from "@hooks/use-transactions-rehydrate";
+import ResetPage from "@pages/reset";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -36,6 +37,7 @@ const Router = () => {
           <Route exact path="/restore-wallet" component={RestoreWalletPage} />
           <Route exact path="/select-project" component={SelectProjectPage} />
           <Route exact path="/otp" component={OTPPage} />
+          <Route exact path="/reset" component={ResetPage} />
 
           <PrivateRoute path="/tabs" component={Tabs} />
 

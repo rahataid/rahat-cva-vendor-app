@@ -1,4 +1,3 @@
-import { Storage } from "@ionic/storage";
 import { ITransactionItem, Status } from "@types/transactions";
 import {
   createStore,

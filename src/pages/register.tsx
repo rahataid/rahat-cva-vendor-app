@@ -5,7 +5,6 @@ import CustomHeader from "@components/header/customHeader";
 import { useEffect } from "react";
 
 const RegisterPage: React.FC = () => {
-  useEffect(() => console.log("REGISTER PAGE"));
   return (
     <IonPage>
       <CustomHeader title="Register" showBackButton />
