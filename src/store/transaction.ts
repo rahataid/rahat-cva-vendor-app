@@ -125,7 +125,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
     },
 
     logoutTransactions: () => {
-      set({ vendorTransactions: [] });
+      set({ vendorTransactions: [], transactions: [] });
     },
   }),
   {
