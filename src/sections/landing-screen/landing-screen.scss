@@ -35,10 +35,24 @@
   height: 5px;
 }
 
-// .bg {
-//   background: #217ec2 url("/src/assets/images/bg/main-bg.png");
-//   background-size: cover;
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   background-blend-mode: multiply;
-// }
+.bg {
+  // background: #217ec2 url("/src/assets/images/bg/main-bg.png");
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-blend-mode: multiply;
+
+  // --ion-background-color: #217ec2; /* Background color */
+  // --ion-background-image: url("/src/assets/images/bg/main-bg.png"); /* Image URL */
+  // --ion-background-size: cover;
+  // --ion-background-position: center;
+  // --ion-background-blend-mode: overlay; /* Blend mode */
+  /* profile-background 1 */
+
+  --background: linear-gradient(
+      rgba(33, 126, 194, 0.7),
+      rgba(33, 126, 194, 0.7)
+    ),
+    url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+  --ion-background-blend-mode: multiply; /* Blend mode */
+}

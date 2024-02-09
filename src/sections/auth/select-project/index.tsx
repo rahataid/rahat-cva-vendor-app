@@ -190,9 +190,10 @@ const SelectProject = ({ from }: Props) => {
           <IonRow className="register-button-container">
             <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <IonButton
+                mode="md"
                 type="submit"
                 expand="block"
-                color="white"
+                color="primary"
                 // disabled={isDirty || !isValid || isSubmitting}
               >
                 Submit
@@ -203,6 +204,7 @@ const SelectProject = ({ from }: Props) => {
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
+                mode="md"
                 color="white"
                 fill="outline"
                 expand="block"

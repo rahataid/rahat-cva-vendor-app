@@ -2,11 +2,13 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
   IonAlert,
   IonAvatar,
+  IonCard,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
   IonToggle,
+  ToggleCustomEvent,
 } from "@ionic/react";
 import useAppStore from "@store/app";
 import {
@@ -16,12 +18,18 @@ import {
   people,
   cashOutline,
   hammerOutline,
+  moonOutline,
+  logOutOutline,
+  peopleOutline,
+  listOutline,
 } from "ionicons/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import "../auth/registration/mnemonicDialog.scss";
 import useTransactionStore from "@store/transaction";
 import useBeneficiaryStore from "@store/beneficiary";
+
+import "../../theme/main.scss";
 
 function Settings() {
   const [showAlert, setShowAlert] = useState(false);
@@ -40,6 +48,37 @@ function Settings() {
   const handleToggle = () => {
     setInternetAccess(!internetAccess);
   };
+
+  const [themeToggle, setThemeToggle] = useState(false);
+
+  // Listen for the toggle check/uncheck to toggle the dark theme
+  const toggleChange = (ev: ToggleCustomEvent) => {
+    toggleDarkTheme(ev.detail.checked);
+  };
+
+  const toggleDarkTheme = (shouldAdd: boolean) => {
+    document.body.classList.toggle("dark", shouldAdd);
+  };
+
+  // Check/uncheck the toggle and update the theme based on isDark
+  const initializeDarkTheme = (isDark: boolean) => {
+    setThemeToggle(isDark);
+    toggleDarkTheme(isDark);
+  };
+
+  // useEffect(() => {
+  //   // Use matchMedia to check the user preference
+  //   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  //   // Initialize the dark theme based on the initial
+  //   // value of the prefers-color-scheme media query
+  //   initializeDarkTheme(false);
+
+  //   // Listen for changes to the prefers-color-scheme media query
+  //   prefersDark.addEventListener("change", (mediaQuery) =>
+  //     initializeDarkTheme(mediaQuery.matches)
+  //   );
+  // }, []);
 
   const handleLogout = () => {
     setShowAlert(true);
@@ -67,14 +106,14 @@ function Settings() {
     // },
     {
       label: "Beneficiaries",
-      startIcon: people,
+      startIcon: peopleOutline,
       action: () => history.push("/tabs/settings/beneficiaries"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
     {
       label: "Transactions",
-      startIcon: cashOutline,
+      startIcon: listOutline,
       action: () => history.push("/tabs/settings/transactions"),
       isToggle: false,
       endIcon: chevronForwardOutline,
@@ -88,7 +127,7 @@ function Settings() {
     },
     {
       label: "Logout",
-      startIcon: logOut,
+      startIcon: logOutOutline,
       action: handleLogout,
     },
   ];
@@ -129,6 +168,11 @@ function Settings() {
             <IonLabel>Internet Status</IonLabel>
             <IonToggle checked={internetAccess} />
           </IonItem>
+          {/* <IonItem button={true} onClick={toggleChange}>
+            <IonIcon icon={moonOutline} slot="start" />
+            <IonLabel>Dark Mode</IonLabel>
+            <IonToggle checked={themeToggle} />
+          </IonItem> */}
           {settingsOptions.map((option, index) => (
             <IonItem key={index} button={true} onClick={option.action}>
               <IonIcon icon={option.startIcon} slot="start" />

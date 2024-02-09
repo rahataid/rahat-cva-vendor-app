@@ -73,7 +73,7 @@ const Tabs: React.FC = () => {
         </Switch>
       </IonRouterOutlet>
 
-      <IonTabBar slot="bottom">
+      <IonTabBar slot="bottom" mode="md">
         <IonTabButton tab="home" href="/tabs/home">
           <IonIcon icon={home} />
           <IonLabel>Home</IonLabel>

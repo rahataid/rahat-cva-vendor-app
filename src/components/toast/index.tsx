@@ -25,6 +25,9 @@ const CustomToast: React.FC<Props> = ({
       message={message}
       duration={duration}
       position={position}
+      className="custom-toast"
+      translucent={true}
+      mode="md"
     />
   );
 };

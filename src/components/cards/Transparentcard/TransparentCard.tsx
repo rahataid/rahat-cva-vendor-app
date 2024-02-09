@@ -3,16 +3,17 @@ import { IonCard } from "@ionic/react";
 const TransparentCard = ({
   children,
   border = "0px",
-  borderRadius = "10px",
-  backgroundColor = "rgba(255,255,255,1)",
+  borderRadius = "5px",
+  // backgroundColor = "rgba(255,255,255,1)",
   backdropFilter = "blur(50px)",
-  boxShadow = "0 4px 8px rgba(0, 0, 0, 0.5)",
+  boxShadow = "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
   ...props
 }) => (
   <IonCard
+    mode="md"
     style={{
       border,
-      backgroundColor,
+      // backgroundColor,
       backdropFilter,
       borderRadius,
       boxShadow,

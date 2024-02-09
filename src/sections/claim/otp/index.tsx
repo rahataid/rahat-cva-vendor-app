@@ -136,15 +136,17 @@ const OTP = ({ data }: Props) => {
           <IonRow className="restore-button-container">
             <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <IonButton
+                mode="md"
                 type="submit"
                 expand="block"
-                color="white"
+                color="primary"
                 disabled={isSubmitting}
               >
                 Submit
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
+                mode="md"
                 color="white"
                 fill="outline"
                 expand="block"

@@ -255,6 +255,7 @@ const ChargeBeneficiary = () => {
               className="charge-button-wrapper"
             >
               <IonButton
+                mode="md"
                 color="white"
                 fill="clear"
                 onClick={handleToggle}
@@ -263,6 +264,7 @@ const ChargeBeneficiary = () => {
                 {useQrCode ? "Use Phone" : "Use QR"}
               </IonButton>
               <IonButton
+                mode="md"
                 color="white"
                 fill="outline"
                 expand="block"
@@ -272,9 +274,10 @@ const ChargeBeneficiary = () => {
                 Cancel
               </IonButton>
               <IonButton
+                mode="md"
                 type="submit"
                 expand="block"
-                color="white"
+                color="primary"
                 disabled={!isValid || isSubmitting}
               >
                 Submit

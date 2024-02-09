@@ -47,7 +47,8 @@ const LandingScreen = () => {
           <IonRow className="landing-button-container">
             <IonCol size="11" sizeMd="8" sizeLg="6" sizeXl="4">
               <IonButton
-                color="white"
+                mode="md"
+                color="dark"
                 fill="solid"
                 expand="block"
                 onClick={handleRegister}
@@ -56,7 +57,8 @@ const LandingScreen = () => {
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
-                color="white"
+                mode="md"
+                color="dark"
                 fill="solid"
                 expand="block"
                 onClick={handleRestore}

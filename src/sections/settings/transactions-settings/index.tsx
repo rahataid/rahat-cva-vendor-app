@@ -1,4 +1,5 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import CustomToast from "@components/toast";
 import {
   IonButton,
   IonCard,
@@ -36,7 +37,7 @@ const TransactionsSettings = ({
   const history = useHistory();
   return (
     <>
-      <IonToast
+      <CustomToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
         message={toastMessage}

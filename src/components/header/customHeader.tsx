@@ -59,9 +59,9 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
     <IonHeader>
       <IonToolbar>
         <IonButtons slot="start">
-          {showBackButton && <IonBackButton color="white" icon={caretBack} />}
+          {showBackButton && <IonBackButton color="dark" icon={caretBack} />}
         </IonButtons>
-        <IonTitle color="white">{title}</IonTitle>
+        <IonTitle color="dark">{title}</IonTitle>
         <IonButtons slot="end">
           {showStatus && <InternetStatus isOnline={internetAccess} />}
         </IonButtons>
