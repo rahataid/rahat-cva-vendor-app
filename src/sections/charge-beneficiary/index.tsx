@@ -220,7 +220,11 @@ const ChargeBeneficiary = () => {
 
   return (
     <>
-      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
+      <IonLoading
+        mode="md"
+        isOpen={loadingVisible}
+        message={"Please wait..."}
+      />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="charge-container">
           <IonRow className="charge-form-container">
