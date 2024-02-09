@@ -139,7 +139,7 @@ const OTP = ({ data }: Props) => {
                 mode="md"
                 type="submit"
                 expand="block"
-                color="primary"
+                color="dark"
                 disabled={isSubmitting}
               >
                 Submit
@@ -147,7 +147,7 @@ const OTP = ({ data }: Props) => {
               <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
-                color="white"
+                color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}

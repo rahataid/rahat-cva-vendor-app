@@ -172,6 +172,15 @@ body {
     border: 1px solid #4392cb !important;
     background-color: #4392cb !important;
   }
+
+  ion-content {
+    --background: linear-gradient(
+        rgba(33, 126, 194, 0.7),
+        rgba(33, 126, 194, 0.7)
+      ),
+      url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+    --ion-background-blend-mode: multiply; /* Blend mode */
+  }
 }
 
 ion-toast.custom-toast {

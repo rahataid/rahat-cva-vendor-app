@@ -256,7 +256,7 @@ const ChargeBeneficiary = () => {
             >
               <IonButton
                 mode="md"
-                color="white"
+                color="dark"
                 fill="clear"
                 onClick={handleToggle}
                 disabled={isSubmitting}
@@ -265,7 +265,7 @@ const ChargeBeneficiary = () => {
               </IonButton>
               <IonButton
                 mode="md"
-                color="white"
+                color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}
@@ -277,7 +277,7 @@ const ChargeBeneficiary = () => {
                 mode="md"
                 type="submit"
                 expand="block"
-                color="primary"
+                color="dark"
                 disabled={!isValid || isSubmitting}
               >
                 Submit
