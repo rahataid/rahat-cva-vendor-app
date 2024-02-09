@@ -2,6 +2,8 @@ import {
   IonCol,
   IonGrid,
   IonItem,
+  IonLabel,
+  IonLoading,
   IonRow,
   IonText,
   IonTitle,
@@ -22,6 +24,7 @@ type PropTypes = {
   projectSettings?: any;
   vendorTransactions?: any;
   handleReload?: any;
+  loading?: boolean;
 };
 
 const Home = ({
@@ -35,12 +38,14 @@ const Home = ({
   projectSettings,
   vendorTransactions,
   handleReload,
+  loading,
 }: PropTypes) => {
   const history = useHistory();
 
   if (!isVendor) {
     return (
       <>
+        <IonLoading mode="md" isOpen={loading} message={"Syncing..."} />
         <DismissibleAlert
           title="Not Approved"
           color="warning"
@@ -50,25 +55,15 @@ const Home = ({
           visible={!isVendor}
         />
         <IonItem
-          color="primary"
+          color="white"
           lines="none"
-          className={`ion-padding`}
-          style={{
-            paddingTop: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          className={`ion-text-center ion-padding`}
         >
-          <IonGrid>
-            <IonRow>
-              <IonCol className="ion-text-center">
-                <IonText color="white">
-                  You need to get approved to use all features.
-                </IonText>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+          <IonLabel>
+            <IonText color="dark">
+              <p>You need to be approved to use all features</p>
+            </IonText>
+          </IonLabel>
         </IonItem>
       </>
     );
@@ -76,6 +71,7 @@ const Home = ({
 
   return (
     <>
+      <IonLoading mode="md" isOpen={loading} message={"Syncing..."} />
       <DismissibleAlert
         title="No Project"
         color="danger"

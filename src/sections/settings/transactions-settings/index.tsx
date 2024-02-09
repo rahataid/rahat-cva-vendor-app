@@ -45,6 +45,7 @@ const TransactionsSettings = ({
         position="middle"
       />
       <IonLoading
+        mode="md"
         isOpen={showLoading}
         message={"Syncing..."}
         onDidDismiss={() => setShowLoading(false)}

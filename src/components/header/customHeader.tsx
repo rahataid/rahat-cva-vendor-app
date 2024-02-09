@@ -56,7 +56,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
   };
 
   return (
-    <IonHeader>
+    <IonHeader mode="md">
       <IonToolbar>
         <IonButtons slot="start">
           {showBackButton && <IonBackButton color="dark" icon={caretBack} />}

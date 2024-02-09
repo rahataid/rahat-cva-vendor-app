@@ -135,6 +135,7 @@ function Settings() {
   return (
     <>
       <IonAlert
+        mode="md"
         isOpen={showAlert}
         onDidDismiss={() => setShowAlert(false)}
         header={"Confirm Logout"}
