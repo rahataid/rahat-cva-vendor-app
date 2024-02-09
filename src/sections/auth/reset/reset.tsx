@@ -46,7 +46,7 @@ const Reset: React.FC = () => {
                 <p>This will clear all the data of the application</p>
               </IonText>
               <IonButton
-                color="white"
+                color="dark"
                 fill="solid"
                 expand="block"
                 onClick={handleReset}
