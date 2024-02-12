@@ -106,7 +106,7 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
         <IonButton
           disabled={false}
           expand="block"
-          color="blue"
+          color="primary"
           style={{ marginTop: "1rem" }}
           onClick={() => history.push("/tabs/settings/transactions/list")}
         >

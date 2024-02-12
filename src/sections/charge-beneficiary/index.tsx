@@ -220,7 +220,11 @@ const ChargeBeneficiary = () => {
 
   return (
     <>
-      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
+      <IonLoading
+        mode="md"
+        isOpen={loadingVisible}
+        message={"Please wait..."}
+      />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="charge-container">
           <IonRow className="charge-form-container">
@@ -255,7 +259,8 @@ const ChargeBeneficiary = () => {
               className="charge-button-wrapper"
             >
               <IonButton
-                color="white"
+                mode="md"
+                color="dark"
                 fill="clear"
                 onClick={handleToggle}
                 disabled={isSubmitting}
@@ -263,7 +268,8 @@ const ChargeBeneficiary = () => {
                 {useQrCode ? "Use Phone" : "Use QR"}
               </IonButton>
               <IonButton
-                color="white"
+                mode="md"
+                color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}
@@ -272,9 +278,10 @@ const ChargeBeneficiary = () => {
                 Cancel
               </IonButton>
               <IonButton
+                mode="md"
                 type="submit"
                 expand="block"
-                color="white"
+                color="dark"
                 disabled={!isValid || isSubmitting}
               >
                 Submit

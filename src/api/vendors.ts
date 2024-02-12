@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
+import useTransactionStore from "@store/transaction";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -69,8 +70,8 @@ export function useVendorChainData(
   walletAddress: string,
   forceRender: boolean
 ): any {
-  const { setChainData, chainData, projectSettings, transactions } =
-    useAppStore.getState();
+  const { setChainData, chainData, projectSettings } = useAppStore.getState();
+  const { transactions } = useTransactionStore();
   const { data, isLoading, error } = useQuery(
     ["vendors", walletAddress, chainData, transactions, forceRender],
     async () => {
@@ -84,12 +85,14 @@ export function useVendorChainData(
       },
     }
   );
+  const loading =
+    isLoading && projectSettings?.internetAccess && !!projectSettings?.baseUrl;
 
   const dataChain = useMemo(() => chainData, [data?.data]);
 
   return {
     chainData: dataChain,
-    isLoading,
+    isLoading: loading,
     error,
   };
 }

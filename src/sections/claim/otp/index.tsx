@@ -98,7 +98,11 @@ const OTP = ({ data }: Props) => {
   };
   return (
     <>
-      <IonLoading isOpen={loadingVisible} message={"Please wait..."} />
+      <IonLoading
+        mode="md"
+        isOpen={loadingVisible}
+        message={"Please wait..."}
+      />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="restore-container">
           <IonRow className="restore-form-container">
@@ -136,16 +140,18 @@ const OTP = ({ data }: Props) => {
           <IonRow className="restore-button-container">
             <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <IonButton
+                mode="md"
                 type="submit"
                 expand="block"
-                color="white"
+                color="dark"
                 disabled={isSubmitting}
               >
                 Submit
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
-                color="white"
+                mode="md"
+                color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}

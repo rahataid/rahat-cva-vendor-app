@@ -17,7 +17,11 @@ const HomePage: React.FC = () => {
     setForceRender(!forceRender);
   };
 
-  const { chainData } = useVendorChainData(wallet?.address, forceRender);
+  const { chainData, isLoading } = useVendorChainData(
+    wallet?.address,
+    forceRender
+  );
+  console.log(isLoading);
 
   const acceptPendingTokens = async () => {
     await VendorsService.acceptPendingTokens(vendorAddress);
@@ -37,6 +41,7 @@ const HomePage: React.FC = () => {
           projectSettings={projectSettings}
           vendorTransactions={vendorTransactions}
           handleReload={handleReload}
+          loading={isLoading}
         />
       </IonContent>
     </IonPage>

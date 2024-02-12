@@ -128,9 +128,10 @@ const Register = () => {
           <IonRow className="register-button-container">
             <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <IonButton
+                mode="md"
                 type="submit"
                 expand="block"
-                color="white"
+                color="dark"
                 disabled={isDirty || !isValid || isSubmitting}
               >
                 {isSubmitting ? (
@@ -141,7 +142,8 @@ const Register = () => {
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
-                color="white"
+                mode="md"
+                color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}

@@ -17,7 +17,7 @@ const NotFoundPage: React.FC = () => {
   const history = useHistory();
   return (
     <IonPage>
-      <IonContent fullscreen scrollY={false}>
+      <IonContent className="bg" fullscreen scrollY={false}>
         <IonGrid className="landing-container">
           <IonRow className="landing-top-container">
             <IonCol
@@ -33,7 +33,7 @@ const NotFoundPage: React.FC = () => {
                 <p>Sorry, the page you are looking for does not exist.</p>
               </IonText>
               <IonButton
-                color="white"
+                color="dark"
                 fill="solid"
                 expand="block"
                 onClick={() => history.goBack()}

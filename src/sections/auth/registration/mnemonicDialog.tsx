@@ -26,6 +26,7 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
   return (
     <>
       <IonAlert
+        mode="md"
         backdropDismiss={false}
         isOpen={isOpen}
         header="Please write down the mnemonics safely"

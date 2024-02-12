@@ -6,11 +6,13 @@ import {
   IonProgressBar,
   IonRow,
   IonText,
+  IonTextarea,
 } from "@ionic/react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./restore.scss";
 import useAppStore from "@store/app";
+import TextInputFieldMultiLine from "@components/input/form-text-input-multiline";
 
 const RestoreWallet = () => {
   const history = useHistory();
@@ -55,10 +57,11 @@ const RestoreWallet = () => {
           <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
             <Controller
               render={({ field }) => (
-                <TextInputField
+                <TextInputFieldMultiLine
                   placeholder="Please enter 12 words pneumonics"
-                  type="text"
+                  rows={5}
                   label="Pneumonics*"
+                  labelPlacement="stacked"
                   errorText={errors.pneumonics?.message}
                   value={getValues("pneumonics")}
                   onInput={(e: any) => {
@@ -97,9 +100,10 @@ const RestoreWallet = () => {
         <IonRow className="restore-button-container">
           <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
             <IonButton
+              mode="md"
               type="submit"
               expand="block"
-              color="white"
+              color="dark"
               disabled={isDirty || !isValid || isSubmitting}
             >
               {isSubmitting ? (
@@ -110,7 +114,8 @@ const RestoreWallet = () => {
             </IonButton>
             <IonRow className="gap-5"></IonRow>
             <IonButton
-              color="white"
+              mode="md"
+              color="dark"
               fill="outline"
               expand="block"
               onClick={handleCancel}
