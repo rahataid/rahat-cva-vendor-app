@@ -16,7 +16,12 @@ import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
 import ChargeQr from "./charge-qr";
 import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
-import { validateWalletAddress } from "@utils/web3";
+import {
+  createContractInstance,
+  getMetaTxRequest,
+  getWalletUsingMnemonic,
+  validateWalletAddress,
+} from "@utils/web3";
 import VendorsService from "@services/vendors";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { ITransactionItem, Status } from "../../types/transactions";
@@ -31,7 +36,11 @@ type formDataType = {
 
 const ChargeBeneficiary = () => {
   const {
-    projectSettings: { internetAccess },
+    projectSettings: {
+      internetAccess,
+      contracts: { CVAProject, ERC2771Forwarder },
+      network: { rpcUrl },
+    },
     wallet,
     chainData: { allowance },
   } = useAppStore();
@@ -149,6 +158,11 @@ const ChargeBeneficiary = () => {
         data: { transactionPayload, selectedBeneficiary, internetAccess },
       });
     } else {
+      selectedBeneficiary = findObjectInArray(
+        beneficiaries,
+        checkObj,
+        selectedInput
+      );
       let transactionPayload: ITransactionItem;
       if (selectedInput === "phone") {
         transactionPayload = {
@@ -169,11 +183,34 @@ const ChargeBeneficiary = () => {
           vendorWalletAddress: wallet?.address,
         };
       }
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-      const { data } = await VendorsService.initiateTransaction({
-        vendorAddress: wallet?.address || "",
-        beneficiaryAddress: input || "",
-        amount: token || "",
+      const CVAContractInstance = await createContractInstance(
+        rpcUrl,
+        CVAProject
+      );
+
+      const ForwarderContractInstance = await createContractInstance(
+        rpcUrl,
+        ERC2771Forwarder
+      );
+
+      const metaTxRequest = await getMetaTxRequest(
+        walletInstance,
+        ForwarderContractInstance,
+        CVAContractInstance,
+        "requestTokenFromBeneficiary(address, uint256)",
+        [input, token]
+      );
+
+      const payload = {
+        ...metaTxRequest,
+        gas: metaTxRequest.gas.toString(),
+        nonce: metaTxRequest.nonce.toString(),
+        value: metaTxRequest.value.toString(),
+      };
+      await VendorsService.executeMetaTxRequest({
+        metaTxRequest: payload,
       });
 
       history.push("/otp", {

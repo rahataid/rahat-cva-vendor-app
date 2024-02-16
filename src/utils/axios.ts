@@ -28,6 +28,7 @@ axiosInstance.interceptors.response.use(
       "AXIOS INTERCEPTOR RES error",
       JSON.stringify(error),
       "=======",
+      error,
       error.message
     );
     return Promise.reject(

@@ -1,4 +1,9 @@
-import { IAddVendorPayload, ISyncTransactionsPayload, IOnlineVendorTx, IOnlineVendorTxVerify } from "../types/vendors";
+import {
+  IAddVendorPayload,
+  ISyncTransactionsPayload,
+  IOnlineVendorTx,
+  IOnlineVendorTxVerify,
+} from "../types/vendors";
 import { axiosInstance, endpoints } from "../utils/axios";
 
 const VendorsService = {
@@ -33,13 +38,29 @@ const VendorsService = {
   initiateTransaction: (payload: IOnlineVendorTx) =>
     axiosInstance.post(endpoints.vendors.blockchain, {
       method: "initiateTransactionForVendor",
-      params: [payload.vendorAddress, payload.beneficiaryAddress, payload.amount],
+      params: [
+        payload.vendorAddress,
+        payload.beneficiaryAddress,
+        payload.amount,
+      ],
     }),
 
   processTransaction: (payload: IOnlineVendorTxVerify) =>
     axiosInstance.post(endpoints.vendors.blockchain, {
       method: "processTransactionForVendor",
       params: [payload.vendorAddress, payload.beneficiaryAddress, payload.otp],
+    }),
+
+  executeMetaTxRequest: (payload: any) =>
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "executeMetaTxRequest",
+      params: [payload.metaTxRequest],
+    }),
+
+  processTokenRequest: (payload: any) =>
+    axiosInstance.post(endpoints.vendors.blockchain, {
+      method: "processTokenRequest",
+      params: [payload.metaTxRequest],
     }),
 };
 

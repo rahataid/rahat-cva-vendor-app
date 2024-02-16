@@ -16,6 +16,11 @@ import { IBeneficiary } from "../../../types/beneficiaries";
 import VendorsService from "@services/vendors";
 import { useState } from "react";
 import useTransactionStore from "@store/transaction";
+import {
+  createContractInstance,
+  getMetaTxRequest,
+  getWalletUsingMnemonic,
+} from "@utils/web3";
 
 type Props = {
   data: {
@@ -35,7 +40,13 @@ const OTP = ({ data }: Props) => {
   } = data;
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
-  const { wallet } = useAppStore();
+  const {
+    projectSettings: {
+      contracts: { CVAProject, ERC2771Forwarder },
+      network: { rpcUrl },
+    },
+    wallet,
+  } = useAppStore();
   const { addTransaction } = useTransactionStore();
   const {
     handleSubmit,
@@ -63,17 +74,39 @@ const OTP = ({ data }: Props) => {
 
         await addTransaction(transactionPayload);
       } else {
-        const { data } = await VendorsService.processTransaction({
-          vendorAddress: wallet?.address || "",
-          beneficiaryAddress:
-            (selectedInput === "phone" && transactionPayload?.phone) ||
-            (selectedInput === "walletAddress" &&
-              transactionPayload?.walletAddress) ||
-            "",
-          otp: formData?.otp || "",
+        const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+        const CVAContractInstance = await createContractInstance(
+          rpcUrl,
+          CVAProject
+        );
+
+        const ForwarderContractInstance = await createContractInstance(
+          rpcUrl,
+          ERC2771Forwarder
+        );
+
+        const metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          ForwarderContractInstance,
+          CVAContractInstance,
+          "processTokenRequest(address _benAddress, string memory _otp)",
+          [selectedBeneficiary.walletAddress, formData?.otp]
+        );
+
+        const payload = {
+          ...metaTxRequest,
+          gas: metaTxRequest.gas.toString(),
+          nonce: metaTxRequest.nonce.toString(),
+          value: metaTxRequest.value.toString(),
+        };
+        const { data } = await VendorsService.executeMetaTxRequest({
+          metaTxRequest: payload,
         });
+
         if (!data.hash)
           throw new Error("Something went wrong with OTP Verification");
+
         await addTransaction({
           ...transactionPayload,
           status: Status.SUCCESS,
