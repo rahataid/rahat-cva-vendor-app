@@ -200,7 +200,7 @@ const ChargeBeneficiary = () => {
         ForwarderContractInstance,
         CVAContractInstance,
         "requestTokenFromBeneficiary(address, uint256)",
-        [input, token]
+        [selectedBeneficiary?.walletAddress, token]
       );
 
       const payload = {
