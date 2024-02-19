@@ -22,6 +22,7 @@ const Scanner = ({ toggleTorch, setZoomRatio }: any) => {
             <IonRow>
               <IonCol size="12">
                 <IonRange
+                  color="dark"
                   className="zoom"
                   aria-label="Range with ticks"
                   ticks={true}
