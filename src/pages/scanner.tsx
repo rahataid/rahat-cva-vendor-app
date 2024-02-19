@@ -52,6 +52,16 @@ const ScannerPage: React.FC = () => {
     } else wrapper.style.display = "none";
   };
 
+  const toggleTorch = async () => {
+    await BarcodeScanner.toggleTorch();
+  };
+
+  const setZoomRatio = async (value: string) => {
+    BarcodeScanner.setZoomRatio({
+      zoomRatio: parseInt(value, 10),
+    });
+  };
+
   useEffect(() => {
     startScan();
   }, []);
@@ -60,7 +70,7 @@ const ScannerPage: React.FC = () => {
     <IonPage>
       <CustomHeader title="Scanner" showBackButton />
       <IonContent fullscreen scrollY={false}>
-        <Scanner />
+        <Scanner toggleTorch={toggleTorch} setZoomRatio={setZoomRatio} />
       </IonContent>
     </IonPage>
   );

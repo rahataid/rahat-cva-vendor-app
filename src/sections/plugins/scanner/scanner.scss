@@ -37,3 +37,12 @@ ion-header {
   border: 6px solid white;
   box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.3);
 }
+
+.btn-container {
+  visibility: visible !important;
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
