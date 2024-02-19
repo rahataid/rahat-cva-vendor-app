@@ -63,13 +63,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
     <IonHeader mode="md">
       <IonToolbar>
         <IonButtons slot="start">
-          {showBackButton && onBackButtonClick ? (
-            <IonButton color="dark" onClick={handleBack}>
-              <IonIcon color="dark" icon={caretBack} slot="start" />
-            </IonButton>
-          ) : (
-            <IonBackButton color="dark" icon={caretBack} />
-          )}
+          {showBackButton && <IonBackButton color="dark" icon={caretBack} />}
         </IonButtons>
         <IonTitle color="dark">{title}</IonTitle>
         <IonButtons slot="end">

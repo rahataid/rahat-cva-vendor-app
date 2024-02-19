@@ -5,6 +5,7 @@ import CustomHeader from "@components/header/customHeader";
 import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import { useHistory } from "react-router";
 import { useEffect } from "react";
+import { Haptics, ImpactStyle } from "@capacitor/haptics";
 
 const ScannerPage: React.FC = () => {
   const history = useHistory();
@@ -24,6 +25,7 @@ const ScannerPage: React.FC = () => {
     const listener = await BarcodeScanner.addListener(
       "barcodeScanned",
       async (result) => {
+        await hapticsImpactHeavy();
         stopScan();
         history.push("/tabs/charge-beneficiary", {
           data: {
@@ -60,6 +62,10 @@ const ScannerPage: React.FC = () => {
     BarcodeScanner.setZoomRatio({
       zoomRatio: parseInt(value, 10),
     });
+  };
+
+  const hapticsImpactHeavy = async () => {
+    await Haptics.impact({ style: ImpactStyle.Heavy });
   };
 
   useEffect(() => {
