@@ -34,7 +34,7 @@ type formDataType = {
   token: number | undefined;
 };
 
-const ChargeBeneficiary = () => {
+const ChargeBeneficiary = ({ data }: any) => {
   const {
     projectSettings: {
       internetAccess,
@@ -67,7 +67,7 @@ const ChargeBeneficiary = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      phoneWalletInput: "",
+      phoneWalletInput: data?.scannerValue ? data?.scannerValue : "",
       token: undefined,
       qrCode: "",
     },
@@ -303,7 +303,7 @@ const ChargeBeneficiary = () => {
                 onClick={handleToggle}
                 disabled={isSubmitting}
               >
-                {useQrCode ? "Use Phone" : "Use QR"}
+                {useQrCode ? "Use Phone" : "Scan"}
               </IonButton>
               <IonButton
                 mode="md"

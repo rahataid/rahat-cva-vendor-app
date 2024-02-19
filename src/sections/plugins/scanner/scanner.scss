@@ -1,0 +1,39 @@
+// Hide all elements
+body.barcode-scanner-active {
+  visibility: hidden;
+  --background: transparent;
+  --ion-background-color: transparent;
+}
+
+// Show only the barcode scanner modal
+.barcode-scanner-modal {
+  visibility: visible;
+}
+
+@media (prefers-color-scheme: dark) {
+  .barcode-scanner-modal {
+    --background: transparent;
+    --ion-background-color: transparent;
+  }
+}
+
+ion-header {
+  visibility: visible;
+}
+
+.wrapper {
+  visibility: visible;
+  --background: transparent;
+}
+
+.square {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 16px;
+  width: 80%;
+  height: 50%;
+  border: 6px solid white;
+  box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.3);
+}
