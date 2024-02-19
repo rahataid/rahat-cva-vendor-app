@@ -14,6 +14,7 @@ import { IonRouterOutlet } from "@ionic/react";
 import useAppStore from "@store/app";
 import { useTransactionsRehydrate } from "@hooks/use-transactions-rehydrate";
 import ResetPage from "@pages/reset";
+import ScannerPage from "@pages/scanner";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -40,6 +41,7 @@ const Router = () => {
           <Route exact path="/reset" component={ResetPage} />
 
           <PrivateRoute path="/tabs" component={Tabs} />
+          <PrivateRoute path="/scanner" component={ScannerPage} />
 
           {isAuthenticated ? (
             <Redirect exact from="/" to="/tabs/home" />

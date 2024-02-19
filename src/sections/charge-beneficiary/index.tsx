@@ -78,7 +78,8 @@ const ChargeBeneficiary = () => {
   });
 
   const handleToggle = () => {
-    setUseQrCode((prev) => !prev);
+    // setUseQrCode((prev) => !prev);
+    history.push("/scanner");
   };
 
   const validateVendorAllowance = (allowance: number) => {
