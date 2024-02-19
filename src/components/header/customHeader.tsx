@@ -47,7 +47,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
   title,
   showBackButton = false,
   showStatus = false,
-  onBackButtonClick,
+  onBackButtonClick = null,
 }) => {
   const { projectSettings } = useAppStore();
   const internetAccess = projectSettings?.internetAccess || false;
@@ -63,10 +63,12 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
     <IonHeader mode="md">
       <IonToolbar>
         <IonButtons slot="start">
-          {showBackButton && (
+          {showBackButton && onBackButtonClick ? (
             <IonButton color="dark" onClick={handleBack}>
               <IonIcon color="dark" icon={caretBack} slot="start" />
             </IonButton>
+          ) : (
+            <IonBackButton color="dark" icon={caretBack} />
           )}
         </IonButtons>
         <IonTitle color="dark">{title}</IonTitle>

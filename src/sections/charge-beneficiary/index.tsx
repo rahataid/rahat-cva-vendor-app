@@ -5,11 +5,12 @@ import {
   IonGrid,
   IonLoading,
   IonRow,
+  isPlatform,
   useIonViewWillLeave,
 } from "@ionic/react";
 
 import useAppStore from "@store/app";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./charge-beneficiary.scss";
@@ -27,6 +28,7 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { ITransactionItem, Status } from "../../types/transactions";
 import useTransactionStore from "@store/transaction";
 import useBeneficiaryStore from "@store/beneficiary";
+import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 
 type formDataType = {
   phoneWalletInput?: string | null;
@@ -51,6 +53,8 @@ const ChargeBeneficiary = ({ data }: any) => {
   const [loadingVisible, setLoadingVisible] = useState(false);
 
   const [useQrCode, setUseQrCode] = useState(false);
+
+  const isPlatformWeb = isPlatform("desktop") || isPlatform("mobileweb");
 
   const history = useHistory();
   const handleCancel = () => {
@@ -256,6 +260,27 @@ const ChargeBeneficiary = ({ data }: any) => {
     }
   };
 
+  const stopScan = async () => {
+    document.querySelector("body")?.classList.remove("barcode-scanner-active");
+    toggleWrapper(false);
+
+    await BarcodeScanner.removeAllListeners();
+
+    await BarcodeScanner.stopScan();
+  };
+
+  const toggleWrapper = (data: boolean) => {
+    const wrapper = document.getElementById("wrapper");
+    if (!wrapper) return;
+    if (data) {
+      wrapper.style.display = "block";
+    } else wrapper.style.display = "none";
+  };
+
+  useEffect(() => {
+    if (!isPlatformWeb) stopScan();
+  }, []);
+
   return (
     <>
       <IonLoading
@@ -296,25 +321,18 @@ const ChargeBeneficiary = ({ data }: any) => {
               sizeXl="11"
               className="charge-button-wrapper"
             >
-              <IonButton
-                mode="md"
-                color="dark"
-                fill="clear"
-                onClick={handleToggle}
-                disabled={isSubmitting}
-              >
-                {useQrCode ? "Use Phone" : "Scan"}
-              </IonButton>
-              <IonButton
-                mode="md"
-                color="dark"
-                fill="outline"
-                expand="block"
-                onClick={handleCancel}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </IonButton>
+              {!isPlatformWeb && (
+                <IonButton
+                  mode="md"
+                  color="dark"
+                  fill="outline"
+                  onClick={handleToggle}
+                  disabled={isSubmitting}
+                >
+                  {useQrCode ? "Use Phone" : "Scan"}
+                </IonButton>
+              )}
+
               <IonButton
                 mode="md"
                 type="submit"
