@@ -27,17 +27,11 @@ type Props = {
     transactionPayload: ITransactionItem;
     selectedBeneficiary: IBeneficiary;
     internetAccess: boolean;
-    selectedInput: "phone" | "walletAddress";
   };
 };
 
 const OTP = ({ data }: Props) => {
-  const {
-    transactionPayload,
-    selectedBeneficiary,
-    internetAccess,
-    selectedInput,
-  } = data;
+  const { transactionPayload, selectedBeneficiary, internetAccess } = data;
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
   const {
@@ -129,6 +123,7 @@ const OTP = ({ data }: Props) => {
   const handleCancel = () => {
     history.goBack();
   };
+
   return (
     <>
       <IonLoading

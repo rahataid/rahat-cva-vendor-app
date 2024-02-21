@@ -108,7 +108,7 @@ export async function createContractInstance(rpcUrl: string, contract: any) {
   return new Contract(contract.address, contract.abi, provider);
 }
 
-export async function createContractInstanceSign(
+export async function createContractInstanceUsingWallet(
   rpcUrl: string,
   contract: any
 ) {
@@ -206,13 +206,11 @@ export async function buildTypedData(forwarderContract: any) {
 }
 
 export async function signMetaTxRequest(
-  signer: Wallet,
+  signer: HDNodeWallet,
   forwarderContract: any,
   input: any
 ) {
-  console.log("util", signer, forwarderContract, input);
   const request = await buildRequest(forwarderContract, input);
-  console.log("REQEUST=.>>>>>", request);
   const { domain, types } = await buildTypedData(forwarderContract);
   const signature = await signer.signTypedData(domain, types, request);
   request.signature = signature;
@@ -220,15 +218,18 @@ export async function signMetaTxRequest(
 }
 
 export async function getMetaTxRequest(
-  signer,
-  forwarderContract,
-  storageContract,
-  functionName,
-  params
+  signer: HDNodeWallet,
+  forwarderContract: any,
+  CVAContractInstance: any,
+  functionName: string,
+  params: any[] | [] | null
 ) {
   return signMetaTxRequest(signer, forwarderContract, {
     from: signer.address,
-    to: storageContract.target,
-    data: storageContract.interface.encodeFunctionData(functionName, params),
+    to: CVAContractInstance.target,
+    data: CVAContractInstance.interface.encodeFunctionData(
+      functionName,
+      params
+    ),
   });
 }

@@ -1,5 +1,10 @@
 import { ITransactionItem, Status } from "../types/transactions";
 import { ENV } from "../config";
+import {
+  FormInputType,
+  checkObjType,
+  formDataType,
+} from "../types/chargeBeneficiary";
 
 export const isObjectInArray = (arr: any, obj: any, key: any) => {
   return arr.find((el: any) => el[key] === obj[key]) !== undefined;
@@ -55,4 +60,23 @@ export const copyToClipboard = (text: string) => {
 export const fixProjectUrl = (text: string) => {
   if (ENV === "DEV") return `http://${text}/api/v1`;
   else if (ENV === "PROD") return `https://${text}.rahat.io/api/v1`;
+};
+
+export const validateTokenAmount = (
+  selectedBeneficiary: any,
+  formData: checkObjType,
+  key: FormInputType.phone | FormInputType.walletAddress,
+  transactions: ITransactionItem[]
+) => {
+  const currentBeneficiaryTransactions = transactions.filter(
+    (el: any) => el[key] === formData[key]
+  );
+
+  let totalAmount = 0;
+  currentBeneficiaryTransactions.forEach((el) => (totalAmount += +el.amount));
+
+  if (formData.token) totalAmount += +formData.token;
+
+  if (totalAmount > +selectedBeneficiary.token) return false;
+  return true;
 };

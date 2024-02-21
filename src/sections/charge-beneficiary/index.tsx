@@ -6,7 +6,6 @@ import {
   IonLoading,
   IonRow,
   isPlatform,
-  useIonViewWillLeave,
 } from "@ionic/react";
 
 import useAppStore from "@store/app";
@@ -15,8 +14,11 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
-import ChargeQr from "./charge-qr";
-import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
+import {
+  findObjectInArray,
+  isObjectInArray,
+  validateTokenAmount,
+} from "@utils/helperFunctions";
 import {
   createContractInstance,
   getMetaTxRequest,
@@ -29,12 +31,8 @@ import { ITransactionItem, Status } from "../../types/transactions";
 import useTransactionStore from "@store/transaction";
 import useBeneficiaryStore from "@store/beneficiary";
 import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
-
-type formDataType = {
-  phoneWalletInput?: string | null;
-  qrCode?: string | null;
-  token: number | undefined;
-};
+import { FormInputType, formDataType } from "../../types/chargeBeneficiary";
+import { HDNodeWallet } from "ethers";
 
 const ChargeBeneficiary = ({ data }: any) => {
   const {
@@ -46,20 +44,13 @@ const ChargeBeneficiary = ({ data }: any) => {
     wallet,
     chainData: { allowance },
   } = useAppStore();
-
+  const history = useHistory();
   const { transactions } = useTransactionStore();
   const { beneficiaries } = useBeneficiaryStore();
 
   const [loadingVisible, setLoadingVisible] = useState(false);
 
-  const [useQrCode, setUseQrCode] = useState(false);
-
   const isPlatformWeb = isPlatform("desktop") || isPlatform("mobileweb");
-
-  const history = useHistory();
-  const handleCancel = () => {
-    history.goBack();
-  };
 
   const {
     handleSubmit,
@@ -77,12 +68,7 @@ const ChargeBeneficiary = ({ data }: any) => {
     },
   });
 
-  useIonViewWillLeave(() => {
-    setLoadingVisible(false);
-  });
-
   const handleToggle = () => {
-    // setUseQrCode((prev) => !prev);
     history.push("/scanner");
   };
 
@@ -91,31 +77,16 @@ const ChargeBeneficiary = ({ data }: any) => {
     return true;
   };
 
-  const validateTokenAmount = (
-    selectedBeneficiary: any,
-    formData: formDataType,
-    key: string
-  ) => {
-    const currentBeneficiaryTransactions = transactions.filter(
-      (el: any) => el[key] === formData[key]
-    );
-
-    let totalAmount = 0;
-    currentBeneficiaryTransactions.forEach((el) => (totalAmount += +el.amount));
-
-    if (formData.token) totalAmount += +formData.token;
-
-    if (totalAmount > +selectedBeneficiary.token) return false;
-    return true;
-  };
-
-  const chargeBeneficiaryPhoneQr = async (formData: formDataType) => {
+  const chargeBeneficiary = async (formData: formDataType) => {
+    console.log("FORM DATA 1st", formData);
     const { phoneWalletInput: input, token } = formData;
+
+    if (!input || !wallet) return;
 
     let selectedInput;
     const isInputWalletAddress = validateWalletAddress(input);
-    if (!isInputWalletAddress) selectedInput = "phone";
-    else selectedInput = "walletAddress";
+    if (!isInputWalletAddress) selectedInput = FormInputType.phone;
+    else selectedInput = FormInputType.walletAddress;
 
     const checkObj = {
       [selectedInput]: input,
@@ -143,9 +114,17 @@ const ChargeBeneficiary = ({ data }: any) => {
       );
 
       //  2. check if token amount is valid
+
       if (!validateVendorAllowance(+allowance))
         throw new Error("Not enough vendor balance");
-      if (!validateTokenAmount(selectedBeneficiary, checkObj, selectedInput))
+      if (
+        !validateTokenAmount(
+          selectedBeneficiary,
+          checkObj,
+          selectedInput,
+          transactions
+        )
+      )
         throw new Error("Not enough beneficiary balance");
 
       //  3. transfer data to the OTP page
@@ -188,7 +167,9 @@ const ChargeBeneficiary = ({ data }: any) => {
           vendorWalletAddress: wallet?.address,
         };
       }
-      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+      const walletInstance = getWalletUsingMnemonic(
+        (wallet as HDNodeWallet)?.mnemonic?.phrase as string
+      );
 
       const CVAContractInstance = await createContractInstance(
         rpcUrl,
@@ -214,6 +195,7 @@ const ChargeBeneficiary = ({ data }: any) => {
         nonce: metaTxRequest.nonce.toString(),
         value: metaTxRequest.value.toString(),
       };
+
       await VendorsService.executeMetaTxRequest({
         metaTxRequest: payload,
       });
@@ -229,15 +211,10 @@ const ChargeBeneficiary = ({ data }: any) => {
     }
   };
 
-  const chargeBeneficiaryQr = async () => {
-    // IMPLEMENT QR SCAN CODE HERE
-  };
-
   const onSubmit = async (data: any) => {
     try {
       setLoadingVisible(true);
-      if (useQrCode) await chargeBeneficiaryQr();
-      else await chargeBeneficiaryPhoneQr(data);
+      await chargeBeneficiary(data);
       setLoadingVisible(false);
     } catch (error: any) {
       setLoadingVisible(false);
@@ -294,21 +271,12 @@ const ChargeBeneficiary = ({ data }: any) => {
             <IonCol size="11" sizeMd="12" sizeXs="12" sizeLg="11" sizeXl="11">
               <TransparentCard>
                 <IonCardHeader>
-                  {useQrCode ? (
-                    <ChargeQr
-                      getValues={getValues}
-                      errors={errors}
-                      setValue={setValue}
-                      control={control}
-                    />
-                  ) : (
-                    <ChargePhone
-                      getValues={getValues}
-                      errors={errors}
-                      setValue={setValue}
-                      control={control}
-                    />
-                  )}
+                  <ChargePhone
+                    getValues={getValues}
+                    errors={errors}
+                    setValue={setValue}
+                    control={control}
+                  />
                 </IonCardHeader>
               </TransparentCard>
             </IonCol>
@@ -329,7 +297,7 @@ const ChargeBeneficiary = ({ data }: any) => {
                   onClick={handleToggle}
                   disabled={isSubmitting}
                 >
-                  {useQrCode ? "Use Phone" : "Scan"}
+                  "Scan"
                 </IonButton>
               )}
 
