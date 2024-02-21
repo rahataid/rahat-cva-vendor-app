@@ -78,7 +78,6 @@ const ChargeBeneficiary = ({ data }: any) => {
   };
 
   const chargeBeneficiary = async (formData: formDataType) => {
-    console.log("FORM DATA 1st", formData);
     const { phoneWalletInput: input, token } = formData;
 
     if (!input || !wallet) return;

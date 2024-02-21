@@ -21,7 +21,6 @@ const HomePage: React.FC = () => {
     wallet?.address,
     forceRender
   );
-  console.log(isLoading);
 
   const acceptPendingTokens = async () => {
     await VendorsService.acceptPendingTokens(vendorAddress);

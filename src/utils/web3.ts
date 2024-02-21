@@ -184,7 +184,6 @@ export async function buildRequest(
   input: any
 ): Promise<BuiltRequest> {
   const nonce = await forwarderContract.nonces(input.from);
-  console.log("INPUT", input);
   return {
     from: input.from,
     to: input.to,
