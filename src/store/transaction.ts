@@ -1,4 +1,4 @@
-import { ITransactionItem, Status } from "@types/transactions";
+import { ITransactionItem, TRANSACTION_STATUS } from "@types/transactions";
 import {
   createStore,
   ionicIdbStorage,
@@ -109,7 +109,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         const updatedTransactions = setTransactionStatus(
           transactions,
           offlineTransactions,
-          Status.SUCCESS,
+          TRANSACTION_STATUS.SUCCESS,
           res?.data
         );
         setTransactions(updatedTransactions);
@@ -117,7 +117,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         const updatedTransactions = setTransactionStatus(
           transactions,
           offlineTransactions,
-          Status.FAIL
+          TRANSACTION_STATUS.FAIL
         );
         setTransactions(updatedTransactions);
         throw error;

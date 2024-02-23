@@ -1,5 +1,5 @@
 import { IBeneficiary } from "@types/beneficiaries";
-import { ITransactionItem, Status } from "@types/transactions";
+import { ITransactionItem, TRANSACTION_STATUS } from "@types/transactions";
 import {
   createStore,
   ionicIdbStorage,
@@ -74,14 +74,14 @@ const useBeneficiaryStore = createStore<BeneficiaryStoreType>(
         const updatedTransactions = setTransactionStatus(
           transactions,
           [data],
-          Status.SUCCESS
+          TRANSACTION_STATUS.SUCCESS
         );
         setTransactions(updatedTransactions);
       } catch (error) {
         const updatedTransactions = setTransactionStatus(
           transactions,
           [data],
-          Status.FAIL
+          TRANSACTION_STATUS.FAIL
         );
         setTransactions(updatedTransactions);
         throw error;

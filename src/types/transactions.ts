@@ -1,16 +1,25 @@
-export enum Status {
-  NEW = "NEW",
+import { BENEFICIARY_TYPE } from "./beneficiaries";
+import { VOUCHER } from "./chargeBeneficiary";
+
+export enum TRANSACTION_STATUS {
   SUCCESS = "SUCCESS",
-  FAIL = "FAIL",
+  PENDING = "PENDING",
+  FAILED = "FAILED",
 }
 
 export type ITransactionItem = {
-  createdAt: string | number;
-  amount: number | string | undefined;
-  status: Status;
-  isOffline: boolean;
-  hash?: string;
-  walletAddress?: string;
-  phone?: string;
-  vendorWalletAddress: string;
+  projectName: string;
+  createdAt: string;
+  type: BENEFICIARY_TYPE;
+};
+
+export type TransactionDetail = {
+  status: TRANSACTION_STATUS;
+  beneficiaryName: string;
+  voucherType: VOUCHER;
+  beneficiaryType: BENEFICIARY_TYPE;
+  createdAt: string;
+  transactionHash: string;
+  voucherSymbol: string;
+  phone: string;
 };

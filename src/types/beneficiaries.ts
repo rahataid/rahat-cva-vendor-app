@@ -5,3 +5,8 @@ export type IBeneficiary = {
   phone?: string;
   otpHash: string;
 };
+
+export enum BENEFICIARY_TYPE {
+  REFERRED = "REFERRED",
+  ENROLLED = "ENROLLED",
+}
