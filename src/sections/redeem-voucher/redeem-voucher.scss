@@ -1,0 +1,35 @@
+.grid-container {
+  display: flex;
+}
+
+.charge-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.charge-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0.7;
+}
+
+.charge-button-container {
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0.3;
+}
+
+.align-text-center {
+  text-align: center;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.gap-5 {
+  height: 5px;
+}

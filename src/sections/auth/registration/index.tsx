@@ -64,7 +64,7 @@ const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="register-container">
           <IonRow className="register-form-container">
-            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+            <IonCol size="12" sizeMd="12" sizeLg="6" sizeXl="4">
               <Controller
                 render={({ field }) => (
                   <TextInputField

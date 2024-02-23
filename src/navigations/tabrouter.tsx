@@ -20,6 +20,8 @@ import TransactionsSettingsPage from "@pages/transactions-settings";
 import useAppStore from "@store/app";
 import { home, person, qrCode, settings } from "ionicons/icons";
 import { Redirect, Route, Switch } from "react-router-dom";
+import ReferredBeneficiariesSettingsPage from "@pages/referred-beneficiaries-settings";
+import ReferredBeneficiariesListPage from "@pages/referred-beneficiary-list";
 
 const Tabs: React.FC = () => {
   const { chainData } = useAppStore((state) => ({
@@ -53,6 +55,22 @@ const Tabs: React.FC = () => {
             component={BeneficiariesListPage}
             exact
           />
+          <Route
+            path="/tabs/settings/referred-beneficiaries"
+            component={ReferredBeneficiariesSettingsPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/referred-beneficiaries/details"
+            component={ReferredBeneficiariesListPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/referred-beneficiaries/list"
+            component={ReferredBeneficiariesListPage}
+            exact
+          />
+
           <Route
             path="/tabs/settings/transactions"
             component={TransactionsSettingsPage}

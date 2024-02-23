@@ -3,13 +3,16 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
   IonPage,
+  IonRow,
   IonTitle,
   IonToggle,
   IonToolbar,
@@ -48,9 +51,15 @@ const InternetAccessCenterPage = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Internet Access Center" showStatus showBackButton />
+      <CustomHeader title="Internet Access Center" showBackButton />
       <IonContent>
-        <InternetAccessCenter {...props} />
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <InternetAccessCenter {...props} />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

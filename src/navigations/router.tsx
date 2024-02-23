@@ -15,6 +15,7 @@ import useAppStore from "@store/app";
 import { useTransactionsRehydrate } from "@hooks/use-transactions-rehydrate";
 import ResetPage from "@pages/reset";
 import ScannerPage from "@pages/scanner";
+import RedeemVoucherPage from "@pages/redeem-voucher";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -42,6 +43,11 @@ const Router = () => {
 
           <PrivateRoute path="/tabs" component={Tabs} />
           <PrivateRoute path="/scanner" component={ScannerPage} />
+          <PrivateRoute
+            path="/redeem-voucher"
+            component={RedeemVoucherPage}
+            exact
+          />
 
           {isAuthenticated ? (
             <Redirect exact from="/" to="/tabs/home" />

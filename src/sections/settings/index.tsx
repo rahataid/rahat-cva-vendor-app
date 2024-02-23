@@ -3,10 +3,13 @@ import {
   IonAlert,
   IonAvatar,
   IonCard,
+  IonCol,
+  IonGrid,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
+  IonRow,
   IonToggle,
   ToggleCustomEvent,
 } from "@ionic/react";
@@ -22,6 +25,8 @@ import {
   logOutOutline,
   peopleOutline,
   listOutline,
+  personAddOutline,
+  personAddSharp,
 } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -96,18 +101,17 @@ function Settings() {
   };
 
   const settingsOptions = [
-    // {
-    //   label: "Offline Mode",
-    //   startIcon: wifiOutline,
-    //   action: () => history.push("/tabs/settings/internet-center"),
-    //   checked: internetAccess,
-    //   isToggle: false,
-    //   endIcon: chevronForwardOutline,
-    // },
     {
       label: "Beneficiaries",
       startIcon: peopleOutline,
       action: () => history.push("/tabs/settings/beneficiaries"),
+      isToggle: false,
+      endIcon: chevronForwardOutline,
+    },
+    {
+      label: "Referred Beneficiaries",
+      startIcon: personAddOutline,
+      action: () => history.push("/tabs/settings/referred-beneficiaries"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
@@ -164,16 +168,7 @@ function Settings() {
             </IonAvatar>
             <IonLabel>{currentUser?.name || "-"}</IonLabel>
           </IonItem>
-          <IonItem button={true} onClick={handleToggle}>
-            <IonIcon icon={wifiOutline} slot="start" />
-            <IonLabel>Internet Status</IonLabel>
-            <IonToggle checked={internetAccess} />
-          </IonItem>
-          {/* <IonItem button={true} onClick={toggleChange}>
-            <IonIcon icon={moonOutline} slot="start" />
-            <IonLabel>Dark Mode</IonLabel>
-            <IonToggle checked={themeToggle} />
-          </IonItem> */}
+
           {settingsOptions.map((option, index) => (
             <IonItem key={index} button={true} onClick={option.action}>
               <IonIcon icon={option.startIcon} slot="start" />

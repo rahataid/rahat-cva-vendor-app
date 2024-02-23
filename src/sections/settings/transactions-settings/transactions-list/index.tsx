@@ -1,4 +1,10 @@
-import { IonCardHeader, IonCardTitle } from "@ionic/react";
+import {
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonGrid,
+  IonRow,
+} from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";

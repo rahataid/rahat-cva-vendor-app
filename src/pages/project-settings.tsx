@@ -7,6 +7,9 @@ import {
   IonTitle,
   IonButtons,
   IonBackButton,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from "@ionic/react";
 import { caretBack } from "ionicons/icons";
 import useAppStore from "@store/app";
@@ -43,9 +46,15 @@ const ProjectSettingsPage: React.FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Project" showStatus showBackButton />
+      <CustomHeader title="Project" showBackButton />
       <IonContent>
-        <ProjectSettings {...props} />
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <ProjectSettings {...props} />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

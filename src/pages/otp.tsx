@@ -1,4 +1,4 @@
-import { IonContent, IonPage } from "@ionic/react";
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import OTP from "@sections/claim/otp";
 import "../theme/title.css";
 import { useLocation } from "react-router-dom";
@@ -21,9 +21,15 @@ const OTPPage: React.FC = () => {
   const { data } = location.state || { data: null };
   return (
     <IonPage>
-      <CustomHeader title="OTP" />
+      <CustomHeader title="OTP" showBackButton />
       <IonContent fullscreen scrollY={false}>
-        <OTP data={data} />
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <OTP data={data} />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

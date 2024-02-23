@@ -1,5 +1,5 @@
 import CustomHeader from "@components/header/customHeader";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import ChargeBeneficiary from "@sections/charge-beneficiary";
 import { useLocation } from "react-router";
 
@@ -15,9 +15,15 @@ const ChargeBeneficiaryPage: React.FC = () => {
   const { data } = location.state || { data: null };
   return (
     <IonPage>
-      <CustomHeader title="Charge Beneficiary" showStatus />
+      <CustomHeader title="Charge Beneficiary" />
       <IonContent fullscreen>
-        <ChargeBeneficiary data={data} />
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <ChargeBeneficiary data={data} />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

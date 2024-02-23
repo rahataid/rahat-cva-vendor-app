@@ -9,6 +9,9 @@ import {
   IonList,
   IonToast,
   IonLoading,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from "@ionic/react";
 import { chevronForwardOutline } from "ionicons/icons";
 import { useHistory } from "react-router";

@@ -17,7 +17,6 @@ import { useHistory } from "react-router";
 interface CustomHeaderProps {
   title: string;
   showBackButton?: boolean;
-  showStatus?: boolean;
   onBackButtonClick?: () => Promise<void>;
 }
 
@@ -46,7 +45,6 @@ const InternetStatus: React.FC<{ isOnline: boolean }> = ({ isOnline }) => (
 const CustomHeader: React.FC<CustomHeaderProps> = ({
   title,
   showBackButton = false,
-  showStatus = false,
   onBackButtonClick = null,
 }) => {
   const { projectSettings } = useAppStore();
@@ -66,9 +64,6 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
           {showBackButton && <IonBackButton color="dark" icon={caretBack} />}
         </IonButtons>
         <IonTitle color="dark">{title}</IonTitle>
-        <IonButtons slot="end">
-          {showStatus && <InternetStatus isOnline={internetAccess} />}
-        </IonButtons>
       </IonToolbar>
     </IonHeader>
   );

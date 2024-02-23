@@ -13,7 +13,7 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 type Props = {
   data: IBeneficiary[] | [];
 };
-const BeneficiariesList = ({ data }: Props) => {
+const ReferredBeneficiariesList = ({ data }: Props) => {
   return (
     <>
       {data?.length ? (
@@ -31,4 +31,4 @@ const BeneficiariesList = ({ data }: Props) => {
   );
 };
 
-export default BeneficiariesList;
+export default ReferredBeneficiariesList;

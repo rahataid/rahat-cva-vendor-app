@@ -1,12 +1,34 @@
 import React, { useState } from "react";
-import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
+import {
+  IonPage,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from "@ionic/react";
 import { caretBack } from "ionicons/icons";
 import BeneficiariesSettings from "@sections/settings/beneficiaries-settings";
 import useAppStore from "@store/app";
 import CustomHeader from "@components/header/customHeader";
 import useBeneficiaryStore from "@store/beneficiary";
+import BeneficiariesList from "@sections/settings/beneficiaries-settings/beneficiaries-list";
 
-const BeneficiariesSettingsPage: React.FC = () => {
+const BeneficiaryData: any = [
+  {
+    name: "Mani Byanjankari",
+    phone: "9841234567",
+    address: "Kathmandu",
+    referredBy: "Suman Byanjankari",
+    referredOn: "2021-09-01",
+  },
+];
+
+const ReferredBeneficiariesSettingsPage: React.FC = () => {
   const { projectSettings } = useAppStore();
   const { syncBeneficiaries } = useBeneficiaryStore();
   const [showToast, setShowToast] = useState(false);
@@ -54,7 +76,7 @@ const BeneficiariesSettingsPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <BeneficiariesSettings {...props} />
+              <BeneficiariesList {...props} data={[]} />
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -63,4 +85,4 @@ const BeneficiariesSettingsPage: React.FC = () => {
   );
 };
 
-export default BeneficiariesSettingsPage;
+export default ReferredBeneficiariesSettingsPage;

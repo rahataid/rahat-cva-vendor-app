@@ -1,5 +1,5 @@
 import { useVendorChainData } from "@api/vendors";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import Home from "../sections/home";
 import "../theme/title.css";
 import VendorsService from "@services/vendors";
@@ -28,20 +28,26 @@ const HomePage: React.FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Home" showStatus />
+      <CustomHeader title="Home" />
       <IonContent fullscreen>
-        <Home
-          allowance={chainData?.allowance}
-          isVendor={chainData?.isVendorApproved}
-          isProjectLocked={chainData?.isProjectLocked}
-          disbursed={chainData?.disbursed}
-          pendingTokensToAccept={chainData?.pendingTokens}
-          acceptPendingTokens={acceptPendingTokens}
-          projectSettings={projectSettings}
-          vendorTransactions={vendorTransactions}
-          handleReload={handleReload}
-          loading={isLoading}
-        />
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <Home
+                allowance={chainData?.allowance}
+                isVendor={chainData?.isVendorApproved}
+                isProjectLocked={chainData?.isProjectLocked}
+                disbursed={chainData?.disbursed}
+                pendingTokensToAccept={chainData?.pendingTokens}
+                acceptPendingTokens={acceptPendingTokens}
+                projectSettings={projectSettings}
+                vendorTransactions={vendorTransactions}
+                handleReload={handleReload}
+                loading={isLoading}
+              />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

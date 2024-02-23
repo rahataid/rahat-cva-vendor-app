@@ -1,11 +1,14 @@
 import {
   IonButton,
   IonCard,
+  IonCol,
+  IonGrid,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
   IonLoading,
+  IonRow,
   IonToast,
 } from "@ionic/react";
 import { chevronForwardOutline } from "ionicons/icons";
