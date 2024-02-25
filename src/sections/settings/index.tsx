@@ -111,7 +111,7 @@ function Settings() {
     {
       label: "Referred Beneficiaries",
       startIcon: personAddOutline,
-      action: () => history.push("/tabs/settings/referred-beneficiaries"),
+      action: () => history.push("/tabs/settings/referred-beneficiaries/list"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },

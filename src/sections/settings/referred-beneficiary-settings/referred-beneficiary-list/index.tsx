@@ -6,9 +6,9 @@ import {
   IonGrid,
   IonRow,
 } from "@ionic/react";
-import BeneficiaryCard from "../beneficiaries-card";
 import { IBeneficiary } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import ReferredBeneficiaryCard from "../referred-beneficiary-card";
 
 type Props = {
   data: IBeneficiary[] | [];
@@ -17,7 +17,9 @@ const ReferredBeneficiariesList = ({ data }: Props) => {
   return (
     <>
       {data?.length ? (
-        data.map((el, i) => <BeneficiaryCard key={i} beneficiary={el} />)
+        data.map((el, i) => (
+          <ReferredBeneficiaryCard key={i} beneficiary={el} />
+        ))
       ) : (
         <TransparentCard>
           <IonCardHeader>

@@ -1,5 +1,4 @@
-import { BENEFICIARY_TYPE } from "./beneficiaries";
-import { VOUCHER } from "./chargeBeneficiary";
+import { BENEFICIARY_TYPE, VOUCHER } from "./beneficiaries";
 
 export enum TRANSACTION_STATUS {
   SUCCESS = "SUCCESS",

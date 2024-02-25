@@ -56,11 +56,7 @@ const Tabs: React.FC = () => {
             component={BeneficiariesListPage}
             exact
           />
-          <Route
-            path="/tabs/settings/referred-beneficiaries"
-            component={ReferredBeneficiariesSettingsPage}
-            exact
-          />
+
           <Route
             path="/tabs/settings/referred-beneficiaries/details"
             component={ReferredBeneficiariesListPage}
