@@ -63,6 +63,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                 <IonIcon icon={ellipsisHorizontal} />
               </IonButton>
               <IonPopover
+                mode="md"
                 ref={popover}
                 isOpen={popoverOpen}
                 onDidDismiss={() => setPopoverOpen(false)}
@@ -77,20 +78,6 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                   </IonItem>
                 </IonList>
               </IonPopover>
-              {/* <IonButton fill="clear" onClick={handlePopover}>
-                <IonIcon icon={ellipsisHorizontal} />
-              </IonButton>
-
-              <IonPopover
-                ref={popover}
-                isOpen={showPopover}
-                onDidDismiss={() => setShowPopover(false)}
-              >
-                <IonButton onClick={handleDelete}>Delete</IonButton>
-                <IonButton onClick={() => setShowPopover(false)}>
-                  View
-                </IonButton>
-              </IonPopover> */}
 
               {beneficiary?.beneficiaryType === "REFERRED" ? (
                 <IonText color="success">

@@ -42,7 +42,7 @@ const TransactionCard = ({ transaction, key }: Props) => {
     <IonGrid key={key}>
       <IonRow>
         <IonCol size="9">
-          <IonCardContent className="px-0">
+          <IonCardContent className="px-0 pb-0">
             <h2>
               <strong>Claim Processed</strong>
             </h2>
@@ -59,6 +59,7 @@ const TransactionCard = ({ transaction, key }: Props) => {
             <IonIcon icon={ellipsisHorizontal} />
           </IonButton>
           <IonPopover
+            mode="md"
             ref={popover}
             isOpen={popoverOpen}
             onDidDismiss={() => setPopoverOpen(false)}
@@ -74,7 +75,7 @@ const TransactionCard = ({ transaction, key }: Props) => {
             </IonList>
           </IonPopover>
           <IonText color="success">
-            <p>REFERRED</p>
+            <p className="m-0">REFERRED</p>
           </IonText>
         </IonCol>
       </IonRow>

@@ -6,8 +6,7 @@
 .tlist-right-col {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 8px;
 }

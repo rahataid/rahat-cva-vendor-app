@@ -22,34 +22,36 @@ const TransactionsList = ({ data }: Props) => {
     <>
       {data?.length ? (
         <>
-          <IonList>
-            <IonListHeader>
-              <IonLabel>
-                <IonText>
-                  <p>21/1/2024</p>
-                </IonText>
-              </IonLabel>
-            </IonListHeader>
-            {data.map((el, i) => (
-              <IonItem key={i}>
-                <TransactionCard key={i} transaction={el} />
-              </IonItem>
-            ))}
-            <IonListHeader>
-              <IonLabel>
-                <IonText>
-                  <p>21/1/2024</p>
-                </IonText>
-              </IonLabel>
-            </IonListHeader>
-            {data.map((el, i) => (
-              <>
+          <TransparentCard>
+            <IonList mode="md">
+              <IonListHeader>
+                <IonLabel>
+                  <IonText>
+                    <p>21/1/2024</p>
+                  </IonText>
+                </IonLabel>
+              </IonListHeader>
+              {data.map((el, i) => (
                 <IonItem key={i}>
                   <TransactionCard key={i} transaction={el} />
                 </IonItem>
-              </>
-            ))}
-          </IonList>
+              ))}
+              <IonListHeader>
+                <IonLabel>
+                  <IonText>
+                    <p>21/1/2024</p>
+                  </IonText>
+                </IonLabel>
+              </IonListHeader>
+              {data.map((el, i) => (
+                <>
+                  <IonItem key={i}>
+                    <TransactionCard key={i} transaction={el} />
+                  </IonItem>
+                </>
+              ))}
+            </IonList>
+          </TransparentCard>
         </>
       ) : (
         <TransparentCard>
