@@ -104,7 +104,7 @@ function Settings() {
     {
       label: "Beneficiaries",
       startIcon: peopleOutline,
-      action: () => history.push("/tabs/settings/beneficiaries"),
+      action: () => history.push("/tabs/settings/beneficiaries/list"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
@@ -118,7 +118,7 @@ function Settings() {
     {
       label: "Transactions",
       startIcon: listOutline,
-      action: () => history.push("/tabs/settings/transactions"),
+      action: () => history.push("/tabs/settings/transactions/list"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },

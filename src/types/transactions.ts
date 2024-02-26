@@ -8,7 +8,7 @@ export enum TRANSACTION_STATUS {
 
 export type ITransactionItem = {
   projectName: string;
-  createdAt: string;
+  createdAt: number;
   type: BENEFICIARY_TYPE;
 };
 

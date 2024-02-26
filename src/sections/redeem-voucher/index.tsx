@@ -16,9 +16,10 @@ import {
 import "./redeem-voucher.scss";
 import CustomChip from "@components/chip/customChip";
 import BeneficiaryDetails from "./beneficiary-details";
-import { SelectInputOptions, VOUCHER } from "../../types/chargeBeneficiary";
+import { SelectInputOptions } from "../../types/chargeBeneficiary";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
+import { VOUCHER } from "@types/beneficiaries";
 
 const options: SelectInputOptions = [
   { label: "Male", value: "MALE" },

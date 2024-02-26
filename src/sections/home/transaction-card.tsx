@@ -1,26 +1,49 @@
 import {
+  IonAvatar,
   IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
   IonChip,
+  IonCol,
+  IonGrid,
+  IonIcon,
   IonItem,
+  IonItemDivider,
   IonLabel,
   IonList,
   IonNote,
+  IonRow,
   IonText,
 } from "@ionic/react";
 import { ITransactionItem } from "../../types/transactions";
 import { useHistory } from "react-router";
 import { cropString } from "@utils/helperFunctions";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import { BENEFICIARY_TYPE } from "../../types/beneficiaries";
+import { swapHorizontalOutline } from "ionicons/icons";
+import "./home.scss";
+import CustomDivider from "@components/divider";
 
 type PropTypes = {
   transactionsList: ITransactionItem[] | null;
 };
 
-const TransactionCard = ({ transactionsList }: PropTypes) => {
+const transactionsList: ITransactionItem[] = [
+  {
+    projectName: "CVA Project",
+    createdAt: 1207678311,
+    type: BENEFICIARY_TYPE.REFERRED,
+  },
+  {
+    projectName: "CVA Project",
+    createdAt: 1708678411,
+    type: BENEFICIARY_TYPE.ENROLLED,
+  },
+];
+
+const TransactionCard = () => {
   const history = useHistory();
   return (
     <TransparentCard>
@@ -29,85 +52,55 @@ const TransactionCard = ({ transactionsList }: PropTypes) => {
       </IonCardHeader>
       <IonCardContent>
         <IonList>
-          {transactionsList?.length ? (
-            transactionsList
-              ?.slice(-3)
-              .reverse()
-              .map((el, index) => (
-                <IonItem key={index}>
-                  <IonLabel>
-                    <IonNote>
-                      {el?.status == "SUCCESS" ? (
-                        <IonChip style={{ color: "green" }}>
-                          {el?.status}
-                        </IonChip>
-                      ) : (
-                        <IonChip style={{ color: "red" }}>{el?.status}</IonChip>
-                      )}
-                      {el?.isOffline ? (
-                        <IonChip style={{ color: "grey" }}>OFFLINE</IonChip>
-                      ) : (
-                        <IonChip style={{ color: "blue" }}>ONLINE</IonChip>
-                      )}
-                    </IonNote>
-                    <IonNote>
-                      <p>
-                        <strong>Transaction Hash: </strong>
-                        {el?.hash ? cropString(el.hash) : "-"}
-                      </p>
-                    </IonNote>
-
-                    <IonNote>
-                      <p>
-                        <strong>Wallet Address: </strong>
-                        {el?.walletAddress ? cropString(el.walletAddress) : "-"}
-                      </p>
-                    </IonNote>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <IonNote>
-                        <p>
-                          <strong>Phone: </strong>
-                          {el.phone || "-"}
-                        </p>
-                      </IonNote>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <IonNote>
-                        <p>
-                          <strong>Tokens: </strong>
-                          {el?.amount || "-"}
-                        </p>
-                      </IonNote>
-                    </div>
-                    <IonNote>
-                      <p>
-                        <strong>Created At: </strong>
-                        {new Date(el?.createdAt).toLocaleString() || "-"}
-                      </p>
-                    </IonNote>
-                  </IonLabel>
-                </IonItem>
-              ))
-          ) : (
-            <IonText>No data available...</IonText>
-          )}
+          <>
+            {transactionsList?.length ? (
+              transactionsList
+                ?.slice(-5)
+                .reverse()
+                .map((el, i) => (
+                  <IonItem
+                    key={i}
+                    className="ion-list-no-padding"
+                    button={true}
+                    onClick={() =>
+                      history.push(
+                        `/tabs/settings/transactions/${el?.createdAt}`
+                      )
+                    }
+                  >
+                    <>
+                      <IonGrid>
+                        <IonRow>
+                          <IonCol size="2" className="home-tx-left-col">
+                            <div className="icon-wrapper-round">
+                              <IonIcon icon={swapHorizontalOutline}></IonIcon>
+                            </div>
+                          </IonCol>
+                          <IonCol size="10" className="home-tx-right-col">
+                            <IonText>
+                              <h2>Claim Processed</h2>
+                              <p>
+                                {el?.projectName}{" "}
+                                {new Date(el?.createdAt).toLocaleString() ||
+                                  "-"}
+                              </p>
+                            </IonText>
+                          </IonCol>
+                        </IonRow>
+                      </IonGrid>
+                    </>
+                  </IonItem>
+                ))
+            ) : (
+              <IonText>No data available...</IonText>
+            )}
+          </>
         </IonList>
         <IonButton
           disabled={false}
           expand="block"
           color="primary"
-          style={{ marginTop: "1rem" }}
+          className="view-all-btn-padding"
           onClick={() => history.push("/tabs/settings/transactions/list")}
         >
           View All

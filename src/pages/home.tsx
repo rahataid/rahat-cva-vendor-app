@@ -7,10 +7,23 @@ import useAppStore from "@store/app";
 import { useState } from "react";
 import CustomHeader from "@components/header/customHeader";
 import useTransactionStore from "@store/transaction";
+import { ITransactionItem } from "@types/transactions";
 
 const HomePage: React.FC = () => {
   const { wallet, projectSettings } = useAppStore();
-  const { vendorTransactions } = useTransactionStore();
+  // const { vendorTransactions } = useTransactionStore();
+  const vendorTransactions: ITransactionItem[] = [
+    {
+      projectName: "CVA Project",
+      createdAt: 1708678311,
+      type: "REFERRED",
+    },
+    {
+      projectName: "CVA Project",
+      createdAt: 1708678411,
+      type: "ENROLLED",
+    },
+  ];
 
   const [forceRender, setForceRender] = useState(false);
   const handleReload = () => {

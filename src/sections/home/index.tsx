@@ -31,8 +31,6 @@ const Home = ({
   allowance,
   disbursed,
   isVendor,
-  isProjectLocked,
-  projectBalance,
   pendingTokensToAccept,
   acceptPendingTokens,
   projectSettings,
@@ -108,8 +106,14 @@ const Home = ({
           gap: "1rem",
         }}
       >
-        <CardComponent subtitle="Allowance" title={allowance || "loading..."} />
-        <CardComponent subtitle="Disbursed" title={disbursed || "loading..."} />
+        <CardComponent
+          subtitle="No. of free vouchers redeemed"
+          title={allowance || "loading..."}
+        />
+        <CardComponent
+          subtitle="No. of discount vouchers redeemed"
+          title={disbursed || "loading..."}
+        />
       </div>
       <div>
         <TransactionCard transactionsList={vendorTransactions} />
