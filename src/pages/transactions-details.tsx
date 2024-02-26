@@ -5,8 +5,7 @@ import CustomHeader from "@components/header/customHeader";
 import useTransactionStore from "@store/transaction";
 import TransactionDetails from "@sections/settings/transactions-settings/transactions-details";
 import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
-import { BENEFICIARY_TYPE } from "@types/beneficiaries";
-import { VOUCHER } from "../types/chargeBeneficiary";
+import { BENEFICIARY_TYPE, VOUCHER } from "@types/beneficiaries";
 import { useParams } from "react-router";
 
 const details: TransactionDetail = {

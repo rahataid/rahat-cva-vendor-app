@@ -1,6 +1,6 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
-import { VOUCHER } from "@types/chargeBeneficiary";
+import { VOUCHER } from "@types/beneficiaries";
 import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
 
 type Props = {

@@ -1,0 +1,13 @@
+.px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tlist-right-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

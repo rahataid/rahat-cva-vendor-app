@@ -3,7 +3,12 @@ import {
   IonCardTitle,
   IonCol,
   IonGrid,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonListHeader,
   IonRow,
+  IonText,
 } from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
@@ -16,7 +21,36 @@ const TransactionsList = ({ data }: Props) => {
   return (
     <>
       {data?.length ? (
-        data.map((el, i) => <TransactionCard key={i} transaction={el} />)
+        <>
+          <IonList>
+            <IonListHeader>
+              <IonLabel>
+                <IonText>
+                  <p>21/1/2024</p>
+                </IonText>
+              </IonLabel>
+            </IonListHeader>
+            {data.map((el, i) => (
+              <IonItem key={i}>
+                <TransactionCard key={i} transaction={el} />
+              </IonItem>
+            ))}
+            <IonListHeader>
+              <IonLabel>
+                <IonText>
+                  <p>21/1/2024</p>
+                </IonText>
+              </IonLabel>
+            </IonListHeader>
+            {data.map((el, i) => (
+              <>
+                <IonItem key={i}>
+                  <TransactionCard key={i} transaction={el} />
+                </IonItem>
+              </>
+            ))}
+          </IonList>
+        </>
       ) : (
         <TransparentCard>
           <IonCardHeader>

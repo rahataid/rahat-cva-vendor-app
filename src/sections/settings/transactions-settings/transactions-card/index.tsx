@@ -1,51 +1,84 @@
 import {
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
+  IonCol,
+  IonGrid,
+  IonIcon,
+  IonItem,
+  IonList,
+  IonPopover,
+  IonRow,
+  IonText,
 } from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import { ellipsisHorizontal } from "ionicons/icons";
+import { useRef, useState } from "react";
+import "./transactions-card.scss";
+import { useHistory } from "react-router";
 
 type Props = {
   transaction: ITransactionItem;
+  key: number;
 };
-const TransactionCard = ({ transaction }: Props) => {
-  const { createdAt, amount, status, isOffline, hash, walletAddress, phone } =
-    transaction;
+const TransactionCard = ({ transaction, key }: Props) => {
+  const history = useHistory();
+  const popover = useRef<HTMLIonPopoverElement>(null);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const openPopover = (e: any) => {
+    popover.current!.event = e;
+    setPopoverOpen(true);
+  };
+
+  const handleViewDetail = () => {
+    history.push("/tabs/settings/transactions/0x23123872349");
+  };
 
   return (
-    <TransparentCard>
-      {/* <IonCardHeader>
-        <IonCardTitle>Transaction Hash: {hash || "N/A"}</IonCardTitle>
-      </IonCardHeader> */}
-      <IonCardContent>
-        <p>
-          <strong>Transaction Hash:</strong> {hash || "N/A"}
-        </p>
-        <p>
-          <strong>amount:</strong> {amount || "N/A"}
-        </p>
-        <p>
-          <strong>Status:</strong> {status || "N/A"}
-        </p>
-        <p>
-          <strong>Offline: </strong>
-          {isOffline ? "Yes" : "No"}
-        </p>
-        <p>
-          <strong>Wallet Address:</strong> {walletAddress || "N/A"}
-        </p>
-        <p>
-          <strong>Phone: </strong>
-          {phone || "N/A"}
-        </p>
-        <p>
-          <strong>Created At: </strong>
-          {new Date(createdAt).toLocaleString() || "-" || "N/A"}
-        </p>
-      </IonCardContent>
-    </TransparentCard>
+    <IonGrid key={key}>
+      <IonRow>
+        <IonCol size="9">
+          <IonCardContent className="px-0">
+            <h2>
+              <strong>Claim Processed</strong>
+            </h2>
+            <p>{transaction?.projectName}</p>
+            <p>
+              {new Date(transaction?.createdAt).toLocaleString() ||
+                "-" ||
+                "N/A"}
+            </p>
+          </IonCardContent>
+        </IonCol>
+        <IonCol size="3" className="tlist-right-col">
+          <IonButton fill="clear" onClick={openPopover}>
+            <IonIcon icon={ellipsisHorizontal} />
+          </IonButton>
+          <IonPopover
+            ref={popover}
+            isOpen={popoverOpen}
+            onDidDismiss={() => setPopoverOpen(false)}
+            color="dark"
+          >
+            <IonList>
+              <IonItem onClick={() => handleViewDetail()} button={true}>
+                View
+              </IonItem>
+              <IonItem onClick={() => setPopoverOpen(false)} button={true}>
+                Delete
+              </IonItem>
+            </IonList>
+          </IonPopover>
+          <IonText color="success">
+            <p>REFERRED</p>
+          </IonText>
+        </IonCol>
+      </IonRow>
+    </IonGrid>
   );
 };
 
