@@ -51,7 +51,27 @@ const TransactionCard = () => {
         <IonCardTitle>Transactions</IonCardTitle>
       </IonCardHeader>
       <IonCardContent>
-        <IonList>
+        <IonGrid>
+          <IonRow>
+            <IonCol className="filter-btn-container">
+              <IonButton size="small" color="primary" fill="outline">
+                All
+              </IonButton>
+            </IonCol>
+            <IonCol className="filter-btn-container">
+              <IonButton size="small" color="success" fill="outline">
+                Referred
+              </IonButton>
+            </IonCol>
+            <IonCol className="filter-btn-container">
+              <IonButton size="small" color="warning" fill="outline">
+                Enrolled
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+        <CustomDivider />
+        <IonList className="ion-list-no-padding">
           <>
             {transactionsList?.length ? (
               transactionsList
@@ -60,7 +80,6 @@ const TransactionCard = () => {
                 .map((el, i) => (
                   <IonItem
                     key={i}
-                    className="ion-list-no-padding"
                     button={true}
                     onClick={() =>
                       history.push(
