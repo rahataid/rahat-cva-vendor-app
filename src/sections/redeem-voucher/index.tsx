@@ -43,6 +43,9 @@ const RedeemVoucher: React.FC = () => {
       gender: "",
     },
   });
+  const handleRefer = () => {
+    history.push("/refer-beneficiaries");
+  };
   const onSubmit = (data: any) => {
     try {
       console.log(data);
@@ -84,7 +87,12 @@ const RedeemVoucher: React.FC = () => {
                 {voucherType === VOUCHER.FREE_VOUCHER && (
                   <div>
                     <br />
-                    <IonButton mode="md" expand="block" color="warning">
+                    <IonButton
+                      mode="md"
+                      expand="block"
+                      color="warning"
+                      onClick={handleRefer}
+                    >
                       Refer
                     </IonButton>
                     <IonText>

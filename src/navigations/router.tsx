@@ -16,6 +16,8 @@ import { useTransactionsRehydrate } from "@hooks/use-transactions-rehydrate";
 import ResetPage from "@pages/reset";
 import ScannerPage from "@pages/scanner";
 import RedeemVoucherPage from "@pages/redeem-voucher";
+import ReferBeneficiariesPage from "@pages/refer-beneficiaries";
+import ReferSuccessPage from "@pages/refer-success";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -46,6 +48,16 @@ const Router = () => {
           <PrivateRoute
             path="/redeem-voucher"
             component={RedeemVoucherPage}
+            exact
+          />
+          <PrivateRoute
+            path="/refer-beneficiaries"
+            component={ReferBeneficiariesPage}
+            exact
+          />
+          <PrivateRoute
+            path="/refer-success"
+            component={ReferSuccessPage}
             exact
           />
 
