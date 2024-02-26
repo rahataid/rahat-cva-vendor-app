@@ -58,7 +58,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                 </p>
               </IonText>
             </IonCol>
-            <IonCol size="6" className="right-col">
+            <IonCol size="6" className="beneficiary-right-col">
               <IonButton fill="clear" onClick={openPopover}>
                 <IonIcon icon={ellipsisHorizontal} />
               </IonButton>

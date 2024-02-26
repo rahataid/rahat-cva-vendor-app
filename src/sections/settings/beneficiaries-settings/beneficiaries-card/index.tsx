@@ -5,9 +5,11 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonCardContent,
+  IonText,
 } from "@ionic/react";
-import { IBeneficiary } from "../../../../types/beneficiaries";
+import { IBeneficiary, VOUCHER } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import CustomChip from "@components/chip/customChip";
 
 type Props = {
   beneficiary: IBeneficiary;
@@ -20,14 +22,16 @@ const BeneficiaryCard = ({ beneficiary }: Props) => {
       </IonCardHeader>
 
       <IonCardContent>
-        <p>
-          <strong>Wallet Address:</strong> {beneficiary?.walletAddress}
-        </p>
+        <p>{beneficiary?.phone}</p>
         {/* <p>
           <strong>Phone:</strong> {beneficiary?.phone}
         </p> */}
         <p>
-          <strong>Token:</strong> {beneficiary?.token}
+          {beneficiary?.voucherType === "FREE_VOUCHER" ? (
+            <IonText color="warning">Free Voucher</IonText>
+          ) : (
+            <IonText color="success">Discount Voucher</IonText>
+          )}
         </p>
       </IonCardContent>
     </TransparentCard>

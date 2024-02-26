@@ -7,12 +7,17 @@ import {
   IonRow,
 } from "@ionic/react";
 import BeneficiaryCard from "../beneficiaries-card";
-import { IBeneficiary } from "../../../../types/beneficiaries";
+import {
+  BENEFICIARY_TYPE,
+  IBeneficiary,
+  VOUCHER,
+} from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
   data: IBeneficiary[] | [];
 };
+
 const BeneficiariesList = ({ data }: Props) => {
   return (
     <>
