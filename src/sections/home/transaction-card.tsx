@@ -1,19 +1,13 @@
 import {
-  IonAvatar,
   IonButton,
-  IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
-  IonChip,
   IonCol,
   IonGrid,
   IonIcon,
   IonItem,
-  IonItemDivider,
-  IonLabel,
   IonList,
-  IonNote,
   IonRow,
   IonText,
 } from "@ionic/react";
@@ -23,12 +17,8 @@ import { cropString } from "@utils/helperFunctions";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { BENEFICIARY_TYPE } from "../../types/beneficiaries";
 import { swapHorizontalOutline } from "ionicons/icons";
-import "./home.scss";
 import CustomDivider from "@components/divider";
-
-type PropTypes = {
-  transactionsList: ITransactionItem[] | null;
-};
+import "./home.scss";
 
 const transactionsList: ITransactionItem[] = [
   {
@@ -39,6 +29,21 @@ const transactionsList: ITransactionItem[] = [
   {
     projectName: "CVA Project",
     createdAt: 1708678411,
+    type: BENEFICIARY_TYPE.ENROLLED,
+  },
+  {
+    projectName: "CVA Project",
+    createdAt: 1507678311,
+    type: BENEFICIARY_TYPE.REFERRED,
+  },
+  {
+    projectName: "CVA Project",
+    createdAt: 1308678411,
+    type: BENEFICIARY_TYPE.REFERRED,
+  },
+  {
+    projectName: "CVA Project",
+    createdAt: 1668678411,
     type: BENEFICIARY_TYPE.ENROLLED,
   },
 ];
@@ -71,7 +76,7 @@ const TransactionCard = () => {
           </IonRow>
         </IonGrid>
         <CustomDivider />
-        <IonList className="ion-list-no-padding">
+        <IonList className="ion-list-no-padding" mode="md">
           <>
             {transactionsList?.length ? (
               transactionsList
@@ -81,6 +86,7 @@ const TransactionCard = () => {
                   <IonItem
                     key={i}
                     button={true}
+                    lines="full"
                     onClick={() =>
                       history.push(
                         `/tabs/settings/transactions/${el?.createdAt}`
@@ -88,7 +94,7 @@ const TransactionCard = () => {
                     }
                   >
                     <>
-                      <IonGrid>
+                      <IonGrid className="px-0">
                         <IonRow>
                           <IonCol size="2" className="home-tx-left-col">
                             <div className="icon-wrapper-round">

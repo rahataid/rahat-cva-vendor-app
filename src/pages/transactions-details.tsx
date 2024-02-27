@@ -13,7 +13,7 @@ const details: TransactionDetail = {
   phone: "9864587899",
   status: TRANSACTION_STATUS.SUCCESS,
   beneficiaryType: BENEFICIARY_TYPE.ENROLLED,
-  createdAt: "1708678311",
+  createdAt: 1708678311,
   transactionHash: "0x1234567890",
   voucherSymbol: "USDT",
   voucherType: VOUCHER.FREE_VOUCHER,

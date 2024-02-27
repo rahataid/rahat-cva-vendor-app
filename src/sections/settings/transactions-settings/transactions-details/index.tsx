@@ -45,7 +45,9 @@ const TransactionDetails = ({ data }: Props) => {
           <IonCol size="6">Transaction Hash</IonCol>
           <IonCol size="6">{data.transactionHash}</IonCol>
           <IonCol size="6">Date</IonCol>
-          <IonCol size="6">{data.createdAt}</IonCol>
+          <IonCol size="6">
+            {new Date(data.createdAt)?.toLocaleString() || "-"}
+          </IonCol>
         </IonRow>
       </IonGrid>
     </TransparentCard>

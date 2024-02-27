@@ -34,7 +34,12 @@ const TransactionsList = ({ data }: Props) => {
                 </IonLabel>
               </IonListHeader>
               {data.map((el, i) => (
-                <IonItem key={i} button={true} onClick={handleViewDetail}>
+                <IonItem
+                  key={i}
+                  button={true}
+                  onClick={handleViewDetail}
+                  lines="full"
+                >
                   <TransactionCard key={i} transaction={el} />
                 </IonItem>
               ))}
@@ -48,7 +53,12 @@ const TransactionsList = ({ data }: Props) => {
               </IonListHeader>
               {data.map((el, i) => (
                 <>
-                  <IonItem key={i} button={true} onClick={handleViewDetail}>
+                  <IonItem
+                    key={i}
+                    button={true}
+                    onClick={handleViewDetail}
+                    lines="full"
+                  >
                     <TransactionCard key={i} transaction={el} />
                   </IonItem>
                 </>

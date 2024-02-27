@@ -1,6 +1,9 @@
 export type IBeneficiary = {
   name?: string;
-  phone?: string;
+  phone?: number;
+  gender?: GENDER;
+  estimatedAge?: number;
+  address?: string;
   status?: STATUS;
   beneficiaryType?: BENEFICIARY_TYPE;
   walletAddress?: string;
@@ -24,4 +27,10 @@ export enum STATUS {
   SUCCESS = "SUCCESS",
   PENDING = "PENDING",
   FAILED = "FAILED",
+}
+
+export enum GENDER {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHERS = "OTHERS",
 }

@@ -13,27 +13,32 @@ import {
   IonContent,
   IonList,
   IonItem,
+  IonAlert,
 } from "@ionic/react";
 import { IBeneficiary } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import "./referred-beneficiary-card.scss";
-import { ellipsisHorizontal } from "ionicons/icons";
+import {
+  ellipsisHorizontal,
+  eyeOffOutline,
+  eyeOutline,
+  trash,
+  trashBinOutline,
+  trashOutline,
+  trashSharp,
+} from "ionicons/icons";
+import { useHistory } from "react-router";
 
 type Props = {
   beneficiary: IBeneficiary;
 };
 const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
-  // const popover = useRef<HTMLIonPopoverElement>(null);
-  // const [showPopover, setShowPopover] = useState(false);
+  const history = useHistory();
 
-  // const handlePopover = (e) => {
-  //   popover.current!.event = e;
-  //   setShowPopover(true);
-  // };
-
-  const handleDelete = () => {
-    // Logic to delete
-    setPopoverOpen(false); // Hide the popover after action
+  const [showAlert, setShowAlert] = useState(false);
+  const handleViewDetails = (isReferred: boolean) => {
+    // Logic to view details
+    history.push("/tabs/settings/referred-beneficiaries/:id");
   };
 
   const popover = useRef<HTMLIonPopoverElement>(null);
@@ -44,55 +49,113 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
     setPopoverOpen(true);
   };
 
-  return (
-    <TransparentCard>
-      <IonCardContent>
-        <IonGrid>
-          <IonRow>
-            <IonCol size="7">
-              <IonText>
-                <h2>{beneficiary?.name}</h2>
-                <p>{beneficiary?.phone}</p>
-                <p>
-                  {new Date(beneficiary?.createdAt).toLocaleString() || "-"}
-                </p>
-              </IonText>
-            </IonCol>
-            <IonCol size="5" className="beneficiary-right-col">
-              <IonButton fill="clear" onClick={openPopover}>
-                <IonIcon icon={ellipsisHorizontal} />
-              </IonButton>
-              <IonPopover
-                mode="md"
-                ref={popover}
-                isOpen={popoverOpen}
-                onDidDismiss={() => setPopoverOpen(false)}
-                color="dark"
-              >
-                <IonList>
-                  <IonItem onClick={() => setPopoverOpen(false)} button={true}>
-                    View
-                  </IonItem>
-                  <IonItem onClick={() => setPopoverOpen(false)} button={true}>
-                    Delete
-                  </IonItem>
-                </IonList>
-              </IonPopover>
+  const handleDelete = () => {
+    setPopoverOpen(false);
+    setShowAlert(true);
+  };
 
-              {beneficiary?.beneficiaryType === "REFERRED" ? (
-                <IonText color="success">
-                  <h2>REFERRED</h2>
+  const handleCancelDelete = () => {
+    setShowAlert(false);
+  };
+
+  const handleConfirmDelete = () => {
+    setShowAlert(false);
+  };
+
+  return (
+    <>
+      <IonAlert
+        mode="md"
+        isOpen={showAlert}
+        onDidDismiss={() => setShowAlert(false)}
+        header={"Confirm Delete"}
+        message={"Are you sure you want to Delete?"}
+        buttons={[
+          {
+            text: "Cancel",
+            cssClass: "alert-button-cancel",
+            handler: handleCancelDelete,
+          },
+          {
+            text: "Confirm",
+            cssClass: "alert-button-confirm",
+            handler: handleConfirmDelete,
+          },
+        ]}
+      />
+      <TransparentCard>
+        <IonCardContent>
+          <IonGrid className="custom-grid">
+            <IonRow>
+              <IonCol size="7" className="beneficiary-left-col">
+                <IonText>
+                  <h2>{beneficiary?.name}</h2>
+                  <p>{beneficiary?.phone}</p>
+                  <p>
+                    {new Date(beneficiary?.createdAt).toLocaleString() || "-"}
+                  </p>
                 </IonText>
-              ) : (
-                <IonText color="warning">
-                  <h2>ENROLLED</h2>
-                </IonText>
-              )}
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonCardContent>
-    </TransparentCard>
+              </IonCol>
+              <IonCol size="5" className="beneficiary-right-col">
+                <IonButton
+                  className="options-button"
+                  fill="clear"
+                  onClick={openPopover}
+                >
+                  <IonIcon icon={ellipsisHorizontal} />
+                </IonButton>
+                <IonPopover
+                  mode="md"
+                  ref={popover}
+                  isOpen={popoverOpen}
+                  onDidDismiss={() => setPopoverOpen(false)}
+                  color="dark"
+                >
+                  <IonList>
+                    <IonItem
+                      onClick={() => handleViewDetails(false)}
+                      button={true}
+                      lines="full"
+                    >
+                      <IonIcon
+                        icon={eyeOutline}
+                        slot="start"
+                        color="primary"
+                        style={{ marginRight: "12px" }}
+                      />
+                      <IonText color="primary">View</IonText>
+                    </IonItem>
+                    <IonItem
+                      onClick={() => handleDelete()}
+                      button={true}
+                      lines="full"
+                    >
+                      <IonIcon
+                        icon={trashOutline}
+                        slot="start"
+                        color="danger"
+                        style={{ marginRight: "12px" }}
+                      />
+                      <IonText color="danger">Delete</IonText>
+                    </IonItem>
+                  </IonList>
+                </IonPopover>
+
+                {beneficiary?.beneficiaryType === "REFERRED" ? (
+                  <IonText color="success">
+                    <h2>REFERRED</h2>
+                  </IonText>
+                ) : (
+                  <IonText color="warning">
+                    <h2>ENROLLED</h2>
+                  </IonText>
+                )}
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonCardContent>
+      </TransparentCard>
+    </>
   );
 };
 
