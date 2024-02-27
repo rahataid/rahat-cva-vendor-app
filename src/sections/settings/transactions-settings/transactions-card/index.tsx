@@ -55,25 +55,6 @@ const TransactionCard = ({ transaction, key }: Props) => {
           </IonCardContent>
         </IonCol>
         <IonCol size="3" className="tlist-right-col">
-          <IonButton fill="clear" onClick={openPopover}>
-            <IonIcon icon={ellipsisHorizontal} />
-          </IonButton>
-          <IonPopover
-            mode="md"
-            ref={popover}
-            isOpen={popoverOpen}
-            onDidDismiss={() => setPopoverOpen(false)}
-            color="dark"
-          >
-            <IonList>
-              <IonItem onClick={() => handleViewDetail()} button={true}>
-                View
-              </IonItem>
-              <IonItem onClick={() => setPopoverOpen(false)} button={true}>
-                Delete
-              </IonItem>
-            </IonList>
-          </IonPopover>
           <IonText color="success">
             <p className="m-0">REFERRED</p>
           </IonText>

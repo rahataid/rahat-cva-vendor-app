@@ -9,7 +9,6 @@ import {
 } from "@ionic/react";
 import ChargeBeneficiaryPage from "@pages/charge-beneficiary";
 import HomePage from "@pages/home";
-import InternetAccessCenterPage from "@pages/internet-center";
 import ProfilePage from "@pages/profile";
 import ProjectSettingsPage from "@pages/project-settings";
 import SettingsPage from "@pages/settings";
@@ -38,11 +37,6 @@ const Tabs: React.FC = () => {
           />
           <Route path="/tabs/profile" component={ProfilePage} exact />
           <Route path="/tabs/settings" component={SettingsPage} exact />
-          <Route
-            path="/tabs/settings/internet-center"
-            component={InternetAccessCenterPage}
-            exact
-          />
 
           <Route
             path="/tabs/settings/referred-beneficiaries/details"

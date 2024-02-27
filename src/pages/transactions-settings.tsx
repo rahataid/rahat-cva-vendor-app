@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import useAppStore from "@store/app";
-import TransactionsSettings from "@sections/settings/transactions-settings";
 import CustomHeader from "@components/header/customHeader";
 import useTransactionStore from "@store/transaction";
 import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
-import { ITransactionItem } from "@types/transactions";
-
 const TransactionsSettingsPage: React.FC = () => {
   const { projectSettings } = useAppStore();
   const { syncTransactions } = useTransactionStore();

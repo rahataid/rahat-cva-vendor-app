@@ -1,23 +1,25 @@
 import {
   IonCardHeader,
   IonCardTitle,
-  IonCol,
-  IonGrid,
   IonItem,
   IonLabel,
   IonList,
   IonListHeader,
-  IonRow,
   IonText,
 } from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import { useHistory } from "react-router";
 
 type Props = {
   data: ITransactionItem[] | [];
 };
 const TransactionsList = ({ data }: Props) => {
+  const history = useHistory();
+  const handleViewDetail = () => {
+    history.push("/tabs/settings/transactions/0x23123872349");
+  };
   return (
     <>
       {data?.length ? (
@@ -32,10 +34,11 @@ const TransactionsList = ({ data }: Props) => {
                 </IonLabel>
               </IonListHeader>
               {data.map((el, i) => (
-                <IonItem key={i}>
+                <IonItem key={i} button={true} onClick={handleViewDetail}>
                   <TransactionCard key={i} transaction={el} />
                 </IonItem>
               ))}
+              <br />
               <IonListHeader>
                 <IonLabel>
                   <IonText>
@@ -45,7 +48,7 @@ const TransactionsList = ({ data }: Props) => {
               </IonListHeader>
               {data.map((el, i) => (
                 <>
-                  <IonItem key={i}>
+                  <IonItem key={i} button={true} onClick={handleViewDetail}>
                     <TransactionCard key={i} transaction={el} />
                   </IonItem>
                 </>
