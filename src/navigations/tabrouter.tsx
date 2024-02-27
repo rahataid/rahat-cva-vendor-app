@@ -7,8 +7,6 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
-import BeneficiariesListPage from "@pages/beneficiaries-list";
-import BeneficiariesSettingsPage from "@pages/beneficiaries-settings";
 import ChargeBeneficiaryPage from "@pages/charge-beneficiary";
 import HomePage from "@pages/home";
 import InternetAccessCenterPage from "@pages/internet-center";
@@ -20,7 +18,6 @@ import TransactionsSettingsPage from "@pages/transactions-settings";
 import useAppStore from "@store/app";
 import { home, person, qrCode, settings } from "ionicons/icons";
 import { Redirect, Route, Switch } from "react-router-dom";
-import ReferredBeneficiariesSettingsPage from "@pages/referred-beneficiaries-settings";
 import ReferredBeneficiariesListPage from "@pages/referred-beneficiary-list";
 import TransactionsDetailPage from "@pages/transactions-details";
 
@@ -44,16 +41,6 @@ const Tabs: React.FC = () => {
           <Route
             path="/tabs/settings/internet-center"
             component={InternetAccessCenterPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/beneficiaries"
-            component={BeneficiariesSettingsPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/beneficiaries/list"
-            component={BeneficiariesListPage}
             exact
           />
 
