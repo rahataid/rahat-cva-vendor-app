@@ -8,8 +8,12 @@ import {
   IonCardHeader,
   IonCol,
   IonGrid,
+  IonIcon,
+  IonLabel,
   IonPage,
   IonRow,
+  IonSelect,
+  IonSelectOption,
   IonText,
 } from "@ionic/react";
 
@@ -17,9 +21,10 @@ import "./redeem-voucher.scss";
 import CustomChip from "@components/chip/customChip";
 import BeneficiaryDetails from "./beneficiary-details";
 import { SelectInputOptions } from "../../types/chargeBeneficiary";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { VOUCHER } from "@types/beneficiaries";
+import { homeOutline } from "ionicons/icons";
 
 const options: SelectInputOptions = [
   { label: "Male", value: "MALE" },
@@ -39,12 +44,14 @@ const RedeemVoucher: React.FC = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      age: "",
-      gender: "",
+      status: "",
     },
   });
   const handleRefer = () => {
     history.push("/refer-beneficiaries");
+  };
+  const handleGoHome = () => {
+    history.push("/tabs/home");
   };
   const onSubmit = (data: any) => {
     try {
@@ -64,76 +71,147 @@ const RedeemVoucher: React.FC = () => {
           <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
             <TransparentCard>
               <IonCardContent>
-                <IonText>
-                  <h2>
-                    Beneficiary Name:
-                    <br /> Mani Ratna Byanjankar
-                  </h2>
-                  <p>Assigned voucher to the beneficiary</p>
-                </IonText>
-
                 <div>
-                  <IonText>Voucher Type: </IonText>
-                  {(voucherType === VOUCHER.DISCOUNT_VOUCHER && (
-                    <CustomChip color="success" label="Discount Voucher" />
-                  )) ||
-                    (voucherType === VOUCHER.FREE_VOUCHER && (
-                      <CustomChip color="warning" label="Free Voucher" />
-                    ))}
-
-                  <TextInputFieldMultiLine rows={3} placeholder="Description" />
-                </div>
-
-                {voucherType === VOUCHER.FREE_VOUCHER && (
-                  <div>
+                  <IonGrid className="p-0">
+                    <IonRow>
+                      <IonCol size="6" className="pl-0">
+                        Beneficiary Name:
+                      </IonCol>
+                      <IonCol size="6" className="pr-0">
+                        Mani Byanjankar
+                      </IonCol>
+                      <IonCol size="6" className="pl-0">
+                        Voucher Type:
+                      </IonCol>
+                      <IonCol size="6" className="pr-0">
+                        {(voucherType === VOUCHER.DISCOUNT_VOUCHER && (
+                          <CustomChip
+                            color="success"
+                            label="Discount Voucher"
+                          />
+                        )) ||
+                          (voucherType === VOUCHER.FREE_VOUCHER && (
+                            <CustomChip color="warning" label="Free Voucher" />
+                          ))}
+                      </IonCol>
+                      {/* <IonLabel class={`text-input-label`}>
+                        {"Select Status:"}
+                      </IonLabel> */}
+                      Status:
+                      <Controller
+                        render={({ field }) => (
+                          <IonSelect
+                            labelPlacement="stacked"
+                            fill="outline"
+                            placeholder="Select Status"
+                            mode="md"
+                            interface="popover"
+                            justify="space-between"
+                            className={
+                              errors?.status?.message
+                                ? "ion-select-invalid"
+                                : "ion-select-valid"
+                            }
+                            onIonChange={(e) => {
+                              setValue("status", e.target.value, {
+                                shouldValidate: true,
+                              });
+                            }}
+                            onBlur={field.onBlur}
+                          >
+                            <IonSelectOption value="GLASSES_REQUIRED">
+                              Glasses required
+                            </IonSelectOption>
+                            <IonSelectOption value="GLASSES_NOT_REQUIRED">
+                              Glasses not required
+                            </IonSelectOption>
+                          </IonSelect>
+                        )}
+                        rules={{
+                          required: "Please select the status",
+                        }}
+                        control={control}
+                        name="status"
+                      />
+                      {
+                        <IonText className="select-input-error-text">
+                          {errors?.status?.message}
+                        </IonText>
+                      }
+                    </IonRow>
                     <br />
-                    <IonButton
-                      mode="md"
-                      expand="block"
-                      color="warning"
-                      onClick={handleRefer}
-                    >
-                      Refer
-                    </IonButton>
-                    <IonText>
-                      <p className="w-100 align-text-center">
-                        Beneficiary will be able to refer 3 people into the
-                        project.
-                      </p>
-                    </IonText>
-                    <br />
-                    <div className="w-100 align-text-center">OR</div>
-                  </div>
-                )}
+                    <IonRow>
+                      {voucherType === "DISCOUNT_VOUCHER" ? (
+                        <IonCol size="12" className="pl-0">
+                          <IonButton
+                            type="submit"
+                            mode="md"
+                            expand="block"
+                            color="primary"
+                            disabled={
+                              !isValid ||
+                              isSubmitting ||
+                              getValues("status") === "GLASSES_NOT_REQUIRED"
+                            }
+                          >
+                            Redeem Voucher
+                          </IonButton>
+                        </IonCol>
+                      ) : (
+                        <>
+                          <IonCol
+                            sizeXs="6"
+                            sizeSm="6"
+                            size="6"
+                            className="pl-0"
+                          >
+                            <IonButton
+                              type="submit"
+                              mode="md"
+                              expand="block"
+                              color="primary"
+                              disabled={
+                                !isValid ||
+                                isSubmitting ||
+                                getValues("status") === "GLASSES_NOT_REQUIRED"
+                              }
+                            >
+                              Redeem Voucher
+                            </IonButton>
+                          </IonCol>
+                          <IonCol
+                            sizeXs="6"
+                            sizeSm="6"
+                            size="6"
+                            className="pr-0"
+                          >
+                            <IonButton
+                              mode="md"
+                              expand="block"
+                              color="warning"
+                              onClick={handleRefer}
+                            >
+                              Refer
+                            </IonButton>
+                          </IonCol>
+                        </>
+                      )}
 
-                <br />
-
-                <IonButton
-                  type="submit"
-                  mode="md"
-                  expand="block"
-                  color="primary"
-                  disabled={!isValid || isSubmitting}
-                >
-                  Redeem Voucher
-                </IonButton>
-                <div className="w-100 align-text-center">
-                  <IonText>
-                    <p>Redeeming voucher will directly send OTP</p>
-                  </IonText>
+                      <br />
+                      <br />
+                      <IonCol sizeSm="12" sizeMd="12" className="px-0">
+                        <IonButton
+                          onClick={handleGoHome}
+                          expand="block"
+                          fill="outline"
+                        >
+                          <IonIcon slot="start" icon={homeOutline} />
+                          Go To Homepage
+                        </IonButton>
+                      </IonCol>
+                    </IonRow>
+                  </IonGrid>
                 </div>
-
-                <br />
-
-                <BeneficiaryDetails
-                  options={options}
-                  getValues={getValues}
-                  errors={errors}
-                  setValue={setValue}
-                  control={control}
-                />
-
-                <br />
               </IonCardContent>
             </TransparentCard>
           </IonCol>

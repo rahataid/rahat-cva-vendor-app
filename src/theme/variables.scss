@@ -276,8 +276,25 @@ body {
   }
 }
 
+// ion toast
 ion-toast.custom-toast {
   --background: #f5fcff;
   --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   --color: #4b4a50;
+}
+
+// ion select
+ion-select {
+  min-height: 46px !important;
+  --border-radius: 6px;
+  font-size: 16px;
+  --background: white;
+}
+
+ion-select::part(container) {
+  width: 100%;
+}
+
+ion-select.ion-select-invalid {
+  --border-color: #d14343;
 }
