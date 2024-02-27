@@ -17,7 +17,7 @@ export type TransactionDetail = {
   beneficiaryName: string;
   voucherType: VOUCHER;
   beneficiaryType: BENEFICIARY_TYPE;
-  createdAt: string;
+  createdAt: number;
   transactionHash: string;
   voucherSymbol: string;
   phone: string;

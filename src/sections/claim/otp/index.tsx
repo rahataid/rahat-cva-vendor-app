@@ -59,72 +59,9 @@ const OTP = ({ data }: Props) => {
     },
   });
 
-  // const onSubmit = async (formData: any) => {
-  //   try {
-  //     setLoadingVisible(true);
-  //     if (!internetAccess) {
-  //       await new Promise((resolve) => setTimeout(resolve, 0));
-  //       const otpHash = ethers.id(formData?.otp);
-
-  //       if (otpHash !== selectedBeneficiary?.otpHash)
-  //         throw new Error("OTP doesn't match");
-
-  //       await addTransaction(transactionPayload);
-  //     } else {
-  //       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
-
-  //       const CVAContractInstance = await createContractInstance(
-  //         rpcUrl,
-  //         CVAProject
-  //       );
-
-  //       const ForwarderContractInstance = await createContractInstance(
-  //         rpcUrl,
-  //         ERC2771Forwarder
-  //       );
-
-  //       const metaTxRequest = await getMetaTxRequest(
-  //         walletInstance,
-  //         ForwarderContractInstance,
-  //         CVAContractInstance,
-  //         "processTokenRequest(address _benAddress, string memory _otp)",
-  //         [selectedBeneficiary.walletAddress, formData?.otp]
-  //       );
-
-  //       const payload = {
-  //         ...metaTxRequest,
-  //         gas: metaTxRequest.gas.toString(),
-  //         nonce: metaTxRequest.nonce.toString(),
-  //         value: metaTxRequest.value.toString(),
-  //       };
-  //       const { data } = await VendorsService.executeMetaTxRequest({
-  //         metaTxRequest: payload,
-  //       });
-
-  //       if (!data.hash)
-  //         throw new Error("Something went wrong with OTP Verification");
-
-  //       await addTransaction({
-  //         ...transactionPayload,
-  //         status: Status.SUCCESS,
-  //         hash: data.hash,
-  //       });
-  //     }
-  //     setLoadingVisible(false);
-  //     history.push("/tabs/home");
-  //   } catch (error: any) {
-  //     setLoadingVisible(false);
-  //     setError("root.serverError", {
-  //       type: "manual",
-  //       message: error?.message
-  //         ? error?.message
-  //         : "Something went wrong! Try again later.",
-  //     });
-  //   }
-  // };
-
   const onSubmit = () => {
     console.log("OTP SUBMITTED");
+    history.push("/transaction-result");
   };
 
   const handleCancel = () => {

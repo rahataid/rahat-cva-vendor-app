@@ -49,7 +49,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
       <IonCardContent>
         <IonGrid>
           <IonRow>
-            <IonCol size="6">
+            <IonCol size="7">
               <IonText>
                 <h2>{beneficiary?.name}</h2>
                 <p>{beneficiary?.phone}</p>
@@ -58,7 +58,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                 </p>
               </IonText>
             </IonCol>
-            <IonCol size="6" className="beneficiary-right-col">
+            <IonCol size="5" className="beneficiary-right-col">
               <IonButton fill="clear" onClick={openPopover}>
                 <IonIcon icon={ellipsisHorizontal} />
               </IonButton>
