@@ -6,11 +6,7 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
   return (
     <>
       <IonText>
-        <p>
-          You are about to send tokens a beneficiary.
-          <br />
-          Please enter phone number of the beneficiary.
-        </p>
+        <p>Please enter phone number of the beneficiary.</p>
       </IonText>
       <br />
       <Controller

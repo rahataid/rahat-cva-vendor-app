@@ -31,9 +31,8 @@ const options: SelectInputOptions = [
   { label: "Female", value: "FEMALE" },
 ];
 
-const RedeemVoucher: React.FC = () => {
+const RedeemVoucher: React.FC = ({ voucherType }: any) => {
   const history = useHistory();
-  let voucherType: VOUCHER = VOUCHER.FREE_VOUCHER;
   const {
     handleSubmit,
     setError,
@@ -209,17 +208,19 @@ const RedeemVoucher: React.FC = () => {
                         </>
                       )}
 
-                      <IonCol sizeSm="12" sizeMd="12" className="px-0">
-                        <br />
-                        <IonButton
-                          onClick={handleGoHome}
-                          expand="block"
-                          fill="outline"
-                        >
-                          <IonIcon slot="start" icon={homeOutline} />
-                          Go To Homepage
-                        </IonButton>
-                      </IonCol>
+                      {voucherType === VOUCHER.DISCOUNT_VOUCHER && (
+                        <IonCol sizeSm="12" sizeMd="12" className="px-0">
+                          <br />
+                          <IonButton
+                            onClick={handleGoHome}
+                            expand="block"
+                            fill="outline"
+                          >
+                            <IonIcon slot="start" icon={homeOutline} />
+                            Go To Homepage
+                          </IonButton>
+                        </IonCol>
+                      )}
                     </IonRow>
                   </IonGrid>
                 </div>

@@ -11,7 +11,7 @@ const vendorTransactions: IBeneficiary[] = [
     name: "Mani Byanjankar",
     phone: "9864587899",
     status: "SUCCESS",
-    beneficiaryType: "ENROLLED",
+    beneficiaryType: "REFERRED",
     transactionHash: "0x1234567890",
     voucherSymbol: "USDT",
     voucherType: "FREE_VOUCHER",

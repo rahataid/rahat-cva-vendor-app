@@ -39,7 +39,10 @@ const ChargeBeneficiary = ({ data }: any) => {
   const fetchBeneficiaryVoucher = async (data: any) => {
     console.log("SUBMIT BENEFICIARY VOUCHER", data);
     // throw new Error("SOMETHING WEHT WRONG");
-    history.push("/redeem-voucher");
+    let voucherType;
+    if (data.phone == "1") voucherType = "FREE_VOUCHER";
+    else voucherType = "DISCOUNT_VOUCHER";
+    history.push("/redeem-voucher", { data: { voucherType } });
   };
 
   const onSubmit = async (data: any) => {
