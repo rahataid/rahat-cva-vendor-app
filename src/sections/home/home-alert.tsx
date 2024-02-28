@@ -23,20 +23,12 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
 }) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const {
-    projectSettings: { internetAccess },
-  } = useAppStore();
 
   const onDismiss = () => {
     onButtonClick();
   };
 
-  const handleButtonFocus = () => {
-    if (!internetAccess) {
-      setToastMessage("Must be online to sync");
-      setShowToast(true);
-    }
-  };
+  const handleButtonFocus = () => {};
 
   return (
     <>
@@ -64,7 +56,6 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
               fill="solid"
               size="small"
               onClick={onDismiss}
-              disabled={!internetAccess}
             >
               {dismissText}
             </IonButton>

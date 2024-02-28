@@ -37,7 +37,6 @@ const Home = ({
   projectSettings,
   vendorTransactions,
   handleReload,
-  loading,
 }: PropTypes) => {
   const history = useHistory();
 

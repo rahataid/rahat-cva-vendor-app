@@ -301,7 +301,13 @@ ion-select::part(container) {
 }
 
 ion-select.ion-select-invalid {
-  --border-color: #d14343;
+  --border-color: #ff4961;
+}
+
+.select-input-error-text {
+  padding-top: 8px;
+  font-size: 12px;
+  color: #ff4961;
 }
 
 ion-header {

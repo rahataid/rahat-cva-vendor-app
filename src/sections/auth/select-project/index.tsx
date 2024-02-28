@@ -85,7 +85,6 @@ const SelectProject = ({ from }: Props) => {
             contracts: contracts?.data?.value,
             network: blockchain?.data?.value,
             projectId: contractDetails?.data?.address,
-            internetAccess: false,
           };
           await setProjectSettings(projectSettings);
           await initialize();
@@ -119,7 +118,6 @@ const SelectProject = ({ from }: Props) => {
             contracts: contracts?.data?.value,
             network: blockchain?.data?.value,
             projectId: contractDetails?.data?.address,
-            internetAccess: false,
           };
           await setProjectSettings(projectSettings);
           await initialize();

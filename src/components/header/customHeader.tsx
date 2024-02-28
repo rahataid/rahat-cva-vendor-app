@@ -5,13 +5,8 @@ import {
   IonTitle,
   IonButtons,
   IonBackButton,
-  IonIcon,
-  IonLabel,
-  IonText,
-  IonButton,
 } from "@ionic/react";
-import { caretBack, wifi } from "ionicons/icons";
-import useAppStore from "@store/app";
+import { caretBack } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 interface CustomHeaderProps {
@@ -20,36 +15,11 @@ interface CustomHeaderProps {
   onBackButtonClick?: () => Promise<void>;
 }
 
-const InternetStatus: React.FC<{ isOnline: boolean }> = ({ isOnline }) => (
-  <IonLabel
-    style={{
-      paddingRight: "20px",
-      paddingLeft: "20px",
-      fontSize: "14px",
-      color: "white",
-      display: "flex",
-      alignItems: "center",
-    }}
-  >
-    <IonIcon
-      style={{ fontSize: "25px" }}
-      icon={isOnline ? wifi : wifi}
-      color={isOnline ? "success" : "danger"}
-    />
-    <IonText style={{ marginLeft: "2px" }}>
-      {isOnline ? "Online" : "Offline"}
-    </IonText>
-  </IonLabel>
-);
-
 const CustomHeader: React.FC<CustomHeaderProps> = ({
   title,
   showBackButton = false,
   onBackButtonClick = null,
 }) => {
-  const { projectSettings } = useAppStore();
-  const internetAccess = projectSettings?.internetAccess || false;
-
   const history = useHistory();
 
   const handleBack = () => {

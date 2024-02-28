@@ -27,12 +27,7 @@ const TransactionsSettingsPage: React.FC = () => {
     }
   };
 
-  const handleButtonFocus = () => {
-    if (!projectSettings?.internetAccess) {
-      setToastMessage("Must go online to sync transactions");
-      setShowToast(true);
-    }
-  };
+  const handleButtonFocus = () => {};
 
   const props = {
     projectSettings,

@@ -2,39 +2,30 @@ import TextInputField from "@components/input/form-text-input";
 import {
   IonButton,
   IonCardContent,
-  IonCardSubtitle,
-  IonCol,
-  IonGrid,
   IonLoading,
   IonRow,
   IonText,
 } from "@ionic/react";
 import useAppStore from "@store/app";
-import { ITransactionItem, Status } from "../../../types/transactions";
-import { ethers } from "ethers";
+import { ITransactionItem } from "../../../types/transactions";
+
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { IBeneficiary } from "../../../types/beneficiaries";
-import VendorsService from "@services/vendors";
+
 import { useState } from "react";
 import useTransactionStore from "@store/transaction";
-import {
-  createContractInstance,
-  getMetaTxRequest,
-  getWalletUsingMnemonic,
-} from "@utils/web3";
+
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
   data: {
     transactionPayload: ITransactionItem;
     selectedBeneficiary: IBeneficiary;
-    internetAccess: boolean;
   };
 };
 
 const OTP = ({ data }: Props) => {
-  // const { transactionPayload, selectedBeneficiary, internetAccess } = data;
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
   const {

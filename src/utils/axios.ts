@@ -5,14 +5,6 @@ export const axiosInstance = axios.create({});
 
 axiosInstance.interceptors.request.use(
   (req) => {
-    let hasInternetAccess =
-      useAppStore.getState().projectSettings?.internetAccess;
-
-    if (hasInternetAccess === false) {
-      console.error("No internet access" + " URL:", req.url);
-      throw new Error("NO INTERNET ACCESS");
-    }
-
     return req;
   },
   (error) => {

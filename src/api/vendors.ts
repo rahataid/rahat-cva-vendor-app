@@ -30,10 +30,7 @@ export function useVendor(walletAddress: string): any {
   } = useAppStore.getState();
   if (currentUser)
     return { vendor: currentUser, isLoading: false, error: null };
-  const queryEnabled =
-    projectSettings?.internetAccess &&
-    !!projectSettings?.baseUrl &&
-    !currentUser;
+  const queryEnabled = !!projectSettings?.baseUrl && !currentUser;
 
   const { data, isLoading, error } = useQuery(
     ["vendorDetails", walletAddress],
@@ -79,14 +76,13 @@ export function useVendorChainData(
       return res;
     },
     {
-      enabled: projectSettings?.internetAccess && !!projectSettings?.baseUrl,
+      enabled: !!projectSettings?.baseUrl,
       onSuccess: (data) => {
         setChainData(data?.data);
       },
     }
   );
-  const loading =
-    isLoading && projectSettings?.internetAccess && !!projectSettings?.baseUrl;
+  const loading = isLoading && !!projectSettings?.baseUrl;
 
   const dataChain = useMemo(() => chainData, [data?.data]);
 

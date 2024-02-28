@@ -32,7 +32,6 @@ type StorageProjectSettings = {
   network?: IProjectSettingsNetwork;
   contracts?: IProjectSettingsContractsApiResponse;
   projectId?: string;
-  internetAccess?: boolean;
 } | null;
 
 export type AppStateType = {
@@ -53,7 +52,6 @@ type AppActionsType = {
   setChainData: (data: StorageChainData) => Promise<void>;
   setCurrentUser: (data: StorageCurrentUser) => void;
   setWallet: (data: any) => void;
-  setInternetAccess: (value: boolean) => void;
   setProjectSettings: (data: StorageProjectSettings) => Promise<void>;
   logout: () => void;
 };
@@ -132,12 +130,6 @@ const useAppStore = createStore<AppStoreType>(
       }));
       if (data?.baseUrl)
         axiosInstance.defaults.baseURL = fixProjectUrl(data.baseUrl);
-    },
-
-    setInternetAccess: async (internetAccess: boolean) => {
-      set((state) => ({
-        projectSettings: { ...state.projectSettings, internetAccess },
-      }));
     },
 
     logout: async () => {
