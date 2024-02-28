@@ -283,6 +283,11 @@ ion-toast.custom-toast {
   --color: #4b4a50;
 }
 
+// ion input
+ion-input {
+  min-height: 46px !important;
+}
+
 // ion select
 ion-select {
   min-height: 46px !important;
@@ -297,4 +302,12 @@ ion-select::part(container) {
 
 ion-select.ion-select-invalid {
   --border-color: #d14343;
+}
+
+ion-header {
+  ion-toolbar {
+    ion-back-button {
+      margin-right: -15px;
+    }
+  }
 }
