@@ -8,6 +8,7 @@ import { useState } from "react";
 import CustomHeader from "@components/header/customHeader";
 import useTransactionStore from "@store/transaction";
 import { ITransactionItem } from "@types/transactions";
+import IndeterminateLoader from "@components/loaders/Indeterminate";
 
 const HomePage: React.FC = () => {
   const { wallet, projectSettings } = useAppStore();
@@ -43,6 +44,7 @@ const HomePage: React.FC = () => {
     <IonPage>
       <CustomHeader title="Home" />
       <IonContent fullscreen>
+        {isLoading && <IndeterminateLoader />}
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">

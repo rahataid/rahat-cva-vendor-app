@@ -12,6 +12,7 @@ import { useHistory } from "react-router";
 import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
+import IndeterminateLoader from "@components/loaders/Indeterminate";
 
 type PropTypes = {
   allowance?: string | null;
@@ -43,7 +44,6 @@ const Home = ({
   if (!isVendor) {
     return (
       <>
-        <IonLoading mode="md" isOpen={loading} message={"Syncing..."} />
         <DismissibleAlert
           title="Not Approved"
           color="warning"
@@ -69,7 +69,6 @@ const Home = ({
 
   return (
     <>
-      <IonLoading mode="md" isOpen={loading} message={"Syncing..."} />
       <DismissibleAlert
         title="No Project"
         color="danger"

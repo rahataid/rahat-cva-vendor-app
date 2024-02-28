@@ -47,6 +47,9 @@ const RedeemVoucher: React.FC = () => {
       status: "",
     },
   });
+  const handleRedeem = () => {
+    history.push("/otp");
+  };
   const handleRefer = () => {
     history.push("/refer-beneficiaries");
   };
@@ -56,7 +59,6 @@ const RedeemVoucher: React.FC = () => {
   const onSubmit = (data: any) => {
     try {
       console.log(data);
-      history.push("/otp");
     } catch (error: any) {
       setError("root.serverError", {
         type: "manual",
@@ -85,19 +87,16 @@ const RedeemVoucher: React.FC = () => {
                       </IonCol>
                       <IonCol size="6" className="pr-0">
                         {(voucherType === VOUCHER.DISCOUNT_VOUCHER && (
-                          <CustomChip
-                            color="success"
-                            label="Discount Voucher"
-                          />
+                          <IonText color="success">Discount Voucher</IonText>
                         )) ||
                           (voucherType === VOUCHER.FREE_VOUCHER && (
-                            <CustomChip color="warning" label="Free Voucher" />
+                            <IonText color="warning">Free Voucher</IonText>
                           ))}
                       </IonCol>
                       {/* <IonLabel class={`text-input-label`}>
                         {"Select Status:"}
                       </IonLabel> */}
-                      Status:
+                      <IonText style={{ marginTop: "5px" }}>Status:</IonText>
                       <Controller
                         render={({ field }) => (
                           <IonSelect
@@ -138,21 +137,34 @@ const RedeemVoucher: React.FC = () => {
                           {errors?.status?.message}
                         </IonText>
                       }
+
+                      <IonCol size="12" className="pl-0 py-0">
+                        <br />
+                        <IonButton
+                          type="submit"
+                          mode="md"
+                          expand="block"
+                          color="primary"
+                          disabled={!isValid || isSubmitting}
+                        >
+                          Save Status
+                        </IonButton>
+                      </IonCol>
                     </IonRow>
                     <br />
                     <IonRow>
                       {voucherType === "DISCOUNT_VOUCHER" ? (
                         <IonCol size="12" className="pl-0">
                           <IonButton
-                            type="submit"
                             mode="md"
                             expand="block"
-                            color="primary"
+                            color="success"
                             disabled={
                               !isValid ||
                               isSubmitting ||
                               getValues("status") === "GLASSES_NOT_REQUIRED"
                             }
+                            onClick={handleRedeem}
                           >
                             Redeem Voucher
                           </IonButton>
@@ -166,15 +178,15 @@ const RedeemVoucher: React.FC = () => {
                             className="pl-0"
                           >
                             <IonButton
-                              type="submit"
                               mode="md"
                               expand="block"
-                              color="primary"
+                              color="success"
                               disabled={
                                 !isValid ||
                                 isSubmitting ||
                                 getValues("status") === "GLASSES_NOT_REQUIRED"
                               }
+                              onClick={handleRedeem}
                             >
                               Redeem Voucher
                             </IonButton>
@@ -197,9 +209,8 @@ const RedeemVoucher: React.FC = () => {
                         </>
                       )}
 
-                      <br />
-                      <br />
                       <IonCol sizeSm="12" sizeMd="12" className="px-0">
+                        <br />
                         <IonButton
                           onClick={handleGoHome}
                           expand="block"
