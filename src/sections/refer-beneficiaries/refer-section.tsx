@@ -8,6 +8,8 @@ import {
   IonIcon,
   IonLabel,
   IonRow,
+  IonSelect,
+  IonSelectOption,
   IonText,
 } from "@ionic/react";
 import { removeCircleOutline } from "ionicons/icons";
@@ -26,7 +28,7 @@ const ReferSection = ({
 }: any) => {
   return (
     <>
-      <IonRow>
+      <IonRow className="beneficiary-name-wrapper">
         <IonCol size="5" className="refer-section-left-col">
           <h2>Beneficiary {index + 1}</h2>
         </IonCol>
@@ -73,7 +75,7 @@ const ReferSection = ({
         defaultValue={field?.phone || ""}
         render={({ field }) => (
           <TextInputField
-            placeholder="Phone"
+            placeholder="Enter Phone"
             type="number"
             label="Phone*"
             value={getValues(`beneficiaries.${index}.phone`)}
@@ -96,30 +98,48 @@ const ReferSection = ({
         }}
       />
       <br />
+      <IonLabel className={`text-input-label`}>Gender*</IonLabel>
       <Controller
         name={`beneficiaries.${index}.gender`}
         control={control}
         defaultValue={field?.gender || ""}
         render={({ field }) => (
-          <TextInputField
-            placeholder="gender"
-            type="text"
-            label="Gender*"
-            value={getValues(`beneficiaries.${index}.gender`)}
-            errorText={errors?.beneficiaries?.[index]?.gender?.message}
-            onInput={(e) => {
+          <IonSelect
+            labelPlacement="stacked"
+            fill="outline"
+            placeholder="Select Gender"
+            mode="md"
+            interface="popover"
+            justify="space-between"
+            className={
+              errors?.beneficiaries?.[index]?.gender?.message
+                ? "ion-select-invalid"
+                : "ion-select-valid"
+            }
+            onIonChange={(e) => {
               setValue(`beneficiaries.${index}.gender`, e.target.value, {
                 shouldValidate: true,
               });
             }}
             onBlur={field?.onBlur}
-            isSubmitted={isSubmitted}
-          />
+          >
+            <IonSelectOption value="MALE">Male</IonSelectOption>
+            <IonSelectOption value="FEMALE">Female</IonSelectOption>
+            <IonSelectOption value="OTHERS">Others</IonSelectOption>
+          </IonSelect>
         )}
         rules={{
-          required: "Please enter Gender",
+          required: "Please select gender",
         }}
       />
+      {errors?.beneficiaries?.[index]?.gender?.message && (
+        <>
+          <IonText className="select-input-error-text">
+            {errors?.beneficiaries?.[index]?.gender?.message}
+          </IonText>
+          <div />
+        </>
+      )}
       <br />
       <Controller
         name={`beneficiaries.${index}.estimatedAge`}
@@ -127,7 +147,7 @@ const ReferSection = ({
         defaultValue={field?.estimatedAge || ""}
         render={({ field }) => (
           <TextInputField
-            placeholder="estimatedAge"
+            placeholder="Enter Age"
             type="number"
             label="Estimated Age*"
             value={getValues(`beneficiaries.${index}.estimatedAge`)}
@@ -152,7 +172,7 @@ const ReferSection = ({
         defaultValue={field?.address || ""}
         render={({ field }) => (
           <TextInputField
-            placeholder="address"
+            placeholder="Enter Address"
             type="text"
             label="Address"
             value={getValues(`beneficiaries.${index}.address`)}

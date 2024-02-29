@@ -47,7 +47,7 @@ const DynamicForm = () => {
   //       errors,
   //       "ERRORS DYNAMIC FIELD",
   //       errors?.beneficiaries[0]?.name?.message,
-  //       errors?.beneficiaries[0]?.phone?.message
+  //       errors?.beneficiaries[0]?.gender?.message
   //     );
   // });
 
