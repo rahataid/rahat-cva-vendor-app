@@ -1,8 +1,8 @@
 import "./divider.scss";
-const CustomDivider = () => {
+const CustomDivider = ({ ...props }: any) => {
   return (
     <>
-      <hr className="custom-divider" />
+      <hr className="custom-divider" {...props} />
     </>
   );
 };

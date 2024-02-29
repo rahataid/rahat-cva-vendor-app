@@ -24,6 +24,7 @@ interface TextInputFieldProps {
   id?: string | undefined;
   rightIcon?: string;
   rightIconClick?: any;
+  isSubmitted?: boolean;
 }
 
 const TextInputField: React.FC<TextInputFieldProps> = forwardRef(
@@ -33,6 +34,7 @@ const TextInputField: React.FC<TextInputFieldProps> = forwardRef(
       label = "",
       clearInput = true,
       disabled = false,
+      isSubmitted = false,
       ...props
     },
     ref
@@ -84,9 +86,11 @@ const TextInputField: React.FC<TextInputFieldProps> = forwardRef(
           fill="outline"
           // onIonInput={(e) => validate(e)}
           style={props.inputStyle}
-          className={`text-input ${isTouched && "ion-touched"} ${
-            props.errorText ? "ion-invalid" : "ion-valid"
-          } ${disabled && "text-input-disabled"}`}
+          className={`text-input ${
+            (isTouched || isSubmitted) && "ion-touched"
+          } ${props.errorText ? "ion-invalid" : "ion-valid"} ${
+            disabled && "text-input-disabled"
+          }`}
           {...props}
         />
 

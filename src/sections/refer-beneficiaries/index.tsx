@@ -1,72 +1,106 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import CustomDivider from "@components/divider";
-import TextInputField from "@components/input/form-text-input";
-import {
-  IonButton,
-  IonCardContent,
-  IonCardHeader,
-  IonIcon,
-  IonText,
-} from "@ionic/react";
-import { add } from "ionicons/icons";
+import { IonButton, IonCardContent, IonIcon, IonText } from "@ionic/react";
+import { useEffect } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import ReferSection from "./refer-section";
-import { useState } from "react";
+import { add, addOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 
-const ReferBeneficiaries = () => {
+const DynamicForm = () => {
   const history = useHistory();
-  const [beneficiaries, setBeneficiaries] = useState([1]);
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitted, isDirty, isLoading, errors },
+    getValues,
+    setValue,
+    trigger,
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      beneficiaries: [
+        { name: "", phone: "", gender: "", estimatedAge: "", address: "" },
+      ],
+    },
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "beneficiaries",
+    // Set max length to 3
+    max: 3,
+  });
 
-  const handleAddMore = () => {
-    if (beneficiaries.length < 3) {
-      setBeneficiaries([...beneficiaries, beneficiaries.length + 1]);
-    }
-  };
-
-  const handleRemove = (beneficiaryNumber) => {
-    setBeneficiaries(
-      beneficiaries.filter((number) => number !== beneficiaryNumber)
-    );
-  };
-
-  const handleSubmit = () => {
+  const onSubmit = (data) => {
+    console.log(data, "DATA ========>");
     history.push("/refer-success");
   };
 
+  const handleRemove = (index: number) => {
+    if (index > 0) remove(index);
+  };
+
+  // useEffect(() => {
+  //   console.log("IS SUBMITTED", isSubmitted);
+  //   console.log(fields, fields[0].name, "uSEEFFECT NAME");
+  //   if (errors?.beneficiaries?.length)
+  //     console.log(
+  //       errors,
+  //       "ERRORS DYNAMIC FIELD",
+  //       errors?.beneficiaries[0]?.name?.message,
+  //       errors?.beneficiaries[0]?.phone?.message
+  //     );
+  // });
+
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <TransparentCard>
-        <IonCardHeader>
-          <IonText>
-            <p>You are about to add beneficiaries to the project</p>
-          </IonText>
-        </IonCardHeader>
         <IonCardContent>
-          {beneficiaries.map((beneficiaryNumber) => (
-            <ReferSection
-              key={beneficiaryNumber}
-              beneficiaryNumber={beneficiaryNumber}
-              onRemove={handleRemove}
-            />
+          {fields.map((field, index) => (
+            <div key={field.id}>
+              <ReferSection
+                index={index}
+                getValues={getValues}
+                setValue={setValue}
+                control={control}
+                formState={{ isSubmitted, errors }}
+                handleRemove={() => handleRemove(index)}
+                remove={remove}
+              />
+            </div>
           ))}
+          {errors?.beneficiaries?.length && isSubmitted && (
+            <IonText color="danger">
+              Please fill in all required fields correctly.
+            </IonText>
+          )}
+
           <IonButton
-            color="primary"
             fill="outline"
-            size="small"
-            onClick={handleAddMore}
-            disabled={beneficiaries?.length === 3}
+            color="primary"
+            onClick={() =>
+              append({
+                name: "",
+                phone: "",
+                gender: "",
+                estimatedAge: "",
+                address: "",
+              })
+            }
+            disabled={fields.length >= 3}
           >
-            <IonIcon slot="start" icon={add} />
+            <IonIcon icon={add} />
             Add More
           </IonButton>
-          <br /> <br />
-          <IonButton expand="block" onClick={handleSubmit}>
+
+          <br />
+          <br />
+          <IonButton expand="block" type="submit" disabled={isLoading}>
             Submit
           </IonButton>
         </IonCardContent>
       </TransparentCard>
-    </>
+    </form>
   );
 };
 
-export default ReferBeneficiaries;
+export default DynamicForm;
