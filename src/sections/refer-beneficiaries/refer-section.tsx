@@ -15,6 +15,7 @@ import {
 import { removeCircleOutline } from "ionicons/icons";
 import { Controller, useFormState } from "react-hook-form";
 import "./refer-beneficiaries.scss";
+import FormInputSelect from "@components/input/form-select-input";
 
 const ReferSection = ({
   index,
@@ -98,25 +99,18 @@ const ReferSection = ({
         }}
       />
       <br />
-      <IonLabel className={`text-input-label`}>Gender*</IonLabel>
+
       <Controller
         name={`beneficiaries.${index}.gender`}
         control={control}
         defaultValue={field?.gender || ""}
         render={({ field }) => (
-          <IonSelect
-            labelPlacement="stacked"
-            fill="outline"
+          <FormInputSelect
+            label="Gender*"
             placeholder="Select Gender"
-            mode="md"
-            interface="popover"
-            justify="space-between"
-            className={
-              errors?.beneficiaries?.[index]?.gender?.message
-                ? "ion-select-invalid"
-                : "ion-select-valid"
-            }
-            onIonChange={(e) => {
+            errorText={errors?.beneficiaries?.[index]?.gender?.message}
+            isSubmitted={isSubmitted}
+            onChange={(e) => {
               setValue(`beneficiaries.${index}.gender`, e.target.value, {
                 shouldValidate: true,
               });
@@ -126,20 +120,13 @@ const ReferSection = ({
             <IonSelectOption value="MALE">Male</IonSelectOption>
             <IonSelectOption value="FEMALE">Female</IonSelectOption>
             <IonSelectOption value="OTHERS">Others</IonSelectOption>
-          </IonSelect>
+          </FormInputSelect>
         )}
         rules={{
           required: "Please select gender",
         }}
       />
-      {errors?.beneficiaries?.[index]?.gender?.message && (
-        <>
-          <IonText className="select-input-error-text">
-            {errors?.beneficiaries?.[index]?.gender?.message}
-          </IonText>
-          <div />
-        </>
-      )}
+
       <br />
       <Controller
         name={`beneficiaries.${index}.estimatedAge`}

@@ -14,7 +14,6 @@ const DynamicForm = () => {
     formState: { isSubmitted, isDirty, isLoading, errors },
     getValues,
     setValue,
-    trigger,
   } = useForm({
     mode: "all",
     defaultValues: {
