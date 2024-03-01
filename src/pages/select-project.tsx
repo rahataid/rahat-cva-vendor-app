@@ -24,7 +24,7 @@ const SelectProjectPage: React.FC = () => {
   return (
     <IonPage>
       <CustomHeader title="Select Project" showBackButton />
-      <IonContent fullscreen scrollY={false}>
+      <IonContent fullscreen scrollY={false} className="bg">
         <SelectProject from={from} />
       </IonContent>
     </IonPage>

@@ -1,7 +1,7 @@
 @import url("./fonts.scss");
 
 :root {
-  --ion-font-family: "Poppins-Medium", sans-serif;
+  --ion-font-family: "Poppins-Light", sans-serif;
 
   --ion-color-white: #ffffff;
   --ion-color-white-rgb: 255, 255, 255;
@@ -75,14 +75,14 @@ body {
   --ion-color-light-shade: #1e2023;
   --ion-color-light-tint: #383a3e;
 
-  .bg-blue-gradient-img {
-    --background: linear-gradient(
-        rgba(33, 126, 194, 0.7),
-        rgba(33, 126, 194, 0.7)
-      ),
-      url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
-    --ion-background-blend-mode: multiply;
-  }
+  // .bg-blue-gradient-img {
+  //   --background: linear-gradient(
+  //       rgba(33, 126, 194, 0.7),
+  //       rgba(33, 126, 194, 0.7)
+  //     ),
+  //     url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+  //   --ion-background-blend-mode: multiply;
+  // }
 }
 
 .md {
@@ -115,21 +115,34 @@ body {
 
     --ion-item-background: #ffffff;
 
-    --ion-toolbar-background: #4392cb;
-    --ion-toolbar-border-color: #e0e1e2;
+    --ion-toolbar-box-shadow: none;
+    // --ion-toolbar-background: #4392cb;
+    // --ion-toolbar-border-color: #e0e1e2;
+    --ion-toolbar-background: #ffffff;
+    --ion-toolbar-border-color: #e2e2e2;
 
-    --ion-tab-bar-background: #f5fcff;
-    --ion-tab-bar-border-color: #e0e1e2;
+    .custom-toolbar {
+      box-shadow: none;
+      border-bottom: 1px solid #e2e2e2;
+    }
+
+    // --ion-tab-bar-background: #f5fcff;
+    // --ion-tab-bar-border-color: #e0e1e2;
+    --ion-tab-bar-background: #ffffff;
+    --ion-tab-bar-border-color: #e2e2e2;
 
     --ion-card-background: #ffffff;
 
     ion-content {
-      --background: linear-gradient(
-          rgba(33, 126, 194, 0.7),
-          rgba(33, 126, 194, 0.7)
-        ),
-        url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
-      --ion-background-blend-mode: multiply; /* Blend mode */
+      // --background: linear-gradient(
+      //     rgba(33, 126, 194, 0.7),
+      //     rgba(33, 126, 194, 0.7)
+      //   ),
+      //   url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+      // --ion-background-blend-mode: multiply; /* Blend mode */
+      // --background: #f8faf9;
+      --background: #fbfaf5;
+      // --background: #4392cb;
     }
   }
 
@@ -167,8 +180,18 @@ body {
     --ion-toolbar-background: #1f1f1f;
 
     --ion-tab-bar-background: #1f1f1f;
+    --ion-tab-bar-border-color: #e2e2e200;
 
     --ion-card-background: #1e1e1e;
+
+    .custom-toolbar {
+      box-shadow: none;
+      border-bottom: 1px solid #e2e2e200;
+    }
+
+    ion-content {
+      --background: #121212;
+    }
   }
 
   .alert-button-cancel {
@@ -213,22 +236,22 @@ body {
 
     --ion-item-background: #ffffff;
 
-    --ion-toolbar-background: #4392cb;
-    --ion-toolbar-border-color: #e0e1e2;
+    --ion-toolbar-box-shadow: none;
+    --ion-toolbar-background: #ffffff;
+    --ion-toolbar-border-color: #e2e2e2;
 
-    --ion-tab-bar-background: #f5fcff;
-    --ion-tab-bar-border-color: #e0e1e2;
+    .custom-toolbar {
+      box-shadow: none;
+      border-bottom: 1px solid #e2e2e2;
+    }
 
-    --ion-card-background: #ffffff;
+    --ion-tab-bar-background: #ffffff;
+    --ion-tab-bar-border-color: #e2e2e2;
+
     --ion-card-background: #ffffff;
 
     ion-content {
-      --background: linear-gradient(
-          rgba(33, 126, 194, 0.7),
-          rgba(33, 126, 194, 0.7)
-        ),
-        url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
-      --ion-background-blend-mode: multiply; /* Blend mode */
+      --background: #fbfaf5;
     }
   }
   ion-modal {
@@ -271,8 +294,18 @@ body {
     --ion-toolbar-background: #1f1f1f;
 
     --ion-tab-bar-background: #1f1f1f;
+    --ion-tab-bar-border-color: #e2e2e200;
 
     --ion-card-background: #1e1e1e;
+
+    .custom-toolbar {
+      box-shadow: none;
+      border-bottom: 1px solid #e2e2e200;
+    }
+
+    ion-content {
+      --background: #121212;
+    }
   }
 }
 

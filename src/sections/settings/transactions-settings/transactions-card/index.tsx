@@ -35,7 +35,7 @@ const TransactionCard = ({ transaction, key }: Props) => {
   };
 
   const handleViewDetail = () => {
-    history.push("/tabs/settings/transactions/0x23123872349");
+    history.push("/tabs/transactions/0x23123872349");
   };
 
   return (
@@ -56,7 +56,7 @@ const TransactionCard = ({ transaction, key }: Props) => {
         </IonCol>
         <IonCol size="3" className="tlist-right-col">
           <IonText color="success">
-            <p className="m-0">REFERRED</p>
+            <p className="m-0">{transaction?.type}</p>
           </IonText>
         </IonCol>
       </IonRow>

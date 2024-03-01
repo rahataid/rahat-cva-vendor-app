@@ -5,7 +5,7 @@ const TransparentCard = ({
   border = "0px",
   borderRadius = "5px",
   // backgroundColor = "rgba(255,255,255,1)",
-  backdropFilter = "blur(50px)",
+  // backdropFilter = "blur(50px)",
   boxShadow = "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
   padding = "0px",
   styles = {},
@@ -16,9 +16,9 @@ const TransparentCard = ({
     style={{
       border,
       // backgroundColor,
-      backdropFilter,
+      // backdropFilter,
       borderRadius,
-      boxShadow,
+      // boxShadow,
       padding,
       ...styles,
     }}

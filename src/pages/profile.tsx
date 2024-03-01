@@ -21,7 +21,7 @@ const ProfilePage: React.FC = () => {
   };
   return (
     <IonPage>
-      <CustomHeader title="Profile" />
+      <CustomHeader title="Profile" showBackButton />
       <IonContent fullscreen scrollY={false}>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

@@ -36,7 +36,7 @@ const ReferredBeneficiariesListPage: React.FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Referred Beneficiaries List" showBackButton />
+      <CustomHeader title="Referred Beneficiaries List" />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

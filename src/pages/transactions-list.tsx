@@ -16,7 +16,7 @@ const TransactionsListPage: React.FC = () => {
   ];
   return (
     <IonPage>
-      <CustomHeader title="Transactions List" showBackButton />
+      <CustomHeader title="Transactions List" />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

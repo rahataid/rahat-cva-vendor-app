@@ -53,6 +53,6 @@
       rgba(33, 126, 194, 0.7),
       rgba(33, 126, 194, 0.7)
     ),
-    url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+    url("/src/assets/images/bg/main-bg.png") center/cover no-repeat !important;
   --ion-background-blend-mode: multiply; /* Blend mode */
 }

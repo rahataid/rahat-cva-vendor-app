@@ -6,6 +6,8 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonToggle,
+  ToggleCustomEvent,
 } from "@ionic/react";
 import useAppStore from "@store/app";
 import {
@@ -14,6 +16,8 @@ import {
   logOutOutline,
   listOutline,
   personAddOutline,
+  personOutline,
+  moonOutline,
 } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -34,6 +38,17 @@ function Settings() {
 
   const history = useHistory();
 
+  const [themeToggle, setThemeToggle] = useState(false);
+
+  // Listen for the toggle check/uncheck to toggle the dark theme
+  const toggleChange = (ev: ToggleCustomEvent) => {
+    toggleDarkTheme(ev.detail.checked);
+  };
+
+  const toggleDarkTheme = (shouldAdd: boolean) => {
+    document.body.classList.toggle("dark", shouldAdd);
+  };
+
   const handleLogout = () => {
     setShowAlert(true);
   };
@@ -50,17 +65,24 @@ function Settings() {
   };
 
   const settingsOptions = [
+    // {
+    //   label: "Referred Beneficiaries",
+    //   startIcon: personAddOutline,
+    //   action: () => history.push("/tabs/settings/referred-beneficiaries/list"),
+    //   isToggle: false,
+    //   endIcon: chevronForwardOutline,
+    // },
+    // {
+    //   label: "Transactions",
+    //   startIcon: listOutline,
+    //   action: () => history.push("/tabs/settings/transactions/list"),
+    //   isToggle: false,
+    //   endIcon: chevronForwardOutline,
+    // },
     {
-      label: "Referred Beneficiaries",
-      startIcon: personAddOutline,
-      action: () => history.push("/tabs/settings/referred-beneficiaries/list"),
-      isToggle: false,
-      endIcon: chevronForwardOutline,
-    },
-    {
-      label: "Transactions",
-      startIcon: listOutline,
-      action: () => history.push("/tabs/settings/transactions/list"),
+      label: "Profile",
+      startIcon: personOutline,
+      action: () => history.push("/tabs/settings/profile"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
@@ -101,7 +123,7 @@ function Settings() {
       />
       <TransparentCard>
         <IonList>
-          <IonItem button={true} onClick={() => history.push("/tabs/profile")}>
+          {/* <IonItem button={true} onClick={() => history.push("/tabs/profile")}>
             <IonAvatar slot="start">
               <img
                 alt="User avatar"
@@ -109,7 +131,13 @@ function Settings() {
               />
             </IonAvatar>
             <IonLabel>{currentUser?.name || "-"}</IonLabel>
-          </IonItem>
+          </IonItem> */}
+
+          {/* <IonItem button={true} onClick={toggleChange}>
+            <IonIcon icon={moonOutline} slot="start" />
+            <IonLabel>Dark Mode</IonLabel>
+            <IonToggle checked={themeToggle} />
+          </IonItem> */}
 
           {settingsOptions.map((option, index) => (
             <IonItem key={index} button={true} onClick={option.action}>

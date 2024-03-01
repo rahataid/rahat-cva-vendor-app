@@ -15,7 +15,18 @@ import SettingsPage from "@pages/settings";
 import TransactionsListPage from "@pages/transactions-list";
 import TransactionsSettingsPage from "@pages/transactions-settings";
 import useAppStore from "@store/app";
-import { home, person, qrCode, settings } from "ionicons/icons";
+import {
+  home,
+  homeOutline,
+  peopleOutline,
+  person,
+  personOutline,
+  qrCode,
+  qrCodeOutline,
+  settings,
+  settingsOutline,
+  swapHorizontalOutline,
+} from "ionicons/icons";
 import { Redirect, Route, Switch } from "react-router-dom";
 import ReferredBeneficiariesListPage from "@pages/referred-beneficiary-list";
 import TransactionsDetailPage from "@pages/transactions-details";
@@ -36,31 +47,26 @@ const Tabs: React.FC = () => {
             component={ChargeBeneficiaryPage}
             exact
           />
-          <Route path="/tabs/profile" component={ProfilePage} exact />
+          <Route path="/tabs/settings/profile" component={ProfilePage} exact />
           <Route path="/tabs/settings" component={SettingsPage} exact />
 
           <Route
-            path="/tabs/settings/referred-beneficiaries/list"
+            path="/tabs/referred-beneficiaries"
             component={ReferredBeneficiariesListPage}
             exact
           />
           <Route
-            path="/tabs/settings/referred-beneficiaries/:id"
+            path="/tabs/referred-beneficiaries/:id"
             component={ReferredBeneficiariesDetailsPage}
             exact
           />
           <Route
-            path="/tabs/settings/transactions"
-            component={TransactionsSettingsPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/transactions/list"
+            path="/tabs/transactions"
             component={TransactionsListPage}
             exact
           />
           <Route
-            path="/tabs/settings/transactions/:txHash"
+            path="/tabs/transactions/:txHash"
             component={TransactionsDetailPage}
             exact
           />
@@ -76,22 +82,29 @@ const Tabs: React.FC = () => {
 
       <IonTabBar slot="bottom" mode="md">
         <IonTabButton tab="home" href="/tabs/home">
-          <IonIcon icon={home} />
-          <IonLabel>Home</IonLabel>
+          <IonIcon icon={homeOutline} />
+          {/* <IonLabel>Home</IonLabel> */}
+        </IonTabButton>
+        <IonTabButton tab="transactions" href="/tabs/transactions">
+          <IonIcon icon={swapHorizontalOutline} />
+          {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
         {chainData?.isVendorApproved && (
           <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
-            <IonIcon icon={qrCode} />
-            <IonLabel>Charge Beneficiary</IonLabel>
+            <IonIcon icon={qrCodeOutline} />
+            {/* <IonLabel>Charge Beneficiary</IonLabel> */}
           </IonTabButton>
         )}
-        <IonTabButton tab="profile" href="/tabs/profile">
-          <IonIcon icon={person} />
-          <IonLabel>Profile</IonLabel>
+        <IonTabButton
+          tab="referred-beneficiaries"
+          href="/tabs/referred-beneficiaries"
+        >
+          <IonIcon icon={peopleOutline} />
+          {/* <IonLabel>Profile</IonLabel> */}
         </IonTabButton>
         <IonTabButton tab="settings" href="/tabs/settings">
-          <IonIcon icon={settings} />
-          <IonLabel>Settings</IonLabel>
+          <IonIcon icon={settingsOutline} />
+          {/* <IonLabel>Settings</IonLabel> */}
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

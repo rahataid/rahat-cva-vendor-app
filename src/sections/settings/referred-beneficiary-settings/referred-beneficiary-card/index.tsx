@@ -38,7 +38,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
   const [showAlert, setShowAlert] = useState(false);
   const handleViewDetails = (isReferred: boolean) => {
     // Logic to view details
-    history.push("/tabs/settings/referred-beneficiaries/:id");
+    history.push("/tabs/referred-beneficiaries/:id");
   };
 
   const popover = useRef<HTMLIonPopoverElement>(null);
