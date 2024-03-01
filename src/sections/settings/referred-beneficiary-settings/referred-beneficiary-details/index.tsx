@@ -1,7 +1,6 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 import { BENEFICIARY_TYPE, IBeneficiary, VOUCHER } from "@types/beneficiaries";
-import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
 
 type Props = {
   data: IBeneficiary;
@@ -30,7 +29,7 @@ const ReferredBeneficiaryDetails = ({ data }: Props) => {
           </IonCol>
           <IonCol size="6">Gender</IonCol>
           <IonCol size="6">{data.gender}</IonCol>
-          <IonCol size="6">Estimaged Age</IonCol>
+          <IonCol size="6">Estimated Age</IonCol>
           <IonCol size="6">{data.estimatedAge}</IonCol>
           <IonCol size="6">Beneficiary Type</IonCol>
           <IonCol size="6">

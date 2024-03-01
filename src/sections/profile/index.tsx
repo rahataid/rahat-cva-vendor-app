@@ -69,7 +69,7 @@ const Profile = ({ currentUser }: PropTypes) => {
             ></IonIcon>
             <IonLabel>{currentUser?.name || "-"}</IonLabel>
           </IonItem>
-          <IonItem>
+          {/* <IonItem>
             <IonIcon
               aria-hidden="true"
               icon={mailOutline}
@@ -84,7 +84,7 @@ const Profile = ({ currentUser }: PropTypes) => {
               slot="start"
             ></IonIcon>
             <IonLabel>{currentUser?.address?.city || "-"}</IonLabel>
-          </IonItem>
+          </IonItem> */}
           <IonItem>
             <IonIcon
               aria-hidden="true"

@@ -17,8 +17,9 @@ import ResetPage from "@pages/reset";
 import ScannerPage from "@pages/scanner";
 import RedeemVoucherPage from "@pages/redeem-voucher";
 import ReferBeneficiariesPage from "@pages/refer-beneficiaries";
-import ReferSuccessPage from "@pages/refer-success";
+import ReferResultPage from "@pages/refer-result";
 import TransactionResultPage from "@pages/transaction-result";
+import ProfilePage from "@pages/profile";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -57,8 +58,8 @@ const Router = () => {
             exact
           />
           <PrivateRoute
-            path="/refer-success"
-            component={ReferSuccessPage}
+            path="/refer-result"
+            component={ReferResultPage}
             exact
           />
           <PrivateRoute

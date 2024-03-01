@@ -1,5 +1,5 @@
 import { IonCol, IonRow, IonText } from "@ionic/react";
-import "./refer-success.scss";
+import "./refer-result.scss";
 import CustomDivider from "@components/divider";
 
 const ReferItem = ({ data, key }: any) => {

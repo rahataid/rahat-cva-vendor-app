@@ -11,17 +11,19 @@ const RedeemVoucherPage: React.FC = () => {
   };
 
   interface LocationState {
-    data: Prop;
+    data: Prop | null;
   }
   const location = useLocation<LocationState>();
-  const {
-    data: { voucherType },
-  } = location.state || { data: null };
+  const { data } = location.state || { data: null };
   return (
     <IonPage>
       <CustomHeader title="Redeem Voucher" showBackButton />
       <IonContent>
-        <RedeemVoucher voucherType={voucherType} />
+        <RedeemVoucher
+          voucherType={
+            data?.voucherType ? data.voucherType : "DISCOUNT_VOUCHER"
+          }
+        />
       </IonContent>
     </IonPage>
   );

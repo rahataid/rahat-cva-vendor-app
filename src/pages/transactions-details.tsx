@@ -9,11 +9,11 @@ import { BENEFICIARY_TYPE, VOUCHER } from "@types/beneficiaries";
 import { useParams } from "react-router";
 
 const details: TransactionDetail = {
-  beneficiaryName: "Mani Byanajankar",
+  beneficiaryName: "Mani Byanjankar",
   phone: "9864587899",
   status: TRANSACTION_STATUS.SUCCESS,
   beneficiaryType: BENEFICIARY_TYPE.ENROLLED,
-  createdAt: 1708678311,
+  createdAt: 1632960000000,
   transactionHash: "0x1234567890",
   voucherSymbol: "USDT",
   voucherType: VOUCHER.FREE_VOUCHER,

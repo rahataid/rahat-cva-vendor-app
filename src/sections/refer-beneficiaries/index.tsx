@@ -31,7 +31,7 @@ const DynamicForm = () => {
 
   const onSubmit = (data) => {
     console.log(data, "DATA ========>");
-    history.push("/refer-success");
+    history.push("/refer-result");
   };
 
   const handleRemove = (index: number) => {

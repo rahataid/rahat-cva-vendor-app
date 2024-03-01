@@ -1,15 +1,15 @@
 import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
-import ReferSuccess from "@sections/refer-success";
+import ReferResult from "@sections/refer-result";
 import { IBeneficiary } from "@types/beneficiaries";
 
-const ReferSuccessPage: React.FC = () => {
+const ReferResultPage: React.FC = () => {
   const data: IBeneficiary[] = [
     {
       name: "Mani Byanjankar",
       phone: "9864587899",
       status: "SUCCESS",
-      beneficiaryType: "ENROLLED",
+      beneficiaryType: "REFERRED",
       transactionHash: "0x1234567890",
       voucherSymbol: "USDT",
       voucherType: "FREE_VOUCHER",
@@ -35,7 +35,7 @@ const ReferSuccessPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <ReferSuccess data={data} />
+              <ReferResult data={data} />
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -44,4 +44,4 @@ const ReferSuccessPage: React.FC = () => {
   );
 };
 
-export default ReferSuccessPage;
+export default ReferResultPage;

@@ -6,18 +6,18 @@ import TransactionResult from "@sections/transaction-result";
 
 const TransactionResultPage: React.FC = () => {
   const data: TransactionDetail = {
-    beneficiaryName: "Pranu Manandhar",
+    beneficiaryName: "Mani Byanjankar",
     voucherType: "FREE_VOUCHER",
     beneficiaryType: "ENROLLED",
     transactionHash: "0x1234567890",
     voucherSymbol: "USDT",
-    phone: "9865254816",
-    createdAt: 1677390536,
+    phone: "9864587899",
+    createdAt: 1632960000000,
     status: "SUCCESS",
   };
   return (
     <IonPage>
-      <CustomHeader title="Transaction Result" showBackButton />
+      <CustomHeader title="Transaction Result" />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

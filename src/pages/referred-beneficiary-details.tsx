@@ -6,15 +6,15 @@ import { IBeneficiary } from "@types/beneficiaries";
 import { useParams } from "react-router";
 
 const data: IBeneficiary = {
-  name: "Ram Dhakal",
-  phone: 9865458152,
+  name: "Mani Byanjankar",
+  phone: 9864587899,
   address: "Kathmandu",
   gender: "MALE",
   estimatedAge: 25,
-  beneficiaryType: "ENROLLED",
+  beneficiaryType: "REFERRED",
   walletAddress: "0x1234567890",
   token: "15",
-  voucherType: "FREE_VOUCHER",
+  voucherType: "DISCOUNT_VOUCHER",
   createdAt: 1632960000000,
 };
 

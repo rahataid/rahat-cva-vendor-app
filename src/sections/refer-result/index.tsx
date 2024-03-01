@@ -12,7 +12,7 @@ import { homeOutline } from "ionicons/icons";
 import ReferItem from "./refer-item";
 import { useHistory } from "react-router";
 
-const ReferSuccess = ({ data }: any) => {
+const ReferResult = ({ data }: any) => {
   const history = useHistory();
   const handleGoHome = () => {
     history.push("/tabs/home");
@@ -43,4 +43,4 @@ const ReferSuccess = ({ data }: any) => {
   );
 };
 
-export default ReferSuccess;
+export default ReferResult;

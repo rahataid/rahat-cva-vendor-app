@@ -10,12 +10,7 @@ const TransactionsListPage: React.FC = () => {
   const data: ITransactionItem[] = [
     {
       projectName: "CVA Project",
-      createdAt: "2021-09-09",
-      type: "ENROLLED",
-    },
-    {
-      projectName: "CVA Project",
-      createdAt: "2021-09-09",
+      createdAt: 1632960000000,
       type: "ENROLLED",
     },
   ];

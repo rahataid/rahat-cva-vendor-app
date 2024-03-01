@@ -23,8 +23,8 @@ import "./home.scss";
 const transactionsList: ITransactionItem[] = [
   {
     projectName: "CVA Project",
-    createdAt: 1207678311,
-    type: BENEFICIARY_TYPE.REFERRED,
+    createdAt: 1632960000000,
+    type: BENEFICIARY_TYPE.ENROLLED,
   },
   {
     projectName: "CVA Project",
@@ -80,7 +80,7 @@ const TransactionCard = () => {
           <>
             {transactionsList?.length ? (
               transactionsList
-                ?.slice(-5)
+                ?.slice(-1)
                 .reverse()
                 .map((el, i) => (
                   <IonItem
@@ -88,9 +88,7 @@ const TransactionCard = () => {
                     button={true}
                     lines="full"
                     onClick={() =>
-                      history.push(
-                        `/tabs/settings/transactions/${el?.createdAt}`
-                      )
+                      history.push(`/tabs/transactions/${el?.createdAt}`)
                     }
                   >
                     <>
@@ -126,7 +124,7 @@ const TransactionCard = () => {
           expand="block"
           color="primary"
           className="view-all-btn-padding"
-          onClick={() => history.push("/tabs/settings/transactions/list")}
+          onClick={() => history.push("/tabs/transactions")}
         >
           View All
         </IonButton>
