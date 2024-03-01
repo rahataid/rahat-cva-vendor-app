@@ -117,12 +117,25 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                             }}
                             onBlur={field.onBlur}
                           >
-                            <IonSelectOption value="GLASSES_REQUIRED">
-                              Glasses required
-                            </IonSelectOption>
-                            <IonSelectOption value="GLASSES_NOT_REQUIRED">
-                              Glasses not required
-                            </IonSelectOption>
+                            {voucherType === VOUCHER.FREE_VOUCHER ? (
+                              <>
+                                <IonSelectOption value="GLASSES_REQUIRED">
+                                  Checked, Glasses Required
+                                </IonSelectOption>
+                                <IonSelectOption value="GLASSES_NOT_REQUIRED">
+                                  Checked, No Glasses Needed
+                                </IonSelectOption>
+                              </>
+                            ) : (
+                              <>
+                                <IonSelectOption value="GLASSES_BOUGHT">
+                                  Glasses Bought
+                                </IonSelectOption>
+                                <IonSelectOption value="GLASSES_NOT_BOUGHT">
+                                  Glasses Not Bought
+                                </IonSelectOption>
+                              </>
+                            )}
                           </IonSelect>
                         )}
                         rules={{

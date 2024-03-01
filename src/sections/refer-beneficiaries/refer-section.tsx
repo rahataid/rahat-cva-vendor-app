@@ -133,23 +133,42 @@ const ReferSection = ({
         control={control}
         defaultValue={field?.estimatedAge || ""}
         render={({ field }) => (
-          <TextInputField
-            placeholder="Enter Age"
-            type="number"
+          <FormInputSelect
             label="Estimated Age*"
-            value={getValues(`beneficiaries.${index}.estimatedAge`)}
+            placeholder="Select Estimated Age"
             errorText={errors?.beneficiaries?.[index]?.estimatedAge?.message}
-            onInput={(e) => {
+            isSubmitted={isSubmitted}
+            onChange={(e) => {
               setValue(`beneficiaries.${index}.estimatedAge`, e.target.value, {
                 shouldValidate: true,
               });
             }}
             onBlur={field?.onBlur}
-            isSubmitted={isSubmitted}
-          />
+          >
+            <IonSelectOption value="0-5">0-5</IonSelectOption>
+            <IonSelectOption value="6-10">6-10</IonSelectOption>
+            <IonSelectOption value="11-15">11-15</IonSelectOption>
+            <IonSelectOption value="16-20">16-20</IonSelectOption>
+            <IonSelectOption value="21-25">21-25</IonSelectOption>
+            <IonSelectOption value="26-30">26-30</IonSelectOption>
+            <IonSelectOption value="31-35">31-35</IonSelectOption>
+            <IonSelectOption value="36-40">36-40</IonSelectOption>
+            <IonSelectOption value="41-45">41-45</IonSelectOption>
+            <IonSelectOption value="46-50">46-50</IonSelectOption>
+            <IonSelectOption value="51-55">51-55</IonSelectOption>
+            <IonSelectOption value="56-60">56-60</IonSelectOption>
+            <IonSelectOption value="61-65">61-65</IonSelectOption>
+            <IonSelectOption value="66-70">66-70</IonSelectOption>
+            <IonSelectOption value="71-75">71-75</IonSelectOption>
+            <IonSelectOption value="76-80">76-80</IonSelectOption>
+            <IonSelectOption value="81-85">81-85</IonSelectOption>
+            <IonSelectOption value="86-90">86-90</IonSelectOption>
+            <IonSelectOption value="91-95">91-95</IonSelectOption>
+            <IonSelectOption value="96-100">96-100</IonSelectOption>
+          </FormInputSelect>
         )}
         rules={{
-          required: "Please enter Estimated age",
+          required: "Please select estimated age",
         }}
       />
       <br />
