@@ -15,7 +15,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1230",
     voucherType: "FREE_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672566000000, // January 1, 2024, 12:00:00 AM
+    createdAt: 1672566000000,
     voucherSymbol: "ABCD5",
     transactionHash: "0x9fd8152d785b4b27961296c3d64d61e1",
   },
@@ -32,7 +32,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1231",
     voucherType: "DISCOUNT_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672652400000, // January 2, 2024, 12:00:00 AM
+    createdAt: 1672652400000,
     voucherSymbol: "EFGH6",
     transactionHash: "0x98fd9d4d15d145b39cb189d6ef19eaae",
   },
@@ -49,7 +49,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1232",
     voucherType: "FREE_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672662400000, // January 3, 2024, 12:00:00 AM
+    createdAt: 1672662400000,
     voucherSymbol: "IJKL7",
     transactionHash: "0xb8e1f8120db24697b372c3e93abeb105",
   },
@@ -66,7 +66,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1233",
     voucherType: "DISCOUNT_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672738800000, // January 4, 2024, 12:00:00 AM
+    createdAt: 1672738800000,
     voucherSymbol: "MNOP8",
     transactionHash: "0xf5436f476d9b4fa18345688bfe7847b8",
   },
@@ -83,7 +83,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1234",
     voucherType: "DISCOUNT_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672738800000, // January 5, 2024, 12:00:00 AM
+    createdAt: 1672738800000,
     voucherSymbol: "QRST9",
     transactionHash: "0x96f8e2f4789b44aab6e3190e9f6b2084",
   },
@@ -100,7 +100,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1235",
     voucherType: "FREE_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672738800000, // January 6, 2024, 12:00:00 AM
+    createdAt: 1672738800000,
     voucherSymbol: "UVWX1",
     transactionHash: "0xb01744a6cd3e4b2657e12e44265e",
   },
@@ -117,7 +117,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1236",
     voucherType: "DISCOUNT_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672825200000, // January 7, 2024, 12:00:00 AM
+    createdAt: 1672825200000,
     voucherSymbol: "YZ01A",
     transactionHash: "0xcb16834e8d144c980bbda2d7c95d8a",
   },
@@ -134,7 +134,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1237",
     voucherType: "DISCOUNT_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672825200000, // January 8, 2024, 12:00:00 AM
+    createdAt: 1672825200000,
     voucherSymbol: "2345B",
     transactionHash: "0xa5ae9b818fa746e5872853bea363f689",
   },
@@ -151,7 +151,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1238",
     voucherType: "FREE_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672825200000, // January 9, 2024, 12:00:00 AM
+    createdAt: 1672825200000,
     voucherSymbol: "6789C",
     transactionHash: "0x589b425961d9442694a980899b5b1a4b",
   },
@@ -168,7 +168,7 @@ export const mockBeneficiaries: IBeneficiary[] = [
     otpHash: "0x1239",
     voucherType: "DISCOUNT_VOUCHER",
     status: "SUCCESS",
-    createdAt: 1672825200000, // January 10, 2024, 12:00:00 AM
+    createdAt: 1672825200000,
     voucherSymbol: "ABCDE",
     transactionHash: "0x1dcfc5d12dbb4b17bb3b18a36f8f14c0",
   },

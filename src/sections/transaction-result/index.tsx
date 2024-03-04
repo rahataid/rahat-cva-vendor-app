@@ -44,19 +44,23 @@ const TransactionResult = ({ data }: Props) => {
                     : "warning"
                 }
               >
-                {data.voucherType}
+                {data.voucherType === VOUCHER.DISCOUNT_VOUCHER
+                  ? "Discount Voucher"
+                  : "Free Voucher"}
               </IonText>
             </IonCol>
             <IonCol size="6">Beneficiary Type</IonCol>
             <IonCol size="6">
               <IonText
                 color={
-                  data.beneficiaryType === BENEFICIARY_TYPE.ENROLLED
+                  data.beneficiaryType === BENEFICIARY_TYPE.REFERRED
                     ? "success"
                     : "warning"
                 }
               >
-                {data?.beneficiaryType}
+                {data?.beneficiaryType === BENEFICIARY_TYPE.REFERRED
+                  ? "Referred"
+                  : "Enrolled"}
               </IonText>
             </IonCol>
             <IonCol size="6">Date</IonCol>
@@ -64,8 +68,7 @@ const TransactionResult = ({ data }: Props) => {
 
             <IonCol size="6">Transaction Hash</IonCol>
             <IonCol size="6">{cropString(data?.transactionHash) || "-"}</IonCol>
-            <IonCol size="6">Voucher Symbol</IonCol>
-            <IonCol size="6">{data?.voucherSymbol}</IonCol>
+
             <IonCol size="6">Phone</IonCol>
             <IonCol size="6">{data?.phone}</IonCol>
             <br />

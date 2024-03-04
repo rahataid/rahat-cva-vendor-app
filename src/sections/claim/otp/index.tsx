@@ -22,7 +22,7 @@ type Props = {
   data: IBeneficiary;
 };
 
-const OTP = ({ data }: Props) => {
+const OTP = ({ data: transactionData }: Props) => {
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
   const {
@@ -47,9 +47,16 @@ const OTP = ({ data }: Props) => {
     },
   });
 
-  const onSubmit = () => {
-    console.log("OTP SUBMITTED");
-    history.push("/transaction-result", { data });
+  const onSubmit = (data: { otp: string }) => {
+    try {
+      if (data?.otp != "1234") throw new Error("Invalid OTP");
+      history.push("/transaction-result", { data: transactionData });
+    } catch (error) {
+      setError("root.serverError", {
+        type: "manual",
+        message: error?.message || "Something went wrong! Try again later.",
+      });
+    }
   };
 
   const handleCancel = () => {
