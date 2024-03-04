@@ -77,6 +77,8 @@ export function useVendorChainData(
     },
     {
       enabled: !!projectSettings?.baseUrl,
+      staleTime: 60000,
+      cacheTime: 0,
       onSuccess: (data) => {
         setChainData(data?.data);
       },

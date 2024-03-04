@@ -6,19 +6,16 @@ import VendorsService from "@services/vendors";
 import useAppStore from "@store/app";
 import { useState } from "react";
 import CustomHeader from "@components/header/customHeader";
-import useTransactionStore from "@store/transaction";
-import { ITransactionItem } from "@types/transactions";
 import IndeterminateLoader from "@components/loaders/Indeterminate";
-import { mockBeneficiaries } from "@utils/mockData";
 
 const HomePage: React.FC = () => {
-  const { wallet, projectSettings } = useAppStore();
+  const { wallet, projectSettings, mockData } = useAppStore();
   // const { vendorTransactions } = useTransactionStore();
-  const vendorTransactions = mockBeneficiaries;
+  const vendorTransactions = mockData;
 
   const [forceRender, setForceRender] = useState(false);
   const handleReload = () => {
-    setForceRender(!forceRender);
+    setForceRender((prev) => !prev);
   };
 
   const { chainData, isLoading } = useVendorChainData(
@@ -34,7 +31,7 @@ const HomePage: React.FC = () => {
     <IonPage>
       <CustomHeader title="Home" />
       <IonContent fullscreen>
-        {/* {isLoading && <IndeterminateLoader />} */}
+        {isLoading && <IndeterminateLoader />}
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">

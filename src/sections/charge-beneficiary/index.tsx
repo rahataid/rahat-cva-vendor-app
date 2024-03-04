@@ -16,9 +16,10 @@ import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { mockBeneficiaries } from "@utils/mockData";
+import useAppStore from "@store/app";
 
 const ChargeBeneficiary = ({ data }: any) => {
+  const { mockData } = useAppStore();
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
 
@@ -36,7 +37,7 @@ const ChargeBeneficiary = ({ data }: any) => {
     },
   });
 
-  const beneficiaries = mockBeneficiaries;
+  const beneficiaries = mockData;
 
   const fetchBeneficiaryVoucher = async (data: any) => {
     console.log("SUBMIT BENEFICIARY VOUCHER", data);

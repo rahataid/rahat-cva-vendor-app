@@ -1,11 +1,4 @@
-import {
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCol,
-  IonGrid,
-  IonRow,
-} from "@ionic/react";
+import { IonCardHeader, IonCardTitle } from "@ionic/react";
 import { IBeneficiary } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import ReferredBeneficiaryCard from "../referred-beneficiary-card";

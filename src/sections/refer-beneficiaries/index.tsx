@@ -30,7 +30,6 @@ const DynamicForm = () => {
   });
 
   const onSubmit = (data: any) => {
-    console.log(data, "DATA ========>");
     history.push("/refer-result", { data });
   };
 

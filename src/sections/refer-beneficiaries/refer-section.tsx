@@ -112,6 +112,7 @@ const ReferSection = ({
             placeholder="Select Gender"
             errorText={errors?.beneficiaries?.[index]?.gender?.message}
             isSubmitted={isSubmitted}
+            value={getValues(`beneficiaries.${index}.gender`)}
             onChange={(e) => {
               setValue(`beneficiaries.${index}.gender`, e.target.value, {
                 shouldValidate: true,
@@ -140,6 +141,7 @@ const ReferSection = ({
             placeholder="Select Estimated Age"
             errorText={errors?.beneficiaries?.[index]?.estimatedAge?.message}
             isSubmitted={isSubmitted}
+            value={getValues(`beneficiaries.${index}.estimatedAge`)}
             onChange={(e) => {
               setValue(`beneficiaries.${index}.estimatedAge`, e.target.value, {
                 shouldValidate: true,

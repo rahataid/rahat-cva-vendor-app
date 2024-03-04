@@ -1,13 +1,9 @@
 import React from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
-import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
 import CustomHeader from "@components/header/customHeader";
-import useTransactionStore from "@store/transaction";
 import TransactionDetails from "@sections/settings/transactions-settings/transactions-details";
-import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
-import { BENEFICIARY_TYPE, VOUCHER } from "@types/beneficiaries";
 import { useParams } from "react-router";
-import { mockBeneficiaries } from "@utils/mockData";
+import useAppStore from "@store/app";
 
 // const details: TransactionDetail = {
 //   beneficiaryName: "Mani Byanjankar",
@@ -22,9 +18,10 @@ import { mockBeneficiaries } from "@utils/mockData";
 
 const TransactionsDetailPage: React.FC = () => {
   //   const { vendorTransactions } = useTransactionStore();
+  const { mockData } = useAppStore();
   const { txHash: uuid } = useParams<{ txHash: string }>();
   console.log("uuid", uuid);
-  const beneficiaries = mockBeneficiaries;
+  const beneficiaries = mockData;
   const data = beneficiaries.find((item) => item.uuid === uuid);
   console.log("data", data);
 

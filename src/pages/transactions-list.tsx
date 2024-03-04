@@ -4,8 +4,8 @@ import TransactionsList from "@sections/settings/transactions-settings/transacti
 import CustomHeader from "@components/header/customHeader";
 import useTransactionStore from "@store/transaction";
 import { ITransactionItem } from "@types/transactions";
-import { mockBeneficiaries } from "@utils/mockData";
 import { sortBeneficiariesByDate } from "@utils/helperFunctions";
+import useAppStore from "@store/app";
 
 const TransactionsListPage: React.FC = () => {
   // const { vendorTransactions } = useTransactionStore();
@@ -16,7 +16,8 @@ const TransactionsListPage: React.FC = () => {
   //     type: "ENROLLED",
   //   },
   // ];
-  const data = sortBeneficiariesByDate(mockBeneficiaries);
+  const { mockData } = useAppStore();
+  const data = sortBeneficiariesByDate(mockData);
   return (
     <IonPage>
       <CustomHeader title="Transactions List" />

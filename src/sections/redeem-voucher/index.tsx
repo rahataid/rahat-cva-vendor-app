@@ -11,7 +11,6 @@ import {
 } from "@ionic/react";
 
 import "./redeem-voucher.scss";
-import { SelectInputOptions } from "../../types/chargeBeneficiary";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { VOUCHER } from "@types/beneficiaries";
@@ -19,8 +18,10 @@ import { homeOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
 import { useState } from "react";
+import useAppStore from "@store/app";
 
 const RedeemVoucher: React.FC = ({ data }: any) => {
+  const { mockData, setMockData } = useAppStore();
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const history = useHistory();
   const {
@@ -33,8 +34,8 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      status: "",
-      eyeCheckupStatus: "",
+      glassesStatus: data?.glassesStatus || "",
+      eyeCheckupStatus: data?.eyeCheckupStatus || "",
     },
   });
   const handleRedeem = () => {
@@ -49,9 +50,13 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
   const handleInputChange = () => {
     setSubmitSuccess(false);
   };
-  const onSubmit = (data: any) => {
+  const onSubmit = (formData: any) => {
     try {
-      console.log(data);
+      const payload = mockData.map((el) => {
+        if (el.uuid === data.uuid) return { ...el, ...formData };
+        return el;
+      });
+      setMockData(payload);
       setSubmitSuccess(true);
       // throw new Error("ERORR");
     } catch (error: any) {
@@ -96,6 +101,7 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                         <FormInputSelect
                           label="Eye Checkup Status:"
                           placeholder="Select Status"
+                          value={getValues("eyeCheckupStatus")}
                           onChange={(e) => {
                             setValue("eyeCheckupStatus", e.target.value, {
                               shouldValidate: true,
@@ -128,14 +134,15 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                       <FormInputSelect
                         label="Glasses Status:"
                         placeholder="Select Status"
+                        value={getValues("glassesStatus")}
                         onChange={(e) => {
-                          setValue("status", e.target.value, {
+                          setValue("glassesStatus", e.target.value, {
                             shouldValidate: true,
                           });
                           handleInputChange();
                         }}
                         onBlur={field.onBlur}
-                        errorText={errors?.status?.message}
+                        errorText={errors?.glassesStatus?.message}
                       >
                         {data?.voucherType === VOUCHER.FREE_VOUCHER ? (
                           <>
@@ -162,7 +169,7 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                       required: "Please select the status",
                     }}
                     control={control}
-                    name="status"
+                    name="glassesStatus"
                   />
                   <div className="gap-5"></div>
                   <div className="gap-5"></div>
@@ -205,14 +212,16 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                           expand="block"
                           color="success"
                           disabled={
-                            !isValid ||
+                            // !isValid ||
                             isSubmitting ||
-                            getValues("status") === "GLASSES_NOT_REQUIRED" ||
-                            getValues("status") === "GLASSES_NOT_BOUGHT"
+                            !getValues("glassesStatus") ||
+                            getValues("glassesStatus") ===
+                              "GLASSES_NOT_REQUIRED" ||
+                            getValues("glassesStatus") === "GLASSES_NOT_BOUGHT"
                           }
                           onClick={handleRedeem}
                         >
-                          Redeem Voucher
+                          Redeem Vouchers
                         </IonButton>
                       </IonCol>
                     ) : (
@@ -223,10 +232,13 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                             expand="block"
                             color="success"
                             disabled={
-                              !isValid ||
+                              // !isValid ||
                               isSubmitting ||
-                              getValues("status") === "GLASSES_NOT_REQUIRED" ||
-                              getValues("status") === "GLASSES_NOT_BOUGHT"
+                              !getValues("glassesStatus") ||
+                              getValues("glassesStatus") ===
+                                "GLASSES_NOT_REQUIRED" ||
+                              getValues("glassesStatus") ===
+                                "GLASSES_NOT_BOUGHT"
                             }
                             onClick={handleRedeem}
                           >

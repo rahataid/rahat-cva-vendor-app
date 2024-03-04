@@ -57,11 +57,11 @@ const Home = ({
           lines="none"
           className={`ion-text-center ion-padding`}
         >
-          <IonLabel>
-            <IonText color="dark">
+          {/* <IonLabel>
+            <IonText>
               <p>You need to be approved to use all features</p>
             </IonText>
-          </IonLabel>
+          </IonLabel> */}
         </IonItem>
       </>
     );

@@ -2,9 +2,8 @@ import React from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
 import ReferredBeneficiaryDetails from "@sections/settings/referred-beneficiary-settings/referred-beneficiary-details";
-import { IBeneficiary } from "@types/beneficiaries";
 import { useParams } from "react-router";
-import { mockBeneficiaries, mockReferredBeneficiaries } from "@utils/mockData";
+import useAppStore from "@store/app";
 
 // const data: IBeneficiary = {
 //   name: "Mani Byanjankar",
@@ -21,7 +20,8 @@ import { mockBeneficiaries, mockReferredBeneficiaries } from "@utils/mockData";
 
 const ReferredBeneficiariesDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const beneficiaries = mockBeneficiaries.filter((el) => el.uuid === id);
+  const { mockData } = useAppStore();
+  const beneficiaries = mockData.filter((el) => el.uuid === id);
   const beneficiary = beneficiaries.find((b) => b.uuid === id);
   console.log("BEN DETAILS", beneficiary);
   return (

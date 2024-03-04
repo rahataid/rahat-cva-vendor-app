@@ -52,6 +52,7 @@ const FormInputSelect: React.FC<any> = forwardRef(
           interface={interfaceType}
           justify="space-between"
           placeholder={props.placeholder}
+          value={props.value}
           //   className={
           //     props.errorText ? "ion-select-invalid" : "ion-select-valid"
           //   }

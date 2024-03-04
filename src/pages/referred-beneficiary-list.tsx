@@ -1,18 +1,18 @@
 import React from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
-import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
 import CustomHeader from "@components/header/customHeader";
-import useTransactionStore from "@store/transaction";
 import ReferredBeneficiariesList from "@sections/settings/referred-beneficiary-settings/referred-beneficiary-list";
-import { IBeneficiary } from "@types/beneficiaries";
-import { mockBeneficiaries, mockReferredBeneficiaries } from "@utils/mockData";
+import useAppStore from "@store/app";
 
 const ReferredBeneficiariesListPage: React.FC = () => {
   // const { vendorTransactions } = useTransactionStore();
-  let Beneficiaries = mockBeneficiaries;
-  Beneficiaries = mockBeneficiaries.filter(
-    (el) => el.beneficiaryType === "REFERRED"
-  );
+  const { mockData, setMockData } = useAppStore();
+  let Beneficiaries = mockData;
+  Beneficiaries = mockData.filter((el) => el.beneficiaryType === "REFERRED");
+
+  const handleDelete = (uuid: string) => {
+    setMockData(mockData.filter((el) => el.uuid !== uuid));
+  };
 
   return (
     <IonPage>
@@ -21,7 +21,10 @@ const ReferredBeneficiariesListPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <ReferredBeneficiariesList data={Beneficiaries} />
+              <ReferredBeneficiariesList
+                data={Beneficiaries}
+                handleDelete={handleDelete}
+              />
             </IonCol>
           </IonRow>
         </IonGrid>
