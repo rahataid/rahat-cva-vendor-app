@@ -122,6 +122,7 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                   )}
                   <div className="gap-5"></div>
                   <div className="gap-5"></div>
+                  <div className="gap-5"></div>
                   <Controller
                     render={({ field }) => (
                       <FormInputSelect
