@@ -27,11 +27,15 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
         )}
         rules={{
           required: "Please enter phone number",
+          minLength: {
+            value: 7,
+            message: "Phone Number must be at least 7 digits",
+          },
         }}
         control={control}
         name="phone"
       />
-
+      <br />
       {errors?.root?.serverError?.message && (
         <>
           <IonText color="danger">{errors?.root?.serverError.message}</IonText>

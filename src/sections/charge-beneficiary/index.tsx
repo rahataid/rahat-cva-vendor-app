@@ -16,10 +16,10 @@ import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import { mockBeneficiaries } from "@utils/mockData";
 
 const ChargeBeneficiary = ({ data }: any) => {
   const history = useHistory();
-
   const [loadingVisible, setLoadingVisible] = useState(false);
 
   const {
@@ -36,13 +36,18 @@ const ChargeBeneficiary = ({ data }: any) => {
     },
   });
 
+  const beneficiaries = mockBeneficiaries;
+
   const fetchBeneficiaryVoucher = async (data: any) => {
     console.log("SUBMIT BENEFICIARY VOUCHER", data);
-    // throw new Error("SOMETHING WEHT WRONG");
-    let voucherType;
-    if (data.phone == "1") voucherType = "FREE_VOUCHER";
-    else voucherType = "DISCOUNT_VOUCHER";
-    history.push("/redeem-voucher", { data: { voucherType } });
+    const beneficiary = beneficiaries.find((el) => el.phone == data.phone);
+    if (!beneficiary) {
+      throw new Error("Invalid beneficiary");
+    }
+    // let voucherType;
+    // if (data.phone == "1") voucherType = "FREE_VOUCHER";
+    // else voucherType = "DISCOUNT_VOUCHER";
+    history.push("/redeem-voucher", { data: { data: beneficiary } });
   };
 
   const onSubmit = async (data: any) => {
@@ -87,7 +92,6 @@ const ChargeBeneficiary = ({ data }: any) => {
               setValue={setValue}
               control={control}
             />
-            <br />
             <IonButton
               mode="md"
               type="submit"

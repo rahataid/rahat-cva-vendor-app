@@ -144,7 +144,9 @@ function Settings() {
               <IonIcon icon={option.startIcon} slot="start" />
 
               <IonLabel>{option.label}</IonLabel>
-              {option?.endIcon && <IonIcon icon={option.endIcon} slot="end" />}
+              {option?.endIcon && (
+                <IonIcon icon={option.endIcon} slot="end" color="medium" />
+              )}
             </IonItem>
           ))}
         </IonList>

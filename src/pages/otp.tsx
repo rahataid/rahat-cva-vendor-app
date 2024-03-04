@@ -13,12 +13,13 @@ type Props = {
   selectedInput: "phone" | "walletAddress";
 };
 interface LocationState {
-  data: Props;
+  data: IBeneficiary;
 }
 
 const OTPPage: React.FC = () => {
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
+  console.log(data);
   return (
     <IonPage>
       <CustomHeader title="OTP" showBackButton />

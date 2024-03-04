@@ -15,48 +15,47 @@ import {
 } from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { ellipsisHorizontal } from "ionicons/icons";
+import { ellipsisHorizontal, swapHorizontalOutline } from "ionicons/icons";
 import { useRef, useState } from "react";
 import "./transactions-card.scss";
 import { useHistory } from "react-router";
+import { BENEFICIARY_TYPE, IBeneficiary } from "@types/beneficiaries";
+import { formatDate } from "@utils/helperFunctions";
 
 type Props = {
-  transaction: ITransactionItem;
-  key: number;
+  data: IBeneficiary;
 };
-const TransactionCard = ({ transaction, key }: Props) => {
-  const history = useHistory();
-  const popover = useRef<HTMLIonPopoverElement>(null);
-  const [popoverOpen, setPopoverOpen] = useState(false);
-
-  const openPopover = (e: any) => {
-    popover.current!.event = e;
-    setPopoverOpen(true);
-  };
-
-  const handleViewDetail = () => {
-    history.push("/tabs/transactions/0x23123872349");
-  };
-
+const TransactionCard = ({ data }: Props) => {
   return (
-    <IonGrid key={key}>
+    <IonGrid className="px-0">
       <IonRow>
-        <IonCol size="9">
-          <IonCardContent className="px-0 pb-0">
-            <h2>
-              <strong>Claim Processed</strong>
-            </h2>
-            <p>{transaction?.projectName}</p>
-            <p>
-              {new Date(transaction?.createdAt).toLocaleString() ||
-                "-" ||
-                "N/A"}
-            </p>
-          </IonCardContent>
+        <IonCol size="3" className="home-tx-left-col">
+          <div className="icon-wrapper-round">
+            <IonIcon
+              icon={swapHorizontalOutline}
+              // color={
+              //   el?.beneficiaryType ===
+              //   BENEFICIARY_TYPE.REFERRED
+              //     ? "success"
+              //     : "warning"
+              // }
+            ></IonIcon>
+          </div>
+          {data?.beneficiaryType === BENEFICIARY_TYPE.REFERRED ? (
+            <IonText color="success">
+              <p>Referred</p>
+            </IonText>
+          ) : (
+            <IonText color="warning">
+              <p>Enrolled</p>
+            </IonText>
+          )}
         </IonCol>
-        <IonCol size="3" className="tlist-right-col">
-          <IonText color="success">
-            <p className="m-0">{transaction?.type}</p>
+        <IonCol size="9" className="home-tx-right-col">
+          <IonText>
+            <h2>Claim Processed</h2>
+            <p>{data?.name || "-"}</p>
+            <p>{formatDate(data?.createdAt) || "-"}</p>
           </IonText>
         </IonCol>
       </IonRow>

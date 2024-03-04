@@ -1,13 +1,20 @@
 .home-tx-left-col {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
+  margin-top: 13px;
+  gap: 4px;
   padding: 0;
 }
 
 .home-tx-right-col {
-  padding-left: 10px;
+  padding-left: 0px;
   padding-right: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .ion-list-no-padding {
@@ -52,4 +59,8 @@
   ion-button {
     width: 100%;
   }
+}
+
+.stats-card-container {
+  height: 130px;
 }

@@ -35,14 +35,16 @@ const ReferSection = ({
         </IonCol>
 
         <IonCol size="7" className="refer-section-right-col">
-          <IonButton
-            color="danger"
-            fill="clear"
-            size="small"
-            onClick={handleRemove}
-          >
-            <IonIcon icon={removeCircleOutline} />
-          </IonButton>
+          {index > 0 && (
+            <IonButton
+              color="danger"
+              fill="clear"
+              size="small"
+              onClick={handleRemove}
+            >
+              <IonIcon icon={removeCircleOutline} />
+            </IonButton>
+          )}
         </IonCol>
       </IonRow>
       <Controller
@@ -91,7 +93,7 @@ const ReferSection = ({
           />
         )}
         rules={{
-          required: "Please enter Phone number",
+          required: "Please enter hone number",
           minLength: {
             value: 7,
             message: "Phone Number must be at least 7 digits",

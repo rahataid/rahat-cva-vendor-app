@@ -28,17 +28,22 @@ import {
   trashSharp,
 } from "ionicons/icons";
 import { useHistory } from "react-router";
+import { formatDate } from "@utils/helperFunctions";
 
 type Props = {
   beneficiary: IBeneficiary;
+  handleDelete: any;
 };
-const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
+const ReferredBeneficiaryCard = ({
+  beneficiary,
+  handleDelete: onHandleDelete,
+}: Props) => {
   const history = useHistory();
 
   const [showAlert, setShowAlert] = useState(false);
   const handleViewDetails = (isReferred: boolean) => {
     // Logic to view details
-    history.push("/tabs/referred-beneficiaries/:id");
+    history.push(`/tabs/referred-beneficiaries/${beneficiary.uuid}`);
   };
 
   const popover = useRef<HTMLIonPopoverElement>(null);
@@ -46,6 +51,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
 
   const openPopover = (e: any) => {
     popover.current!.event = e;
+    console.log(e);
     setPopoverOpen(true);
   };
 
@@ -59,6 +65,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
   };
 
   const handleConfirmDelete = () => {
+    onHandleDelete(beneficiary.uuid);
     setShowAlert(false);
   };
 
@@ -91,9 +98,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                 <IonText>
                   <h2>{beneficiary?.name}</h2>
                   <p>{beneficiary?.phone}</p>
-                  <p>
-                    {new Date(beneficiary?.createdAt).toLocaleString() || "-"}
-                  </p>
+                  <p>{formatDate(beneficiary?.createdAt) || "-"}</p>
                 </IonText>
               </IonCol>
               <IonCol size="5" className="beneficiary-right-col">
@@ -102,7 +107,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                   fill="clear"
                   onClick={openPopover}
                 >
-                  <IonIcon icon={ellipsisHorizontal} />
+                  <IonIcon icon={ellipsisHorizontal} color="medium" />
                 </IonButton>
                 <IonPopover
                   mode="md"

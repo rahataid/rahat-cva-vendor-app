@@ -19,10 +19,7 @@ import useTransactionStore from "@store/transaction";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 
 type Props = {
-  data: {
-    transactionPayload: ITransactionItem;
-    selectedBeneficiary: IBeneficiary;
-  };
+  data: IBeneficiary;
 };
 
 const OTP = ({ data }: Props) => {
@@ -52,7 +49,7 @@ const OTP = ({ data }: Props) => {
 
   const onSubmit = () => {
     console.log("OTP SUBMITTED");
-    history.push("/transaction-result");
+    history.push("/transaction-result", { data });
   };
 
   const handleCancel = () => {

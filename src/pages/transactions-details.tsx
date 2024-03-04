@@ -7,22 +7,27 @@ import TransactionDetails from "@sections/settings/transactions-settings/transac
 import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
 import { BENEFICIARY_TYPE, VOUCHER } from "@types/beneficiaries";
 import { useParams } from "react-router";
+import { mockBeneficiaries } from "@utils/mockData";
 
-const details: TransactionDetail = {
-  beneficiaryName: "Mani Byanjankar",
-  phone: "9864587899",
-  status: TRANSACTION_STATUS.SUCCESS,
-  beneficiaryType: BENEFICIARY_TYPE.ENROLLED,
-  createdAt: 1632960000000,
-  transactionHash: "0x1234567890",
-  voucherSymbol: "USDT",
-  voucherType: VOUCHER.FREE_VOUCHER,
-};
+// const details: TransactionDetail = {
+//   beneficiaryName: "Mani Byanjankar",
+//   phone: "9864587899",
+//   status: TRANSACTION_STATUS.SUCCESS,
+//   beneficiaryType: BENEFICIARY_TYPE.ENROLLED,
+//   createdAt: 1632960000000,
+//   transactionHash: "0x1234567890",
+//   voucherSymbol: "USDT",
+//   voucherType: VOUCHER.FREE_VOUCHER,
+// };
 
 const TransactionsDetailPage: React.FC = () => {
   //   const { vendorTransactions } = useTransactionStore();
-  const { txHash } = useParams<{ txHash: string }>();
-  console.log("TXHASH", txHash);
+  const { txHash: uuid } = useParams<{ txHash: string }>();
+  console.log("uuid", uuid);
+  const beneficiaries = mockBeneficiaries;
+  const data = beneficiaries.find((item) => item.uuid === uuid);
+  console.log("data", data);
+
   return (
     <IonPage>
       <CustomHeader title="Transaction Details" showBackButton />
@@ -30,7 +35,7 @@ const TransactionsDetailPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <TransactionDetails data={details} />
+              <TransactionDetails data={data} />
             </IonCol>
           </IonRow>
         </IonGrid>

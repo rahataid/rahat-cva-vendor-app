@@ -25,13 +25,14 @@ import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { VOUCHER } from "@types/beneficiaries";
 import { homeOutline } from "ionicons/icons";
+import CustomDivider from "@components/divider";
 
 const options: SelectInputOptions = [
   { label: "Male", value: "MALE" },
   { label: "Female", value: "FEMALE" },
 ];
 
-const RedeemVoucher: React.FC = ({ voucherType }: any) => {
+const RedeemVoucher: React.FC = ({ data }: any) => {
   const history = useHistory();
   const {
     handleSubmit,
@@ -47,7 +48,7 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
     },
   });
   const handleRedeem = () => {
-    history.push("/otp");
+    history.push("/otp", { data });
   };
   const handleRefer = () => {
     history.push("/refer-beneficiaries");
@@ -79,16 +80,16 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                         Beneficiary Name:
                       </IonCol>
                       <IonCol size="6" className="pr-0">
-                        Mani Byanjankar
+                        {data?.name || "-"}
                       </IonCol>
                       <IonCol size="6" className="pl-0">
                         Voucher Type:
                       </IonCol>
                       <IonCol size="6" className="pr-0">
-                        {(voucherType === VOUCHER.DISCOUNT_VOUCHER && (
+                        {(data?.voucherType === VOUCHER.DISCOUNT_VOUCHER && (
                           <IonText color="success">Discount Voucher</IonText>
                         )) ||
-                          (voucherType === VOUCHER.FREE_VOUCHER && (
+                          (data?.voucherType === VOUCHER.FREE_VOUCHER && (
                             <IonText color="warning">Free Voucher</IonText>
                           ))}
                       </IonCol>
@@ -117,13 +118,13 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                             }}
                             onBlur={field.onBlur}
                           >
-                            {voucherType === VOUCHER.FREE_VOUCHER ? (
+                            {data?.voucherType === VOUCHER.FREE_VOUCHER ? (
                               <>
                                 <IonSelectOption value="GLASSES_REQUIRED">
                                   Checked, Glasses Required
                                 </IonSelectOption>
                                 <IonSelectOption value="GLASSES_NOT_REQUIRED">
-                                  Checked, No Glasses Needed
+                                  Checked, Glasses Not Required
                                 </IonSelectOption>
                               </>
                             ) : (
@@ -150,8 +151,11 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                         </IonText>
                       }
 
-                      <IonCol size="12" className="pl-0 py-0">
-                        <br />
+                      <IonCol
+                        size="12"
+                        className="px-0"
+                        style={{ marginTop: "10px" }}
+                      >
                         <IonButton
                           type="submit"
                           mode="md"
@@ -164,9 +168,11 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                       </IonCol>
                     </IonRow>
                     <br />
+                    <CustomDivider />
+                    <br />
                     <IonRow>
-                      {voucherType === "DISCOUNT_VOUCHER" ? (
-                        <IonCol size="12" className="pl-0">
+                      {data?.voucherType === "DISCOUNT_VOUCHER" ? (
+                        <IonCol size="12" className="px-0">
                           <IonButton
                             mode="md"
                             expand="block"
@@ -174,7 +180,8 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                             disabled={
                               !isValid ||
                               isSubmitting ||
-                              getValues("status") === "GLASSES_NOT_REQUIRED"
+                              getValues("status") === "GLASSES_NOT_REQUIRED" ||
+                              getValues("status") === "GLASSES_NOT_BOUGHT"
                             }
                             onClick={handleRedeem}
                           >
@@ -183,12 +190,7 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                         </IonCol>
                       ) : (
                         <>
-                          <IonCol
-                            sizeXs="6"
-                            sizeSm="6"
-                            size="6"
-                            className="pl-0"
-                          >
+                          <IonCol size="12" className="px-0">
                             <IonButton
                               mode="md"
                               expand="block"
@@ -196,19 +198,17 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                               disabled={
                                 !isValid ||
                                 isSubmitting ||
-                                getValues("status") === "GLASSES_NOT_REQUIRED"
+                                getValues("status") ===
+                                  "GLASSES_NOT_REQUIRED" ||
+                                getValues("status") === "GLASSES_NOT_BOUGHT"
                               }
                               onClick={handleRedeem}
                             >
                               Redeem Voucher
                             </IonButton>
                           </IonCol>
-                          <IonCol
-                            sizeXs="6"
-                            sizeSm="6"
-                            size="6"
-                            className="pr-0"
-                          >
+
+                          <IonCol size="12" className="px-0">
                             <IonButton
                               mode="md"
                               expand="block"
@@ -221,9 +221,8 @@ const RedeemVoucher: React.FC = ({ voucherType }: any) => {
                         </>
                       )}
 
-                      {voucherType === VOUCHER.DISCOUNT_VOUCHER && (
+                      {data?.voucherType === VOUCHER.DISCOUNT_VOUCHER && (
                         <IonCol sizeSm="12" sizeMd="12" className="px-0">
-                          <br />
                           <IonButton
                             onClick={handleGoHome}
                             expand="block"

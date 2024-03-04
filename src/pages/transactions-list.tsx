@@ -4,16 +4,19 @@ import TransactionsList from "@sections/settings/transactions-settings/transacti
 import CustomHeader from "@components/header/customHeader";
 import useTransactionStore from "@store/transaction";
 import { ITransactionItem } from "@types/transactions";
+import { mockBeneficiaries } from "@utils/mockData";
+import { sortBeneficiariesByDate } from "@utils/helperFunctions";
 
 const TransactionsListPage: React.FC = () => {
   // const { vendorTransactions } = useTransactionStore();
-  const data: ITransactionItem[] = [
-    {
-      projectName: "CVA Project",
-      createdAt: 1632960000000,
-      type: "ENROLLED",
-    },
-  ];
+  // const data: ITransactionItem[] = [
+  //   {
+  //     projectName: "CVA Project",
+  //     createdAt: 1632960000000,
+  //     type: "ENROLLED",
+  //   },
+  // ];
+  const data = sortBeneficiariesByDate(mockBeneficiaries);
   return (
     <IonPage>
       <CustomHeader title="Transactions List" />

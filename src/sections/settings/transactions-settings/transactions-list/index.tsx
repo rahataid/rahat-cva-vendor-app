@@ -1,6 +1,8 @@
 import {
+  IonCardContent,
   IonCardHeader,
   IonCardTitle,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -11,38 +13,58 @@ import { ITransactionItem } from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useHistory } from "react-router";
+import { IBeneficiary } from "@types/beneficiaries";
+import { chevronForwardOutline } from "ionicons/icons";
 
 type Props = {
-  data: ITransactionItem[] | [];
+  data: IBeneficiary[] | [] | any;
 };
 const TransactionsList = ({ data }: Props) => {
   const history = useHistory();
-  const handleViewDetail = () => {
-    history.push("/tabs/transactions/0x23123872349");
+  const handleViewDetail = (uuid: string) => {
+    history.push(`/tabs/transactions/${uuid}`);
   };
+
+  console.log();
+
   return (
     <>
-      {data?.length ? (
+      {Object.keys(data)?.length ? (
         <>
           <TransparentCard>
             <IonList mode="md">
-              <IonListHeader>
-                <IonLabel>
-                  <IonText>
-                    <p>9/30/2021</p>
-                  </IonText>
-                </IonLabel>
-              </IonListHeader>
-              {data.map((el, i) => (
-                <IonItem
-                  key={i}
-                  button={true}
-                  onClick={handleViewDetail}
-                  lines="full"
-                >
-                  <TransactionCard key={i} transaction={el} />
-                </IonItem>
-              ))}
+              {Object.keys(data).map((key, i) => {
+                return (
+                  <div key={i}>
+                    <IonListHeader>
+                      <IonLabel>
+                        <IonText>
+                          <p>{key}</p>
+                        </IonText>
+                      </IonLabel>
+                    </IonListHeader>
+                    <IonCardContent>
+                      {data[key]?.map((el, i) => (
+                        <IonItem
+                          key={i}
+                          button={true}
+                          lines="full"
+                          onClick={() =>
+                            history.push(`/tabs/transactions/${el?.uuid}`)
+                          }
+                        >
+                          <TransactionCard data={el} />
+                          <IonIcon
+                            icon={chevronForwardOutline}
+                            slot="end"
+                            color="medium"
+                          />
+                        </IonItem>
+                      ))}
+                    </IonCardContent>
+                  </div>
+                );
+              })}
             </IonList>
           </TransparentCard>
         </>

@@ -29,9 +29,9 @@ const DynamicForm = () => {
     max: 3,
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     console.log(data, "DATA ========>");
-    history.push("/refer-result");
+    history.push("/refer-result", { data });
   };
 
   const handleRemove = (index: number) => {

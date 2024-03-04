@@ -7,13 +7,14 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import { BENEFICIARY_TYPE, VOUCHER } from "@types/beneficiaries";
+import { BENEFICIARY_TYPE, IBeneficiary, VOUCHER } from "@types/beneficiaries";
 import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
 import ResultChip from "@components/chip/statusChip";
 import { useHistory } from "react-router";
+import { cropString, formatDate } from "@utils/helperFunctions";
 
 type Props = {
-  data: TransactionDetail;
+  data: IBeneficiary;
 };
 
 const TransactionResult = ({ data }: Props) => {
@@ -33,7 +34,7 @@ const TransactionResult = ({ data }: Props) => {
               <ResultChip status={data?.status} />
             </IonCol>
             <IonCol size="6">Beneficiary Name</IonCol>
-            <IonCol size="6">{data?.beneficiaryName}</IonCol>
+            <IonCol size="6">{data?.name}</IonCol>
             <IonCol size="6">Voucher Type</IonCol>
             <IonCol size="6">
               <IonText
@@ -59,12 +60,10 @@ const TransactionResult = ({ data }: Props) => {
               </IonText>
             </IonCol>
             <IonCol size="6">Date</IonCol>
-            <IonCol size="6">
-              {new Date(data?.createdAt).toLocaleString() || "-"}
-            </IonCol>
+            <IonCol size="6">{formatDate(`${new Date()}`) || "-"}</IonCol>
 
             <IonCol size="6">Transaction Hash</IonCol>
-            <IonCol size="6">{data?.transactionHash}</IonCol>
+            <IonCol size="6">{cropString(data?.transactionHash) || "-"}</IonCol>
             <IonCol size="6">Voucher Symbol</IonCol>
             <IonCol size="6">{data?.voucherSymbol}</IonCol>
             <IonCol size="6">Phone</IonCol>
@@ -76,16 +75,20 @@ const TransactionResult = ({ data }: Props) => {
               </IonText>
             </IonCol>
 
-            <br />
-            <IonCol size="12">
-              <IonButton
-                color="warning"
-                expand="block"
-                onClick={handleReferBeneficiaries}
-              >
-                Refer Beneficiaries
-              </IonButton>
-            </IonCol>
+            {data?.voucherType === "FREE_VOUCHER" && (
+              <>
+                <br />
+                <IonCol size="12">
+                  <IonButton
+                    color="warning"
+                    expand="block"
+                    onClick={handleReferBeneficiaries}
+                  >
+                    Refer Beneficiaries
+                  </IonButton>
+                </IonCol>
+              </>
+            )}
 
             <IonRow className="gap-5"></IonRow>
             <IonCol size="12">

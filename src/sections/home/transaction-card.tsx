@@ -7,56 +7,60 @@ import {
   IonGrid,
   IonIcon,
   IonItem,
+  IonLabel,
   IonList,
   IonRow,
+  IonSegment,
+  IonSegmentButton,
+  IonSkeletonText,
   IonText,
+  IonThumbnail,
 } from "@ionic/react";
 import { ITransactionItem } from "../../types/transactions";
 import { useHistory } from "react-router";
-import { cropString } from "@utils/helperFunctions";
+import { cropString, formatDate } from "@utils/helperFunctions";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { BENEFICIARY_TYPE } from "../../types/beneficiaries";
-import { swapHorizontalOutline } from "ionicons/icons";
+import { IBeneficiary, BENEFICIARY_TYPE } from "../../types/beneficiaries";
+import { chevronForwardOutline, swapHorizontalOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import "./home.scss";
+import { useEffect, useState } from "react";
+import { useFilteredTransactions } from "@hooks/use-filtered-transactions";
+type Props = {
+  transactionsList: IBeneficiary[];
+};
 
-const transactionsList: ITransactionItem[] = [
-  {
-    projectName: "CVA Project",
-    createdAt: 1632960000000,
-    type: BENEFICIARY_TYPE.ENROLLED,
-  },
-  {
-    projectName: "CVA Project",
-    createdAt: 1708678411,
-    type: BENEFICIARY_TYPE.ENROLLED,
-  },
-  {
-    projectName: "CVA Project",
-    createdAt: 1507678311,
-    type: BENEFICIARY_TYPE.REFERRED,
-  },
-  {
-    projectName: "CVA Project",
-    createdAt: 1308678411,
-    type: BENEFICIARY_TYPE.REFERRED,
-  },
-  {
-    projectName: "CVA Project",
-    createdAt: 1668678411,
-    type: BENEFICIARY_TYPE.ENROLLED,
-  },
-];
-
-const TransactionCard = () => {
+const TransactionCard = ({ transactionsList }: Props) => {
   const history = useHistory();
+  const [filter, setFilter] = useState("ALL");
+  const { filteredTransactions, loading } = useFilteredTransactions(
+    transactionsList,
+    filter
+  );
   return (
     <TransparentCard>
       <IonCardHeader>
         <IonCardTitle>Transactions</IonCardTitle>
       </IonCardHeader>
       <IonCardContent>
-        <IonGrid>
+        <IonSegment
+          value={filter}
+          mode="md"
+          onIonChange={(e: any) => {
+            setFilter(e.detail.value);
+          }}
+        >
+          <IonSegmentButton value="ALL">
+            <IonLabel>All</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value="ENROLLED">
+            <IonLabel>Enrolled</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value="REFERRED">
+            <IonLabel>Referred</IonLabel>
+          </IonSegmentButton>
+        </IonSegment>
+        {/* <IonGrid>
           <IonRow>
             <IonCol className="filter-btn-container">
               <IonButton size="small" color="primary" fill="outline">
@@ -74,51 +78,104 @@ const TransactionCard = () => {
               </IonButton>
             </IonCol>
           </IonRow>
-        </IonGrid>
-        <CustomDivider />
-        <IonList className="ion-list-no-padding" mode="md">
-          <>
-            {transactionsList?.length ? (
-              transactionsList
-                ?.slice(-1)
-                .reverse()
-                .map((el, i) => (
-                  <IonItem
-                    key={i}
-                    button={true}
-                    lines="full"
-                    onClick={() =>
-                      history.push(`/tabs/transactions/${el?.createdAt}`)
-                    }
-                  >
-                    <>
-                      <IonGrid className="px-0">
-                        <IonRow>
-                          <IonCol size="2" className="home-tx-left-col">
-                            <div className="icon-wrapper-round">
-                              <IonIcon icon={swapHorizontalOutline}></IonIcon>
-                            </div>
-                          </IonCol>
-                          <IonCol size="10" className="home-tx-right-col">
-                            <IonText>
-                              <h2>Claim Processed</h2>
-                              <p>
-                                {el?.projectName}{" "}
-                                {new Date(el?.createdAt).toLocaleString() ||
-                                  "-"}
-                              </p>
-                            </IonText>
-                          </IonCol>
-                        </IonRow>
-                      </IonGrid>
-                    </>
-                  </IonItem>
-                ))
-            ) : (
-              <IonText>No data available...</IonText>
-            )}
-          </>
-        </IonList>
+        </IonGrid> */}
+        {/* <CustomDivider /> */}
+        {loading ? (
+          <IonList className="ion-list-no-padding" mode="md">
+            {[1, 2, 3, 4, 5].map((index) => (
+              <IonItem key={index}>
+                <IonThumbnail slot="start">
+                  <IonSkeletonText animated={true}></IonSkeletonText>
+                </IonThumbnail>
+                <IonLabel>
+                  <h3>
+                    <IonSkeletonText
+                      animated={true}
+                      style={{ width: "80%" }}
+                    ></IonSkeletonText>
+                  </h3>
+                  <p>
+                    <IonSkeletonText
+                      animated={true}
+                      style={{ width: "60%" }}
+                    ></IonSkeletonText>
+                  </p>
+                  <p>
+                    <IonSkeletonText
+                      animated={true}
+                      style={{ width: "80%" }}
+                    ></IonSkeletonText>
+                  </p>
+                </IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        ) : (
+          <IonList className="ion-list-no-padding" mode="md">
+            <>
+              {filteredTransactions?.length ? (
+                filteredTransactions
+                  ?.slice(-5)
+                  .reverse()
+                  .map((el, i) => (
+                    <IonItem
+                      key={i}
+                      button={true}
+                      lines="full"
+                      onClick={() =>
+                        history.push(`/tabs/transactions/${el?.uuid}`)
+                      }
+                    >
+                      <>
+                        <IonGrid className="px-0">
+                          <IonRow>
+                            <IonCol size="3" className="home-tx-left-col">
+                              <div className="icon-wrapper-round">
+                                <IonIcon
+                                  icon={swapHorizontalOutline}
+                                  // color={
+                                  //   el?.beneficiaryType ===
+                                  //   BENEFICIARY_TYPE.REFERRED
+                                  //     ? "success"
+                                  //     : "warning"
+                                  // }
+                                ></IonIcon>
+                              </div>
+                              {el?.beneficiaryType ===
+                              BENEFICIARY_TYPE.REFERRED ? (
+                                <IonText color="success">
+                                  <p>Referred</p>
+                                </IonText>
+                              ) : (
+                                <IonText color="warning">
+                                  <p>Enrolled</p>
+                                </IonText>
+                              )}
+                            </IonCol>
+                            <IonCol size="9" className="home-tx-right-col">
+                              <IonText>
+                                <h2>Claim Processed</h2>
+                                <p>{el?.name}</p>
+                                <p>{formatDate(el.createdAt) || "-"}</p>
+                              </IonText>
+                            </IonCol>
+                          </IonRow>
+                        </IonGrid>
+                        <IonIcon
+                          icon={chevronForwardOutline}
+                          slot="end"
+                          color="medium"
+                        />
+                      </>
+                    </IonItem>
+                  ))
+              ) : (
+                <IonText>No data available...</IonText>
+              )}
+            </>
+          </IonList>
+        )}
+
         <IonButton
           disabled={false}
           expand="block"

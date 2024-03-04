@@ -37,6 +37,7 @@ const Home = ({
   projectSettings,
   vendorTransactions,
   handleReload,
+  loading,
 }: PropTypes) => {
   const history = useHistory();
 
@@ -105,12 +106,14 @@ const Home = ({
         }}
       >
         <CardComponent
-          subtitle="No. of free vouchers redeemed"
+          subtitle="No. Of Free Vouchers Redeemed"
           title={allowance || "loading..."}
+          loading={loading}
         />
         <CardComponent
-          subtitle="No. of discount vouchers redeemed"
+          subtitle="No. Of Discount Vouchers Redeemed"
           title={disbursed || "loading..."}
+          loading={loading}
         />
       </div>
       <div>

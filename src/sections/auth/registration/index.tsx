@@ -110,8 +110,8 @@ const Register = () => {
                     message: "Please enter Phone number",
                   },
                   minLength: {
-                    value: 6,
-                    message: "Phone Number must be at least 6 digits",
+                    value: 7,
+                    message: "Phone Number must be at least 7 digits",
                   },
                 }}
                 control={control}

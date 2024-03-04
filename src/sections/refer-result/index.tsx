@@ -17,6 +17,7 @@ const ReferResult = ({ data }: any) => {
   const handleGoHome = () => {
     history.push("/tabs/home");
   };
+  console.log("REFER RESULT", data);
   return (
     <>
       <TransparentCard>
@@ -27,8 +28,10 @@ const ReferResult = ({ data }: any) => {
         </IonCardHeader>
         <IonCardContent>
           <IonGrid>
-            {data?.length ? (
-              data?.map((el: any, i: number) => <ReferItem data={el} key={i} />)
+            {data?.beneficiaries?.length ? (
+              data?.beneficiaries?.map((el: any, i: number) => (
+                <ReferItem data={el} key={i} />
+              ))
             ) : (
               <h2>No Data Available...</h2>
             )}

@@ -1,6 +1,7 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 import { BENEFICIARY_TYPE, IBeneficiary, VOUCHER } from "@types/beneficiaries";
+import { formatDate } from "@utils/helperFunctions";
 
 type Props = {
   data: IBeneficiary;
@@ -35,7 +36,7 @@ const ReferredBeneficiaryDetails = ({ data }: Props) => {
           <IonCol size="6">
             <IonText
               color={
-                data.beneficiaryType === BENEFICIARY_TYPE.ENROLLED
+                data.beneficiaryType === BENEFICIARY_TYPE.REFERRED
                   ? "success"
                   : "warning"
               }
@@ -46,9 +47,7 @@ const ReferredBeneficiaryDetails = ({ data }: Props) => {
           <IonCol size="6">Wallet Address</IonCol>
           <IonCol size="6">{data.walletAddress}</IonCol>
           <IonCol size="6">Date</IonCol>
-          <IonCol size="6">
-            {new Date(data.createdAt)?.toLocaleString() || "-"}
-          </IonCol>
+          <IonCol size="6">{formatDate(data.createdAt) || "-"}</IonCol>
         </IonRow>
       </IonGrid>
     </TransparentCard>
