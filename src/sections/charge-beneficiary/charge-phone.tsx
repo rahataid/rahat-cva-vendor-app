@@ -29,7 +29,11 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
           required: "Please enter phone number",
           minLength: {
             value: 10,
-            message: "Phone Number must be at least 10 digits",
+            message: "Phone Number must be of 10 digits",
+          },
+          maxLength: {
+            value: 10,
+            message: "Phone Number must be of 10 digits",
           },
         }}
         control={control}

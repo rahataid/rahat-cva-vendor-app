@@ -111,7 +111,11 @@ const Register = () => {
                   },
                   minLength: {
                     value: 10,
-                    message: "Phone Number must be at least 10 digits",
+                    message: "Phone Number must be of 10 digits",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "Phone Number must be of 10 digits",
                   },
                 }}
                 control={control}
