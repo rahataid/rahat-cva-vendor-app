@@ -93,10 +93,10 @@ const ReferSection = ({
           />
         )}
         rules={{
-          required: "Please enter hone number",
+          required: "Please enter phone number",
           minLength: {
-            value: 7,
-            message: "Phone Number must be at least 7 digits",
+            value: 10,
+            message: "Phone Number must be at least 10 digits",
           },
         }}
       />

@@ -28,8 +28,8 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
         rules={{
           required: "Please enter phone number",
           minLength: {
-            value: 7,
-            message: "Phone Number must be at least 7 digits",
+            value: 10,
+            message: "Phone Number must be at least 10 digits",
           },
         }}
         control={control}
