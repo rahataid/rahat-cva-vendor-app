@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
     <IonPage>
       <CustomHeader title="Home" />
       <IonContent fullscreen>
-        {isLoading && <IndeterminateLoader />}
+        {isLoading && !chainData?.isVendorApproved && <IndeterminateLoader />}
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
