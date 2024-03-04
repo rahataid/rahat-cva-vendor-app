@@ -39,7 +39,7 @@ const FormInputSelect: React.FC<any> = forwardRef(
       setIsTouched(true);
     };
     return (
-      <>
+      <div style={{ ...props.style }}>
         {label && (
           <>
             <IonLabel className={`text-input-label`}>{label}</IonLabel>
@@ -74,10 +74,9 @@ const FormInputSelect: React.FC<any> = forwardRef(
             <IonText className="select-input-error-text">
               {props.errorText}
             </IonText>
-            <div />
           </>
         )}
-      </>
+      </div>
     );
   }
 );
