@@ -106,12 +106,12 @@ const Home = ({
         }}
       >
         <CardComponent
-          subtitle="No. Of Free Vouchers Redeemed"
+          subtitle="Free Vouchers Redeemed"
           title={"4" || "loading..."}
           loading={false}
         />
         <CardComponent
-          subtitle="No. Of Discount Vouchers Redeemed"
+          subtitle="Discount Vouchers Redeemed"
           title={"5" || "loading..."}
           loading={false}
         />

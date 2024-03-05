@@ -42,11 +42,11 @@ const TransactionCard = ({ data }: Props) => {
             ></IonIcon>
           </div>
           {data?.beneficiaryType === BENEFICIARY_TYPE.REFERRED ? (
-            <IonText color="success">
+            <IonText className="transaction-icon-label" color="success">
               <p>Referred</p>
             </IonText>
           ) : (
-            <IonText color="warning">
+            <IonText className="transaction-icon-label" color="warning">
               <p>Enrolled</p>
             </IonText>
           )}

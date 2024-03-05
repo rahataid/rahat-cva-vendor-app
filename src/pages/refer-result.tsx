@@ -39,7 +39,7 @@ const ReferResultPage: React.FC = () => {
   console.log("refer result", data);
   return (
     <IonPage>
-      <CustomHeader title="Refer Details" showBackButton />
+      <CustomHeader title="Refer Details" />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

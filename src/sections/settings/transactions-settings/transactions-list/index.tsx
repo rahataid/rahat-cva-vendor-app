@@ -43,7 +43,7 @@ const TransactionsList = ({ data }: Props) => {
                         </IonText>
                       </IonLabel>
                     </IonListHeader>
-                    <IonCardContent>
+                    <IonCardContent className="transactions-container">
                       {data[key]?.map((el, i) => (
                         <IonItem
                           key={i}
@@ -55,6 +55,7 @@ const TransactionsList = ({ data }: Props) => {
                         >
                           <TransactionCard data={el} />
                           <IonIcon
+                            className="end-icon"
                             icon={chevronForwardOutline}
                             slot="end"
                             color="medium"

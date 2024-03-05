@@ -42,8 +42,9 @@ const TransactionCard = ({ transactionsList }: Props) => {
       <IonCardHeader>
         <IonCardTitle>Transactions</IonCardTitle>
       </IonCardHeader>
-      <IonCardContent>
+      <IonCardContent className="transactions-container">
         <IonSegment
+          swipeGesture={true}
           value={filter}
           mode="md"
           onIonChange={(e: any) => {
@@ -51,13 +52,13 @@ const TransactionCard = ({ transactionsList }: Props) => {
           }}
         >
           <IonSegmentButton value="ALL">
-            <IonLabel>All</IonLabel>
+            <IonLabel className="segment-label">All</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="ENROLLED">
-            <IonLabel>Enrolled</IonLabel>
+            <IonLabel className="segment-label">Enrolled</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="REFERRED">
-            <IonLabel>Referred</IonLabel>
+            <IonLabel className="segment-label">Referred</IonLabel>
           </IonSegmentButton>
         </IonSegment>
         {/* <IonGrid>
@@ -119,6 +120,7 @@ const TransactionCard = ({ transactionsList }: Props) => {
                   .reverse()
                   .map((el, i) => (
                     <IonItem
+                      mode="md"
                       key={i}
                       button={true}
                       lines="full"
@@ -143,11 +145,17 @@ const TransactionCard = ({ transactionsList }: Props) => {
                               </div>
                               {el?.beneficiaryType ===
                               BENEFICIARY_TYPE.REFERRED ? (
-                                <IonText color="success">
+                                <IonText
+                                  className="transaction-icon-label"
+                                  color="success"
+                                >
                                   <p>Referred</p>
                                 </IonText>
                               ) : (
-                                <IonText color="warning">
+                                <IonText
+                                  className="transaction-icon-label"
+                                  color="warning"
+                                >
                                   <p>Enrolled</p>
                                 </IonText>
                               )}
@@ -162,6 +170,7 @@ const TransactionCard = ({ transactionsList }: Props) => {
                           </IonRow>
                         </IonGrid>
                         <IonIcon
+                          className="end-icon"
                           icon={chevronForwardOutline}
                           slot="end"
                           color="medium"

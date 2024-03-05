@@ -1,0 +1,27 @@
+@media (max-width: 385px) {
+  //transactions list
+  .transactions-container {
+    padding-left: 0;
+    padding-right: 0;
+
+    .segment-label {
+      font-size: 11px;
+    }
+    .transaction-icon-label {
+      font-size: 0.7rem;
+    }
+    .end-icon {
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 399px) {
+  //home page stats card
+  .stats-card-container {
+    .subtitle-container {
+      height: 66px;
+    }
+  }
+}

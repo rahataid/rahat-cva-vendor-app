@@ -28,7 +28,9 @@ const CardComponent: React.FC<CardProps> = ({
     <TransparentCard className="stats-card-container">
       {image && <IonImg src={image} />}
       <IonCardHeader>
-        <IonCardSubtitle>{subtitle}</IonCardSubtitle>
+        <IonCardSubtitle className="subtitle-container">
+          {subtitle}
+        </IonCardSubtitle>
         {loading ? (
           <IonCardTitle>
             <IonSkeletonText

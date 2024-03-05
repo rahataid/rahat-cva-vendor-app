@@ -17,7 +17,6 @@ const ReferResult = ({ data }: any) => {
   const handleGoHome = () => {
     history.push("/tabs/home");
   };
-  console.log("REFER RESULT", data);
   return (
     <>
       <TransparentCard>
