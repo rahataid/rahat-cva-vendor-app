@@ -12,7 +12,7 @@ import React from "react";
 import "./home.scss";
 
 interface CardProps {
-  title: string;
+  title: number;
   subtitle: string;
   image?: string;
   loading?: boolean;

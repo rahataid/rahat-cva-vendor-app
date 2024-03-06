@@ -1,6 +1,6 @@
 import useAppStore from "@store/app";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
 import useTransactionStore from "@store/transaction";
@@ -91,6 +91,53 @@ export function useVendorChainData(
   return {
     chainData: dataChain,
     isLoading: loading,
+    error,
+  };
+}
+
+export function useVendorVoucher(
+  walletAddress: string,
+  queryService: any
+): any {
+  const { data, isLoading, error } = useQuery(
+    ["vendorVouchers", walletAddress],
+    async () => {
+      const res = await queryService.useVendorVoucher(
+        "0x37A9D9460e3C242792ddcF33DcA89C62AF27B95e"
+        // walletAddress
+      );
+      return res;
+    },
+    {
+      staleTime: 60000,
+    }
+  );
+
+  return {
+    data,
+    isLoading,
+    error,
+  };
+}
+
+export function useVendorTransaction(walletAddress: string, queryService: any) {
+  const { data, isLoading, error } = useQuery(
+    ["vendorTransactions", walletAddress],
+    async () => {
+      const res = await queryService.useVendorTransaction(
+        "0x37A9D9460e3C242792ddcF33DcA89C62AF27B95e",
+        walletAddress
+      );
+      return res;
+    },
+    {
+      staleTime: 60000,
+    }
+  );
+
+  return {
+    data,
+    isLoading,
     error,
   };
 }

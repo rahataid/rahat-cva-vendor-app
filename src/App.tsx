@@ -22,6 +22,7 @@ import { useState } from "react";
 
 import Router from "@navigations/router";
 import "./theme/global.scss";
+import { GraphQueryProvider } from "@contexts/graph-query";
 
 setupIonicReact();
 
@@ -31,7 +32,9 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <QueryClientProvider client={queryClient}>
-        <Router />
+        <GraphQueryProvider>
+          <Router />
+        </GraphQueryProvider>
       </QueryClientProvider>
     </IonApp>
   );
