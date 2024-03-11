@@ -7,9 +7,15 @@ export enum TRANSACTION_STATUS {
 }
 
 export type ITransactionItem = {
-  projectName: string;
-  createdAt: number;
-  type: BENEFICIARY_TYPE;
+  beneficiaryAddress?: string;
+  blockNumber?: string;
+  blockTimestamp?: string;
+  eventType?: string;
+  id?: string;
+  referrerBeneficiaries: string;
+  referrerVendor?: string;
+  transactionHash?: string;
+  __typename?: string;
 };
 
 export type TransactionDetail = {

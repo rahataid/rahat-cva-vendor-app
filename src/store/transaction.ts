@@ -1,4 +1,4 @@
-import { ITransactionItem, TRANSACTION_STATUS } from "@types/transactions";
+import { ITransactionItem } from "@types/transactions";
 import {
   createStore,
   ionicIdbStorage,
@@ -6,9 +6,15 @@ import {
 } from "@utils/storeUtils";
 import { createJSONStorage } from "zustand/middleware";
 import useAppStore, { AppStoreType } from "./app";
-import { getWalletUsingMnemonic, signMessage } from "@utils/web3";
+import {
+  createContractInstance,
+  getMetaTxRequest,
+  getWalletUsingMnemonic,
+  signMessage,
+} from "@utils/web3";
 import VendorsService from "@services/vendors";
-import { setTransactionStatus } from "@utils/helperFunctions";
+import { BENEFICIARY_ADDRESS, RPC_URL } from "../config";
+import { BENEFICIARY_VOUCHER_DETAILS, VOUCHER } from "@types/beneficiaries";
 
 export type TransactionStoreType = TransactionStateType &
   TransactionActionsType;
@@ -21,13 +27,12 @@ export type TransactionStateType = {
 
 type TransactionActionsType = {
   referredAppStoreState: () => AppStoreType;
-  addTransaction: (data: ITransactionItem) => Promise<void>;
-  setTransactions: (data: ITransactionItem[]) => Promise<void>;
-  triggerUpdate: () => void;
-  setVendorTransactions: (data: ITransactionItem[]) => Promise<void>;
-  getVendorTransactions: () => Promise<[] | ITransactionItem[]>;
-  getPendingOfflineTransactions: () => Promise<[] | ITransactionItem[]>;
-  syncTransactions: () => Promise<void>;
+
+  redeemVoucher: (
+    voucherType: VOUCHER,
+    voucher?: BENEFICIARY_VOUCHER_DETAILS
+  ) => Promise<any>;
+  verifyOtp: (otp: string, beneficiaryAddress: string) => Promise<any>;
   logoutTransactions: () => void;
 };
 
@@ -38,90 +43,115 @@ const useTransactionStore = createStore<TransactionStoreType>(
     triggerUpdateState: false,
     referredAppStoreState: () => useAppStore.getState(),
 
-    setTransactions: async (data: ITransactionItem[]) => {
-      set({ transactions: data });
-    },
+    redeemVoucher: async (voucherType, voucher) => {
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { ELProject, ERC2771Forwarder },
+          network,
+        },
+      } = referredAppStoreState();
 
-    setVendorTransactions: async (data: ITransactionItem[]) => {
-      set({ vendorTransactions: data });
-    },
+      // const ElProjectInstance = await createContractInstance(
+      //   RPC_URL,
+      //   ELProject
+      // );
 
-    triggerUpdate: () => {
-      set({ triggerUpdateState: !get().triggerUpdateState });
-    },
+      // const ElProjectInstance =
+      //   await createContractInstanceUsingRahatAdminWallet(RPC_URL, ELProject);
 
-    addTransaction: async (data: ITransactionItem) => {
-      const { transactions, getVendorTransactions } = get();
-      // const vendorTransactions = await getVendorTransactions(wallet?.address);
-      set({ transactions: [...transactions, data] });
-    },
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-    getVendorTransactions: async () => {
-      const { transactions, referredAppStoreState } = get();
-      const { wallet } = referredAppStoreState();
-      if (!transactions?.length) return [];
-      const filteredTransactions = transactions.filter(
-        (transaction) => transaction.vendorWalletAddress === wallet?.address
-      );
-      return filteredTransactions;
-    },
-
-    getPendingOfflineTransactions: async () => {
-      // only get vendor's offline transactions with status = NEW || FAIL
-      const { transactions, referredAppStoreState } = get();
-      const { wallet } = referredAppStoreState();
-
-      if (!transactions?.length) return [];
-
-      const cond1 = (item: any) => item.isOffline;
-      const cond2 = (item: any) =>
-        item.status === "NEW" || item.status === "FAIL";
-      const cond3 = (item: any) => item.vendorWalletAddress === wallet?.address;
-
-      const offlineTransactions = transactions.filter(
-        (el) => cond1(el) && cond2(el) && cond3(el)
+      const ElProjectInstance = await createContractInstance(
+        RPC_URL,
+        ELProject
       );
 
-      return offlineTransactions;
-    },
+      const ForwarderContractInstance = await createContractInstance(
+        RPC_URL,
+        ERC2771Forwarder
+      );
 
-    syncTransactions: async () => {
-      const { transactions, setTransactions, referredAppStoreState } = get();
-      const { wallet } = referredAppStoreState();
-      const walletValue = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
-
-      const offlineTransactions = await get().getPendingOfflineTransactions();
-      if (!offlineTransactions?.length)
-        throw new Error("No pending transactions to sync");
-
-      const signedMessage = await signMessage({
-        wallet: walletValue,
-        message: offlineTransactions,
+      // let res;
+      let metaTxRequest;
+      if (voucherType === VOUCHER.FREE_VOUCHER) {
+        // res = await ElProjectInstance.requestTokenFromBeneficiary(
+        //   BENEFICIARY_ADDRESS
+        // );
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          ForwarderContractInstance,
+          ElProjectInstance,
+          "requestTokenFromBeneficiary(address)",
+          [BENEFICIARY_ADDRESS]
+        );
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        // res = await ElProjectInstance.requestReferredTokenFromBeneficiary(
+        //   BENEFICIARY_ADDRESS,
+        //   voucher.ReferredVoucherAddress
+        // );
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          ForwarderContractInstance,
+          ElProjectInstance,
+          "requestReferredTokenFromBeneficiary",
+          [BENEFICIARY_ADDRESS, voucher?.ReferredVoucherAddress]
+        );
+      }
+      const payload = {
+        ...metaTxRequest,
+        gas: metaTxRequest.gas.toString(),
+        nonce: metaTxRequest.nonce.toString(),
+        value: metaTxRequest.value.toString(),
+      };
+      await VendorsService.executeMetaTxRequest({
+        metaTxRequest: payload,
       });
 
-      const payload = {
-        message: offlineTransactions,
-        signedMessage,
-      };
+      // return res;
+    },
 
-      try {
-        const res = await VendorsService.syncTransactions(payload);
-        const updatedTransactions = setTransactionStatus(
-          transactions,
-          offlineTransactions,
-          TRANSACTION_STATUS.SUCCESS,
-          res?.data
-        );
-        setTransactions(updatedTransactions);
-      } catch (error) {
-        const updatedTransactions = setTransactionStatus(
-          transactions,
-          offlineTransactions,
-          TRANSACTION_STATUS.FAIL
-        );
-        setTransactions(updatedTransactions);
-        throw error;
-      }
+    verifyOtp: async (otp, beneficiaryAddress) => {
+      //processTokenRequest
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { ELProject, ERC2771Forwarder },
+        },
+      } = referredAppStoreState();
+
+      // const ElProjectInstance =
+      //   await createContractInstanceUsingRahatAdminWallet(RPC_URL, ELProject);
+      // const res = await ElProjectInstance.procesTokenRequest(
+      //   beneficiaryAddress,
+      //   otp
+      // );
+      // console.log("RES", res);
+      // return res;
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+      const ElProjectInstance = await createContractInstance(
+        RPC_URL,
+        ELProject
+      );
+
+      const ForwarderContractInstance = await createContractInstance(
+        RPC_URL,
+        ERC2771Forwarder
+      );
+
+      const metaTxRequest = await getMetaTxRequest(
+        walletInstance,
+        ForwarderContractInstance,
+        ElProjectInstance,
+        "processTokenRequest",
+        [beneficiaryAddress, otp]
+      );
+      await VendorsService.executeMetaTxRequest({
+        metaTxRequest,
+      });
     },
 
     logoutTransactions: () => {

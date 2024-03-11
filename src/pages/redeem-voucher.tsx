@@ -1,15 +1,13 @@
 import CustomHeader from "@components/header/customHeader";
 import { IonContent, IonPage } from "@ionic/react";
-import ChargeBeneficiary from "@sections/charge-beneficiary";
 import RedeemVoucher from "@sections/redeem-voucher";
-import { IBeneficiary, VOUCHER } from "@types/beneficiaries";
 import { useLocation } from "react-router";
 
 const RedeemVoucherPage: React.FC = () => {
   type Prop = {
-    data: IBeneficiary;
+    data: any;
+    voucher: any;
   };
-
   interface LocationState {
     data: Prop | null;
   }
@@ -19,7 +17,7 @@ const RedeemVoucherPage: React.FC = () => {
     <IonPage>
       <CustomHeader title="Redeem Voucher" showBackButton />
       <IonContent>
-        <RedeemVoucher data={data?.data} />
+        <RedeemVoucher data={data?.data} voucher={data?.voucher} />
       </IonContent>
     </IonPage>
   );

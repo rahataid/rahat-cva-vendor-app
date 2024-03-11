@@ -1,13 +1,4 @@
-import {
-  IonButton,
-  IonCardContent,
-  IonCardHeader,
-  IonCol,
-  IonGrid,
-  IonLoading,
-  IonRow,
-  isPlatform,
-} from "@ionic/react";
+import { IonButton, IonCardContent, IonLoading } from "@ionic/react";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,10 +7,11 @@ import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import useAppStore from "@store/app";
+import { useGraphService } from "@contexts/graph-query";
+import { BENEFICIARY_ADDRESS } from "../../config";
 
 const ChargeBeneficiary = ({ data }: any) => {
-  const { mockData } = useAppStore();
+  const { queryService } = useGraphService();
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
 
@@ -37,25 +29,34 @@ const ChargeBeneficiary = ({ data }: any) => {
     },
   });
 
-  const beneficiaries = mockData;
-
   const fetchBeneficiaryVoucher = async (data: any) => {
     console.log("SUBMIT BENEFICIARY VOUCHER", data);
-    const beneficiary = beneficiaries.find((el) => el.phone == data.phone);
-    if (!beneficiary) {
-      throw new Error("Invalid beneficiary");
-    }
-    // let voucherType;
-    // if (data.phone == "1") voucherType = "FREE_VOUCHER";
-    // else voucherType = "DISCOUNT_VOUCHER";
-    history.push("/redeem-voucher", { data: { data: beneficiary } });
+
+    const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
+      BENEFICIARY_ADDRESS
+    );
+
+    console.log("BENEFICIARY VOUCHER", beneficiaryVoucher);
+    return {
+      //  beneficiary,  get beneficiary details from phone number from the backend
+      beneficiaryVoucher,
+    };
   };
 
   const onSubmit = async (data: any) => {
     try {
       setLoadingVisible(true);
-      await fetchBeneficiaryVoucher(data);
+      const {
+        // beneficiary,
+        beneficiaryVoucher,
+      } = await fetchBeneficiaryVoucher(data);
       setLoadingVisible(false);
+      history.push("/redeem-voucher", {
+        data: {
+          //  data: beneficiary,
+          voucher: beneficiaryVoucher,
+        },
+      });
     } catch (error: any) {
       setLoadingVisible(false);
       console.log(error);

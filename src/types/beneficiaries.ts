@@ -60,3 +60,13 @@ export enum ESTIMATED_AGE {
   "91-95" = "91-95",
   "86-10" = "86-10",
 }
+
+export type BENEFICIARY_VOUCHER_DETAILS = {
+  FreeVoucherAddress?: string;
+  FreeVoucherClaimStatus?: boolean;
+  ReferredVoucherAddress?: string;
+  ReferredVoucherClaimStatus?: boolean;
+  beneficiaryAddress: string;
+  id: string;
+  __typename: string;
+};

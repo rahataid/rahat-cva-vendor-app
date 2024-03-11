@@ -17,22 +17,16 @@ import { useState } from "react";
 import useTransactionStore from "@store/transaction";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import { BENEFICIARY_ADDRESS } from "../../../config";
 
 type Props = {
   data: IBeneficiary;
 };
 
 const OTP = ({ data: transactionData }: Props) => {
+  const { verifyOtp } = useTransactionStore();
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
-  const {
-    projectSettings: {
-      contracts: { CVAProject, ERC2771Forwarder },
-      network: { rpcUrl },
-    },
-    wallet,
-  } = useAppStore();
-  const { addTransaction } = useTransactionStore();
   const {
     handleSubmit,
     setError,
@@ -47,9 +41,11 @@ const OTP = ({ data: transactionData }: Props) => {
     },
   });
 
-  const onSubmit = (data: { otp: string }) => {
+  const onSubmit = async (data: { otp: string }) => {
     try {
-      if (data?.otp != "1234") throw new Error("Invalid OTP");
+      // if (data?.otp != "1234") throw new Error("Invalid OTP");
+      // console.log(transactionData);
+      await verifyOtp(data?.otp, BENEFICIARY_ADDRESS);
       history.push("/transaction-result", { data: transactionData });
     } catch (error) {
       setError("root.serverError", {

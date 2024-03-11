@@ -69,11 +69,15 @@ const SelectProject = ({ from }: Props) => {
       if (from === "register") {
         const [blockchain, contracts, contractDetails, vendor] =
           await Promise.all([
-            axios.get(`${projectUrl}${endpoints.projectSettings.blockchain}`),
-            axios.get(`${projectUrl}${endpoints.projectSettings.contracts}`),
+            axios.get(
+              `${projectUrl}${endpoints.projectSettings.settings("Blockchain")}`
+            ),
+            axios.get(
+              `${projectUrl}${endpoints.projectSettings.settings("Contract")}`
+            ),
             axios.get(
               `${projectUrl}${endpoints.projectSettings.contractDetails(
-                "CVAProject"
+                "ELProject"
               )}`
             ),
             axios.post(`${projectUrl}${endpoints.vendors.add}`, currentUser),
@@ -103,20 +107,26 @@ const SelectProject = ({ from }: Props) => {
         setCurrentUser(payload);
 
         const [blockchain, contracts, contractDetails] = await Promise.all([
-          axios.get(`${projectUrl}${endpoints.projectSettings.blockchain}`),
-          axios.get(`${projectUrl}${endpoints.projectSettings.contracts}`),
+          axios.get(
+            `${projectUrl}${endpoints.projectSettings.settings("Blockchain")}`
+          ),
+          axios.get(
+            `${projectUrl}${endpoints.projectSettings.settings("Contract")}`
+          ),
           axios.get(
             `${projectUrl}${endpoints.projectSettings.contractDetails(
-              "CVAProject"
+              "ELProject"
             )}`
           ),
         ]);
 
+        console.log({ blockchain, contracts });
+
         if (contracts?.data && blockchain?.data && contractDetails?.data) {
           const projectSettings = {
             baseUrl: data?.projectURL,
-            contracts: contracts?.data?.value,
-            network: blockchain?.data?.value,
+            contracts: contracts?.data?.rows[0].value,
+            network: blockchain?.data?.rows[0].value,
             projectId: contractDetails?.data?.address,
           };
           await setProjectSettings(projectSettings);

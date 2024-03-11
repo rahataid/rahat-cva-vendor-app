@@ -13,15 +13,24 @@ import {
 import "./redeem-voucher.scss";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { VOUCHER } from "@types/beneficiaries";
+import { BENEFICIARY_VOUCHER_DETAILS, VOUCHER } from "@types/beneficiaries";
 import { homeOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAppStore from "@store/app";
+import { useGraphService } from "@contexts/graph-query";
+import useTransactionStore from "@store/transaction";
 
-const RedeemVoucher: React.FC = ({ data }: any) => {
-  const { mockData, setMockData } = useAppStore();
+type Props = {
+  data: any;
+  voucher: BENEFICIARY_VOUCHER_DETAILS;
+};
+
+const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
+  const { redeemVoucher } = useTransactionStore();
+  const [voucherType, setVoucherType] = useState(null);
+
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const history = useHistory();
   const {
@@ -38,9 +47,29 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
       eyeCheckupStatus: data?.eyeCheckupStatus || "",
     },
   });
-  const handleRedeem = () => {
-    history.push("/otp", { data });
+
+  const handleUpdateStatus = async () => {};
+
+  const handleRedeemVoucher = async () => {
+    try {
+      if (voucherType === VOUCHER.FREE_VOUCHER)
+        await redeemVoucher(VOUCHER.FREE_VOUCHER);
+      else await redeemVoucher(VOUCHER.DISCOUNT_VOUCHER, voucher);
+
+      history.push("/otp", {
+        data: {
+          voucher,
+        },
+      });
+    } catch (error) {
+      setSubmitSuccess(false);
+      setError("root.serverError", {
+        type: "manual",
+        message: error?.message || "Something went wrong! Try again later.",
+      });
+    }
   };
+
   const handleRefer = () => {
     history.push("/refer-beneficiaries");
   };
@@ -50,25 +79,18 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
   const handleInputChange = () => {
     setSubmitSuccess(false);
   };
-  const onSubmit = (formData: any) => {
-    try {
-      const payload = mockData.map((el) => {
-        if (el.uuid === data.uuid) return { ...el, ...formData };
-        return el;
-      });
-      setMockData(payload);
-      setSubmitSuccess(true);
-      // throw new Error("ERORR");
-    } catch (error: any) {
-      setSubmitSuccess(false);
-      setError("root.serverError", {
-        type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
-      });
+
+  useEffect(() => {
+    if (voucher) {
+      if (voucher.FreeVoucherClaimStatus !== null)
+        setVoucherType("FREE_VOUCHER");
+      else if (voucher.ReferredVoucherClaimStatus !== null)
+        setVoucherType("DISCOUNT_VOUCHER");
     }
-  };
+  }, []);
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <IonGrid>
         <IonRow className="ion-justify-content-center">
           <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
@@ -86,10 +108,10 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                       Voucher Type:
                     </IonCol>
                     <IonCol size="6" className="pr-0">
-                      {(data?.voucherType === VOUCHER.DISCOUNT_VOUCHER && (
+                      {(voucherType === VOUCHER.DISCOUNT_VOUCHER && (
                         <IonText color="success">Discount Voucher</IonText>
                       )) ||
-                        (data?.voucherType === VOUCHER.FREE_VOUCHER && (
+                        (voucherType === VOUCHER.FREE_VOUCHER && (
                           <IonText color="warning">Free Voucher</IonText>
                         ))}
                     </IonCol>
@@ -186,7 +208,7 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                       </IonText>
                     )}
                   </IonCol>
-                  <IonCol
+                  {/* <IonCol
                     size="12"
                     className="px-0"
                     style={{ marginTop: "10px" }}
@@ -200,50 +222,97 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                     >
                       Save Status
                     </IonButton>
-                  </IonCol>
+                  </IonCol> */}
                   <br />
                   <CustomDivider />
                   <br />
                   <IonRow>
                     {data?.voucherType === "DISCOUNT_VOUCHER" ? (
-                      <IonCol size="12" className="px-0">
-                        <IonButton
-                          mode="md"
-                          expand="block"
-                          color="success"
-                          disabled={
-                            // !isValid ||
-                            isSubmitting ||
-                            !getValues("glassesStatus") ||
-                            getValues("glassesStatus") ===
-                              "GLASSES_NOT_REQUIRED" ||
-                            getValues("glassesStatus") === "GLASSES_NOT_BOUGHT"
-                          }
-                          onClick={handleRedeem}
-                        >
-                          Redeem Vouchers
-                        </IonButton>
-                      </IonCol>
+                      <>
+                        <IonCol size="12" className="px-0">
+                          {getValues("glassesStatus") ===
+                            "GLASSES_NOT_REQUIRED" ||
+                          getValues("glassesStatus") ===
+                            "GLASSES_NOT_BOUGHT" ? (
+                            <IonButton
+                              mode="md"
+                              expand="block"
+                              color="primary"
+                              disabled={
+                                isSubmitting || !getValues("glassesStatus")
+                              }
+                              onClick={() => handleUpdateStatus()}
+                            >
+                              Update Status
+                            </IonButton>
+                          ) : (
+                            <IonButton
+                              mode="md"
+                              expand="block"
+                              color="success"
+                              disabled={
+                                // !isValid ||
+                                isSubmitting ||
+                                !getValues("glassesStatus") ||
+                                getValues("glassesStatus") ===
+                                  "GLASSES_NOT_REQUIRED" ||
+                                getValues("glassesStatus") ===
+                                  "GLASSES_NOT_BOUGHT"
+                              }
+                              onClick={() => handleRedeemVoucher()}
+                            >
+                              Redeem Vouchers
+                            </IonButton>
+                          )}
+                        </IonCol>
+                        <IonCol sizeSm="12" sizeMd="12" className="px-0">
+                          <IonButton
+                            onClick={handleGoHome}
+                            expand="block"
+                            fill="outline"
+                          >
+                            <IonIcon slot="start" icon={homeOutline} />
+                            Go To Homepage
+                          </IonButton>
+                        </IonCol>
+                      </>
                     ) : (
                       <>
                         <IonCol size="12" className="px-0">
-                          <IonButton
-                            mode="md"
-                            expand="block"
-                            color="success"
-                            disabled={
-                              // !isValid ||
-                              isSubmitting ||
-                              !getValues("glassesStatus") ||
-                              getValues("glassesStatus") ===
-                                "GLASSES_NOT_REQUIRED" ||
-                              getValues("glassesStatus") ===
-                                "GLASSES_NOT_BOUGHT"
-                            }
-                            onClick={handleRedeem}
-                          >
-                            Redeem Voucher
-                          </IonButton>
+                          {getValues("glassesStatus") ===
+                            "GLASSES_NOT_REQUIRED" ||
+                          getValues("glassesStatus") ===
+                            "GLASSES_NOT_BOUGHT" ? (
+                            <IonButton
+                              mode="md"
+                              expand="block"
+                              color="primary"
+                              disabled={
+                                isSubmitting || !getValues("glassesStatus")
+                              }
+                              onClick={() => handleUpdateStatus()}
+                            >
+                              Update Status
+                            </IonButton>
+                          ) : (
+                            <IonButton
+                              mode="md"
+                              expand="block"
+                              color="success"
+                              disabled={
+                                // !isValid ||
+                                isSubmitting ||
+                                !getValues("glassesStatus") ||
+                                getValues("glassesStatus") ===
+                                  "GLASSES_NOT_REQUIRED" ||
+                                getValues("glassesStatus") ===
+                                  "GLASSES_NOT_BOUGHT"
+                              }
+                              onClick={() => handleRedeemVoucher()}
+                            >
+                              Redeem Voucher
+                            </IonButton>
+                          )}
                         </IonCol>
 
                         <IonCol size="12" className="px-0">
@@ -257,19 +326,6 @@ const RedeemVoucher: React.FC = ({ data }: any) => {
                           </IonButton>
                         </IonCol>
                       </>
-                    )}
-
-                    {data?.voucherType === VOUCHER.DISCOUNT_VOUCHER && (
-                      <IonCol sizeSm="12" sizeMd="12" className="px-0">
-                        <IonButton
-                          onClick={handleGoHome}
-                          expand="block"
-                          fill="outline"
-                        >
-                          <IonIcon slot="start" icon={homeOutline} />
-                          Go To Homepage
-                        </IonButton>
-                      </IonCol>
                     )}
                   </IonRow>
                 </IonGrid>
