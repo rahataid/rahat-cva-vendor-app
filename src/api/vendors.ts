@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
 import useTransactionStore from "@store/transaction";
+import { VENDOR_ADDRESS } from "../config";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -103,7 +104,7 @@ export function useVendorVoucher(
     ["vendorVouchers", walletAddress],
     async () => {
       const res = await queryService.useVendorVoucher(
-        "0x37A9D9460e3C242792ddcF33DcA89C62AF27B95e"
+        VENDOR_ADDRESS
         // walletAddress
       );
       return res;
@@ -125,8 +126,8 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
     ["vendorTransactions", walletAddress],
     async () => {
       const res = await queryService.useVendorTransaction(
-        "0x37A9D9460e3C242792ddcF33DcA89C62AF27B95e",
-        walletAddress
+        VENDOR_ADDRESS
+        // walletAddress
       );
       return res;
     },
@@ -135,8 +136,24 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
     }
   );
 
+  const transactionsData = useMemo(() => {
+    if (!data?.data) return [];
+    const {
+      beneficiaryReferreds,
+      projectClaimProcesseds,
+      claimCreateds,
+      tokenRedeems,
+    } = data.data;
+    return [
+      ...beneficiaryReferreds,
+      ...projectClaimProcesseds,
+      ...claimCreateds,
+      ...tokenRedeems,
+    ];
+  }, [data]);
+
   return {
-    data,
+    data: transactionsData,
     isLoading,
     error,
   };

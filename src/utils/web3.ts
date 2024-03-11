@@ -108,7 +108,18 @@ export async function createContractInstance(rpcUrl: string, contract: any) {
   return new Contract(contract.address, contract.abi, provider);
 }
 
-export async function createContractInstanceUsingWallet(
+export async function createContractInstanceFromWallet(
+  rpcUrl: string,
+  contract: any,
+  privateKey: string
+) {
+  const provider = new JsonRpcProvider(rpcUrl);
+
+  const wallet = new ethers.Wallet(privateKey, provider);
+  return new Contract(contract.address, contract.abi, wallet);
+}
+
+export async function createContractInstanceUsingRahatAdminWallet(
   rpcUrl: string,
   contract: any
 ) {
@@ -118,17 +129,6 @@ export async function createContractInstanceUsingWallet(
   const wallet = new ethers.Wallet(RAHAT_ADMIN_PRIVATE_KEY, provider);
 
   //  Create an instance of the contract
-  return new Contract(contract.address, contract.abi, wallet);
-}
-
-export async function createContractInstanceFromWallet(
-  rpcUrl: string,
-  contract: any,
-  privateKey: string
-) {
-  const provider = new JsonRpcProvider(rpcUrl);
-
-  const wallet = new ethers.Wallet(privateKey, provider);
   return new Contract(contract.address, contract.abi, wallet);
 }
 

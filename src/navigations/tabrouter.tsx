@@ -61,7 +61,7 @@ const Tabs: React.FC = () => {
             exact
           />
           <Route
-            path="/tabs/transactions"
+            path="/tabs/transactions/list"
             component={TransactionsListPage}
             exact
           />
@@ -85,16 +85,16 @@ const Tabs: React.FC = () => {
           <IonIcon icon={homeOutline} />
           {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
-        <IonTabButton tab="transactions" href="/tabs/transactions">
+        <IonTabButton tab="transactions" href="/tabs/transactions/list">
           <IonIcon icon={swapHorizontalOutline} />
           {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
-        {chainData?.isVendorApproved && (
-          <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
-            <IonIcon icon={qrCodeOutline} />
-            {/* <IonLabel>Charge Beneficiary</IonLabel> */}
-          </IonTabButton>
-        )}
+
+        <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
+          <IonIcon icon={qrCodeOutline} />
+          {/* <IonLabel>Charge Beneficiary</IonLabel> */}
+        </IonTabButton>
+
         <IonTabButton
           tab="referred-beneficiaries"
           href="/tabs/referred-beneficiaries"

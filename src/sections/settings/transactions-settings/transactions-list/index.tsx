@@ -1,4 +1,5 @@
 import {
+  IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
@@ -7,7 +8,9 @@ import {
   IonLabel,
   IonList,
   IonListHeader,
+  IonSkeletonText,
   IonText,
+  IonThumbnail,
 } from "@ionic/react";
 import { ITransactionItem } from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
@@ -15,17 +18,29 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useHistory } from "react-router";
 import { IBeneficiary } from "@types/beneficiaries";
 import { chevronForwardOutline } from "ionicons/icons";
+import TransactionSkeleton from "@components/loaders/skeleton/transactions-list";
 
 type Props = {
   data: IBeneficiary[] | [] | any;
+  loading: boolean;
+  error: any;
 };
-const TransactionsList = ({ data }: Props) => {
+const TransactionsList = ({ data, loading }: Props) => {
   const history = useHistory();
   const handleViewDetail = (uuid: string) => {
     history.push(`/tabs/transactions/${uuid}`);
   };
 
   console.log();
+
+  if (loading)
+    return (
+      <TransparentCard>
+        <IonCardContent>
+          <TransactionSkeleton length={9} />
+        </IonCardContent>
+      </TransparentCard>
+    );
 
   return (
     <>
@@ -44,7 +59,7 @@ const TransactionsList = ({ data }: Props) => {
                       </IonLabel>
                     </IonListHeader>
                     <IonCardContent className="transactions-container">
-                      {data[key]?.map((el, i) => (
+                      {data[key]?.map((el: ITransactionItem, i: number) => (
                         <IonItem
                           key={i}
                           button={true}

@@ -82,28 +82,48 @@ export const validateTokenAmount = (
   return true;
 };
 
-export const formatDate = (timestamp: string) => {
-  const date = new Date(timestamp);
-  // Get day, month, year, hours, minutes, and seconds
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  const seconds = String(date.getSeconds()).padStart(2, "0");
-  const ampm = date.getHours() >= 12 ? "PM" : "AM";
+// export const formatDate = (timestamp: string) => {
+//   const date = new Date(timestamp);
+//   // Get day, month, year, hours, minutes, and seconds
+//   const day = String(date.getDate()).padStart(2, "0");
+//   const month = String(date.getMonth() + 1).padStart(2, "0");
+//   const year = date.getFullYear();
+//   const hours = String(date.getHours()).padStart(2, "0");
+//   const minutes = String(date.getMinutes()).padStart(2, "0");
+//   const seconds = String(date.getSeconds()).padStart(2, "0");
+//   const ampm = date.getHours() >= 12 ? "PM" : "AM";
 
-  // Construct the formatted date string
-  const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+//   // Construct the formatted date string
+//   const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+//   return formattedDate;
+// };
+
+export const formatDate = (timestamp: string) => {
+  const date = new Date(timestamp * 1000);
+
+  // Get the components of the date
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
+  const period = hours >= 12 ? "PM" : "AM";
+
+  // Convert hours to 12-hour format
+  const hours12 = hours % 12 || 12;
+
+  // Form the date string
+  const formattedDate = `${day}/${month}/${year} ${hours12}:${minutes}:${seconds} ${period}`;
   return formattedDate;
 };
 
-export const sortBeneficiariesByDate = (beneficiaries: IBeneficiary[]) => {
+export const sortBeneficiariesByDate = (beneficiaries: ITransactionItem[]) => {
   const beneficiariesByDate = {};
 
   beneficiaries.forEach((beneficiary) => {
     // Convert the createdAt timestamp to a Date object
-    const createdAtDate = new Date(beneficiary.createdAt);
+    const createdAtDate = new Date(beneficiary.blockTimestamp * 1000);
     // Get the date in 'dd/mm/yyyy' format
     const dateString = createdAtDate.toLocaleDateString("en-GB");
 

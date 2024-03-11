@@ -25,18 +25,16 @@ import { chevronForwardOutline, swapHorizontalOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import "./home.scss";
 import { useEffect, useState } from "react";
-import { useFilteredTransactions } from "@hooks/use-filtered-transactions";
+import TransactionSkeleton from "@components/loaders/skeleton/transactions-list";
 type Props = {
-  transactionsList: IBeneficiary[];
+  transactionsList: ITransactionItem[];
+  transactionsLoading?: boolean;
 };
 
-const TransactionCard = ({ transactionsList }: Props) => {
+const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
   const history = useHistory();
   const [filter, setFilter] = useState("ALL");
-  const { filteredTransactions, loading } = useFilteredTransactions(
-    transactionsList,
-    filter
-  );
+
   return (
     <TransparentCard>
       <IonCardHeader>
@@ -61,72 +59,22 @@ const TransactionCard = ({ transactionsList }: Props) => {
             <IonLabel className="segment-label">Referred</IonLabel>
           </IonSegmentButton>
         </IonSegment>
-        {/* <IonGrid>
-          <IonRow>
-            <IonCol className="filter-btn-container">
-              <IonButton size="small" color="primary" fill="outline">
-                All
-              </IonButton>
-            </IonCol>
-            <IonCol className="filter-btn-container">
-              <IonButton size="small" color="success" fill="outline">
-                Referred
-              </IonButton>
-            </IonCol>
-            <IonCol className="filter-btn-container">
-              <IonButton size="small" color="warning" fill="outline">
-                Enrolled
-              </IonButton>
-            </IonCol>
-          </IonRow>
-        </IonGrid> */}
-        {/* <CustomDivider /> */}
-        {loading ? (
-          <IonList className="ion-list-no-padding" mode="md">
-            {[1, 2, 3, 4, 5].map((index) => (
-              <IonItem key={index}>
-                <IonThumbnail slot="start">
-                  <IonSkeletonText animated={true}></IonSkeletonText>
-                </IonThumbnail>
-                <IonLabel>
-                  <h3>
-                    <IonSkeletonText
-                      animated={true}
-                      style={{ width: "80%" }}
-                    ></IonSkeletonText>
-                  </h3>
-                  <p>
-                    <IonSkeletonText
-                      animated={true}
-                      style={{ width: "60%" }}
-                    ></IonSkeletonText>
-                  </p>
-                  <p>
-                    <IonSkeletonText
-                      animated={true}
-                      style={{ width: "80%" }}
-                    ></IonSkeletonText>
-                  </p>
-                </IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
+        {transactionsLoading ? (
+          <TransactionSkeleton length={5} />
         ) : (
           <IonList className="ion-list-no-padding" mode="md">
             <>
-              {filteredTransactions?.length ? (
-                filteredTransactions
+              {transactionsList?.length ? (
+                transactionsList
                   ?.slice(-5)
                   .reverse()
-                  .map((el, i) => (
+                  .map((el: ITransactionItem, i: number) => (
                     <IonItem
                       mode="md"
                       key={i}
                       button={true}
                       lines="full"
-                      onClick={() =>
-                        history.push(`/tabs/transactions/${el?.uuid}`)
-                      }
+                      onClick={() => history.push(`/tabs/transactions/list`)}
                     >
                       <>
                         <IonGrid className="px-0">
@@ -143,7 +91,7 @@ const TransactionCard = ({ transactionsList }: Props) => {
                                   // }
                                 ></IonIcon>
                               </div>
-                              {el?.beneficiaryType ===
+                              {/* {el?.beneficiaryType ===
                               BENEFICIARY_TYPE.REFERRED ? (
                                 <IonText
                                   className="transaction-icon-label"
@@ -158,13 +106,14 @@ const TransactionCard = ({ transactionsList }: Props) => {
                                 >
                                   <p>Enrolled</p>
                                 </IonText>
-                              )}
+                              )} */}
                             </IonCol>
                             <IonCol size="9" className="home-tx-right-col">
                               <IonText>
-                                <h2>Claim Processed</h2>
-                                <p>{el?.name}</p>
-                                <p>{formatDate(el.createdAt) || "-"}</p>
+                                <h2>{el?.eventType}</h2>
+                                <p>{cropString(el?.beneficiaryAddress)}</p>
+                                <p>{cropString(el?.transactionHash)}</p>
+                                <p>{formatDate(el?.blockTimestamp) || "-"}</p>
                               </IonText>
                             </IonCol>
                           </IonRow>

@@ -18,15 +18,17 @@ type PropTypes = {
   vendorTransactions?: any;
   handleReload?: any;
   loading?: boolean;
+  transactionsLoading?: boolean;
 };
 
 const Home = ({
   voucherData,
   isVendor,
   projectSettings,
-  vendorTransactions,
+  transactionsData,
   handleReload,
   loading,
+  transactionsLoading,
 }: PropTypes) => {
   const history = useHistory();
 
@@ -106,7 +108,10 @@ const Home = ({
         />
       </div>
       <div>
-        <TransactionCard transactionsList={vendorTransactions} />
+        <TransactionCard
+          transactionsList={transactionsData}
+          transactionsLoading={transactionsLoading}
+        />
       </div>
     </>
   );
