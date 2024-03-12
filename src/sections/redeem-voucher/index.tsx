@@ -18,9 +18,10 @@ import { homeOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
 import { useEffect, useState } from "react";
-import useAppStore from "@store/app";
-import { useGraphService } from "@contexts/graph-query";
 import useTransactionStore from "@store/transaction";
+import { BENEFICIARY_ADDRESS } from "../../config";
+import CustomToast from "@components/toast";
+import useCustomToast from "@hooks/use-custom-toast";
 
 type Props = {
   data: any;
@@ -28,7 +29,10 @@ type Props = {
 };
 
 const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
-  const { redeemVoucher } = useTransactionStore();
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
+
+  const { redeemVoucher, updateStatus } = useTransactionStore();
   const [voucherType, setVoucherType] = useState(null);
 
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -48,7 +52,28 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
     },
   });
 
-  const handleUpdateStatus = async () => {};
+  const handleUpdateStatus = async () => {
+    try {
+      if (voucherType === VOUCHER.FREE_VOUCHER) {
+        await updateStatus(voucherType, BENEFICIARY_ADDRESS);
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        await updateStatus(
+          voucherType,
+          BENEFICIARY_ADDRESS,
+          voucher?.ReferredVoucherAddress
+        );
+      }
+      showToast("Status Updated Successfully", "success");
+      setSubmitSuccess(true);
+    } catch (error) {
+      showToast("Something went wrong! Try again later", "danger");
+      setSubmitSuccess(false);
+      setError("root.serverError", {
+        type: "manual",
+        message: error?.message || "Something went wrong! Try again later.",
+      });
+    }
+  };
 
   const handleRedeemVoucher = async () => {
     try {
@@ -91,6 +116,14 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
 
   return (
     <form>
+      <CustomToast
+        isOpen={toastVisible}
+        onDidDismiss={hideToast}
+        message={toastMessage}
+        duration={2000}
+        position="middle"
+        color={toastColor}
+      />
       <IonGrid>
         <IonRow className="ion-justify-content-center">
           <IonCol sizeMd="12" sizeLg="8" sizeXl="8">

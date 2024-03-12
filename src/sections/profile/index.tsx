@@ -37,6 +37,7 @@ import { copyToClipboard, cropString } from "@utils/helperFunctions";
 import { useState } from "react";
 import CustomToast from "@components/toast";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import useCustomToast from "@hooks/use-custom-toast";
 
 type PropTypes = {
   currentUser: any;
@@ -44,20 +45,22 @@ type PropTypes = {
 };
 
 const Profile = ({ currentUser }: PropTypes) => {
-  const [showToast, setShowToast] = useState(false);
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
   const handleCopyClick = (text: string) => {
     copyToClipboard(text);
-    setShowToast(true);
+    showToast("Text copied to clipboard!", "success");
   };
   return (
     <>
       {/* <IonLoading isOpen={isLoading} message={"Syncing..."} /> */}
       <CustomToast
-        isOpen={showToast}
-        onDidDismiss={() => setShowToast(false)}
-        message="Text copied to clipboard!"
+        isOpen={toastVisible}
+        onDidDismiss={() => hideToast()}
+        message={toastMessage}
         duration={2000}
         position="middle"
+        color={toastColor}
       />
       <TransparentCard>
         <IonList>

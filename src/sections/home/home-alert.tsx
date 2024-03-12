@@ -1,4 +1,5 @@
 import CustomToast from "@components/toast";
+import useCustomToast from "@hooks/use-custom-toast";
 import { IonButton, IonIcon, IonItem, IonLabel } from "@ionic/react";
 import useAppStore from "@store/app";
 import { alertCircleOutline } from "ionicons/icons";
@@ -21,8 +22,7 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
   onButtonClick,
   visible = false,
 }) => {
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
+  const { toastVisible, toastMessage, showToast, hideToast } = useCustomToast();
 
   const onDismiss = () => {
     onButtonClick();
@@ -33,8 +33,8 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
   return (
     <>
       <CustomToast
-        isOpen={showToast}
-        onDidDismiss={() => setShowToast(false)}
+        isOpen={toastVisible}
+        onDidDismiss={() => hideToast()}
         message={toastMessage}
         duration={2000}
         position="middle"
