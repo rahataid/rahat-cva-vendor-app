@@ -27,12 +27,17 @@ export type TransactionStateType = {
 
 type TransactionActionsType = {
   referredAppStoreState: () => AppStoreType;
-
+  triggerUpdate: () => void;
   redeemVoucher: (
     voucherType: VOUCHER,
     voucher?: BENEFICIARY_VOUCHER_DETAILS
   ) => Promise<any>;
   verifyOtp: (otp: string, beneficiaryAddress: string) => Promise<any>;
+  updateStatus: (
+    voucherType: VOUCHER,
+    beneficiaryAddress: string,
+    referralVoucherAddress?: string
+  ) => Promise<any>;
   logoutTransactions: () => void;
 };
 
@@ -42,6 +47,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
     vendorTransactions: [],
     triggerUpdateState: false,
     referredAppStoreState: () => useAppStore.getState(),
+
+    triggerUpdate: () => {
+      set({ triggerUpdateState: !get().triggerUpdateState });
+    },
 
     redeemVoucher: async (voucherType, voucher) => {
       const { referredAppStoreState } = get();
@@ -149,8 +158,69 @@ const useTransactionStore = createStore<TransactionStoreType>(
         "processTokenRequest",
         [beneficiaryAddress, otp]
       );
+      const payload = {
+        ...metaTxRequest,
+        gas: metaTxRequest.gas.toString(),
+        nonce: metaTxRequest.nonce.toString(),
+        value: metaTxRequest.value.toString(),
+      };
       await VendorsService.executeMetaTxRequest({
-        metaTxRequest,
+        metaTxRequest: payload,
+      });
+    },
+
+    updateStatus: async (
+      voucherType,
+      beneficiaryAddress,
+      referralVoucherAddress
+    ) => {
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { ELProject, ERC2771Forwarder },
+        },
+      } = referredAppStoreState();
+
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+      const ElProjectInstance = await createContractInstance(
+        RPC_URL,
+        ELProject
+      );
+
+      const ForwarderContractInstance = await createContractInstance(
+        RPC_URL,
+        ERC2771Forwarder
+      );
+
+      let metaTxRequest;
+      if (voucherType === VOUCHER.FREE_VOUCHER) {
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          ForwarderContractInstance,
+          ElProjectInstance,
+          "revertedClaims",
+          [beneficiaryAddress]
+        );
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          ForwarderContractInstance,
+          ElProjectInstance,
+          "revertedRefereedClaims",
+          [beneficiaryAddress, referralVoucherAddress]
+        );
+      }
+
+      const payload = {
+        ...metaTxRequest,
+        gas: metaTxRequest.gas.toString(),
+        nonce: metaTxRequest.nonce.toString(),
+        value: metaTxRequest.value.toString(),
+      };
+      await VendorsService.executeMetaTxRequest({
+        metaTxRequest: payload,
       });
     },
 

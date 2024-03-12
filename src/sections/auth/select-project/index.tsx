@@ -77,7 +77,7 @@ const SelectProject = ({ from }: Props) => {
             ),
             axios.get(
               `${projectUrl}${endpoints.projectSettings.contractDetails(
-                "ELProject"
+                "CVAProject"
               )}`
             ),
             axios.post(`${projectUrl}${endpoints.vendors.add}`, currentUser),
@@ -115,7 +115,7 @@ const SelectProject = ({ from }: Props) => {
           ),
           axios.get(
             `${projectUrl}${endpoints.projectSettings.contractDetails(
-              "ELProject"
+              "CVAProject"
             )}`
           ),
         ]);
