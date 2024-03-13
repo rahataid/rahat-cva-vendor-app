@@ -27,9 +27,6 @@ type Props = {
 };
 const TransactionsList = ({ data, loading }: Props) => {
   const history = useHistory();
-  const handleViewDetail = (uuid: string) => {
-    history.push(`/tabs/transactions/${uuid}`);
-  };
 
   console.log();
 
@@ -65,7 +62,9 @@ const TransactionsList = ({ data, loading }: Props) => {
                           button={true}
                           lines="full"
                           onClick={() =>
-                            history.push(`/tabs/transactions/${el?.uuid}`)
+                            history.push(`/tabs/transactions/details`, {
+                              data: { transaction: el },
+                            })
                           }
                         >
                           <TransactionCard data={el} />

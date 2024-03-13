@@ -66,7 +66,7 @@ const Tabs: React.FC = () => {
             exact
           />
           <Route
-            path="/tabs/transactions/:txHash"
+            path="/tabs/transactions/details"
             component={TransactionsDetailPage}
             exact
           />

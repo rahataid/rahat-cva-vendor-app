@@ -74,7 +74,11 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
                       key={i}
                       button={true}
                       lines="full"
-                      onClick={() => history.push(`/tabs/transactions/list`)}
+                      onClick={() =>
+                        history.push(`/tabs/transactions/details`, {
+                          data: { transaction: el },
+                        })
+                      }
                     >
                       <>
                         <IonGrid className="px-0">

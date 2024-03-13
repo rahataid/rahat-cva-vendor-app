@@ -1,19 +1,20 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
-import { BENEFICIARY_TYPE, VOUCHER } from "@types/beneficiaries";
-import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
+import { ITransactionItem } from "@types/transactions";
 import { cropString, formatDate } from "@utils/helperFunctions";
 
 type Props = {
-  data: TransactionDetail;
+  data: {
+    transaction: ITransactionItem;
+  };
 };
 
-const TransactionDetails = ({ data }: Props) => {
+const TransactionDetails = ({ data: { transaction } }: Props) => {
   return (
     <TransparentCard>
       <IonGrid>
         <IonRow>
-          <IonCol size="6">Status</IonCol>
+          {/* <IonCol size="6">Status</IonCol>
           <IonCol size="6">
             <IonText
               color={
@@ -24,12 +25,16 @@ const TransactionDetails = ({ data }: Props) => {
             >
               {data.status}
             </IonText>
-          </IonCol>
+          </IonCol> */}
           <IonCol size="6">Beneficiary Name</IonCol>
-          <IonCol size="6">{data.name || "-"}</IonCol>
+          <IonCol size="6">
+            {cropString(transaction?.beneficiaryAddress) || "-"}
+          </IonCol>
           <IonCol size="6">Phone Number</IonCol>
-          <IonCol size="6">{data.phone || "-"}</IonCol>
-          <IonCol size="6">Beneficiary Type</IonCol>
+          <IonCol size="6">
+            {cropString(transaction?.beneficiaryAddress) || "-"}
+          </IonCol>
+          {/* <IonCol size="6">Beneficiary Type</IonCol>
           <IonCol size="6">
             <IonText
               color={
@@ -42,8 +47,8 @@ const TransactionDetails = ({ data }: Props) => {
                 ? "Referred"
                 : "Enrolled"}
             </IonText>
-          </IonCol>
-          <IonCol size="6">Voucher Type</IonCol>
+          </IonCol> */}
+          {/* <IonCol size="6">Voucher Type</IonCol>
           <IonCol size="6">
             <IonText
               color={
@@ -56,11 +61,15 @@ const TransactionDetails = ({ data }: Props) => {
                 ? "Discount Voucher"
                 : "Free Voucher"}
             </IonText>
-          </IonCol>
+          </IonCol> */}
           <IonCol size="6">Transaction Hash</IonCol>
-          <IonCol size="6">{cropString(data.transactionHash) || "-"}</IonCol>
+          <IonCol size="6">
+            {cropString(transaction?.transactionHash) || "-"}
+          </IonCol>
           <IonCol size="6">Date</IonCol>
-          <IonCol size="6">{formatDate(data.createdAt) || "-"}</IonCol>
+          <IonCol size="6">
+            {formatDate(transaction?.blockTimestamp) || "-"}
+          </IonCol>
         </IonRow>
       </IonGrid>
     </TransparentCard>
