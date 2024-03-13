@@ -5,6 +5,7 @@ import {
   IonCol,
   IonGrid,
   IonIcon,
+  IonLoading,
   IonRow,
   IonSelectOption,
   IonText,
@@ -22,6 +23,7 @@ import useTransactionStore from "@store/transaction";
 import { BENEFICIARY_ADDRESS } from "../../config";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
+import useVoucherType from "@hooks/use-voucher-type";
 
 type Props = {
   data: any;
@@ -31,11 +33,11 @@ type Props = {
 const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-
   const { redeemVoucher, updateStatus } = useTransactionStore();
-  const [voucherType, setVoucherType] = useState(null);
+  const { voucherType } = useVoucherType(voucher);
 
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
   const history = useHistory();
   const {
     handleSubmit,
@@ -53,7 +55,9 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
   });
 
   const handleUpdateStatus = async () => {
+    setInProgress(true);
     try {
+      console.log("VOUCER TYPE", voucherType);
       if (voucherType === VOUCHER.FREE_VOUCHER) {
         await updateStatus(voucherType, BENEFICIARY_ADDRESS);
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
@@ -73,9 +77,11 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
         message: error?.message || "Something went wrong! Try again later.",
       });
     }
+    setInProgress(false);
   };
 
   const handleRedeemVoucher = async () => {
+    setInProgress(true);
     try {
       if (voucherType === VOUCHER.FREE_VOUCHER)
         await redeemVoucher(VOUCHER.FREE_VOUCHER);
@@ -84,6 +90,7 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
       history.push("/otp", {
         data: {
           voucher,
+          beneficiary: BENEFICIARY_ADDRESS,
         },
       });
     } catch (error) {
@@ -93,6 +100,7 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
         message: error?.message || "Something went wrong! Try again later.",
       });
     }
+    setInProgress(false);
   };
 
   const handleRefer = () => {
@@ -105,17 +113,9 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
     setSubmitSuccess(false);
   };
 
-  useEffect(() => {
-    if (voucher) {
-      if (voucher.FreeVoucherClaimStatus !== null)
-        setVoucherType("FREE_VOUCHER");
-      else if (voucher.ReferredVoucherClaimStatus !== null)
-        setVoucherType("DISCOUNT_VOUCHER");
-    }
-  }, []);
-
   return (
     <form>
+      <IonLoading mode="md" isOpen={inProgress} message={"Please wait..."} />
       <CustomToast
         isOpen={toastVisible}
         onDidDismiss={hideToast}
@@ -274,7 +274,7 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                               disabled={
                                 isSubmitting || !getValues("glassesStatus")
                               }
-                              onClick={() => handleUpdateStatus()}
+                              onClick={handleUpdateStatus}
                             >
                               Update Status
                             </IonButton>
@@ -292,9 +292,9 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                                 getValues("glassesStatus") ===
                                   "GLASSES_NOT_BOUGHT"
                               }
-                              onClick={() => handleRedeemVoucher()}
+                              onClick={handleRedeemVoucher}
                             >
-                              Redeem Vouchers
+                              Redeem Voucher
                             </IonButton>
                           )}
                         </IonCol>
@@ -323,7 +323,7 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                               disabled={
                                 isSubmitting || !getValues("glassesStatus")
                               }
-                              onClick={() => handleUpdateStatus()}
+                              onClick={handleUpdateStatus}
                             >
                               Update Status
                             </IonButton>
@@ -341,7 +341,7 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                                 getValues("glassesStatus") ===
                                   "GLASSES_NOT_BOUGHT"
                               }
-                              onClick={() => handleRedeemVoucher()}
+                              onClick={handleRedeemVoucher}
                             >
                               Redeem Voucher
                             </IonButton>

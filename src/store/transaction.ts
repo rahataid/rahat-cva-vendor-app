@@ -164,9 +164,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
         nonce: metaTxRequest.nonce.toString(),
         value: metaTxRequest.value.toString(),
       };
-      await VendorsService.executeMetaTxRequest({
+      const res = await VendorsService.executeMetaTxRequest({
         metaTxRequest: payload,
       });
+      return res?.data;
     },
 
     updateStatus: async (

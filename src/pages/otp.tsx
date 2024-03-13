@@ -2,24 +2,19 @@ import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import OTP from "@sections/claim/otp";
 import "../theme/title.css";
 import { useLocation } from "react-router-dom";
-import { IBeneficiary } from "../types/beneficiaries";
-import { ITransactionItem } from "../types/transactions";
+import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
 import CustomHeader from "@components/header/customHeader";
 
-type Props = {
-  transactionPayload: ITransactionItem;
-  selectedBeneficiary: IBeneficiary;
-  internetAccess: boolean;
-  selectedInput: "phone" | "walletAddress";
-};
 interface LocationState {
-  data: IBeneficiary;
+  data: {
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiary: string;
+  };
 }
 
 const OTPPage: React.FC = () => {
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
-  console.log(data);
   return (
     <IonPage>
       <CustomHeader title="OTP" showBackButton />

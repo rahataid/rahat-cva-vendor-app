@@ -1,24 +1,25 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import {
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonIcon,
-  IonRow,
-  IonText,
-} from "@ionic/react";
-import { BENEFICIARY_TYPE, IBeneficiary, VOUCHER } from "@types/beneficiaries";
-import { TRANSACTION_STATUS, TransactionDetail } from "@types/transactions";
+import { IonButton, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
+import { BENEFICIARY_VOUCHER_DETAILS, VOUCHER } from "@types/beneficiaries";
+import { MetaTxResponse } from "@types/transactions";
 import ResultChip from "@components/chip/statusChip";
 import { useHistory } from "react-router";
 import { cropString, formatDate } from "@utils/helperFunctions";
+import useVoucherType from "@hooks/use-voucher-type";
 
 type Props = {
-  data: IBeneficiary;
+  data: {
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiary: string;
+    otpRes: MetaTxResponse;
+  };
 };
 
-const TransactionResult = ({ data }: Props) => {
+const TransactionResult = ({
+  data: { voucher, beneficiary, otpRes },
+}: Props) => {
   const history = useHistory();
+  const { voucherType } = useVoucherType(voucher);
   const handleReferBeneficiaries = () => {
     history.push("/refer-beneficiaries");
   };
@@ -31,25 +32,25 @@ const TransactionResult = ({ data }: Props) => {
         <IonGrid>
           <IonRow>
             <IonCol size="12">
-              <ResultChip status={data?.status} />
+              <ResultChip status={otpRes?.status ? "SUCCESS" : "FAILED"} />
             </IonCol>
             <IonCol size="6">Beneficiary Name</IonCol>
-            <IonCol size="6">{data?.name}</IonCol>
+            <IonCol size="6">{cropString(beneficiary)}</IonCol>
             <IonCol size="6">Voucher Type</IonCol>
             <IonCol size="6">
               <IonText
                 color={
-                  data.voucherType === VOUCHER.DISCOUNT_VOUCHER
+                  voucherType === VOUCHER.DISCOUNT_VOUCHER
                     ? "success"
                     : "warning"
                 }
               >
-                {data.voucherType === VOUCHER.DISCOUNT_VOUCHER
+                {voucherType === VOUCHER.DISCOUNT_VOUCHER
                   ? "Discount Voucher"
                   : "Free Voucher"}
               </IonText>
             </IonCol>
-            <IonCol size="6">Beneficiary Type</IonCol>
+            {/* <IonCol size="6">Beneficiary Type</IonCol>
             <IonCol size="6">
               <IonText
                 color={
@@ -62,15 +63,15 @@ const TransactionResult = ({ data }: Props) => {
                   ? "Referred"
                   : "Enrolled"}
               </IonText>
-            </IonCol>
+            </IonCol> */}
             <IonCol size="6">Date</IonCol>
             <IonCol size="6">{formatDate(`${new Date()}`) || "-"}</IonCol>
 
             <IonCol size="6">Transaction Hash</IonCol>
-            <IonCol size="6">{cropString(data?.transactionHash) || "-"}</IonCol>
+            <IonCol size="6">{cropString(otpRes?.hash) || "-"}</IonCol>
 
             <IonCol size="6">Phone</IonCol>
-            <IonCol size="6">{data?.phone}</IonCol>
+            <IonCol size="6">{cropString(beneficiary)}</IonCol>
             <br />
             <IonCol size="12">
               <IonText>
@@ -78,7 +79,7 @@ const TransactionResult = ({ data }: Props) => {
               </IonText>
             </IonCol>
 
-            {data?.voucherType === "FREE_VOUCHER" && (
+            {voucherType === "FREE_VOUCHER" && (
               <>
                 <br />
                 <IonCol size="12">

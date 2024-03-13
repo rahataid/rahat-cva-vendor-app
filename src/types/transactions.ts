@@ -28,3 +28,20 @@ export type TransactionDetail = {
   voucherSymbol: string;
   phone: string;
 };
+
+export type MetaTxResponse = {
+  blockHash?: string;
+  blockNumber?: number;
+  contractAddress?: string | null;
+  cumulativeGasUsed?: string;
+  from?: string;
+  gasPrice?: string;
+  gasUsed?: string;
+  hash?: string;
+  index?: number;
+  logs?: any[];
+  logsBloom?: string;
+  status?: number;
+  to?: string;
+  _type?: string;
+};

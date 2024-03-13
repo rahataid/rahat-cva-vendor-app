@@ -6,12 +6,10 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import useAppStore from "@store/app";
-import { ITransactionItem } from "../../../types/transactions";
 
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { IBeneficiary } from "../../../types/beneficiaries";
+import { BENEFICIARY_VOUCHER_DETAILS } from "../../../types/beneficiaries";
 
 import { useState } from "react";
 import useTransactionStore from "@store/transaction";
@@ -20,13 +18,15 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { BENEFICIARY_ADDRESS } from "../../../config";
 
 type Props = {
-  data: IBeneficiary;
+  data: {
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiary: string;
+  };
 };
 
-const OTP = ({ data: transactionData }: Props) => {
+const OTP = ({ data: { voucher, beneficiary } }: Props) => {
   const { verifyOtp } = useTransactionStore();
   const history = useHistory();
-  const [loadingVisible, setLoadingVisible] = useState(false);
   const {
     handleSubmit,
     setError,
@@ -45,8 +45,11 @@ const OTP = ({ data: transactionData }: Props) => {
     try {
       // if (data?.otp != "1234") throw new Error("Invalid OTP");
       // console.log(transactionData);
-      await verifyOtp(data?.otp, BENEFICIARY_ADDRESS);
-      history.push("/transaction-result", { data: transactionData });
+      const otpRes = await verifyOtp(data?.otp, BENEFICIARY_ADDRESS);
+
+      history.push("/transaction-result", {
+        data: { beneficiary, voucher, otpRes },
+      });
     } catch (error) {
       setError("root.serverError", {
         type: "manual",
@@ -61,11 +64,7 @@ const OTP = ({ data: transactionData }: Props) => {
 
   return (
     <>
-      <IonLoading
-        mode="md"
-        isOpen={loadingVisible}
-        message={"Please wait..."}
-      />
+      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
 
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <TransparentCard>
