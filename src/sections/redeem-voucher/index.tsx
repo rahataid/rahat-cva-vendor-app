@@ -152,37 +152,37 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                     </IonCol>
                   </IonRow>
                   <div className="gap-5"></div>
-                  {data?.voucherType === VOUCHER.DISCOUNT_VOUCHER && (
-                    <Controller
-                      render={({ field }) => (
-                        <FormInputSelect
-                          label="Eye Checkup Status:"
-                          placeholder="Select Status"
-                          value={getValues("eyeCheckupStatus")}
-                          onChange={(e) => {
-                            setValue("eyeCheckupStatus", e.target.value, {
-                              shouldValidate: true,
-                            });
-                            handleInputChange();
-                          }}
-                          onBlur={field.onBlur}
-                          errorText={errors?.eyeCheckupStatus?.message}
-                        >
-                          <IonSelectOption value="EYE_CHECKUP_DONE">
-                            Checkup Done
-                          </IonSelectOption>
-                          <IonSelectOption value="EYE_CHECKUP_NOT_DONE">
-                            Checkup Not Done
-                          </IonSelectOption>
-                        </FormInputSelect>
-                      )}
-                      rules={{
-                        required: "Please select the status",
-                      }}
-                      control={control}
-                      name="eyeCheckupStatus"
-                    />
-                  )}
+                  {/* {voucherType === VOUCHER.DISCOUNT_VOUCHER && ( */}
+                  <Controller
+                    render={({ field }) => (
+                      <FormInputSelect
+                        label="Eye Checkup Status:"
+                        placeholder="Select Status"
+                        value={getValues("eyeCheckupStatus")}
+                        onChange={(e) => {
+                          setValue("eyeCheckupStatus", e.target.value, {
+                            shouldValidate: true,
+                          });
+                          handleInputChange();
+                        }}
+                        onBlur={field.onBlur}
+                        errorText={errors?.eyeCheckupStatus?.message}
+                      >
+                        <IonSelectOption value="EYE_CHECKUP_DONE">
+                          Checkup Done
+                        </IonSelectOption>
+                        <IonSelectOption value="EYE_CHECKUP_NOT_DONE">
+                          Checkup Not Done
+                        </IonSelectOption>
+                      </FormInputSelect>
+                    )}
+                    rules={{
+                      required: "Please select the status",
+                    }}
+                    control={control}
+                    name="eyeCheckupStatus"
+                  />
+                  {/* )} */}
                   <div className="gap-5"></div>
                   <div className="gap-5"></div>
                   <div className="gap-5"></div>
@@ -201,13 +201,13 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                         onBlur={field.onBlur}
                         errorText={errors?.glassesStatus?.message}
                       >
-                        {data?.voucherType === VOUCHER.FREE_VOUCHER ? (
+                        {voucherType === VOUCHER.FREE_VOUCHER ? (
                           <>
                             <IonSelectOption value="GLASSES_REQUIRED">
-                              Checked, Glasses Required
+                              Glasses Required
                             </IonSelectOption>
                             <IonSelectOption value="GLASSES_NOT_REQUIRED">
-                              Checked, Glasses Not Required
+                              Glasses Not Required
                             </IonSelectOption>
                           </>
                         ) : (
