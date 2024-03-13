@@ -1,10 +1,20 @@
 import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
-import RedeemVoucher from "@sections/redeem-voucher";
 import ReferBeneficiaries from "@sections/refer-beneficiaries";
-import ReferredBeneficiariesList from "@sections/settings/referred-beneficiary-settings/referred-beneficiary-list";
+import { BENEFICIARY_VOUCHER_DETAILS } from "@types/beneficiaries";
+import { useLocation } from "react-router";
+
+type LocationState = {
+  data: {
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiary: string;
+  };
+};
 
 const ReferBeneficiariesPage: React.FC = () => {
+  const location = useLocation<LocationState>();
+  const { data } = location.state || { data: null };
+
   return (
     <IonPage>
       <CustomHeader title="Refer Beneficiaries" showBackButton />
@@ -12,7 +22,7 @@ const ReferBeneficiariesPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <ReferBeneficiaries />
+              <ReferBeneficiaries data={data} />
             </IonCol>
           </IonRow>
         </IonGrid>

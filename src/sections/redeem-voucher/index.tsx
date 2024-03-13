@@ -104,7 +104,9 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
   };
 
   const handleRefer = () => {
-    history.push("/refer-beneficiaries");
+    history.push("/refer-beneficiaries", {
+      data: { voucher, beneficiary: BENEFICIARY_ADDRESS },
+    });
   };
   const handleGoHome = () => {
     history.push("/tabs/home");

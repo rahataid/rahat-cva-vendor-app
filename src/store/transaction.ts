@@ -14,7 +14,11 @@ import {
 } from "@utils/web3";
 import VendorsService from "@services/vendors";
 import { BENEFICIARY_ADDRESS, RPC_URL } from "../config";
-import { BENEFICIARY_VOUCHER_DETAILS, VOUCHER } from "@types/beneficiaries";
+import {
+  BENEFICIARY_VOUCHER_DETAILS,
+  REFER_BENEFICIARY_DETAILS,
+  VOUCHER,
+} from "@types/beneficiaries";
 
 export type TransactionStoreType = TransactionStateType &
   TransactionActionsType;
@@ -23,6 +27,12 @@ export type TransactionStateType = {
   transactions: ITransactionItem[] | [];
   vendorTransactions: ITransactionItem[] | [];
   triggerUpdateState: boolean;
+};
+
+export type ReferProps = {
+  beneficiary: string;
+  referredBeneficiaries: REFER_BENEFICIARY_DETAILS[];
+  voucher: BENEFICIARY_VOUCHER_DETAILS;
 };
 
 type TransactionActionsType = {
@@ -38,6 +48,11 @@ type TransactionActionsType = {
     beneficiaryAddress: string,
     referralVoucherAddress?: string
   ) => Promise<any>;
+  referBeneficiaries: ({
+    beneficiary,
+    referredBeneficiaries,
+    voucher,
+  }: ReferProps) => Promise<any>;
   logoutTransactions: () => void;
 };
 
@@ -223,6 +238,17 @@ const useTransactionStore = createStore<TransactionStoreType>(
       await VendorsService.executeMetaTxRequest({
         metaTxRequest: payload,
       });
+    },
+
+    referBeneficiaries: async ({
+      referredBeneficiaries,
+      voucher,
+      beneficiary,
+    }) => {
+      console.log("REFERRED BENEFICIARIES", referredBeneficiaries);
+      console.log("VOUCHER", voucher);
+      console.log("beneficiary", beneficiary);
+      return;
     },
 
     logoutTransactions: () => {

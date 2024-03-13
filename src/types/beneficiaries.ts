@@ -70,3 +70,11 @@ export type BENEFICIARY_VOUCHER_DETAILS = {
   id: string;
   __typename: string;
 };
+
+export type REFER_BENEFICIARY_DETAILS = {
+  name: string;
+  phone: string;
+  gender: GENDER;
+  estimatedAge: ESTIMATED_AGE;
+  address: string;
+};

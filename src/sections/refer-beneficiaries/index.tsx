@@ -5,8 +5,18 @@ import { useFieldArray, useForm } from "react-hook-form";
 import ReferSection from "./refer-section";
 import { add, addOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
+import { BENEFICIARY_VOUCHER_DETAILS } from "@types/beneficiaries";
+import useTransactionStore from "@store/transaction";
 
-const DynamicForm = () => {
+type Props = {
+  data: {
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiary: string;
+  };
+};
+
+const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
+  const { referBeneficiaries } = useTransactionStore();
   const history = useHistory();
   const {
     control,
@@ -29,8 +39,16 @@ const DynamicForm = () => {
     max: 3,
   });
 
-  const onSubmit = (data: any) => {
-    history.push("/refer-result", { data });
+  const onSubmit = async (data: any) => {
+    try {
+      console.log("REFER SUBMIT DATA", data);
+      await referBeneficiaries({
+        referredBeneficiaries: data,
+        voucher,
+        beneficiary,
+      });
+      // history.push("/refer-result", { data });
+    } catch (error) {}
   };
 
   const handleRemove = (index: number) => {
@@ -101,4 +119,4 @@ const DynamicForm = () => {
   );
 };
 
-export default DynamicForm;
+export default ReferBeneficiaries;
