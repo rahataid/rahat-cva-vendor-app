@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
 import useTransactionStore from "@store/transaction";
-import { VENDOR_ADDRESS } from "../config";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -103,10 +102,7 @@ export function useVendorVoucher(
   const { data, isLoading, error } = useQuery(
     ["vendorVouchers", walletAddress],
     async () => {
-      const res = await queryService.useVendorVoucher(
-        VENDOR_ADDRESS
-        // walletAddress
-      );
+      const res = await queryService.useVendorVoucher(walletAddress);
       return res;
     },
     {
@@ -125,10 +121,7 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
   const { data, isLoading, error } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
-      const res = await queryService.useVendorTransaction(
-        VENDOR_ADDRESS
-        // walletAddress
-      );
+      const res = await queryService.useVendorTransaction(walletAddress);
       return res;
     },
     {

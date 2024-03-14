@@ -20,7 +20,7 @@ import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
 import { useEffect, useState } from "react";
 import useTransactionStore from "@store/transaction";
-import { BENEFICIARY_ADDRESS } from "../../config";
+import { BENEFICIARY_ADDRESS, PROJECT_ID } from "../../config";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
 import useVoucherType from "@hooks/use-voucher-type";
@@ -57,15 +57,29 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
   const handleUpdateStatus = async () => {
     setInProgress(true);
     try {
-      console.log("VOUCER TYPE", voucherType);
+      const eyeCheckUp =
+        getValues("eyeCheckupStatus") === "EYE_CHECKUP_DONE" ? true : false;
+      const glassStatus =
+        getValues("glassesStatus") === "GLASSES_BOUGHT" || "GLASSES_REQUIRED"
+          ? true
+          : false;
       if (voucherType === VOUCHER.FREE_VOUCHER) {
-        await updateStatus(voucherType, BENEFICIARY_ADDRESS);
-      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
-        await updateStatus(
+        await updateStatus({
           voucherType,
-          BENEFICIARY_ADDRESS,
-          voucher?.ReferredVoucherAddress
-        );
+          beneficiaryAddress: BENEFICIARY_ADDRESS,
+          eyeCheckUp,
+          glassStatus,
+          uuid: PROJECT_ID,
+        });
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        await updateStatus({
+          voucherType,
+          beneficiaryAddress: BENEFICIARY_ADDRESS,
+          referralVoucherAddress: voucher?.ReferredVoucherAddress,
+          eyeCheckUp,
+          glassStatus,
+          uuid: PROJECT_ID,
+        });
       }
       showToast("Status Updated Successfully", "success");
       setSubmitSuccess(true);
@@ -83,9 +97,27 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
   const handleRedeemVoucher = async () => {
     setInProgress(true);
     try {
+      const eyeCheckUp =
+        getValues("eyeCheckupStatus") === "EYE_CHECKUP_DONE" ? true : false;
+      const glassStatus =
+        getValues("glassesStatus") === "GLASSES_BOUGHT" || "GLASSES_REQUIRED"
+          ? true
+          : false;
       if (voucherType === VOUCHER.FREE_VOUCHER)
-        await redeemVoucher(VOUCHER.FREE_VOUCHER);
-      else await redeemVoucher(VOUCHER.DISCOUNT_VOUCHER, voucher);
+        await redeemVoucher({
+          voucherType: VOUCHER.FREE_VOUCHER,
+          uuid: PROJECT_ID,
+          eyeCheckUp,
+          glassStatus,
+        });
+      else
+        await redeemVoucher({
+          voucherType: VOUCHER.DISCOUNT_VOUCHER,
+          voucher,
+          uuid: PROJECT_ID,
+          eyeCheckUp,
+          glassStatus,
+        });
 
       history.push("/otp", {
         data: {
@@ -274,7 +306,9 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                               expand="block"
                               color="primary"
                               disabled={
-                                isSubmitting || !getValues("glassesStatus")
+                                isSubmitting ||
+                                !getValues("glassesStatus") ||
+                                !getValues("eyeCheckupStatus")
                               }
                               onClick={handleUpdateStatus}
                             >
@@ -323,7 +357,9 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
                               expand="block"
                               color="primary"
                               disabled={
-                                isSubmitting || !getValues("glassesStatus")
+                                isSubmitting ||
+                                !getValues("glassesStatus") ||
+                                !getValues("eyeCheckupStatus")
                               }
                               onClick={handleUpdateStatus}
                             >

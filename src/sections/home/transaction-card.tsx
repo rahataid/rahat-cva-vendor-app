@@ -115,7 +115,7 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
                             <IonCol size="9" className="home-tx-right-col">
                               <IonText>
                                 <h2>{el?.eventType}</h2>
-                                <p>{cropString(el?.beneficiaryAddress)}</p>
+                                <p>{cropString(el?.beneficiary)}</p>
                                 <p>{cropString(el?.transactionHash)}</p>
                                 <p>{formatDate(el?.blockTimestamp) || "-"}</p>
                               </IonText>

@@ -65,7 +65,6 @@ export const endpoints = {
     details: (txHash: string) => `/transactions/${txHash}`,
   },
   projects: {
-    getProjectOfflineBeneficaries: (contractAddress: string) =>
-      `/projects/${contractAddress}/offlineBeneficiaries`,
+    actions: (uuid: string) => `/projects/${uuid}/actions`,
   },
 };

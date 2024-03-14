@@ -28,11 +28,11 @@ const TransactionDetails = ({ data: { transaction } }: Props) => {
           </IonCol> */}
           <IonCol size="6">Beneficiary Name</IonCol>
           <IonCol size="6">
-            {cropString(transaction?.beneficiaryAddress) || "-"}
+            {cropString(transaction?.beneficiary) || "-"}
           </IonCol>
           <IonCol size="6">Phone Number</IonCol>
           <IonCol size="6">
-            {cropString(transaction?.beneficiaryAddress) || "-"}
+            {cropString(transaction?.beneficiary) || "-"}
           </IonCol>
           {/* <IonCol size="6">Beneficiary Type</IonCol>
           <IonCol size="6">

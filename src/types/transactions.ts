@@ -7,7 +7,7 @@ export enum TRANSACTION_STATUS {
 }
 
 export type ITransactionItem = {
-  beneficiaryAddress?: string;
+  beneficiary?: string;
   blockNumber?: string;
   blockTimestamp?: string;
   eventType?: string;

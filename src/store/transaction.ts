@@ -1,24 +1,19 @@
 import { ITransactionItem } from "@types/transactions";
-import {
-  createStore,
-  ionicIdbStorage,
-  localPersistStorage,
-} from "@utils/storeUtils";
+import { createStore, ionicIdbStorage } from "@utils/storeUtils";
 import { createJSONStorage } from "zustand/middleware";
 import useAppStore, { AppStoreType } from "./app";
 import {
   createContractInstance,
   getMetaTxRequest,
   getWalletUsingMnemonic,
-  signMessage,
 } from "@utils/web3";
-import VendorsService from "@services/vendors";
-import { BENEFICIARY_ADDRESS, RPC_URL } from "../config";
+import { BENEFICIARY_ADDRESS, PROJECT_ID, RPC_URL } from "../config";
 import {
   BENEFICIARY_VOUCHER_DETAILS,
   REFER_BENEFICIARY_DETAILS,
   VOUCHER,
 } from "@types/beneficiaries";
+import ProjectsService from "@services/projects";
 
 export type TransactionStoreType = TransactionStateType &
   TransactionActionsType;
@@ -35,19 +30,42 @@ export type ReferProps = {
   voucher: BENEFICIARY_VOUCHER_DETAILS;
 };
 
+export type UpdateStatusProps = {
+  voucherType: VOUCHER;
+  beneficiaryAddress: string;
+  referralVoucherAddress?: string;
+  eyeCheckUp: boolean;
+  glassStatus: boolean;
+  uuid: string;
+};
+
+export type RedeemVoucherProps = {
+  voucher?: BENEFICIARY_VOUCHER_DETAILS;
+  voucherType: VOUCHER;
+  eyeCheckUp: boolean;
+  glassStatus: boolean;
+  uuid: string;
+};
+
 type TransactionActionsType = {
   referredAppStoreState: () => AppStoreType;
   triggerUpdate: () => void;
-  redeemVoucher: (
-    voucherType: VOUCHER,
-    voucher?: BENEFICIARY_VOUCHER_DETAILS
-  ) => Promise<any>;
+  redeemVoucher: ({
+    voucherType,
+    voucher,
+    eyeCheckUp,
+    glassStatus,
+    uuid,
+  }: RedeemVoucherProps) => Promise<any>;
   verifyOtp: (otp: string, beneficiaryAddress: string) => Promise<any>;
-  updateStatus: (
-    voucherType: VOUCHER,
-    beneficiaryAddress: string,
-    referralVoucherAddress?: string
-  ) => Promise<any>;
+  updateStatus: ({
+    voucherType,
+    beneficiaryAddress,
+    referralVoucherAddress,
+    eyeCheckUp,
+    glassStatus,
+    uuid,
+  }: UpdateStatusProps) => Promise<any>;
   referBeneficiaries: ({
     beneficiary,
     referredBeneficiaries,
@@ -67,7 +85,13 @@ const useTransactionStore = createStore<TransactionStoreType>(
       set({ triggerUpdateState: !get().triggerUpdateState });
     },
 
-    redeemVoucher: async (voucherType, voucher) => {
+    redeemVoucher: async ({
+      voucherType,
+      voucher,
+      eyeCheckUp,
+      glassStatus,
+      uuid,
+    }) => {
       const { referredAppStoreState } = get();
       const {
         wallet,
@@ -124,16 +148,20 @@ const useTransactionStore = createStore<TransactionStoreType>(
         );
       }
       const payload = {
-        ...metaTxRequest,
-        gas: metaTxRequest.gas.toString(),
-        nonce: metaTxRequest.nonce.toString(),
-        value: metaTxRequest.value.toString(),
+        action: "elProject.redeemVoucher",
+        payload: {
+          metaTxRequest: {
+            ...metaTxRequest,
+            gas: metaTxRequest.gas.toString(),
+            nonce: metaTxRequest.nonce.toString(),
+            value: metaTxRequest.value.toString(),
+          },
+          eyeCheckUp,
+          glassStatus,
+          uuid,
+        },
       };
-      await VendorsService.executeMetaTxRequest({
-        metaTxRequest: payload,
-      });
-
-      // return res;
+      return ProjectsService.actions(PROJECT_ID, payload);
     },
 
     verifyOtp: async (otp, beneficiaryAddress) => {
@@ -174,22 +202,36 @@ const useTransactionStore = createStore<TransactionStoreType>(
         [beneficiaryAddress, otp]
       );
       const payload = {
-        ...metaTxRequest,
-        gas: metaTxRequest.gas.toString(),
-        nonce: metaTxRequest.nonce.toString(),
-        value: metaTxRequest.value.toString(),
+        action: "elProject.processOtp",
+        payload: {
+          metaTxRequest: {
+            ...metaTxRequest,
+            gas: metaTxRequest.gas.toString(),
+            nonce: metaTxRequest.nonce.toString(),
+            value: metaTxRequest.value.toString(),
+          },
+        },
       };
-      const res = await VendorsService.executeMetaTxRequest({
-        metaTxRequest: payload,
-      });
-      return res?.data;
+
+      return ProjectsService.actions(PROJECT_ID, payload);
     },
 
-    updateStatus: async (
+    updateStatus: async ({
       voucherType,
       beneficiaryAddress,
-      referralVoucherAddress
-    ) => {
+      referralVoucherAddress,
+      eyeCheckUp,
+      glassStatus,
+      uuid,
+    }) => {
+      console.log({
+        voucherType,
+        beneficiaryAddress,
+        referralVoucherAddress,
+        eyeCheckUp,
+        glassStatus,
+        uuid,
+      });
       const { referredAppStoreState } = get();
       const {
         wallet,
@@ -230,14 +272,20 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
 
       const payload = {
-        ...metaTxRequest,
-        gas: metaTxRequest.gas.toString(),
-        nonce: metaTxRequest.nonce.toString(),
-        value: metaTxRequest.value.toString(),
+        action: "elProject.redeemVoucher",
+        payload: {
+          metaTxRequest: {
+            ...metaTxRequest,
+            gas: metaTxRequest.gas.toString(),
+            nonce: metaTxRequest.nonce.toString(),
+            value: metaTxRequest.value.toString(),
+          },
+          eyeCheckUp,
+          glassStatus,
+          uuid,
+        },
       };
-      await VendorsService.executeMetaTxRequest({
-        metaTxRequest: payload,
-      });
+      return ProjectsService.actions(PROJECT_ID, payload);
     },
 
     referBeneficiaries: async ({

@@ -7,3 +7,4 @@ export const GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URL;
 export const BENEFICIARY_ADDRESS = import.meta.env.VITE_BENEFICIARY_ADDRESS;
 export const VENDOR_ADDRESS = import.meta.env.VITE_VENDOR_ADDRESS;
 export const RPC_URL = import.meta.env.VITE_RPC_URL;
+export const PROJECT_ID = import.meta.env.VITE_PROJECT_ID;

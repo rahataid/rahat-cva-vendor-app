@@ -16,6 +16,8 @@ import useTransactionStore from "@store/transaction";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { BENEFICIARY_ADDRESS } from "../../../config";
+import CustomToast from "@components/toast";
+import useCustomToast from "@hooks/use-custom-toast";
 
 type Props = {
   data: {
@@ -27,6 +29,8 @@ type Props = {
 const OTP = ({ data: { voucher, beneficiary } }: Props) => {
   const { verifyOtp } = useTransactionStore();
   const history = useHistory();
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
   const {
     handleSubmit,
     setError,
@@ -43,14 +47,13 @@ const OTP = ({ data: { voucher, beneficiary } }: Props) => {
 
   const onSubmit = async (data: { otp: string }) => {
     try {
-      // if (data?.otp != "1234") throw new Error("Invalid OTP");
-      // console.log(transactionData);
       const otpRes = await verifyOtp(data?.otp, BENEFICIARY_ADDRESS);
 
       history.push("/transaction-result", {
-        data: { beneficiary, voucher, otpRes },
+        data: { beneficiary, voucher, otpRes: otpRes.data },
       });
     } catch (error) {
+      showToast("Something went wrong! Try again later.", "danger");
       setError("root.serverError", {
         type: "manual",
         message: error?.message || "Something went wrong! Try again later.",
@@ -65,7 +68,14 @@ const OTP = ({ data: { voucher, beneficiary } }: Props) => {
   return (
     <>
       <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
-
+      <CustomToast
+        isOpen={toastVisible}
+        onDidDismiss={hideToast}
+        message={toastMessage}
+        duration={2000}
+        position="middle"
+        color={toastColor}
+      />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <TransparentCard>
           <IonCardContent>
