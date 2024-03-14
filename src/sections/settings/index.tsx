@@ -18,6 +18,9 @@ import {
   personAddOutline,
   personOutline,
   moonOutline,
+  cashSharp,
+  cashOutline,
+  idCardOutline,
 } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -87,12 +90,20 @@ function Settings() {
       endIcon: chevronForwardOutline,
     },
     {
+      label: "Voucher Redemption Details",
+      startIcon: idCardOutline,
+      action: () => history.push("/tabs/settings/voucher-redemption-details"),
+      isToggle: false,
+      endIcon: chevronForwardOutline,
+    },
+    {
       label: "Projects",
       startIcon: hammerOutline,
       action: () => history.push("/tabs/settings/project"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
+
     {
       label: "Logout",
       startIcon: logOutOutline,

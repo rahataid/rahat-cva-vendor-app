@@ -19,11 +19,11 @@ import "./customChip.scss";
 
 const CustomChip: React.FC<InputProps> = ({ color, label }) => {
   return (
-    <>
+    <div>
       <IonChip className="customChip" color={color}>
-        {label}
+        <p>{label}</p>
       </IonChip>
-    </>
+    </div>
   );
 };
 

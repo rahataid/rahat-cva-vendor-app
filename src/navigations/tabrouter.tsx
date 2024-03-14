@@ -31,6 +31,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import ReferredBeneficiariesListPage from "@pages/referred-beneficiary-list";
 import TransactionsDetailPage from "@pages/transactions-details";
 import ReferredBeneficiariesDetailsPage from "@pages/referred-beneficiary-details";
+import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
 
 const Tabs: React.FC = () => {
   const { chainData } = useAppStore((state) => ({
@@ -73,6 +74,11 @@ const Tabs: React.FC = () => {
           <Route
             path="/tabs/settings/project"
             component={ProjectSettingsPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/voucher-redemption-details"
+            component={VoucherRedemptionDetailsPage}
             exact
           />
           <Redirect exact from="/tabs" to="/tabs/home" />

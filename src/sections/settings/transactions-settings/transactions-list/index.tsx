@@ -28,8 +28,6 @@ type Props = {
 const TransactionsList = ({ data, loading }: Props) => {
   const history = useHistory();
 
-  console.log();
-
   if (loading)
     return (
       <TransparentCard>

@@ -1,4 +1,8 @@
 @import "@theme/r-variables.scss";
 .customChip {
   border-radius: #{$r-button-border-radius};
+
+  p {
+    font-size: 10px;
+  }
 }
