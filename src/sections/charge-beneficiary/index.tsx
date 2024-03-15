@@ -36,7 +36,15 @@ const ChargeBeneficiary = ({ data }: any) => {
       BENEFICIARY_ADDRESS
     );
 
+    if (
+      beneficiaryVoucher?.FreeVoucherClaimStatus === true ||
+      beneficiaryVoucher?.ReferredVoucherClaimStatus === true
+    )
+      throw new Error("Beneficiary has already claimed the Voucher");
+    else if (!Object.keys(beneficiaryVoucher)?.length)
+      throw new Error("Voucher not assigned to beneficiary");
     console.log("BENEFICIARY VOUCHER", beneficiaryVoucher);
+
     return {
       //  beneficiary,  get beneficiary details from phone number from the backend
       beneficiaryVoucher,
@@ -44,13 +52,13 @@ const ChargeBeneficiary = ({ data }: any) => {
   };
 
   const onSubmit = async (data: any) => {
+    setLoadingVisible(true);
+    await new Promise((resolve) => setTimeout(resolve, 0));
     try {
-      setLoadingVisible(true);
       const {
         // beneficiary,
         beneficiaryVoucher,
       } = await fetchBeneficiaryVoucher(data);
-      setLoadingVisible(false);
       history.push("/redeem-voucher", {
         data: {
           //  data: beneficiary,
@@ -58,7 +66,6 @@ const ChargeBeneficiary = ({ data }: any) => {
         },
       });
     } catch (error: any) {
-      setLoadingVisible(false);
       console.log(error);
 
       // const validErrors = [
@@ -76,6 +83,7 @@ const ChargeBeneficiary = ({ data }: any) => {
         message: error?.message || "Something went wrong! Try again later.",
       });
     }
+    setLoadingVisible(false);
   };
 
   return (
