@@ -123,9 +123,10 @@ export const signMessage = async ({ wallet, message }: any) => {
 export async function createContractInstance(rpcUrl: string, contract: any) {
   //  Create Provider
   const provider = new JsonRpcProvider(rpcUrl);
+  const abi = contract.ABI.map(convertToLowerCase);
 
   //  Create an instance of the contract
-  return new Contract(contract.address, contract.abi, provider);
+  return new Contract(contract.ADDRESS, abi, provider);
 }
 
 export async function createContractInstanceFromWallet(
@@ -134,9 +135,9 @@ export async function createContractInstanceFromWallet(
   privateKey: string
 ) {
   const provider = new JsonRpcProvider(rpcUrl);
-
+  const abi = contract.ABI.map(convertToLowerCase);
   const wallet = new ethers.Wallet(privateKey, provider);
-  return new Contract(contract.address, contract.abi, wallet);
+  return new Contract(contract.ADDRESS, abi, wallet);
 }
 
 export async function createContractInstanceUsingRahatAdminWallet(
@@ -176,7 +177,7 @@ export async function getDomain(contract: any) {
     verifyingContract,
     salt,
     extensions,
-  } = await contract.eip712Domain();
+  } = await contract.eip712Domain.staticCall();
 
   if (extensions.length > 0) {
     throw Error("Extensions not implemented");
@@ -203,7 +204,8 @@ export async function buildRequest(
   forwarderContract: any,
   input: any
 ): Promise<BuiltRequest> {
-  const nonce = await forwarderContract.nonces(input.from);
+  const nonce = await forwarderContract.nonces.staticCall(input.from);
+
   return {
     from: input.from,
     to: input.to,
@@ -231,7 +233,9 @@ export async function signMetaTxRequest(
 ) {
   const request = await buildRequest(forwarderContract, input);
   const { domain, types } = await buildTypedData(forwarderContract);
+
   const signature = await signer.signTypedData(domain, types, request);
+
   request.signature = signature;
   return request;
 }
@@ -249,3 +253,19 @@ export async function getMetaTxRequest(
     data: elContractInstance.interface.encodeFunctionData(functionName, params),
   });
 }
+
+const convertToLowerCase = (obj: any) => {
+  const newObj = {};
+  for (const key in obj) {
+    const newKey = key.toLowerCase();
+    const value = obj[key];
+    if (Array.isArray(value)) {
+      newObj[newKey] = value.map(convertToLowerCase);
+    } else if (typeof value === "object") {
+      newObj[newKey] = convertToLowerCase(value);
+    } else {
+      newObj[newKey] = value;
+    }
+  }
+  return newObj;
+};

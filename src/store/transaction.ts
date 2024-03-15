@@ -4,6 +4,7 @@ import { createJSONStorage } from "zustand/middleware";
 import useAppStore, { AppStoreType } from "./app";
 import {
   createContractInstance,
+  createContractInstanceFromWallet,
   generateUuid,
   getMetaTxRequest,
   getWalletUsingMnemonic,
@@ -108,29 +109,29 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const {
         wallet,
         projectSettings: {
-          contracts: { ELProject, ERC2771Forwarder },
+          contracts: { ELPROJECT, ERC2771FORWARDER },
           network,
         },
       } = referredAppStoreState();
 
       // const ElProjectInstance = await createContractInstance(
       //   RPC_URL,
-      //   ELProject
+      //   ELPROJECT
       // );
 
       // const ElProjectInstance =
-      //   await createContractInstanceUsingRahatAdminWallet(RPC_URL, ELProject);
+      //   await createContractInstanceUsingRahatAdminWallet(RPC_URL, ELPROJECT);
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
       const ElProjectInstance = await createContractInstance(
         RPC_URL,
-        ELProject
+        ELPROJECT
       );
 
       const ForwarderContractInstance = await createContractInstance(
         RPC_URL,
-        ERC2771Forwarder
+        ERC2771FORWARDER
       );
 
       // let res;
@@ -182,12 +183,12 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const {
         wallet,
         projectSettings: {
-          contracts: { ELProject, ERC2771Forwarder },
+          contracts: { ELPROJECT, ERC2771FORWARDER },
         },
       } = referredAppStoreState();
 
       // const ElProjectInstance =
-      //   await createContractInstanceUsingRahatAdminWallet(RPC_URL, ELProject);
+      //   await createContractInstanceUsingRahatAdminWallet(RPC_URL, ELPROJECT);
       // const res = await ElProjectInstance.procesTokenRequest(
       //   beneficiaryAddress,
       //   otp
@@ -198,12 +199,12 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       const ElProjectInstance = await createContractInstance(
         RPC_URL,
-        ELProject
+        ELPROJECT
       );
 
       const ForwarderContractInstance = await createContractInstance(
         RPC_URL,
-        ERC2771Forwarder
+        ERC2771FORWARDER
       );
 
       const metaTxRequest = await getMetaTxRequest(
@@ -236,19 +237,11 @@ const useTransactionStore = createStore<TransactionStoreType>(
       glassStatus,
       uuid,
     }) => {
-      console.log({
-        voucherType,
-        beneficiaryAddress,
-        referralVoucherAddress,
-        eyeCheckUp,
-        glassStatus,
-        uuid,
-      });
       const { referredAppStoreState } = get();
       const {
         wallet,
         projectSettings: {
-          contracts: { ELProject, ERC2771Forwarder },
+          contracts: { ELPROJECT, ERC2771FORWARDER },
         },
       } = referredAppStoreState();
 
@@ -256,12 +249,13 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       const ElProjectInstance = await createContractInstance(
         RPC_URL,
-        ELProject
+        ELPROJECT
       );
 
-      const ForwarderContractInstance = await createContractInstance(
+      const ForwarderContractInstance = await createContractInstanceFromWallet(
         RPC_URL,
-        ERC2771Forwarder
+        ERC2771FORWARDER,
+        walletInstance.privateKey
       );
 
       let metaTxRequest;
@@ -309,7 +303,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const {
         wallet,
         projectSettings: {
-          contracts: { ELProject, ERC2771Forwarder },
+          contracts: { ELPROJECT, ERC2771FORWARDER },
         },
       } = referredAppStoreState();
 
@@ -317,12 +311,12 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       const ElProjectInstance = await createContractInstance(
         RPC_URL,
-        ELProject
+        ELPROJECT
       );
 
       const ForwarderContractInstance = await createContractInstance(
         RPC_URL,
-        ERC2771Forwarder
+        ERC2771FORWARDER
       );
       async function processBeneficiaries(
         referredBeneficiaries: REFER_BENEFICIARY_DETAILS[]
@@ -342,19 +336,14 @@ const useTransactionStore = createStore<TransactionStoreType>(
         });
         return await Promise.all(promises);
       }
-      console.log("REFERRED BENEFICIARIES", referredBeneficiaries);
-      console.log("VOUCHER", voucher);
-      console.log("beneficiary", beneficiary);
 
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
-      console.log("BACKEND RESPONSE", backendResponse);
 
       // contract call
 
       const blockChainResponse = [];
       try {
         for (const beneficiary of referredBeneficiaries) {
-          console.log("INSIDE LOOP");
           const metaTxRequest = await getMetaTxRequest(
             walletInstance,
             ForwarderContractInstance,
@@ -364,10 +353,9 @@ const useTransactionStore = createStore<TransactionStoreType>(
               beneficiary.walletAddress,
               BENEFICIARY_ADDRESS,
               VENDOR_ADDRESS,
-              voucher?.ReferredVoucherAddress,
+              "0x3BB2526e0B8f8bD46b0187Aa4d24b351cf434437",
             ]
           );
-          console.log(metaTxRequest, "metaTxRequest");
           const response = await ProjectsService.actions(PROJECT_ID, {
             action: "elProject.discountVoucher",
             payload: {
@@ -385,8 +373,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
         console.log(error);
       }
 
-      console.log("BLOCKCHAIN RESPONSE", blockChainResponse);
-      console.log("here finally");
       return [backendResponse, blockChainResponse];
     },
 

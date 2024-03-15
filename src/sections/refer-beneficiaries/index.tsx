@@ -57,7 +57,9 @@ const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
         beneficiary,
       });
       // history.push("/refer-result", { data });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleRemove = (index: number) => {
