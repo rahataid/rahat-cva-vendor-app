@@ -77,4 +77,14 @@ export type REFER_BENEFICIARY_DETAILS = {
   gender: GENDER;
   estimatedAge: ESTIMATED_AGE;
   address: string;
+  walletAddress?: string;
+};
+
+export type CreateBeneficiaryDto = {
+  uuid: string; //UUID
+  walletAddress?: string;
+  referrerBeneficiary?: string; //UUID
+  referrerVendor?: string; //UUID
+  extras?: any;
+  type?: BENEFICIARY_TYPE;
 };

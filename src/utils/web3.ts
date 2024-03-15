@@ -8,9 +8,11 @@ import {
   Wallet,
   ethers,
   getAddress,
+  hexlify,
   isAddress,
+  randomBytes,
 } from "ethers";
-import { DEFAULT_PASSCODE, RAHAT_ADMIN_PRIVATE_KEY } from "../config";
+import { DEFAULT_PASSCODE, RAHAT_ADMIN_PRIVATE_KEY, RPC_URL } from "../config";
 import { types } from "./eip712Types";
 
 type BuiltRequest = {
@@ -23,6 +25,17 @@ type BuiltRequest = {
   nonce: any;
   signature?: string;
 };
+
+export function generateUuid() {
+  const generatedRandomBytes = randomBytes(16);
+
+  const uuid = hexlify(generatedRandomBytes);
+
+  return `${uuid.slice(2, 10)}-${uuid.slice(10, 14)}-${uuid.slice(
+    14,
+    18
+  )}-${uuid.slice(18, 22)}-${uuid.slice(22)}`;
+}
 
 export function saveWalletInfo(wallet: Wallet): void {
   if (typeof window !== "undefined") {
@@ -56,6 +69,13 @@ export function createRandomWallet(provider: Provider): HDNodeWallet {
 
 export function createRandomWalletWithPhone(data: any) {
   return ethers.Wallet.createRandom(data);
+}
+
+export function generateRandomWalletAddress(): string {
+  const network = RPC_URL;
+  const provider = new JsonRpcProvider(network);
+  const wallet = Wallet.createRandom(provider);
+  return wallet.address;
 }
 
 export function getWalletUsingMnemonic(mnemonic: string): HDNodeWallet {
@@ -219,16 +239,13 @@ export async function signMetaTxRequest(
 export async function getMetaTxRequest(
   signer: HDNodeWallet,
   forwarderContract: any,
-  CVAContractInstance: any,
+  elContractInstance: any,
   functionName: string,
   params: any[] | [] | null
 ) {
   return signMetaTxRequest(signer, forwarderContract, {
     from: signer.address,
-    to: CVAContractInstance.target,
-    data: CVAContractInstance.interface.encodeFunctionData(
-      functionName,
-      params
-    ),
+    to: elContractInstance.target,
+    data: elContractInstance.interface.encodeFunctionData(functionName, params),
   });
 }

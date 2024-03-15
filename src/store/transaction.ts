@@ -4,12 +4,19 @@ import { createJSONStorage } from "zustand/middleware";
 import useAppStore, { AppStoreType } from "./app";
 import {
   createContractInstance,
+  generateUuid,
   getMetaTxRequest,
   getWalletUsingMnemonic,
 } from "@utils/web3";
-import { BENEFICIARY_ADDRESS, PROJECT_ID, RPC_URL } from "../config";
+import {
+  BENEFICIARY_ADDRESS,
+  PROJECT_ID,
+  RPC_URL,
+  VENDOR_ADDRESS,
+} from "../config";
 import {
   BENEFICIARY_VOUCHER_DETAILS,
+  CreateBeneficiaryDto,
   REFER_BENEFICIARY_DETAILS,
   VOUCHER,
 } from "@types/beneficiaries";
@@ -45,6 +52,11 @@ export type RedeemVoucherProps = {
   eyeCheckUp: boolean;
   glassStatus: boolean;
   uuid: string;
+};
+
+type addToProjectPayload = {
+  action: string;
+  payload: CreateBeneficiaryDto;
 };
 
 type TransactionActionsType = {
@@ -293,10 +305,89 @@ const useTransactionStore = createStore<TransactionStoreType>(
       voucher,
       beneficiary,
     }) => {
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { ELProject, ERC2771Forwarder },
+        },
+      } = referredAppStoreState();
+
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+      const ElProjectInstance = await createContractInstance(
+        RPC_URL,
+        ELProject
+      );
+
+      const ForwarderContractInstance = await createContractInstance(
+        RPC_URL,
+        ERC2771Forwarder
+      );
+      async function processBeneficiaries(
+        referredBeneficiaries: REFER_BENEFICIARY_DETAILS[]
+      ) {
+        const promises = referredBeneficiaries.map(async (beneficiary) => {
+          const payload: addToProjectPayload = {
+            action: "beneficiary.add_to_project",
+            payload: {
+              uuid: generateUuid(),
+              walletAddress: beneficiary.walletAddress,
+              referrerBeneficiary: generateUuid(),
+              referrerVendor: generateUuid(),
+              type: "REFERRED",
+            },
+          };
+          return ProjectsService.actions(PROJECT_ID, payload);
+        });
+        return await Promise.all(promises);
+      }
       console.log("REFERRED BENEFICIARIES", referredBeneficiaries);
       console.log("VOUCHER", voucher);
       console.log("beneficiary", beneficiary);
-      return;
+
+      const backendResponse = await processBeneficiaries(referredBeneficiaries);
+      console.log("BACKEND RESPONSE", backendResponse);
+
+      // contract call
+
+      const blockChainResponse = [];
+      try {
+        for (const beneficiary of referredBeneficiaries) {
+          console.log("INSIDE LOOP");
+          const metaTxRequest = await getMetaTxRequest(
+            walletInstance,
+            ForwarderContractInstance,
+            ElProjectInstance,
+            "assignRefereedClaims",
+            [
+              beneficiary.walletAddress,
+              BENEFICIARY_ADDRESS,
+              VENDOR_ADDRESS,
+              voucher?.ReferredVoucherAddress,
+            ]
+          );
+          console.log(metaTxRequest, "metaTxRequest");
+          const response = await ProjectsService.actions(PROJECT_ID, {
+            action: "elProject.discountVoucher",
+            payload: {
+              metaTxRequest: {
+                ...metaTxRequest,
+                gas: metaTxRequest.gas.toString(),
+                nonce: metaTxRequest.nonce.toString(),
+                value: metaTxRequest.value.toString(),
+              },
+            },
+          });
+          blockChainResponse.push(response);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      console.log("BLOCKCHAIN RESPONSE", blockChainResponse);
+      console.log("here finally");
+      return [backendResponse, blockChainResponse];
     },
 
     logoutTransactions: () => {

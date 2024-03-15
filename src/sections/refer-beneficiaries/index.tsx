@@ -5,8 +5,12 @@ import { useFieldArray, useForm } from "react-hook-form";
 import ReferSection from "./refer-section";
 import { add, addOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
-import { BENEFICIARY_VOUCHER_DETAILS } from "@types/beneficiaries";
+import {
+  BENEFICIARY_VOUCHER_DETAILS,
+  REFER_BENEFICIARY_DETAILS,
+} from "@types/beneficiaries";
 import useTransactionStore from "@store/transaction";
+import { generateRandomWalletAddress } from "@utils/web3";
 
 type Props = {
   data: {
@@ -35,15 +39,20 @@ const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "beneficiaries",
-    // Set max length to 3
     max: 3,
   });
 
   const onSubmit = async (data: any) => {
     try {
       console.log("REFER SUBMIT DATA", data);
+      const { beneficiaries } = data;
+      const referredBeneficiaries = beneficiaries.map(
+        (el: REFER_BENEFICIARY_DETAILS) => {
+          return { ...el, walletAddress: generateRandomWalletAddress() };
+        }
+      );
       await referBeneficiaries({
-        referredBeneficiaries: data,
+        referredBeneficiaries,
         voucher,
         beneficiary,
       });
@@ -54,18 +63,6 @@ const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
   const handleRemove = (index: number) => {
     if (index > 0) remove(index);
   };
-
-  // useEffect(() => {
-  //   console.log("IS SUBMITTED", isSubmitted);
-  //   console.log(fields, fields[0].name, "uSEEFFECT NAME");
-  //   if (errors?.beneficiaries?.length)
-  //     console.log(
-  //       errors,
-  //       "ERRORS DYNAMIC FIELD",
-  //       errors?.beneficiaries[0]?.name?.message,
-  //       errors?.beneficiaries[0]?.gender?.message
-  //     );
-  // });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
