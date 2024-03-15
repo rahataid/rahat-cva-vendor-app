@@ -78,7 +78,9 @@ const useAppStore = createStore<AppStoreType>(
 
       set({
         isInitialized: true,
-        isAuthenticated: !!currentUser && !!wallet,
+        isAuthenticated:
+          // !!currentUser &&
+          !!wallet,
         mockData: mockBeneficiaries,
       });
     },

@@ -8,6 +8,7 @@ import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
 import { fixProjectUrl } from "@utils/helperFunctions";
 import useTransactionStore from "@store/transaction";
+import { PROJECT_ID } from "../../../config";
 
 enum From {
   register = "register",
@@ -96,44 +97,64 @@ const SelectProject = ({ from }: Props) => {
           history.push("/tabs/home");
         }
       } else if (from === "restore") {
-        const { data: vendor } = await axios.get(
-          `${projectUrl}${endpoints.vendors.details(wallet?.address)}`
+        const res = await axios.post(
+          `${projectUrl}${endpoints.projects.actions(PROJECT_ID)}`,
+          {
+            action: "settings.list",
+            payload: {},
+          }
         );
-        const payload = {
-          name: vendor?.name,
-          phone: vendor?.phone,
-          walletAddress: vendor?.walletAddress,
+
+        console.log(res.data.data);
+        const projectSettings = {
+          baseUrl: data?.projectURL,
+          contracts: res.data.data[0].value,
+          network: res.data.data[1].value,
         };
-        setCurrentUser(payload);
+        console.log(projectSettings);
+        await setProjectSettings(projectSettings);
+        await initialize();
+        triggerUpdate();
+        history.push("/tabs/home");
 
-        const [blockchain, contracts, contractDetails] = await Promise.all([
-          axios.get(
-            `${projectUrl}${endpoints.projectSettings.settings("Blockchain")}`
-          ),
-          axios.get(
-            `${projectUrl}${endpoints.projectSettings.settings("Contract")}`
-          ),
-          axios.get(
-            `${projectUrl}${endpoints.projectSettings.contractDetails(
-              "CVAProject"
-            )}`
-          ),
-        ]);
+        // const { data: vendor } = await axios.get(
+        //   `${projectUrl}${endpoints.vendors.details(wallet?.address)}`
+        // );
+        // const payload = {
+        //   name: vendor?.name,
+        //   phone: vendor?.phone,
+        //   walletAddress: vendor?.walletAddress,
+        // };
+        // setCurrentUser(payload);
 
-        console.log({ blockchain, contracts });
+        // const [blockchain, contracts, contractDetails] = await Promise.all([
+        //   axios.get(
+        //     `${projectUrl}${endpoints.projectSettings.settings("Blockchain")}`
+        //   ),
+        //   axios.get(
+        //     `${projectUrl}${endpoints.projectSettings.settings("Contract")}`
+        //   ),
+        //   axios.get(
+        //     `${projectUrl}${endpoints.projectSettings.contractDetails(
+        //       "CVAProject"
+        //     )}`
+        //   ),
+        // ]);
 
-        if (contracts?.data && blockchain?.data && contractDetails?.data) {
-          const projectSettings = {
-            baseUrl: data?.projectURL,
-            contracts: contracts?.data?.rows[0].value,
-            network: blockchain?.data?.rows[0].value,
-            projectId: contractDetails?.data?.address,
-          };
-          await setProjectSettings(projectSettings);
-          await initialize();
-          triggerUpdate();
-          history.push("/tabs/home");
-        }
+        // console.log({ blockchain, contracts });
+
+        // if (contracts?.data && blockchain?.data && contractDetails?.data) {
+        //   const projectSettings = {
+        //     baseUrl: data?.projectURL,
+        //     contracts: contracts?.data?.rows[0].value,
+        //     network: blockchain?.data?.rows[0].value,
+        //     projectId: contractDetails?.data?.address,
+        //   };
+        //   await setProjectSettings(projectSettings);
+        //   await initialize();
+        //   triggerUpdate();
+        //   history.push("/tabs/home");
+        // }
       }
     } catch (error: any) {
       console.log(error);
