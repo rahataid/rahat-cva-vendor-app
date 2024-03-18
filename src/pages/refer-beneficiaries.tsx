@@ -8,6 +8,7 @@ type LocationState = {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
     beneficiary: string;
+    from: "redeemVoucher" | "transactionResult";
   };
 };
 

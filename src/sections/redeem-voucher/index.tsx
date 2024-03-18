@@ -60,7 +60,8 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
       const eyeCheckUp =
         getValues("eyeCheckupStatus") === "EYE_CHECKUP_DONE" ? true : false;
       const glassStatus =
-        getValues("glassesStatus") === "GLASSES_BOUGHT" || "GLASSES_REQUIRED"
+        getValues("glassesStatus") === "GLASSES_BOUGHT" ||
+        getValues("glassesStatus") === "GLASSES_REQUIRED"
           ? true
           : false;
       if (voucherType === VOUCHER.FREE_VOUCHER) {
@@ -137,7 +138,11 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
 
   const handleRefer = () => {
     history.push("/refer-beneficiaries", {
-      data: { voucher, beneficiary: BENEFICIARY_ADDRESS },
+      data: {
+        voucher,
+        beneficiary: BENEFICIARY_ADDRESS,
+        from: "redeemVoucher",
+      },
     });
   };
   const handleGoHome = () => {

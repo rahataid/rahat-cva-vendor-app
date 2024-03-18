@@ -11,12 +11,26 @@ import {
 import { homeOutline } from "ionicons/icons";
 import ReferItem from "./refer-item";
 import { useHistory } from "react-router";
+import { BENEFICIARY_VOUCHER_DETAILS } from "../../types/beneficiaries";
 
-const ReferResult = ({ data }: any) => {
-  const history = useHistory();
-  const handleGoHome = () => {
-    history.push("/tabs/home");
+type Props = {
+  data: {
+    data: any;
+    from: "redeemVoucher" | "transactionResult";
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
   };
+};
+
+const ReferResult = ({ data: { data, from, voucher } }: Props) => {
+  const history = useHistory();
+  const handleRedirect = () => {
+    if (from === "redeemVoucher") {
+      history.push("/tabs/home", { data: { voucher } });
+    } else if (from === "transactionResult") {
+      history.push("/tabs/home");
+    }
+  };
+  console.log(data, "xxx");
   return (
     <>
       <TransparentCard>
@@ -27,18 +41,28 @@ const ReferResult = ({ data }: any) => {
         </IonCardHeader>
         <IonCardContent>
           <IonGrid>
-            {data?.beneficiaries?.length ? (
-              data?.beneficiaries?.map((el: any, i: number) => (
-                <ReferItem data={el} key={i} />
+            {data?.length ? (
+              data?.map((el: any, i: number) => (
+                <ReferItem data={el} index={i} />
               ))
             ) : (
               <h2>No Data Available...</h2>
             )}
           </IonGrid>
-          <IonButton onClick={handleGoHome} expand="block">
-            <IonIcon slot="start" icon={homeOutline} />
-            Go To Homepage
-          </IonButton>
+          {from === "redeemVoucher" ? (
+            // <IonButton onClick={() => handleRedirect()} expand="block">
+            //   Done
+            // </IonButton>
+            <IonButton onClick={() => handleRedirect()} expand="block">
+              <IonIcon slot="start" icon={homeOutline} />
+              Go To Homepage
+            </IonButton>
+          ) : (
+            <IonButton onClick={() => handleRedirect()} expand="block">
+              <IonIcon slot="start" icon={homeOutline} />
+              Go To Homepage
+            </IonButton>
+          )}
         </IonCardContent>
       </TransparentCard>
     </>

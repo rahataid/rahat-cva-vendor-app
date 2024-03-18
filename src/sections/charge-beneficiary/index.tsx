@@ -35,15 +35,16 @@ const ChargeBeneficiary = ({ data }: any) => {
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
       BENEFICIARY_ADDRESS
     );
-
     if (
       beneficiaryVoucher?.FreeVoucherClaimStatus === true ||
       beneficiaryVoucher?.ReferredVoucherClaimStatus === true
     )
       throw new Error("Beneficiary has already claimed the Voucher");
-    else if (!Object.keys(beneficiaryVoucher)?.length)
+    else if (
+      !beneficiaryVoucher?.FreeVoucherAddress &&
+      !beneficiaryVoucher?.ReferredVoucherAddress
+    )
       throw new Error("Voucher not assigned to beneficiary");
-    console.log("BENEFICIARY VOUCHER", beneficiaryVoucher);
 
     return {
       //  beneficiary,  get beneficiary details from phone number from the backend

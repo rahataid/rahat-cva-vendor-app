@@ -21,7 +21,9 @@ const TransactionResult = ({
   const history = useHistory();
   const { voucherType } = useVoucherType(voucher);
   const handleReferBeneficiaries = () => {
-    history.push("/refer-beneficiaries");
+    history.push("/refer-beneficiaries", {
+      data: { from: "transactionResult" },
+    });
   };
   const handleDone = () => {
     history.push("/tabs/home");

@@ -22,6 +22,7 @@ import {
   VOUCHER,
 } from "@types/beneficiaries";
 import ProjectsService from "@services/projects";
+import { generateCurrentTimestamp } from "../utils/helperFunctions";
 
 export type TransactionStoreType = TransactionStateType &
   TransactionActionsType;
@@ -318,6 +319,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         RPC_URL,
         ERC2771FORWARDER
       );
+
       async function processBeneficiaries(
         referredBeneficiaries: REFER_BENEFICIARY_DETAILS[]
       ) {
@@ -338,42 +340,47 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
 
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
+      console.log(backendResponse, "backendResponse");
 
       // contract call
 
       const blockChainResponse = [];
-      try {
-        for (const beneficiary of referredBeneficiaries) {
-          const metaTxRequest = await getMetaTxRequest(
-            walletInstance,
-            ForwarderContractInstance,
-            ElProjectInstance,
-            "assignRefereedClaims",
-            [
-              beneficiary.walletAddress,
-              BENEFICIARY_ADDRESS,
-              VENDOR_ADDRESS,
-              "0x3BB2526e0B8f8bD46b0187Aa4d24b351cf434437",
-            ]
-          );
-          const response = await ProjectsService.actions(PROJECT_ID, {
-            action: "elProject.discountVoucher",
-            payload: {
-              metaTxRequest: {
-                ...metaTxRequest,
-                gas: metaTxRequest.gas.toString(),
-                nonce: metaTxRequest.nonce.toString(),
-                value: metaTxRequest.value.toString(),
-              },
+      const payload = [];
+      for (const beneficiary of referredBeneficiaries) {
+        const metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          ForwarderContractInstance,
+          ElProjectInstance,
+          "assignRefereedClaims",
+          [
+            beneficiary.walletAddress,
+            BENEFICIARY_ADDRESS,
+            VENDOR_ADDRESS,
+            "0x3BB2526e0B8f8bD46b0187Aa4d24b351cf434437",
+          ]
+        );
+        const response = await ProjectsService.actions(PROJECT_ID, {
+          action: "elProject.discountVoucher",
+          payload: {
+            metaTxRequest: {
+              ...metaTxRequest,
+              gas: metaTxRequest.gas.toString(),
+              nonce: metaTxRequest.nonce.toString(),
+              value: metaTxRequest.value.toString(),
             },
-          });
-          blockChainResponse.push(response);
-        }
-      } catch (error) {
-        console.log(error);
+          },
+        });
+        console.log("response", response);
+        payload.push({
+          ...beneficiary,
+          createdAt:
+            response?.data?.data?.timestamp || generateCurrentTimestamp(),
+          transactionHash: response?.data?.data?.hash || "",
+        });
+        blockChainResponse.push(response);
       }
-
-      return [backendResponse, blockChainResponse];
+      console.log(payload);
+      return payload;
     },
 
     logoutTransactions: () => {

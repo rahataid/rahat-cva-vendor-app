@@ -1,6 +1,13 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { IonButton, IonCardContent, IonIcon, IonText } from "@ionic/react";
-import { useEffect } from "react";
+import {
+  IonButton,
+  IonCardContent,
+  IonCol,
+  IonIcon,
+  IonLoading,
+  IonText,
+} from "@ionic/react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import ReferSection from "./refer-section";
 import { add, addOutline } from "ionicons/icons";
@@ -11,6 +18,8 @@ import {
 } from "@types/beneficiaries";
 import useTransactionStore from "@store/transaction";
 import { generateRandomWalletAddress } from "@utils/web3";
+import CustomToast from "../../components/toast";
+import useCustomToast from "../../hooks/use-custom-toast";
 
 type Props = {
   data: {
@@ -19,15 +28,20 @@ type Props = {
   };
 };
 
-const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
+const ReferBeneficiaries = ({
+  data: { voucher, beneficiary, from },
+}: Props) => {
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
   const { referBeneficiaries } = useTransactionStore();
   const history = useHistory();
   const {
     control,
     handleSubmit,
-    formState: { isSubmitted, isDirty, isLoading, errors },
+    formState: { isSubmitted, isDirty, isLoading, errors, isSubmitting },
     getValues,
     setValue,
+    setError,
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -51,14 +65,23 @@ const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
           return { ...el, walletAddress: generateRandomWalletAddress() };
         }
       );
-      await referBeneficiaries({
+      const response = await referBeneficiaries({
         referredBeneficiaries,
         voucher,
         beneficiary,
       });
-      // history.push("/refer-result", { data });
+      history.push("/refer-result", {
+        data: { data: response, from, voucher },
+      });
     } catch (error) {
-      console.log(error);
+      showToast(
+        error?.message || "Something went wrong! Try again later.",
+        "danger"
+      );
+      setError("root.serverError", {
+        type: "manual",
+        message: error?.message || "Something went wrong! Try again later.",
+      });
     }
   };
 
@@ -68,6 +91,16 @@ const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <CustomToast
+        isOpen={toastVisible}
+        onDidDismiss={hideToast}
+        message={toastMessage}
+        duration={2000}
+        position="middle"
+        color={toastColor}
+      />
+      <CustomToast />
+      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
       <TransparentCard>
         <IonCardContent>
           {fields.map((field, index) => (
@@ -83,11 +116,6 @@ const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
               />
             </div>
           ))}
-          {errors?.beneficiaries?.length && isSubmitted && (
-            <IonText color="danger">
-              Please fill in all required fields correctly.
-            </IonText>
-          )}
 
           <IonButton
             fill="outline"
@@ -106,10 +134,27 @@ const ReferBeneficiaries = ({ data: { voucher, beneficiary } }: Props) => {
             <IonIcon icon={add} />
             Add More
           </IonButton>
+          <br />
+          <br />
 
-          <br />
-          <br />
-          <IonButton expand="block" type="submit" disabled={isLoading}>
+          <IonCol size="12" className="px-0">
+            {errors?.beneficiaries?.length && isSubmitted && (
+              <IonText color="danger">
+                Please fill in all required fields correctly.
+              </IonText>
+            )}
+            {errors?.root?.serverError?.message && (
+              <IonText color="danger">
+                {errors?.root?.serverError.message}
+              </IonText>
+            )}
+          </IonCol>
+
+          <IonButton
+            expand="block"
+            type="submit"
+            disabled={isLoading || isSubmitting}
+          >
             Submit
           </IonButton>
         </IonCardContent>

@@ -138,3 +138,10 @@ export const sortBeneficiariesByDate = (beneficiaries: ITransactionItem[]) => {
 
   return beneficiariesByDate;
 };
+
+export const generateCurrentTimestamp = () => {
+  const date = new Date();
+  const timestampMilliseconds = date.getTime();
+  const timestampSeconds = Math.floor(timestampMilliseconds / 1000);
+  return timestampSeconds;
+};
