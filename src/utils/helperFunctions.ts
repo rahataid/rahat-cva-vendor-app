@@ -61,7 +61,7 @@ export const copyToClipboard = (text: string) => {
 
 export const fixProjectUrl = (text: string) => {
   if (ENV === "DEV") return `http://${text}/v1`;
-  else if (ENV === "PROD") return `https://${text}.rahat.io/api/v1`;
+  else if (ENV === "PROD") return `https://${text}.rahat.io/v1`;
 };
 
 export const validateTokenAmount = (
