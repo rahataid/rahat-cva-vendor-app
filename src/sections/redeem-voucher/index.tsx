@@ -24,6 +24,7 @@ import { BENEFICIARY_ADDRESS, PROJECT_ID } from "../../config";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
 import useVoucherType from "@hooks/use-voucher-type";
+import { cropString } from "../../utils/helperFunctions";
 
 type Props = {
   beneficiaryAddress: string;
@@ -178,10 +179,10 @@ const RedeemVoucher: React.FC<Props> = ({
                 <IonGrid className="p-0">
                   <IonRow>
                     <IonCol size="6" className="pl-0">
-                      Beneficiary Name:
+                      Beneficiary Address:
                     </IonCol>
                     <IonCol size="6" className="pr-0">
-                      {data?.name || "-"}
+                      {cropString(beneficiaryAddress) || "-"}
                     </IonCol>
                     <IonCol size="6" className="pl-0">
                       Voucher Type:

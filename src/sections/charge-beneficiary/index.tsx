@@ -9,11 +9,19 @@ import ChargePhone from "./charge-phone";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useGraphService } from "@contexts/graph-query";
 import { BENEFICIARY_ADDRESS } from "../../config";
+import {
+  isVoucherAssigned,
+  isVoucherClaimed,
+} from "../../utils/helperFunctions";
+import CustomToast from "../../components/toast";
+import useCustomToast from "../../hooks/use-custom-toast";
 
 const ChargeBeneficiary = ({ data }: any) => {
   const { queryService } = useGraphService();
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
 
   const {
     handleSubmit,
@@ -30,20 +38,12 @@ const ChargeBeneficiary = ({ data }: any) => {
   });
 
   const fetchBeneficiaryVoucher = async (data: any) => {
-    console.log("SUBMIT BENEFICIARY VOUCHER", data);
-
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
       data?.walletAddress
     );
-    if (
-      beneficiaryVoucher?.FreeVoucherClaimStatus === true ||
-      beneficiaryVoucher?.ReferredVoucherClaimStatus === true
-    )
+    if (isVoucherClaimed(beneficiaryVoucher))
       throw new Error("Beneficiary has already claimed the Voucher");
-    else if (
-      !beneficiaryVoucher?.FreeVoucherAddress &&
-      !beneficiaryVoucher?.ReferredVoucherAddress
-    )
+    else if (!isVoucherAssigned(beneficiaryVoucher))
       throw new Error("Voucher not assigned to beneficiary");
 
     return {
@@ -70,8 +70,6 @@ const ChargeBeneficiary = ({ data }: any) => {
         },
       });
     } catch (error: any) {
-      console.log(error);
-
       // const validErrors = [
       //   "Invalid beneficiary",
       //   "Invalid Beneficiary Address",
@@ -81,7 +79,10 @@ const ChargeBeneficiary = ({ data }: any) => {
       // const errorMessage = validErrors.includes(error.message)
       //   ? error.message
       //   : "Something went wrong. Try again later";
-
+      showToast(
+        error.message || "Something went wrong! Try again later.",
+        "danger"
+      );
       setError("root.serverError", {
         type: "manual",
         message: error?.message || "Something went wrong! Try again later.",
@@ -96,6 +97,14 @@ const ChargeBeneficiary = ({ data }: any) => {
         mode="md"
         isOpen={loadingVisible}
         message={"Please wait..."}
+      />
+      <CustomToast
+        isOpen={toastVisible}
+        onDidDismiss={hideToast}
+        message={toastMessage}
+        duration={2000}
+        position="middle"
+        color={toastColor}
       />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <TransparentCard>

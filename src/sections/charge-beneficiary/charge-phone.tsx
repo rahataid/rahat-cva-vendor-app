@@ -7,13 +7,13 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
   return (
     <>
       <IonText>
-        <p>Please enter phone number of the beneficiary.</p>
+        <p>Please enter wallet address of the beneficiary.</p>
       </IonText>
       <br />
       <Controller
         render={({ field }) => (
           <TextInputField
-            placeholder="Enter beneficiary's wallet address"
+            placeholder="Enter wallet address"
             type="text"
             label="Wallet Address *"
             value={getValues("walletAddress")}

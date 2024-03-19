@@ -6,6 +6,7 @@ import {
   formDataType,
 } from "../types/chargeBeneficiary";
 import { IBeneficiary } from "@types/beneficiaries";
+import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
 
 export const isObjectInArray = (arr: any, obj: any, key: any) => {
   return arr.find((el: any) => el[key] === obj[key]) !== undefined;
@@ -144,4 +145,26 @@ export const generateCurrentTimestamp = () => {
   const timestampMilliseconds = date.getTime();
   const timestampSeconds = Math.floor(timestampMilliseconds / 1000);
   return timestampSeconds;
+};
+
+export const isVoucherClaimed = (
+  beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS
+): boolean => {
+  if (
+    beneficiaryVoucher?.FreeVoucherClaimStatus === true ||
+    beneficiaryVoucher?.ReferredVoucherClaimStatus === true
+  )
+    return true;
+  return false;
+};
+
+export const isVoucherAssigned = (
+  beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS
+): boolean => {
+  if (
+    !beneficiaryVoucher?.FreeVoucherAddress &&
+    !beneficiaryVoucher?.ReferredVoucherAddress
+  )
+    return false;
+  return true;
 };

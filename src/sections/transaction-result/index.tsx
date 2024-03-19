@@ -6,6 +6,7 @@ import ResultChip from "@components/chip/statusChip";
 import { useHistory } from "react-router";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import useVoucherType from "@hooks/use-voucher-type";
+import { generateCurrentTimestamp } from "../../utils/helperFunctions";
 
 type Props = {
   data: {
@@ -36,8 +37,8 @@ const TransactionResult = ({
             <IonCol size="12">
               <ResultChip status={otpRes?.status ? "SUCCESS" : "FAILED"} />
             </IonCol>
-            <IonCol size="6">Beneficiary Name</IonCol>
-            <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol>
+            {/* <IonCol size="6">Beneficiary Name</IonCol>
+            <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol> */}
             <IonCol size="6">Voucher Type</IonCol>
             <IonCol size="6">
               <IonText
@@ -67,12 +68,14 @@ const TransactionResult = ({
               </IonText>
             </IonCol> */}
             <IonCol size="6">Date</IonCol>
-            <IonCol size="6">{formatDate(`${new Date()}`) || "-"}</IonCol>
+            <IonCol size="6">
+              {formatDate(generateCurrentTimestamp()) || "-"}
+            </IonCol>
 
             <IonCol size="6">Transaction Hash</IonCol>
             <IonCol size="6">{cropString(otpRes?.hash) || "-"}</IonCol>
 
-            <IonCol size="6">Phone</IonCol>
+            <IonCol size="6">Wallet Address</IonCol>
             <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol>
             <br />
             <IonCol size="12">

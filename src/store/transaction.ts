@@ -229,7 +229,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
 
-      return ProjectsService.actions(PROJECT_ID, payload);
+      const res = await ProjectsService.actions(PROJECT_ID, payload);
+      return res?.data;
     },
 
     updateStatus: async ({

@@ -43,7 +43,7 @@ const ReferResult = ({ data: { data, from, voucher } }: Props) => {
           <IonGrid>
             {data?.length ? (
               data?.map((el: any, i: number) => (
-                <ReferItem data={el} index={i} />
+                <ReferItem key={i} data={el} index={i} />
               ))
             ) : (
               <h2>No Data Available...</h2>

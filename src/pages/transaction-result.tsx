@@ -17,7 +17,6 @@ interface LocationState {
 const TransactionResultPage: React.FC = () => {
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
-
   return (
     <IonPage>
       <CustomHeader title="Transaction Result" />
