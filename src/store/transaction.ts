@@ -34,7 +34,7 @@ export type TransactionStateType = {
 };
 
 export type ReferProps = {
-  beneficiary: string;
+  beneficiaryAddress: string;
   referredBeneficiaries: REFER_BENEFICIARY_DETAILS[];
   voucher: BENEFICIARY_VOUCHER_DETAILS;
 };
@@ -49,6 +49,7 @@ export type UpdateStatusProps = {
 };
 
 export type RedeemVoucherProps = {
+  beneficiaryAddress: string;
   voucher?: BENEFICIARY_VOUCHER_DETAILS;
   voucherType: VOUCHER;
   eyeCheckUp: boolean;
@@ -81,7 +82,7 @@ type TransactionActionsType = {
     uuid,
   }: UpdateStatusProps) => Promise<any>;
   referBeneficiaries: ({
-    beneficiary,
+    beneficiaryAddress,
     referredBeneficiaries,
     voucher,
   }: ReferProps) => Promise<any>;
@@ -100,6 +101,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
     },
 
     redeemVoucher: async ({
+      beneficiaryAddress,
       voucherType,
       voucher,
       eyeCheckUp,
@@ -146,7 +148,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           ForwarderContractInstance,
           ElProjectInstance,
           "requestTokenFromBeneficiary(address)",
-          [BENEFICIARY_ADDRESS]
+          [beneficiaryAddress]
         );
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         // res = await ElProjectInstance.requestReferredTokenFromBeneficiary(
@@ -158,7 +160,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           ForwarderContractInstance,
           ElProjectInstance,
           "requestReferredTokenFromBeneficiary",
-          [BENEFICIARY_ADDRESS, voucher?.ReferredVoucherAddress]
+          [beneficiaryAddress, voucher?.ReferredVoucherAddress]
         );
       }
       const payload = {
@@ -298,7 +300,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
     referBeneficiaries: async ({
       referredBeneficiaries,
       voucher,
-      beneficiary,
+      beneficiaryAddress,
     }) => {
       const { referredAppStoreState } = get();
       const {
@@ -354,7 +356,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           "assignRefereedClaims",
           [
             beneficiary.walletAddress,
-            BENEFICIARY_ADDRESS,
+            beneficiaryAddress,
             VENDOR_ADDRESS,
             "0x3BB2526e0B8f8bD46b0187Aa4d24b351cf434437",
           ]

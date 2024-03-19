@@ -8,7 +8,7 @@ import CustomHeader from "@components/header/customHeader";
 interface LocationState {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiary: string;
+    beneficiaryAddress: string;
   };
 }
 

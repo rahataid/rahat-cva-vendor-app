@@ -2,9 +2,9 @@ import CustomChip from "@components/chip/customChip";
 import { IonCol, IonGrid, IonItem, IonRow, IonText } from "@ionic/react";
 import { formatDate } from "@utils/helperFunctions";
 
-const VoucherDetailsCard = ({ index, data }: any) => {
+const VoucherDetailsCard = ({ data }: any) => {
   return (
-    <IonItem mode="md" key={index} button={false} lines="full">
+    <IonItem mode="md" button={false} lines="full">
       <IonGrid className="px-0">
         <IonRow>
           <IonCol size="6" className="px-0">

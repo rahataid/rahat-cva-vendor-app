@@ -25,7 +25,7 @@ const ChargeBeneficiary = ({ data }: any) => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      phone: "",
+      walletAddress: "",
     },
   });
 
@@ -33,7 +33,7 @@ const ChargeBeneficiary = ({ data }: any) => {
     console.log("SUBMIT BENEFICIARY VOUCHER", data);
 
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
-      BENEFICIARY_ADDRESS
+      data?.walletAddress
     );
     if (
       beneficiaryVoucher?.FreeVoucherClaimStatus === true ||
@@ -47,8 +47,9 @@ const ChargeBeneficiary = ({ data }: any) => {
       throw new Error("Voucher not assigned to beneficiary");
 
     return {
-      //  beneficiary,  get beneficiary details from phone number from the backend
+      //  beneficiary,  get beneficiary details from walletAddress number from the backend
       beneficiaryVoucher,
+      beneficiaryAddress: data?.walletAddress,
     };
   };
 
@@ -58,12 +59,14 @@ const ChargeBeneficiary = ({ data }: any) => {
     try {
       const {
         // beneficiary,
+        beneficiaryAddress,
         beneficiaryVoucher,
       } = await fetchBeneficiaryVoucher(data);
       history.push("/redeem-voucher", {
         data: {
           //  data: beneficiary,
-          voucher: beneficiaryVoucher,
+          beneficiaryAddress,
+          beneficiaryVoucher,
         },
       });
     } catch (error: any) {

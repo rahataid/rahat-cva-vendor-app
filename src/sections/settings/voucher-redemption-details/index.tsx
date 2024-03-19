@@ -11,7 +11,7 @@ const VoucherRedemptionDetails = ({ data }: any) => {
         <IonCardContent className="voucher-details-container">
           <IonList>
             {data?.map((el: any, i: number) => (
-              <VoucherDetailsCard index={i} data={el} />
+              <VoucherDetailsCard key={i} data={el} />
             ))}
           </IonList>
         </IonCardContent>

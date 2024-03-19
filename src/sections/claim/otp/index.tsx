@@ -22,11 +22,11 @@ import useCustomToast from "@hooks/use-custom-toast";
 type Props = {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiary: string;
+    beneficiaryAddress: string;
   };
 };
 
-const OTP = ({ data: { voucher, beneficiary } }: Props) => {
+const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
   const { verifyOtp } = useTransactionStore();
   const history = useHistory();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
@@ -47,10 +47,10 @@ const OTP = ({ data: { voucher, beneficiary } }: Props) => {
 
   const onSubmit = async (data: { otp: string }) => {
     try {
-      const otpRes = await verifyOtp(data?.otp, BENEFICIARY_ADDRESS);
+      const otpRes = await verifyOtp(data?.otp, beneficiaryAddress);
 
       history.push("/transaction-result", {
-        data: { beneficiary, voucher, otpRes: otpRes.data },
+        data: { beneficiaryAddress, voucher, otpRes: otpRes.data },
       });
     } catch (error) {
       showToast("Something went wrong! Try again later.", "danger");

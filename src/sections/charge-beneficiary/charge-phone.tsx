@@ -1,6 +1,7 @@
 import TextInputField from "@components/input/form-text-input";
 import { IonText } from "@ionic/react";
 import { Controller } from "react-hook-form";
+import { validateWalletAddress } from "../../utils/web3";
 
 const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
   return (
@@ -12,13 +13,13 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
       <Controller
         render={({ field }) => (
           <TextInputField
-            placeholder="Enter Phone"
+            placeholder="Enter beneficiary's wallet address"
             type="text"
-            label="Phone Number *"
-            value={getValues("phone")}
-            errorText={errors?.phone?.message}
+            label="Wallet Address *"
+            value={getValues("walletAddress")}
+            errorText={errors?.walletAddress?.message}
             onInput={(e: any) => {
-              setValue("phone", e.target.value, {
+              setValue("walletAddress", e.target.value, {
                 shouldValidate: true,
               });
             }}
@@ -26,18 +27,19 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
           />
         )}
         rules={{
-          required: "Please enter phone number",
-          minLength: {
-            value: 10,
-            message: "Phone Number must be of 10 digits",
-          },
-          maxLength: {
-            value: 10,
-            message: "Phone Number must be of 10 digits",
-          },
+          required: "Please enter valid wallet address",
+          validate: validateWalletAddress,
+          // minLength: {
+          //   value: 10,
+          //   message: "Phone Number must be of 10 digits",
+          // },
+          // maxLength: {
+          //   value: 10,
+          //   message: "Phone Number must be of 10 digits",
+          // },
         }}
         control={control}
-        name="phone"
+        name="walletAddress"
       />
       <br />
       {errors?.root?.serverError?.message && (

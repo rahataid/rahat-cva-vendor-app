@@ -9,7 +9,7 @@ import { MetaTxResponse } from "@types/transactions";
 interface LocationState {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiary: string;
+    beneficiaryAddress: string;
     otpRes: MetaTxResponse;
   };
 }

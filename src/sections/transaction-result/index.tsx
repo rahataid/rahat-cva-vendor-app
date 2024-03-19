@@ -10,13 +10,13 @@ import useVoucherType from "@hooks/use-voucher-type";
 type Props = {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiary: string;
+    beneficiaryAddress: string;
     otpRes: MetaTxResponse;
   };
 };
 
 const TransactionResult = ({
-  data: { voucher, beneficiary, otpRes },
+  data: { voucher, beneficiaryAddress, otpRes },
 }: Props) => {
   const history = useHistory();
   const { voucherType } = useVoucherType(voucher);
@@ -37,7 +37,7 @@ const TransactionResult = ({
               <ResultChip status={otpRes?.status ? "SUCCESS" : "FAILED"} />
             </IonCol>
             <IonCol size="6">Beneficiary Name</IonCol>
-            <IonCol size="6">{cropString(beneficiary)}</IonCol>
+            <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol>
             <IonCol size="6">Voucher Type</IonCol>
             <IonCol size="6">
               <IonText
@@ -73,7 +73,7 @@ const TransactionResult = ({
             <IonCol size="6">{cropString(otpRes?.hash) || "-"}</IonCol>
 
             <IonCol size="6">Phone</IonCol>
-            <IonCol size="6">{cropString(beneficiary)}</IonCol>
+            <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol>
             <br />
             <IonCol size="12">
               <IonText>

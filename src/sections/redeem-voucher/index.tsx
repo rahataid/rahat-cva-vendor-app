@@ -26,15 +26,20 @@ import useCustomToast from "@hooks/use-custom-toast";
 import useVoucherType from "@hooks/use-voucher-type";
 
 type Props = {
+  beneficiaryAddress: string;
+  beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
   data: any;
-  voucher: BENEFICIARY_VOUCHER_DETAILS;
 };
 
-const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
+const RedeemVoucher: React.FC<Props> = ({
+  beneficiaryAddress,
+  beneficiaryVoucher,
+  data,
+}: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
   const { redeemVoucher, updateStatus } = useTransactionStore();
-  const { voucherType } = useVoucherType(voucher);
+  const { voucherType } = useVoucherType(beneficiaryVoucher);
 
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [inProgress, setInProgress] = useState(false);
@@ -67,7 +72,7 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
       if (voucherType === VOUCHER.FREE_VOUCHER) {
         await updateStatus({
           voucherType,
-          beneficiaryAddress: BENEFICIARY_ADDRESS,
+          beneficiaryAddress: beneficiaryAddress,
           eyeCheckUp,
           glassStatus,
           uuid: PROJECT_ID,
@@ -75,8 +80,8 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         await updateStatus({
           voucherType,
-          beneficiaryAddress: BENEFICIARY_ADDRESS,
-          referralVoucherAddress: voucher?.ReferredVoucherAddress,
+          beneficiaryAddress: beneficiaryAddress,
+          referralVoucherAddress: beneficiaryVoucher?.ReferredVoucherAddress,
           eyeCheckUp,
           glassStatus,
           uuid: PROJECT_ID,
@@ -106,6 +111,7 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
           : false;
       if (voucherType === VOUCHER.FREE_VOUCHER)
         await redeemVoucher({
+          beneficiaryAddress,
           voucherType: VOUCHER.FREE_VOUCHER,
           uuid: PROJECT_ID,
           eyeCheckUp,
@@ -113,8 +119,9 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
         });
       else
         await redeemVoucher({
+          beneficiaryAddress,
           voucherType: VOUCHER.DISCOUNT_VOUCHER,
-          voucher,
+          voucher: beneficiaryVoucher,
           uuid: PROJECT_ID,
           eyeCheckUp,
           glassStatus,
@@ -122,8 +129,8 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
 
       history.push("/otp", {
         data: {
-          voucher,
-          beneficiary: BENEFICIARY_ADDRESS,
+          voucher: beneficiaryVoucher,
+          beneficiaryAddress: beneficiaryAddress,
         },
       });
     } catch (error) {
@@ -139,8 +146,8 @@ const RedeemVoucher: React.FC<Props> = ({ data, voucher }) => {
   const handleRefer = () => {
     history.push("/refer-beneficiaries", {
       data: {
-        voucher,
-        beneficiary: BENEFICIARY_ADDRESS,
+        voucher: beneficiaryVoucher,
+        beneficiaryAddress: beneficiaryAddress,
         from: "redeemVoucher",
       },
     });

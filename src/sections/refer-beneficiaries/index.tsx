@@ -24,12 +24,13 @@ import useCustomToast from "../../hooks/use-custom-toast";
 type Props = {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiary: string;
+    beneficiaryAddress: string;
+    from: string;
   };
 };
 
 const ReferBeneficiaries = ({
-  data: { voucher, beneficiary, from },
+  data: { voucher, beneficiaryAddress, from },
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -68,7 +69,7 @@ const ReferBeneficiaries = ({
       const response = await referBeneficiaries({
         referredBeneficiaries,
         voucher,
-        beneficiary,
+        beneficiaryAddress,
       });
       history.push("/refer-result", {
         data: { data: response, from, voucher },
