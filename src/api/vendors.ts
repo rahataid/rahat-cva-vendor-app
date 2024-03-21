@@ -99,6 +99,7 @@ export function useVendorVoucher(
   walletAddress: string,
   queryService: any
 ): any {
+  const { currentUser } = useAppStore.getState();
   const { data, isLoading, error } = useQuery(
     ["vendorVouchers", walletAddress],
     async () => {
@@ -106,6 +107,7 @@ export function useVendorVoucher(
       return res;
     },
     {
+      enabled: currentUser?.projects?.length > 0,
       staleTime: 60000,
     }
   );
@@ -118,6 +120,7 @@ export function useVendorVoucher(
 }
 
 export function useVendorTransaction(walletAddress: string, queryService: any) {
+  const { currentUser } = useAppStore.getState();
   const { data, isLoading, error } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
@@ -125,6 +128,7 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
       return res;
     },
     {
+      enabled: currentUser?.projects?.length > 0,
       staleTime: 60000,
     }
   );
@@ -147,6 +151,38 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
 
   return {
     data: transactionsData,
+    isLoading,
+    error,
+  };
+}
+
+export function useVendorDetails({ forceRender }: any): any {
+  const { currentUser, setCurrentUser } = useAppStore.getState();
+
+  const { data, isLoading, error } = useQuery(
+    ["vendorDetails", forceRender],
+    async () => {
+      const res = await VendorsService.getDetails(currentUser?.uuid);
+      return res;
+    },
+    {
+      enabled: !currentUser?.projects?.length,
+      staleTime: 0,
+      onSuccess: (data: any) => {
+        console.log("VENDOR GET DETAILS RESPONSE", data?.data?.data);
+        if (data?.data?.data) setCurrentUser(data?.data?.data);
+        // const payload = {
+        //   ...currentUser,
+        // };
+        // setCurrentUser(payload);
+      },
+    }
+  );
+
+  const vendor = useMemo(() => currentUser, [data?.data?.data]);
+
+  return {
+    data: vendor,
     isLoading,
     error,
   };

@@ -67,4 +67,10 @@ export const endpoints = {
   projects: {
     actions: (uuid: string) => `/projects/${uuid}/actions`,
   },
+  users: {
+    vendors: {
+      add: "/users/vendors",
+      getByUuid: (uuid: string) => `/users/vendors/${uuid}`,
+    },
+  },
 };

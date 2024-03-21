@@ -62,6 +62,9 @@ const VendorsService = {
       method: "processTokenRequest",
       params: [payload.metaTxRequest],
     }),
+
+  getDetails: (uuid: string) =>
+    axiosInstance.get(endpoints.users.vendors.getByUuid(uuid)),
 };
 
 export default VendorsService;

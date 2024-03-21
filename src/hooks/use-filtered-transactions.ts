@@ -1,15 +1,6 @@
 import { BENEFICIARY_TYPE, IBeneficiary } from "@types/beneficiaries";
 import { useEffect, useState } from "react";
 
-function randomDelay(min, max) {
-  const randomMilliseconds = Math.floor(Math.random() * (max - min)) + min;
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(); // Resolve the promise after the random delay
-    }, randomMilliseconds);
-  });
-}
-
 const filterTransactions = (data: IBeneficiary[], filter: string) => {
   // await randomDelay(0, 500);
   if (filter === "ALL") return data;

@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 import CustomHeader from "@components/header/customHeader";
 import IndeterminateLoader from "@components/loaders/Indeterminate";
 import { useGraphService } from "@contexts/graph-query";
+import { useVendorDetails } from "../api/vendors";
+import { useProjectSettings } from "../api/project-settings";
 
 const HomePage: React.FC = () => {
-  const { wallet, projectSettings, mockData } = useAppStore();
+  const { wallet, projectSettings, currentUser } = useAppStore();
   const { queryService } = useGraphService();
 
   const [forceRender, setForceRender] = useState(false);
@@ -29,6 +31,15 @@ const HomePage: React.FC = () => {
     error: transactionsError,
   } = useVendorTransaction(wallet?.address, queryService);
 
+  const {
+    data: vendorDetails,
+    isLoading: vendorDetailsLoading,
+    error: vendorDetailsError,
+  } = useVendorDetails({ forceRender });
+
+  const { isLoading: settingsLoading, error: settingsError } =
+    useProjectSettings();
+
   return (
     <IonPage>
       <CustomHeader title="Home" />
@@ -38,6 +49,7 @@ const HomePage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
               <Home
+                currentUser={currentUser}
                 projectSettings={projectSettings}
                 handleReload={handleReload}
                 voucherData={voucherData}

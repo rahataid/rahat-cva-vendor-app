@@ -32,10 +32,7 @@ import "../../theme/main.scss";
 
 function Settings() {
   const [showAlert, setShowAlert] = useState(false);
-  const { currentUser, logout } = useAppStore((state) => ({
-    currentUser: state.currentUser,
-    logout: state.logout,
-  }));
+  const { currentUser, logout } = useAppStore();
   const { logoutTransactions } = useTransactionStore();
   const { logoutBeneficiaries } = useBeneficiaryStore();
 
@@ -90,13 +87,6 @@ function Settings() {
       endIcon: chevronForwardOutline,
     },
     {
-      label: "Voucher Redemption Details",
-      startIcon: idCardOutline,
-      action: () => history.push("/tabs/settings/voucher-redemption-details"),
-      isToggle: false,
-      endIcon: chevronForwardOutline,
-    },
-    {
       label: "Projects",
       startIcon: hammerOutline,
       action: () => history.push("/tabs/settings/project"),
@@ -110,6 +100,16 @@ function Settings() {
       action: handleLogout,
     },
   ];
+
+  if (currentUser?.projects?.length > 0) {
+    settingsOptions.splice(1, 0, {
+      label: "Voucher Redemption Details",
+      startIcon: idCardOutline,
+      action: () => history.push("/tabs/settings/voucher-redemption-details"),
+      isToggle: false,
+      endIcon: chevronForwardOutline,
+    });
+  }
 
   return (
     <>

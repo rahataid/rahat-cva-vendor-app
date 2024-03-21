@@ -64,40 +64,50 @@ const SelectProject = ({ from }: Props) => {
 
       //   history.push("/home");
       // }
+      console.log("CURRENT USER", currentUser);
+      const addPayload = {
+        service: "WALLET",
+        name: currentUser?.name,
+        phone: currentUser?.phone,
+        wallet: currentUser?.walletAddress,
+        extras: {
+          isVendor: true,
+        },
+      };
 
       const projectUrl = fixProjectUrl(data?.projectURL);
       console.log("FIXED PROJECT URL", projectUrl);
       if (from === "register") {
-        const [blockchain, contracts, contractDetails, vendor] =
-          await Promise.all([
-            axios.get(
-              `${projectUrl}${endpoints.projectSettings.settings("Blockchain")}`
-            ),
-            axios.get(
-              `${projectUrl}${endpoints.projectSettings.settings("Contract")}`
-            ),
-            axios.get(
-              `${projectUrl}${endpoints.projectSettings.contractDetails(
-                "CVAProject"
-              )}`
-            ),
-            axios.post(`${projectUrl}${endpoints.vendors.add}`, currentUser),
-          ]);
+        const vendor = await axios.post(
+          `${projectUrl}${endpoints.users.vendors.add}`,
+          addPayload
+        );
+        console.log("VENDOR RESPONSE", vendor?.data?.data);
+        setCurrentUser(vendor?.data?.data);
+        setProjectSettings({ baseUrl: data?.projectURL });
+        await initialize();
+        history.push("/tabs/home");
+        return;
 
-        if (contracts?.data && blockchain?.data && contractDetails?.data) {
-          const projectSettings = {
-            baseUrl: data?.projectURL,
-            contracts: contracts?.data?.value,
-            network: blockchain?.data?.value,
-            projectId: contractDetails?.data?.address,
-          };
-          await setProjectSettings(projectSettings);
-          await initialize();
-          triggerUpdate();
-          history.push("/tabs/home");
-        }
+        const [settings] = await Promise.all([
+          axios.post(`${projectUrl}${endpoints.projects.actions(PROJECT_ID)}`, {
+            action: "settings.list",
+            payload: {},
+          }),
+        ]);
+
+        console.log("RESPONSES", { settings, vendor });
+        const projectSettings = {
+          baseUrl: data?.projectURL,
+          contracts: settings?.data.data[0].value,
+          network: settings?.data.data[1].value,
+        };
+        await setProjectSettings(projectSettings);
+        await initialize();
+        triggerUpdate();
+        history.push("/tabs/home");
       } else if (from === "restore") {
-        const res = await axios.post(
+        const settings = await axios.post(
           `${projectUrl}${endpoints.projects.actions(PROJECT_ID)}`,
           {
             action: "settings.list",
@@ -105,11 +115,11 @@ const SelectProject = ({ from }: Props) => {
           }
         );
 
-        console.log(res.data.data);
+        console.log(settings?.data.data);
         const projectSettings = {
           baseUrl: data?.projectURL,
-          contracts: res.data.data[0].value,
-          network: res.data.data[1].value,
+          contracts: settings?.data?.data[0]?.value,
+          network: settings?.data?.data[1]?.value,
         };
         console.log(projectSettings);
         await setProjectSettings(projectSettings);

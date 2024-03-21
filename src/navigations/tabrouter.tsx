@@ -34,15 +34,14 @@ import ReferredBeneficiariesDetailsPage from "@pages/referred-beneficiary-detail
 import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
 
 const Tabs: React.FC = () => {
-  const { chainData } = useAppStore((state) => ({
-    chainData: state.chainData,
-  }));
+  const { currentUser } = useAppStore();
 
   return (
     <IonTabs>
       <IonRouterOutlet>
         <Switch>
           <Route path="/tabs/home" component={HomePage} exact />
+
           <Route
             path="/tabs/charge-beneficiary"
             component={ChargeBeneficiaryPage}
@@ -91,23 +90,29 @@ const Tabs: React.FC = () => {
           <IonIcon icon={homeOutline} />
           {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
-        <IonTabButton tab="transactions" href="/tabs/transactions/list">
-          <IonIcon icon={swapHorizontalOutline} />
-          {/* <IonLabel>Home</IonLabel> */}
-        </IonTabButton>
+        {currentUser?.projects?.length > 0 && (
+          <>
+            <IonTabButton tab="transactions" href="/tabs/transactions/list">
+              <IonIcon icon={swapHorizontalOutline} />
+              {/* <IonLabel>Home</IonLabel> */}
+            </IonTabButton>
+            <IonTabButton
+              tab="chargeBeneficiary"
+              href="/tabs/charge-beneficiary"
+            >
+              <IonIcon icon={qrCodeOutline} />
+              {/* <IonLabel>Charge Beneficiary</IonLabel> */}
+            </IonTabButton>
+            <IonTabButton
+              tab="referred-beneficiaries"
+              href="/tabs/referred-beneficiaries"
+            >
+              <IonIcon icon={peopleOutline} />
+              {/* <IonLabel>Profile</IonLabel> */}
+            </IonTabButton>
+          </>
+        )}
 
-        <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
-          <IonIcon icon={qrCodeOutline} />
-          {/* <IonLabel>Charge Beneficiary</IonLabel> */}
-        </IonTabButton>
-
-        <IonTabButton
-          tab="referred-beneficiaries"
-          href="/tabs/referred-beneficiaries"
-        >
-          <IonIcon icon={peopleOutline} />
-          {/* <IonLabel>Profile</IonLabel> */}
-        </IonTabButton>
         <IonTabButton tab="settings" href="/tabs/settings">
           <IonIcon icon={settingsOutline} />
           {/* <IonLabel>Settings</IonLabel> */}

@@ -168,3 +168,17 @@ export const isVoucherAssigned = (
     return false;
   return true;
 };
+
+export const randomDelay = (min, max) => {
+  const randomMilliseconds = Math.floor(Math.random() * (max - min)) + min;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(); // Resolve the promise after the random delay
+    }, randomMilliseconds);
+  });
+};
+
+export const findArrayElementByName = ({ arr, name }: any): any => {
+  console.log(arr, name);
+  return arr.find((el: any) => el.name.toUpperCase() === name.toUpperCase());
+};

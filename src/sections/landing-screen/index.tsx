@@ -46,7 +46,7 @@ const LandingScreen = () => {
 
           <IonRow className="landing-button-container">
             <IonCol size="11" sizeMd="8" sizeLg="6" sizeXl="4">
-              {/* <IonButton
+              <IonButton
                 mode="md"
                 color="dark"
                 fill="solid"
@@ -55,7 +55,7 @@ const LandingScreen = () => {
               >
                 Create Wallet
               </IonButton>
-              <IonRow className="gap-5"></IonRow> */}
+              <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
                 color="dark"

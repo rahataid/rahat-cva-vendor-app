@@ -19,6 +19,7 @@ type PropTypes = {
   handleReload?: any;
   loading?: boolean;
   transactionsLoading?: boolean;
+  currentUser?: any;
 };
 
 const Home = ({
@@ -29,34 +30,35 @@ const Home = ({
   handleReload,
   loading,
   transactionsLoading,
+  currentUser,
 }: PropTypes) => {
   const history = useHistory();
 
-  // if (!isVendor) {
-  //   return (
-  //     <>
-  //       <DismissibleAlert
-  //         title="Not Approved"
-  //         color="warning"
-  //         dismissText="Reload"
-  //         description="You have not been approved. Please Contact admin."
-  //         onButtonClick={handleReload}
-  //         visible={!isVendor}
-  //       />
-  //       <IonItem
-  //         color="white"
-  //         lines="none"
-  //         className={`ion-text-center ion-padding`}
-  //       >
-  //         {/* <IonLabel>
-  //           <IonText>
-  //             <p>You need to be approved to use all features</p>
-  //           </IonText>
-  //         </IonLabel> */}
-  //       </IonItem>
-  //     </>
-  //   );
-  // }
+  if (!currentUser?.projects?.length > 0) {
+    return (
+      <>
+        <DismissibleAlert
+          title="Not Approved"
+          color="warning"
+          dismissText="Reload"
+          description="You have not been approved. Please Contact admin."
+          onButtonClick={handleReload}
+          visible={!isVendor}
+        />
+        <IonItem
+          color="white"
+          lines="none"
+          className={`ion-text-center ion-padding`}
+        >
+          {/* <IonLabel>
+            <IonText>
+              <p>You need to be approved to use all features</p>
+            </IonText>
+          </IonLabel> */}
+        </IonItem>
+      </>
+    );
+  }
 
   return (
     <>
