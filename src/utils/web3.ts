@@ -110,6 +110,21 @@ export function validateWalletAddress(address: string): boolean {
   }
 }
 
+export function differentiateInput(
+  input: string
+): "PHONE" | "WALLET" | "UNKNOWN" {
+  if (input.length === 10 && !isNaN(parseInt(input))) {
+    // Check if the input is a 10-digit number (phone number)
+    return "PHONE";
+  } else if (input.length === 42 && validateWalletAddress(input)) {
+    // Check if the input is a 42-character hexadecimal string (wallet address)
+    return "WALLET";
+  } else {
+    // If neither phone number nor wallet address
+    return "UNKNOWN";
+  }
+}
+
 export const signMessage = async ({ wallet, message }: any) => {
   try {
     const signature = await wallet.signMessage(JSON.stringify(message));
