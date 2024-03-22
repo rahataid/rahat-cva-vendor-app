@@ -13,6 +13,8 @@ import { useHistory } from "react-router";
 import "./restore.scss";
 import useAppStore from "@store/app";
 import TextInputFieldMultiLine from "@components/input/form-text-input-multiline";
+import BeneficiariesService from "../../../services/beneficiaries";
+import axios from "axios";
 
 const RestoreWallet = () => {
   const history = useHistory();
@@ -37,7 +39,8 @@ const RestoreWallet = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      await handleRestore(data.pneumonics);
+      const { wallet } = await handleRestore(data.pneumonics);
+
       history.push("/select-project", {
         data: { from: "restore" },
       });

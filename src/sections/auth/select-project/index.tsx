@@ -107,6 +107,18 @@ const SelectProject = ({ from }: Props) => {
         triggerUpdate();
         history.push("/tabs/home");
       } else if (from === "restore") {
+        console.log("ELSE IF INSIDE");
+        const vendor = await axios.get(
+          `${projectUrl}${endpoints.users.vendors.getByUuid(wallet?.address)}`
+        );
+        const vendorDetails = vendor?.data?.data;
+        setCurrentUser(vendor?.data?.data);
+        setProjectSettings({ baseUrl: data?.projectURL });
+        console.log(vendorDetails, "VENDOR RES");
+        if (!vendorDetails?.name) throw new Error("Vendor not found");
+        await initialize();
+        history.push("/tabs/home");
+        return;
         const settings = await axios.post(
           `${projectUrl}${endpoints.projects.actions(PROJECT_ID)}`,
           {

@@ -116,6 +116,7 @@ const useAppStore = createStore<AppStoreType>(
       set({
         wallet,
       });
+      return { wallet };
     },
 
     setChainData: async (chainData: StorageChainData) => {
