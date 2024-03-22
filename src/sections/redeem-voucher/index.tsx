@@ -25,6 +25,7 @@ import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
 import useVoucherType from "@hooks/use-voucher-type";
 import { cropString } from "../../utils/helperFunctions";
+import useAppStore from "../../store/app";
 
 type Props = {
   beneficiaryAddress: string;
@@ -39,7 +40,10 @@ const RedeemVoucher: React.FC<Props> = ({
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const { redeemVoucher, updateStatus } = useTransactionStore();
+  const { redeemVoucher, updateStatus } = useTransactionStore((state) => ({
+    redeemVoucher: state.redeemVoucher,
+    updateStatus: state.updateStatus,
+  }));
   const { voucherType } = useVoucherType(beneficiaryVoucher);
 
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -76,7 +80,6 @@ const RedeemVoucher: React.FC<Props> = ({
           beneficiaryAddress: beneficiaryAddress,
           eyeCheckUp,
           glassStatus,
-          uuid: PROJECT_ID,
         });
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         await updateStatus({
@@ -85,7 +88,6 @@ const RedeemVoucher: React.FC<Props> = ({
           referralVoucherAddress: beneficiaryVoucher?.ReferredVoucherAddress,
           eyeCheckUp,
           glassStatus,
-          uuid: PROJECT_ID,
         });
       }
       showToast("Status Updated Successfully", "success");
@@ -114,7 +116,6 @@ const RedeemVoucher: React.FC<Props> = ({
         await redeemVoucher({
           beneficiaryAddress,
           voucherType: VOUCHER.FREE_VOUCHER,
-          uuid: PROJECT_ID,
           eyeCheckUp,
           glassStatus,
         });
@@ -123,7 +124,6 @@ const RedeemVoucher: React.FC<Props> = ({
           beneficiaryAddress,
           voucherType: VOUCHER.DISCOUNT_VOUCHER,
           voucher: beneficiaryVoucher,
-          uuid: PROJECT_ID,
           eyeCheckUp,
           glassStatus,
         });

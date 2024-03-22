@@ -45,7 +45,6 @@ export type UpdateStatusProps = {
   referralVoucherAddress?: string;
   eyeCheckUp: boolean;
   glassStatus: boolean;
-  uuid: string;
 };
 
 export type RedeemVoucherProps = {
@@ -54,7 +53,6 @@ export type RedeemVoucherProps = {
   voucherType: VOUCHER;
   eyeCheckUp: boolean;
   glassStatus: boolean;
-  uuid: string;
 };
 
 type addToProjectPayload = {
@@ -70,7 +68,6 @@ type TransactionActionsType = {
     voucher,
     eyeCheckUp,
     glassStatus,
-    uuid,
   }: RedeemVoucherProps) => Promise<any>;
   verifyOtp: (otp: string, beneficiaryAddress: string) => Promise<any>;
   updateStatus: ({
@@ -79,7 +76,6 @@ type TransactionActionsType = {
     referralVoucherAddress,
     eyeCheckUp,
     glassStatus,
-    uuid,
   }: UpdateStatusProps) => Promise<any>;
   referBeneficiaries: ({
     beneficiaryAddress,
@@ -106,7 +102,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
       voucher,
       eyeCheckUp,
       glassStatus,
-      uuid,
     }) => {
       const { referredAppStoreState } = get();
       const {
@@ -114,6 +109,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         projectSettings: {
           contracts: { ELPROJECT, ERC2771FORWARDER },
           network,
+          projectId,
         },
       } = referredAppStoreState();
 
@@ -174,10 +170,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
           },
           eyeCheckUp,
           glassStatus,
-          uuid,
+          uuid: projectId,
         },
       };
-      return ProjectsService.actions(PROJECT_ID, payload);
+      return ProjectsService.actions(projectId, payload);
     },
 
     verifyOtp: async (otp, beneficiaryAddress) => {
@@ -187,6 +183,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         wallet,
         projectSettings: {
           contracts: { ELPROJECT, ERC2771FORWARDER },
+          projectId,
         },
       } = referredAppStoreState();
 
@@ -229,7 +226,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
 
-      const res = await ProjectsService.actions(PROJECT_ID, payload);
+      const res = await ProjectsService.actions(projectId, payload);
       return res?.data;
     },
 
@@ -239,12 +236,12 @@ const useTransactionStore = createStore<TransactionStoreType>(
       referralVoucherAddress,
       eyeCheckUp,
       glassStatus,
-      uuid,
     }) => {
       const { referredAppStoreState } = get();
       const {
         wallet,
         projectSettings: {
+          projectId,
           contracts: { ELPROJECT, ERC2771FORWARDER },
         },
       } = referredAppStoreState();
@@ -292,10 +289,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
           },
           eyeCheckUp,
           glassStatus,
-          uuid,
+          uuid: projectId,
         },
       };
-      return ProjectsService.actions(PROJECT_ID, payload);
+      return ProjectsService.actions(projectId, payload);
     },
 
     referBeneficiaries: async ({
@@ -307,6 +304,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const {
         wallet,
         projectSettings: {
+          projectId,
           contracts: { ELPROJECT, ERC2771FORWARDER },
         },
       } = referredAppStoreState();
@@ -337,7 +335,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
               type: "REFERRED",
             },
           };
-          return ProjectsService.actions(PROJECT_ID, payload);
+          return ProjectsService.actions(projectId, payload);
         });
         return await Promise.all(promises);
       }
@@ -362,7 +360,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
             "0x3BB2526e0B8f8bD46b0187Aa4d24b351cf434437",
           ]
         );
-        const response = await ProjectsService.actions(PROJECT_ID, {
+        const response = await ProjectsService.actions(projectId, {
           action: "elProject.discountVoucher",
           payload: {
             metaTxRequest: {

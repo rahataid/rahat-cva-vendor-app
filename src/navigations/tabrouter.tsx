@@ -35,7 +35,6 @@ import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
 
 const Tabs: React.FC = () => {
   const { currentUser } = useAppStore();
-
   return (
     <IonTabs>
       <IonRouterOutlet>
@@ -91,26 +90,25 @@ const Tabs: React.FC = () => {
           {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
         {currentUser?.projects?.length > 0 && (
-          <>
-            <IonTabButton tab="transactions" href="/tabs/transactions/list">
-              <IonIcon icon={swapHorizontalOutline} />
-              {/* <IonLabel>Home</IonLabel> */}
-            </IonTabButton>
-            <IonTabButton
-              tab="chargeBeneficiary"
-              href="/tabs/charge-beneficiary"
-            >
-              <IonIcon icon={qrCodeOutline} />
-              {/* <IonLabel>Charge Beneficiary</IonLabel> */}
-            </IonTabButton>
-            <IonTabButton
-              tab="referred-beneficiaries"
-              href="/tabs/referred-beneficiaries"
-            >
-              <IonIcon icon={peopleOutline} />
-              {/* <IonLabel>Profile</IonLabel> */}
-            </IonTabButton>
-          </>
+          <IonTabButton tab="transactions" href="/tabs/transactions/list">
+            <IonIcon icon={swapHorizontalOutline} />
+            {/* <IonLabel>Home</IonLabel> */}
+          </IonTabButton>
+        )}
+        {currentUser?.projects?.length > 0 && (
+          <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
+            <IonIcon icon={qrCodeOutline} />
+            {/* <IonLabel>Charge Beneficiary</IonLabel> */}
+          </IonTabButton>
+        )}
+        {currentUser?.projects?.length > 0 && (
+          <IonTabButton
+            tab="referred-beneficiaries"
+            href="/tabs/referred-beneficiaries"
+          >
+            <IonIcon icon={peopleOutline} />
+            {/* <IonLabel>Profile</IonLabel> */}
+          </IonTabButton>
         )}
 
         <IonTabButton tab="settings" href="/tabs/settings">

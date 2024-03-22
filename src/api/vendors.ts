@@ -157,7 +157,8 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
 }
 
 export function useVendorDetails({ forceRender }: any): any {
-  const { currentUser, setCurrentUser } = useAppStore.getState();
+  const { currentUser, setCurrentUser, setProjectSettings } =
+    useAppStore.getState();
 
   const { data, isLoading, error } = useQuery(
     ["vendorDetails", forceRender],
@@ -170,7 +171,11 @@ export function useVendorDetails({ forceRender }: any): any {
       staleTime: 0,
       onSuccess: (data: any) => {
         console.log("VENDOR GET DETAILS RESPONSE", data?.data?.data);
-        if (data?.data?.data) setCurrentUser(data?.data?.data);
+        if (data?.data?.data) {
+          setCurrentUser(data?.data?.data);
+          setProjectSettings({ projectId: data?.data?.data?.projects[0].uuid });
+        }
+
         // const payload = {
         //   ...currentUser,
         // };

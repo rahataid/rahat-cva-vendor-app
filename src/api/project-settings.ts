@@ -32,7 +32,6 @@ export function useProjectSettings(): any {
           arr: data?.data?.data,
         });
         const projectSettings = {
-          baseUrl: data?.projectURL,
           contracts: contractSettings,
           network: blockChainSettings,
         };
