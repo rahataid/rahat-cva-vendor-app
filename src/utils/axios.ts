@@ -59,6 +59,7 @@ export const endpoints = {
     list: "/beneficiaries",
     details: (walletAddress: string) => `/beneficiaries/${walletAddress}`,
     chargeByPhone: (phone: string) => `/beneficiaries/${phone}/charge`,
+    getByPhone: (phone: string) => `/beneficiaries/phone/${phone}`,
   },
   transactions: {
     list: "/transactions",

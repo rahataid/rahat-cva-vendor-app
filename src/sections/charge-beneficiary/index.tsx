@@ -15,6 +15,8 @@ import {
 } from "../../utils/helperFunctions";
 import CustomToast from "../../components/toast";
 import useCustomToast from "../../hooks/use-custom-toast";
+import { differentiateInput } from "../../utils/web3";
+import BeneficiariesService from "../../services/beneficiaries";
 
 const ChargeBeneficiary = ({ data }: any) => {
   const { queryService } = useGraphService();
@@ -38,8 +40,17 @@ const ChargeBeneficiary = ({ data }: any) => {
   });
 
   const fetchBeneficiaryVoucher = async (data: any) => {
+    const formData = data?.walletAddress;
+    let benWalletAddress: string;
+    const inputType = differentiateInput(data?.walletAddress);
+    if (inputType === "PHONE") {
+      const data = await BeneficiariesService.getByPhone(formData);
+      benWalletAddress = data?.data?.data?.walletAddress;
+    } else if (inputType === "WALLET") {
+      benWalletAddress = data?.walletAddress;
+    }
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
-      data?.walletAddress
+      benWalletAddress
     );
     if (isVoucherClaimed(beneficiaryVoucher))
       throw new Error("Beneficiary has already claimed the Voucher");
@@ -49,7 +60,7 @@ const ChargeBeneficiary = ({ data }: any) => {
     return {
       //  beneficiary,  get beneficiary details from walletAddress number from the backend
       beneficiaryVoucher,
-      beneficiaryAddress: data?.walletAddress,
+      beneficiaryAddress: benWalletAddress,
     };
   };
 
