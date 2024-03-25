@@ -62,7 +62,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
             <Controller
               render={({ field }) => (
                 <TextInputField
-                  placeholder="Enter then number of voucher"
+                  placeholder="Enter the number of voucher"
                   type="number"
                   label="Number of vouchers*"
                   value={getValues("vouchers")}
