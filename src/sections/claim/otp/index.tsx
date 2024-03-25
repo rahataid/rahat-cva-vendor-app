@@ -15,7 +15,6 @@ import { useState } from "react";
 import useTransactionStore from "@store/transaction";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { BENEFICIARY_ADDRESS } from "../../../config";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
 

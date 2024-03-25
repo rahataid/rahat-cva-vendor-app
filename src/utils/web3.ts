@@ -12,7 +12,7 @@ import {
   isAddress,
   randomBytes,
 } from "ethers";
-import { DEFAULT_PASSCODE, RAHAT_ADMIN_PRIVATE_KEY, RPC_URL } from "../config";
+import { DEFAULT_PASSCODE } from "../config";
 import { types } from "./eip712Types";
 
 type BuiltRequest = {
@@ -71,8 +71,7 @@ export function createRandomWalletWithPhone(data: any) {
   return ethers.Wallet.createRandom(data);
 }
 
-export function generateRandomWalletAddress(): string {
-  const network = RPC_URL;
+export function generateRandomWalletAddress(network: string): string {
   const provider = new JsonRpcProvider(network);
   const wallet = Wallet.createRandom(provider);
   return wallet.address;
@@ -153,19 +152,6 @@ export async function createContractInstanceFromWallet(
   const abi = contract.ABI.map(convertToLowerCase);
   const wallet = new ethers.Wallet(privateKey, provider);
   return new Contract(contract.ADDRESS, abi, wallet);
-}
-
-export async function createContractInstanceUsingRahatAdminWallet(
-  rpcUrl: string,
-  contract: any
-) {
-  //  Create wallet from private key
-  const provider = new JsonRpcProvider(rpcUrl);
-
-  const wallet = new ethers.Wallet(RAHAT_ADMIN_PRIVATE_KEY, provider);
-
-  //  Create an instance of the contract
-  return new Contract(contract.address, contract.abi, wallet);
 }
 
 export async function createBaseContract(rpcUrl: string, contract: any) {

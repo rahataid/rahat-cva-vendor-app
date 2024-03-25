@@ -8,7 +8,6 @@ import ChargePhone from "./charge-phone";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useGraphService } from "@contexts/graph-query";
-import { BENEFICIARY_ADDRESS } from "../../config";
 import {
   isVoucherAssigned,
   isVoucherClaimed,

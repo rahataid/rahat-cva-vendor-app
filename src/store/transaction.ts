@@ -10,12 +10,6 @@ import {
   getWalletUsingMnemonic,
 } from "@utils/web3";
 import {
-  BENEFICIARY_ADDRESS,
-  PROJECT_ID,
-  RPC_URL,
-  VENDOR_ADDRESS,
-} from "../config";
-import {
   BENEFICIARY_VOUCHER_DETAILS,
   CreateBeneficiaryDto,
   REFER_BENEFICIARY_DETAILS,
@@ -136,9 +130,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
       // let res;
       let metaTxRequest;
       if (voucherType === VOUCHER.FREE_VOUCHER) {
-        // res = await ElProjectInstance.requestTokenFromBeneficiary(
-        //   BENEFICIARY_ADDRESS
-        // );
         metaTxRequest = await getMetaTxRequest(
           walletInstance,
           ForwarderContractInstance,
@@ -147,10 +138,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
           [beneficiaryAddress]
         );
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
-        // res = await ElProjectInstance.requestReferredTokenFromBeneficiary(
-        //   BENEFICIARY_ADDRESS,
-        //   voucher.ReferredVoucherAddress
-        // );
         metaTxRequest = await getMetaTxRequest(
           walletInstance,
           ForwarderContractInstance,

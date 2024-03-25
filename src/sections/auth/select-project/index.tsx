@@ -8,7 +8,6 @@ import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
 import { fixProjectUrl } from "@utils/helperFunctions";
 import useTransactionStore from "@store/transaction";
-import { PROJECT_ID } from "../../../config";
 
 enum From {
   register = "register",

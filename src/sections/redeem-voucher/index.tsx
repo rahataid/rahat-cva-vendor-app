@@ -20,7 +20,6 @@ import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
 import { useEffect, useState } from "react";
 import useTransactionStore from "@store/transaction";
-import { BENEFICIARY_ADDRESS, PROJECT_ID } from "../../config";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
 import useVoucherType from "@hooks/use-voucher-type";

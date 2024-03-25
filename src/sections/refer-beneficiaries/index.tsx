@@ -20,6 +20,7 @@ import useTransactionStore from "@store/transaction";
 import { generateRandomWalletAddress } from "@utils/web3";
 import CustomToast from "../../components/toast";
 import useCustomToast from "../../hooks/use-custom-toast";
+import useAppStore from "../../store/app";
 
 type Props = {
   data: {
@@ -34,6 +35,9 @@ const ReferBeneficiaries = ({
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
+  const { rpcUrl } = useAppStore((state) => ({
+    rpcUrl: state.projectSettings.network.RPCURL,
+  }));
   const { referBeneficiaries } = useTransactionStore();
   const history = useHistory();
   const {
@@ -63,7 +67,7 @@ const ReferBeneficiaries = ({
       const { beneficiaries } = data;
       const referredBeneficiaries = beneficiaries.map(
         (el: REFER_BENEFICIARY_DETAILS) => {
-          return { ...el, walletAddress: generateRandomWalletAddress() };
+          return { ...el, walletAddress: generateRandomWalletAddress(rpcUrl) };
         }
       );
       const response = await referBeneficiaries({
