@@ -1,7 +1,6 @@
 import React from "react";
 import {
   IonIcon,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -13,17 +12,11 @@ import ProfilePage from "@pages/profile";
 import ProjectSettingsPage from "@pages/project-settings";
 import SettingsPage from "@pages/settings";
 import TransactionsListPage from "@pages/transactions-list";
-import TransactionsSettingsPage from "@pages/transactions-settings";
 import useAppStore from "@store/app";
 import {
-  home,
   homeOutline,
   peopleOutline,
-  person,
-  personOutline,
-  qrCode,
   qrCodeOutline,
-  settings,
   settingsOutline,
   swapHorizontalOutline,
 } from "ionicons/icons";
@@ -32,6 +25,9 @@ import ReferredBeneficiariesListPage from "@pages/referred-beneficiary-list";
 import TransactionsDetailPage from "@pages/transactions-details";
 import ReferredBeneficiariesDetailsPage from "@pages/referred-beneficiary-details";
 import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
+import RedeemVoucherVendorPage from "../pages/redeem-voucher-vendor";
+import RedeemDiscountVoucherPage from "../pages/redeem-discount-voucher";
+import RedeemFreeVoucherPage from "../pages/redeem-free-voucher";
 
 const Tabs: React.FC = () => {
   const { currentUser } = useAppStore();
@@ -77,6 +73,21 @@ const Tabs: React.FC = () => {
           <Route
             path="/tabs/settings/voucher-redemption-details"
             component={VoucherRedemptionDetailsPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/redeem-voucher-vendor"
+            component={RedeemVoucherVendorPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/redeem-voucher-vendor/discount"
+            component={RedeemDiscountVoucherPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/redeem-voucher-vendor/free"
+            component={RedeemFreeVoucherPage}
             exact
           />
           <Redirect exact from="/tabs" to="/tabs/home" />

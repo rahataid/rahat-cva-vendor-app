@@ -1,12 +1,10 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
   IonAlert,
-  IonAvatar,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
-  IonToggle,
   ToggleCustomEvent,
 } from "@ionic/react";
 import useAppStore from "@store/app";
@@ -14,15 +12,11 @@ import {
   chevronForwardOutline,
   hammerOutline,
   logOutOutline,
-  listOutline,
-  personAddOutline,
   personOutline,
-  moonOutline,
-  cashSharp,
-  cashOutline,
   idCardOutline,
+  giftOutline,
 } from "ionicons/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import "../auth/registration/mnemonicDialog.scss";
 import useTransactionStore from "@store/transaction";
@@ -102,13 +96,24 @@ function Settings() {
   ];
 
   if (currentUser?.projects?.length > 0) {
-    settingsOptions.splice(1, 0, {
-      label: "Voucher Redemption Details",
-      startIcon: idCardOutline,
-      action: () => history.push("/tabs/settings/voucher-redemption-details"),
-      isToggle: false,
-      endIcon: chevronForwardOutline,
-    });
+    settingsOptions.splice(
+      1,
+      0,
+      {
+        label: "Redeem Voucher",
+        startIcon: giftOutline,
+        action: () => history.push("/tabs/settings/redeem-voucher-vendor"),
+        isToggle: false,
+        endIcon: chevronForwardOutline,
+      },
+      {
+        label: "Voucher Redemption Details",
+        startIcon: idCardOutline,
+        action: () => history.push("/tabs/settings/voucher-redemption-details"),
+        isToggle: false,
+        endIcon: chevronForwardOutline,
+      }
+    );
   }
 
   return (

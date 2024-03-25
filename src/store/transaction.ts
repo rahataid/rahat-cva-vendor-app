@@ -17,6 +17,7 @@ import {
 } from "@types/beneficiaries";
 import ProjectsService from "@services/projects";
 import { generateCurrentTimestamp } from "../utils/helperFunctions";
+import { RAHAT_ADMIN_WALLET_ADDRESS } from "../config";
 
 export type TransactionStoreType = TransactionStateType &
   TransactionActionsType;
@@ -54,6 +55,11 @@ type addToProjectPayload = {
   payload: CreateBeneficiaryDto;
 };
 
+type TransferVoucher = {
+  voucherType: VOUCHER;
+  amount: number;
+};
+
 type TransactionActionsType = {
   referredAppStoreState: () => AppStoreType;
   triggerUpdate: () => void;
@@ -76,6 +82,7 @@ type TransactionActionsType = {
     referredBeneficiaries,
     voucher,
   }: ReferProps) => Promise<any>;
+  transferVoucher: ({ voucherType, amount }: TransferVoucher) => Promise<any>;
   logoutTransactions: () => void;
 };
 
@@ -102,7 +109,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         wallet,
         projectSettings: {
           contracts: { ELPROJECT, ERC2771FORWARDER },
-          network,
+          network: { RPCURL },
           projectId,
         },
       } = referredAppStoreState();
@@ -117,13 +124,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-      const ElProjectInstance = await createContractInstance(
-        RPC_URL,
-        ELPROJECT
-      );
+      const ElProjectInstance = await createContractInstance(RPCURL, ELPROJECT);
 
       const ForwarderContractInstance = await createContractInstance(
-        RPC_URL,
+        RPCURL,
         ERC2771FORWARDER
       );
 
@@ -172,6 +176,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           contracts: { ELPROJECT, ERC2771FORWARDER },
           projectId,
         },
+        network: { RPCURL },
       } = referredAppStoreState();
 
       // const ElProjectInstance =
@@ -184,13 +189,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
       // return res;
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-      const ElProjectInstance = await createContractInstance(
-        RPC_URL,
-        ELPROJECT
-      );
+      const ElProjectInstance = await createContractInstance(RPCURL, ELPROJECT);
 
       const ForwarderContractInstance = await createContractInstance(
-        RPC_URL,
+        RPCURL,
         ERC2771FORWARDER
       );
 
@@ -230,18 +232,16 @@ const useTransactionStore = createStore<TransactionStoreType>(
         projectSettings: {
           projectId,
           contracts: { ELPROJECT, ERC2771FORWARDER },
+          network: { RPCURL },
         },
       } = referredAppStoreState();
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-      const ElProjectInstance = await createContractInstance(
-        RPC_URL,
-        ELPROJECT
-      );
+      const ElProjectInstance = await createContractInstance(RPCURL, ELPROJECT);
 
       const ForwarderContractInstance = await createContractInstanceFromWallet(
-        RPC_URL,
+        RPCURL,
         ERC2771FORWARDER,
         walletInstance.privateKey
       );
@@ -292,19 +292,17 @@ const useTransactionStore = createStore<TransactionStoreType>(
         wallet,
         projectSettings: {
           projectId,
-          contracts: { ELPROJECT, ERC2771FORWARDER },
+          contracts: { ELPROJECT, ERC2771FORWARDER, REFERRALVOUCHER },
+          network: { RPCURL },
         },
       } = referredAppStoreState();
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-      const ElProjectInstance = await createContractInstance(
-        RPC_URL,
-        ELPROJECT
-      );
+      const ElProjectInstance = await createContractInstance(RPCURL, ELPROJECT);
 
       const ForwarderContractInstance = await createContractInstance(
-        RPC_URL,
+        RPCURL,
         ERC2771FORWARDER
       );
 
@@ -343,8 +341,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
           [
             beneficiary.walletAddress,
             beneficiaryAddress,
-            VENDOR_ADDRESS,
-            "0x3BB2526e0B8f8bD46b0187Aa4d24b351cf434437",
+            walletInstance?.address,
+            REFERRALVOUCHER?.ADDRESS,
           ]
         );
         const response = await ProjectsService.actions(projectId, {
@@ -369,6 +367,41 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
       console.log(payload);
       return payload;
+    },
+
+    transferVoucher: async ({ voucherType, amount }) => {
+      console.log("TRANSFER VOUHCER", voucherType, amount);
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { EYEVOUCHER, REFERRALVOUCHER },
+          network: { RPCURL },
+        },
+      } = referredAppStoreState();
+
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+      let contractInstance;
+
+      if (voucherType === VOUCHER.FREE_VOUCHER) {
+        contractInstance = await createContractInstanceFromWallet(
+          RPCURL,
+          REFERRALVOUCHER,
+          walletInstance.privateKey
+        );
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        contractInstance = await createContractInstanceFromWallet(
+          RPCURL,
+          EYEVOUCHER,
+          walletInstance.privateKey
+        );
+      }
+      const res = await contractInstance.transfer(
+        RAHAT_ADMIN_WALLET_ADDRESS,
+        amount
+      );
+      return res;
     },
 
     logoutTransactions: () => {
