@@ -6,6 +6,7 @@ import useTransactionStore from "../../../store/transaction";
 import TextInputField from "../../../components/input/form-text-input";
 import { VOUCHER } from "../../../types/beneficiaries";
 import CustomToast from "../../../components/toast";
+import { useState } from "react";
 
 type FormValues = {
   vouchers: number;
@@ -14,6 +15,7 @@ type FormValues = {
 const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
   voucherType,
 }) => {
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const { transferVoucher } = useTransactionStore();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -33,11 +35,14 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const res = await transferVoucher({
+      await transferVoucher({
         voucherType,
         amount: data?.vouchers,
       });
+      setSubmitSuccess(true);
+      showToast("Voucher redeemed successfully", "success");
     } catch (error) {
+      setSubmitSuccess(false);
       showToast("Something went wrong! Try again later.", "danger");
       setError("root.serverError", {
         type: "manual",
@@ -82,6 +87,9 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
               name="vouchers"
             />
             <br />
+            {submitSuccess && (
+              <IonText color="success">Voucher redeemed successfully</IonText>
+            )}
             {errors?.root?.serverError?.message && (
               <>
                 <IonText color="danger">
@@ -97,7 +105,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
               color="primary"
               disabled={isSubmitting || !isValid}
             >
-              Verify
+              Submit
             </IonButton>
           </form>
         </IonCardContent>

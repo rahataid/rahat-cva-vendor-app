@@ -205,7 +205,7 @@ const SelectProject = ({ from }: Props) => {
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="register-container">
           <IonRow className="register-form-container">
-            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
               <Controller
                 render={({ field }) => (
                   <TextInputField

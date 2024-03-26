@@ -325,7 +325,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
 
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
-      console.log(backendResponse, "backendResponse");
 
       // contract call
 
@@ -355,7 +354,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
             },
           },
         });
-        console.log("response", response);
         payload.push({
           ...beneficiary,
           createdAt:
@@ -364,41 +362,67 @@ const useTransactionStore = createStore<TransactionStoreType>(
         });
         blockChainResponse.push(response);
       }
-      console.log(payload);
       return payload;
     },
 
     transferVoucher: async ({ voucherType, amount }) => {
-      console.log("TRANSFER VOUHCER", voucherType, amount);
       const { referredAppStoreState } = get();
       const {
         wallet,
         projectSettings: {
-          contracts: { EYEVOUCHER, REFERRALVOUCHER },
+          contracts: { EYEVOUCHER, REFERRALVOUCHER, ERC2771FORWARDER },
           network: { RPCURL },
           admin: { ADDRESS: adminAddress },
+          projectId,
         },
       } = referredAppStoreState();
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+      const forwarderContractInstance = await createContractInstanceFromWallet(
+        RPCURL,
+        ERC2771FORWARDER,
+        walletInstance.privateKey
+      );
 
-      let contractInstance;
-
+      let metaTxRequest;
       if (voucherType === VOUCHER.FREE_VOUCHER) {
-        contractInstance = await createContractInstanceFromWallet(
+        const referralVoucherInstance = await createContractInstance(
           RPCURL,
-          REFERRALVOUCHER,
-          walletInstance.privateKey
+          REFERRALVOUCHER
+        );
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          forwarderContractInstance,
+          referralVoucherInstance,
+          "approve",
+          [adminAddress, amount]
         );
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
-        contractInstance = await createContractInstanceFromWallet(
+        const eyeVoucherInstance = await createContractInstance(
           RPCURL,
-          EYEVOUCHER,
-          walletInstance.privateKey
+          EYEVOUCHER
+        );
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          forwarderContractInstance,
+          eyeVoucherInstance,
+          "approve",
+          [adminAddress, amount]
         );
       }
-      const res = await contractInstance.transfer(adminAddress, amount);
-      return res;
+      const payload = {
+        action: "elProject.processOtp",
+        payload: {
+          metaTxRequest: {
+            ...metaTxRequest,
+            gas: metaTxRequest.gas.toString(),
+            nonce: metaTxRequest.nonce.toString(),
+            value: metaTxRequest.value.toString(),
+          },
+        },
+      };
+      const res = await ProjectsService.actions(projectId, payload);
+      return res?.data?.data;
     },
 
     logoutTransactions: () => {
