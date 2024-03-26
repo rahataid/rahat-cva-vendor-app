@@ -47,6 +47,7 @@ type PropTypes = {
 const Profile = ({ currentUser }: PropTypes) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
+  console.log(currentUser);
   const handleCopyClick = (text: string) => {
     copyToClipboard(text);
     showToast("Text copied to clipboard!", "success");
@@ -103,14 +104,12 @@ const Profile = ({ currentUser }: PropTypes) => {
               slot="start"
             ></IonIcon>
             <IonLabel>
-              {currentUser?.walletAddress
-                ? cropString(currentUser.walletAddress)
-                : "-"}
+              {currentUser?.wallet ? cropString(currentUser.wallet) : "-"}
             </IonLabel>
 
             <IonIcon
               icon={copyOutline}
-              onClick={() => handleCopyClick(currentUser?.walletAddress)}
+              onClick={() => handleCopyClick(currentUser?.wallet)}
               style={{ fontSize: "24px", cursor: "pointer" }}
             />
           </IonItem>

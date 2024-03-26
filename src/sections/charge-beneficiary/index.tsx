@@ -44,6 +44,7 @@ const ChargeBeneficiary = ({ data }: any) => {
     const inputType = differentiateInput(data?.walletAddress);
     if (inputType === "PHONE") {
       const data = await BeneficiariesService.getByPhone(formData);
+      if (!data?.data?.data) throw new Error("Invalid Beneficiary");
       benWalletAddress = data?.data?.data?.walletAddress;
     } else if (inputType === "WALLET") {
       benWalletAddress = data?.walletAddress;
