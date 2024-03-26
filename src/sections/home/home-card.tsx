@@ -43,7 +43,7 @@ const CardComponent: React.FC<CardProps> = ({
             ></IonSkeletonText>
           </IonCardTitle>
         ) : (
-          <IonCardTitle>{title}</IonCardTitle>
+          <IonCardTitle>{title || "-"}</IonCardTitle>
         )}
       </IonCardHeader>
       <IonCardContent>{/* Add any additional content here */}</IonCardContent>

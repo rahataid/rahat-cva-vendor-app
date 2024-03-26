@@ -132,7 +132,9 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
                     </IonItem>
                   ))
               ) : (
-                <IonText>No data available...</IonText>
+                <IonText className="home-tx-no-data-text">
+                  No data available...
+                </IonText>
               )}
             </>
           </IonList>

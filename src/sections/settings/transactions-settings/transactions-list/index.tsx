@@ -84,9 +84,7 @@ const TransactionsList = ({ data, loading }: Props) => {
       ) : (
         <TransparentCard>
           <IonCardHeader>
-            <IonCardTitle className="ion-text-center">
-              No data available...
-            </IonCardTitle>
+            <IonText className="ion-text-center">No data available...</IonText>
           </IonCardHeader>
         </TransparentCard>
       )}
