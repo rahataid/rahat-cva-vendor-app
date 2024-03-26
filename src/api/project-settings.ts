@@ -22,7 +22,6 @@ export function useProjectSettings(): any {
       enabled: currentUser?.projects?.length > 0,
       staleTime: 60000,
       onSuccess: async (data: any) => {
-        console.log("GET PROJECT SETTINGS RESPONSE", data?.data?.data);
         const { value: blockChainSettings } = findArrayElementByName({
           arr: data?.data?.data,
           name: "BLOCKCHAIN",
@@ -31,9 +30,19 @@ export function useProjectSettings(): any {
           name: "CONTRACT",
           arr: data?.data?.data,
         });
+        const { value: subgraphSettings } = findArrayElementByName({
+          name: "SUBGRAPH",
+          arr: data?.data?.data,
+        });
+        const { value: adminSettings } = findArrayElementByName({
+          name: "ADMIN",
+          arr: data?.data?.data,
+        });
         const projectSettings = {
           contracts: contractSettings,
           network: blockChainSettings,
+          subGraph: subgraphSettings,
+          admin: adminSettings,
         };
         await setProjectSettings(projectSettings);
       },

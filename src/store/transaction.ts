@@ -17,7 +17,6 @@ import {
 } from "@types/beneficiaries";
 import ProjectsService from "@services/projects";
 import { generateCurrentTimestamp } from "../utils/helperFunctions";
-import { RAHAT_ADMIN_WALLET_ADDRESS } from "../config";
 
 export type TransactionStoreType = TransactionStateType &
   TransactionActionsType;
@@ -377,6 +376,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         projectSettings: {
           contracts: { EYEVOUCHER, REFERRALVOUCHER },
           network: { RPCURL },
+          admin: { ADDRESS: adminAddress },
         },
       } = referredAppStoreState();
 
@@ -397,10 +397,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           walletInstance.privateKey
         );
       }
-      const res = await contractInstance.transfer(
-        RAHAT_ADMIN_WALLET_ADDRESS,
-        amount
-      );
+      const res = await contractInstance.transfer(adminAddress, amount);
       return res;
     },
 

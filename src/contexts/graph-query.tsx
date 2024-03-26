@@ -1,6 +1,6 @@
 import { GraphQuery } from "@rahat";
-import { GRAPHQL_URL } from "../config";
 import { createContext, useContext } from "react";
+import useAppStore from "../store/app";
 
 export type GraphContextType = {
   queryService: GraphQuery;
@@ -13,7 +13,10 @@ interface QueryProviderProps {
 }
 
 export function GraphQueryProvider({ children }: QueryProviderProps) {
-  const queryService = new GraphQuery(GRAPHQL_URL);
+  const graphQlUrl = useAppStore(
+    (state) => state?.projectSettings?.subGraph?.URL
+  );
+  const queryService = new GraphQuery(graphQlUrl);
 
   return (
     <GraphContext.Provider
