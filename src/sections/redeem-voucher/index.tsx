@@ -92,6 +92,7 @@ const RedeemVoucher: React.FC<Props> = ({
       showToast("Status Updated Successfully", "success");
       setSubmitSuccess(true);
     } catch (error) {
+      console.log(error);
       showToast("Something went wrong! Try again later", "danger");
       setSubmitSuccess(false);
       setError("root.serverError", {
@@ -134,6 +135,7 @@ const RedeemVoucher: React.FC<Props> = ({
         },
       });
     } catch (error) {
+      console.log(error);
       setSubmitSuccess(false);
       setError("root.serverError", {
         type: "manual",

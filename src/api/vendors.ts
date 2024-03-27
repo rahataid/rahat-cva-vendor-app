@@ -141,8 +141,12 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
       claimCreateds,
       tokenRedeems,
     } = data.data;
+    const fixedBeneficiaryReferreds = beneficiaryReferreds.map((el: any) => ({
+      ...el,
+      beneficiary: el.beneficiaryAddress,
+    }));
     return [
-      ...beneficiaryReferreds,
+      ...fixedBeneficiaryReferreds,
       ...projectClaimProcesseds,
       ...claimCreateds,
       ...tokenRedeems,
@@ -157,8 +161,12 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
 }
 
 export function useVendorDetails({ forceRender }: any): any {
-  const { currentUser, setCurrentUser, setProjectSettings } =
-    useAppStore.getState();
+  const {
+    currentUser,
+    setCurrentUser,
+    setProjectSettings,
+    projectSettings: { projectId },
+  } = useAppStore.getState();
 
   const { data, isLoading, error } = useQuery(
     ["vendorDetails", forceRender],
@@ -167,7 +175,7 @@ export function useVendorDetails({ forceRender }: any): any {
       return res;
     },
     {
-      enabled: !currentUser?.projects?.length,
+      enabled: !currentUser?.projects?.length || !projectId,
       staleTime: 0,
       onSuccess: (data: any) => {
         console.log("VENDOR GET DETAILS RESPONSE", data?.data?.data);

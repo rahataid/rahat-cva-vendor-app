@@ -52,6 +52,7 @@ const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
         data: { beneficiaryAddress, voucher, otpRes: otpRes.data },
       });
     } catch (error) {
+      console.log(error);
       showToast("Something went wrong! Try again later.", "danger");
       setError("root.serverError", {
         type: "manual",
@@ -79,7 +80,7 @@ const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
         <TransparentCard>
           <IonCardContent>
             <IonText>
-              <p>OTP code from SMS (Ask OTP to the beneficiary)</p>
+              <p>OTP code from SMS (Ask OTP from the beneficiary)</p>
             </IonText>
             <br />
             <Controller

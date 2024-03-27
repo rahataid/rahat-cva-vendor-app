@@ -137,10 +137,10 @@ export const signMessage = async ({ wallet, message }: any) => {
 export async function createContractInstance(rpcUrl: string, contract: any) {
   //  Create Provider
   const provider = new JsonRpcProvider(rpcUrl);
-  const abi = contract.ABI.map(convertToLowerCase);
+  const abi = contract.abi.map(convertToLowerCase);
 
   //  Create an instance of the contract
-  return new Contract(contract.ADDRESS, abi, provider);
+  return new Contract(contract.address, abi, provider);
 }
 
 export async function createContractInstanceFromWallet(
@@ -149,9 +149,9 @@ export async function createContractInstanceFromWallet(
   privateKey: string
 ) {
   const provider = new JsonRpcProvider(rpcUrl);
-  const abi = contract.ABI.map(convertToLowerCase);
+  const abi = contract.abi.map(convertToLowerCase);
   const wallet = new ethers.Wallet(privateKey, provider);
-  return new Contract(contract.ADDRESS, abi, wallet);
+  return new Contract(contract.address, abi, wallet);
 }
 
 export async function createBaseContract(rpcUrl: string, contract: any) {
