@@ -33,7 +33,7 @@ body {
   --ion-color-tertiary-shade: #5d58e0;
   --ion-color-tertiary-tint: #7974ff;
 
-  --ion-color-success: #2fdf75;
+  --ion-color-success: #66cc99;
   --ion-color-success-rgb: 47, 223, 117;
   --ion-color-success-contrast: #000000;
   --ion-color-success-contrast-rgb: 0, 0, 0;
@@ -47,7 +47,7 @@ body {
   --ion-color-warning-shade: #e0bb2e;
   --ion-color-warning-tint: #ffd948;
 
-  --ion-color-danger: #ff4961;
+  --ion-color-danger: #ff6666;
   --ion-color-danger-rgb: 255, 73, 97;
   --ion-color-danger-contrast: #ffffff;
   --ion-color-danger-contrast-rgb: 255, 255, 255;
@@ -134,14 +134,14 @@ body {
     --ion-card-background: #ffffff;
 
     ion-content {
-      // --background: linear-gradient(
-      //     rgba(33, 126, 194, 0.7),
-      //     rgba(33, 126, 194, 0.7)
-      //   ),
-      //   url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
-      // --ion-background-blend-mode: multiply; /* Blend mode */
+      --background: linear-gradient(
+          rgba(33, 126, 194, 0.7),
+          rgba(33, 126, 194, 0.7)
+        ),
+        url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+      --ion-background-blend-mode: multiply; /* Blend mode */
       // --background: #f8faf9;
-      --background: #fbfaf5;
+      // --background: #fbfaf5;
       // --background: #4392cb;
     }
   }
