@@ -95,7 +95,7 @@ const Tabs: React.FC = () => {
         </Switch>
       </IonRouterOutlet>
 
-      <IonTabBar slot="bottom" mode="md">
+      <IonTabBar slot="bottom" mode="md" className="custom-tabbar">
         <IonTabButton tab="home" href="/tabs/home">
           <IonIcon icon={homeOutline} />
           {/* <IonLabel>Home</IonLabel> */}

@@ -7,7 +7,7 @@ const RegisterPage: React.FC = () => {
   return (
     <IonPage>
       <CustomHeader title="Register" showBackButton />
-      <IonContent className="bg" fullscreen scrollY={false}>
+      <IonContent fullscreen scrollY={false}>
         <Register />
       </IonContent>
     </IonPage>

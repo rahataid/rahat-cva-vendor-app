@@ -135,7 +135,7 @@ const Register = () => {
                 mode="md"
                 type="submit"
                 expand="block"
-                color="dark"
+                // color="dark"
                 disabled={isDirty || !isValid || isSubmitting}
               >
                 {isSubmitting ? (
@@ -147,7 +147,7 @@ const Register = () => {
               <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
-                color="dark"
+                // color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}

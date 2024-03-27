@@ -16,17 +16,18 @@
   align-items: flex-end;
   justify-content: center;
   flex: 0.3;
+  padding-bottom: 70px;
 }
 
 .gap-5 {
   height: 5px;
 }
 
-.bg {
-  --background: linear-gradient(
-      rgba(33, 126, 194, 0.7),
-      rgba(33, 126, 194, 0.7)
-    ),
-    url("/src/assets/images/bg/main-bg.png") center/cover no-repeat !important;
-  --ion-background-blend-mode: multiply !important; /* Blend mode */
-}
+// .bg {
+//   --background: linear-gradient(
+//       rgba(33, 126, 194, 0.7),
+//       rgba(33, 126, 194, 0.7)
+//     ),
+//     url("/src/assets/images/bg/main-bg.png") center/cover no-repeat !important;
+//   --ion-background-blend-mode: multiply !important; /* Blend mode */
+// }

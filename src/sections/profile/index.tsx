@@ -70,6 +70,7 @@ const Profile = ({ currentUser }: PropTypes) => {
               aria-hidden="true"
               icon={personOutline}
               slot="start"
+              color="primary"
             ></IonIcon>
             <IonLabel>{currentUser?.name || "-"}</IonLabel>
           </IonItem>
@@ -94,6 +95,7 @@ const Profile = ({ currentUser }: PropTypes) => {
               aria-hidden="true"
               icon={callOutline}
               slot="start"
+              color="primary"
             ></IonIcon>
             <IonLabel>{currentUser?.phone || "-"}</IonLabel>
           </IonItem>
@@ -102,6 +104,7 @@ const Profile = ({ currentUser }: PropTypes) => {
               aria-hidden="true"
               icon={walletOutline}
               slot="start"
+              color="primary"
             ></IonIcon>
             <IonLabel>
               {currentUser?.wallet ? cropString(currentUser.wallet) : "-"}
@@ -111,6 +114,7 @@ const Profile = ({ currentUser }: PropTypes) => {
               icon={copyOutline}
               onClick={() => handleCopyClick(currentUser?.wallet)}
               style={{ fontSize: "24px", cursor: "pointer" }}
+              color="success"
             />
           </IonItem>
         </IonList>

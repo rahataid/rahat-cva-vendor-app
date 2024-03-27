@@ -23,7 +23,7 @@ const TransactionResult = ({
   const { voucherType } = useVoucherType(voucher);
   const handleReferBeneficiaries = () => {
     history.push("/refer-beneficiaries", {
-      data: { from: "transactionResult" },
+      data: { from: "transactionResult", beneficiaryAddress, voucher },
     });
   };
   const handleDone = () => {

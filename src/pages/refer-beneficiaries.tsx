@@ -7,7 +7,7 @@ import { useLocation } from "react-router";
 type LocationState = {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiary: string;
+    beneficiaryAddress: string;
     from: "redeemVoucher" | "transactionResult";
   };
 };

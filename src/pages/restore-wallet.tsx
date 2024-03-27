@@ -7,7 +7,7 @@ const RestoreWalletPage: React.FC = () => {
   return (
     <IonPage>
       <CustomHeader title="Restore Wallet" showBackButton />
-      <IonContent className="bg" fullscreen scrollY={false}>
+      <IonContent fullscreen scrollY={false}>
         <RestoreWallet />
       </IonContent>
     </IonPage>

@@ -157,7 +157,7 @@ function Settings() {
 
           {settingsOptions.map((option, index) => (
             <IonItem key={index} button={true} onClick={option.action}>
-              <IonIcon icon={option.startIcon} slot="start" />
+              <IonIcon icon={option.startIcon} slot="start" color="primary" />
 
               <IonLabel>{option.label}</IonLabel>
               {option?.endIcon && (

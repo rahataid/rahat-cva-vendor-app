@@ -243,7 +243,7 @@ const SelectProject = ({ from }: Props) => {
                 mode="md"
                 type="submit"
                 expand="block"
-                color="dark"
+                // color="dark"
                 // disabled={isDirty || !isValid || isSubmitting}
               >
                 Submit
@@ -255,7 +255,7 @@ const SelectProject = ({ from }: Props) => {
               <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
-                color="dark"
+                // color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}

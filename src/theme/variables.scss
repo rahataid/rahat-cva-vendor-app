@@ -1,7 +1,7 @@
 @import url("./fonts.scss");
 
 :root {
-  --ion-font-family: "Poppins-Light", sans-serif;
+  --ion-font-family: "ProximaNovaSemiBold", sans-serif;
 
   --ion-color-white: #ffffff;
   --ion-color-white-rgb: 255, 255, 255;
@@ -90,7 +90,7 @@ body {
     // --ion-background-color: #eeeeee;
     // --ion-background-color-rgb: 238, 238, 238;
 
-    --ion-text-color: #000000;
+    --ion-text-color: #333333;
     --ion-text-color-rgb: 0, 0, 0;
 
     --ion-color-step-50: #e2e2e2;
@@ -113,36 +113,51 @@ body {
     --ion-color-step-900: #181818;
     --ion-color-step-950: #0c0c0c;
 
-    --ion-item-background: #ffffff;
+    --ion-item-background: #fff;
 
+    --ion-toolbar-height: 100px;
     --ion-toolbar-box-shadow: none;
     // --ion-toolbar-background: #4392cb;
     // --ion-toolbar-border-color: #e0e1e2;
-    --ion-toolbar-background: #ffffff;
-    --ion-toolbar-border-color: #e2e2e2;
+    --ion-toolbar-background: #f5f7fa;
+    --ion-toolbar-border-color: #f5f7fa;
 
     .custom-toolbar {
+      height: 70px;
       box-shadow: none;
       border-bottom: 1px solid #e2e2e2;
+      .in-toolbar {
+        display: flex;
+        background-color: #f5f7fa;
+        height: 100%;
+      }
+      .title-default {
+        color: #4392cb;
+      }
+    }
+
+    .custom-tabbar {
+      height: 70px;
+      border-top: 1px solid #f5f7fa;
     }
 
     // --ion-tab-bar-background: #f5fcff;
     // --ion-tab-bar-border-color: #e0e1e2;
-    --ion-tab-bar-background: #ffffff;
-    --ion-tab-bar-border-color: #e2e2e2;
+    --ion-tab-bar-background: #f5f7fa;
+    --ion-tab-bar-border-color: #f5f7fa;
 
-    --ion-card-background: #ffffff;
+    --ion-card-background: #fff;
 
     ion-content {
-      --background: linear-gradient(
-          rgba(33, 126, 194, 0.7),
-          rgba(33, 126, 194, 0.7)
-        ),
-        url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
-      --ion-background-blend-mode: multiply; /* Blend mode */
+      // --background: linear-gradient(
+      //     rgba(33, 126, 194, 0.7),
+      //     rgba(33, 126, 194, 0.7)
+      //   ),
+      //   url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+      // --ion-background-blend-mode: multiply; /* Blend mode */
       // --background: #f8faf9;
       // --background: #fbfaf5;
-      // --background: #4392cb;
+      --background: #f5f7fa;
     }
   }
 

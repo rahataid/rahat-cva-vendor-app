@@ -35,7 +35,7 @@ const RedeemVoucherVendor = () => {
       </IonGrid> */}
       <IonList mode="md">
         <IonItem button={true} onClick={onFreeVoucherCardClick}>
-          <IonIcon icon={cartOutline} slot="start" />
+          <IonIcon icon={pricetagOutline} slot="start" color="warning" />
           <IonText>Free Voucher</IonText>
           <IonIcon
             className="end-icon"
@@ -45,7 +45,7 @@ const RedeemVoucherVendor = () => {
           />
         </IonItem>
         <IonItem button={true} onClick={onDiscountVoucherCardClick}>
-          <IonIcon icon={pricetagOutline} slot="start" />
+          <IonIcon icon={pricetagOutline} slot="start" color="success" />
           <IonText>Discount Voucher</IonText>
           <IonIcon
             className="end-icon"

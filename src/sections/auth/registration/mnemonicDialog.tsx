@@ -33,13 +33,13 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
       message={mnemonics}
       buttons={[
         {
-          text: "I have written it down",
-          cssClass: "alert-button-confirm",
-        },
-        {
           text: "Copy",
           cssClass: "alert-button-confirm",
           handler: (event: React.MouseEvent) => handleCopyClick(event),
+        },
+        {
+          text: "Next",
+          cssClass: "alert-button-confirm",
         },
       ]}
       onDidDismiss={handleOnDidDismiss}
