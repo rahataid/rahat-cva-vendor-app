@@ -28,12 +28,12 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
         )}
         rules={{
           required: "Please enter valid phone / wallet address",
-          validate: {
-            validateInput: (value) =>
-              (validateWalletAddress(value) && value.length === 42) ||
-              (value.length === 10 && !isNaN(value)) ||
-              "Please enter a valid phone number or wallet address",
-          },
+          // validate: {
+          //   validateInput: (value) =>
+          //     (validateWalletAddress(value) && value.length === 42) ||
+          //     (value.length === 10 && !isNaN(value)) ||
+          //     "Please enter a valid phone number or wallet address",
+          // },
           // validate: validateWalletAddress,
           // minLength: {
           //   value: 10,
