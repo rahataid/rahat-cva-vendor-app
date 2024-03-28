@@ -135,6 +135,13 @@ const RedeemVoucher: React.FC<Props> = ({
         },
       });
     } catch (error) {
+      // fix for release
+      history.push("/otp", {
+        data: {
+          voucher: beneficiaryVoucher,
+          beneficiaryAddress: beneficiaryAddress,
+        },
+      });
       console.log(error);
       setSubmitSuccess(false);
       setError("root.serverError", {

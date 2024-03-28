@@ -52,10 +52,11 @@ const ChargeBeneficiary = ({ data }: any) => {
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
       benWalletAddress
     );
-    if (isVoucherClaimed(beneficiaryVoucher))
-      throw new Error("Beneficiary has already claimed the Voucher");
-    else if (!isVoucherAssigned(beneficiaryVoucher))
-      throw new Error("Voucher not assigned to beneficiary");
+    // fix for release
+    // if (isVoucherClaimed(beneficiaryVoucher))
+    //   throw new Error("Beneficiary has already claimed the Voucher");
+    // else if (!isVoucherAssigned(beneficiaryVoucher))
+    //   throw new Error("Voucher not assigned to beneficiary");
 
     return {
       //  beneficiary,  get beneficiary details from walletAddress number from the backend
@@ -131,7 +132,7 @@ const ChargeBeneficiary = ({ data }: any) => {
               type="submit"
               expand="block"
               color="primary"
-              disabled={!isValid || isSubmitting}
+              disabled={isSubmitting}
             >
               Fetch Beneficiary Voucher
             </IonButton>
