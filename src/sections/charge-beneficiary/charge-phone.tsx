@@ -1,48 +1,25 @@
 import TextInputField from "@components/input/form-text-input";
-import { IonCardSubtitle, IonRow, IonText } from "@ionic/react";
+import { IonText } from "@ionic/react";
 import { Controller } from "react-hook-form";
+import { validateWalletAddress } from "../../utils/web3";
 
 const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
   return (
     <>
-      <IonCardSubtitle>
-        You are about to send tokens a beneficiary. Please enter phone number /
-        wallet address of the beneficiary.
-      </IonCardSubtitle>
-      <IonRow className="gap-25"></IonRow>
-      <Controller
-        render={({ field }) => (
-          <TextInputField
-            placeholder="Enter Phone / Wallet Address"
-            type="text"
-            label="Phone / Wallet *"
-            value={getValues("phoneWalletInput")}
-            errorText={errors?.phoneWalletInput?.message}
-            onInput={(e: any) => {
-              setValue("phoneWalletInput", e.target.value, {
-                shouldValidate: true,
-              });
-            }}
-            onBlur={field.onBlur}
-          />
-        )}
-        rules={{
-          required: "Please enter phone number / wallet address",
-        }}
-        control={control}
-        name="phoneWalletInput"
-      />
+      <IonText>
+        <p>Please enter phone number / wallet address of the beneficiary.</p>
+      </IonText>
       <br />
       <Controller
         render={({ field }) => (
           <TextInputField
-            placeholder="Token"
-            type="number"
-            label="Token*"
-            errorText={errors?.token?.message}
-            value={getValues("token")}
+            placeholder="Enter phone number / wallet address"
+            type="text"
+            label="Phone / Wallet Address *"
+            value={getValues("walletAddress")}
+            errorText={errors?.walletAddress?.message}
             onInput={(e: any) => {
-              setValue("token", e.target.value, {
+              setValue("walletAddress", e.target.value, {
                 shouldValidate: true,
               });
             }}
@@ -50,16 +27,32 @@ const ChargePhone = ({ getValues, errors, setValue, control }: any) => {
           />
         )}
         rules={{
-          required: "Please enter token amount",
-          validate: (value) =>
-            parseFloat(value) !== 0 || "Token amount cannot be 0",
+          required: "Please enter valid phone / wallet address",
+          // validate: {
+          //   validateInput: (value) =>
+          //     (validateWalletAddress(value) && value.length === 42) ||
+          //     (value.length === 10 && !isNaN(value)) ||
+          //     "Please enter a valid phone number or wallet address",
+          // },
+          // validate: validateWalletAddress,
+          // minLength: {
+          //   value: 10,
+          //   message: "Phone Number must be of 10 digits",
+          // },
+          // maxLength: {
+          //   value: 10,
+          //   message: "Phone Number must be of 10 digits",
+          // },
         }}
         control={control}
-        name="token"
+        name="walletAddress"
       />
       <br />
       {errors?.root?.serverError?.message && (
-        <IonText color="danger">{errors?.root?.serverError.message}</IonText>
+        <>
+          <IonText color="danger">{errors?.root?.serverError.message}</IonText>
+          <br />
+        </>
       )}
     </>
   );

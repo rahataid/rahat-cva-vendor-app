@@ -1,29 +1,22 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
   IonAlert,
-  IonAvatar,
-  IonCard,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
-  IonToggle,
   ToggleCustomEvent,
 } from "@ionic/react";
 import useAppStore from "@store/app";
 import {
   chevronForwardOutline,
-  logOut,
-  wifiOutline,
-  people,
-  cashOutline,
   hammerOutline,
-  moonOutline,
   logOutOutline,
-  peopleOutline,
-  listOutline,
+  personOutline,
+  idCardOutline,
+  giftOutline,
 } from "ionicons/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import "../auth/registration/mnemonicDialog.scss";
 import useTransactionStore from "@store/transaction";
@@ -33,21 +26,11 @@ import "../../theme/main.scss";
 
 function Settings() {
   const [showAlert, setShowAlert] = useState(false);
-  const { internetAccess, setInternetAccess, currentUser, logout } =
-    useAppStore((state) => ({
-      setInternetAccess: state.setInternetAccess,
-      internetAccess: state.projectSettings?.internetAccess,
-      currentUser: state.currentUser,
-      logout: state.logout,
-    }));
+  const { currentUser, logout } = useAppStore();
   const { logoutTransactions } = useTransactionStore();
   const { logoutBeneficiaries } = useBeneficiaryStore();
 
   const history = useHistory();
-
-  const handleToggle = () => {
-    setInternetAccess(!internetAccess);
-  };
 
   const [themeToggle, setThemeToggle] = useState(false);
 
@@ -59,26 +42,6 @@ function Settings() {
   const toggleDarkTheme = (shouldAdd: boolean) => {
     document.body.classList.toggle("dark", shouldAdd);
   };
-
-  // Check/uncheck the toggle and update the theme based on isDark
-  const initializeDarkTheme = (isDark: boolean) => {
-    setThemeToggle(isDark);
-    toggleDarkTheme(isDark);
-  };
-
-  // useEffect(() => {
-  //   // Use matchMedia to check the user preference
-  //   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-  //   // Initialize the dark theme based on the initial
-  //   // value of the prefers-color-scheme media query
-  //   initializeDarkTheme(false);
-
-  //   // Listen for changes to the prefers-color-scheme media query
-  //   prefersDark.addEventListener("change", (mediaQuery) =>
-  //     initializeDarkTheme(mediaQuery.matches)
-  //   );
-  // }, []);
 
   const handleLogout = () => {
     setShowAlert(true);
@@ -97,24 +60,23 @@ function Settings() {
 
   const settingsOptions = [
     // {
-    //   label: "Offline Mode",
-    //   startIcon: wifiOutline,
-    //   action: () => history.push("/tabs/settings/internet-center"),
-    //   checked: internetAccess,
+    //   label: "Referred Beneficiaries",
+    //   startIcon: personAddOutline,
+    //   action: () => history.push("/tabs/settings/referred-beneficiaries/list"),
+    //   isToggle: false,
+    //   endIcon: chevronForwardOutline,
+    // },
+    // {
+    //   label: "Transactions",
+    //   startIcon: listOutline,
+    //   action: () => history.push("/tabs/settings/transactions/list"),
     //   isToggle: false,
     //   endIcon: chevronForwardOutline,
     // },
     {
-      label: "Beneficiaries",
-      startIcon: peopleOutline,
-      action: () => history.push("/tabs/settings/beneficiaries"),
-      isToggle: false,
-      endIcon: chevronForwardOutline,
-    },
-    {
-      label: "Transactions",
-      startIcon: listOutline,
-      action: () => history.push("/tabs/settings/transactions"),
+      label: "Profile",
+      startIcon: personOutline,
+      action: () => history.push("/tabs/settings/profile"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
@@ -125,12 +87,34 @@ function Settings() {
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
+
     {
       label: "Logout",
       startIcon: logOutOutline,
       action: handleLogout,
     },
   ];
+
+  if (currentUser?.projects?.length > 0) {
+    settingsOptions.splice(
+      1,
+      0,
+      {
+        label: "Redeem Voucher",
+        startIcon: giftOutline,
+        action: () => history.push("/tabs/settings/redeem-voucher-vendor"),
+        isToggle: false,
+        endIcon: chevronForwardOutline,
+      },
+      {
+        label: "Voucher Redemption Details",
+        startIcon: idCardOutline,
+        action: () => history.push("/tabs/settings/voucher-redemption-details"),
+        isToggle: false,
+        endIcon: chevronForwardOutline,
+      }
+    );
+  }
 
   return (
     <>
@@ -155,7 +139,7 @@ function Settings() {
       />
       <TransparentCard>
         <IonList>
-          <IonItem button={true} onClick={() => history.push("/tabs/profile")}>
+          {/* <IonItem button={true} onClick={() => history.push("/tabs/profile")}>
             <IonAvatar slot="start">
               <img
                 alt="User avatar"
@@ -163,23 +147,22 @@ function Settings() {
               />
             </IonAvatar>
             <IonLabel>{currentUser?.name || "-"}</IonLabel>
-          </IonItem>
-          <IonItem button={true} onClick={handleToggle}>
-            <IonIcon icon={wifiOutline} slot="start" />
-            <IonLabel>Internet Status</IonLabel>
-            <IonToggle checked={internetAccess} />
-          </IonItem>
+          </IonItem> */}
+
           {/* <IonItem button={true} onClick={toggleChange}>
             <IonIcon icon={moonOutline} slot="start" />
             <IonLabel>Dark Mode</IonLabel>
             <IonToggle checked={themeToggle} />
           </IonItem> */}
+
           {settingsOptions.map((option, index) => (
             <IonItem key={index} button={true} onClick={option.action}>
-              <IonIcon icon={option.startIcon} slot="start" />
+              <IonIcon icon={option.startIcon} slot="start" color="primary" />
 
               <IonLabel>{option.label}</IonLabel>
-              {option?.endIcon && <IonIcon icon={option.endIcon} slot="end" />}
+              {option?.endIcon && (
+                <IonIcon icon={option.endIcon} slot="end" color="medium" />
+              )}
             </IonItem>
           ))}
         </IonList>

@@ -24,28 +24,26 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
     event.stopPropagation();
   };
   return (
-    <>
-      <IonAlert
-        mode="md"
-        backdropDismiss={false}
-        isOpen={isOpen}
-        header="Please write down the mnemonics safely"
-        subHeader=""
-        message={mnemonics}
-        buttons={[
-          {
-            text: "I have written it down",
-            cssClass: "alert-button-confirm",
-          },
-          {
-            text: "Copy",
-            cssClass: "alert-button-confirm",
-            handler: (event: React.MouseEvent) => handleCopyClick(event),
-          },
-        ]}
-        onDidDismiss={handleOnDidDismiss}
-      ></IonAlert>
-    </>
+    <IonAlert
+      mode="md"
+      backdropDismiss={false}
+      isOpen={isOpen}
+      header="Please write down the mnemonics safely"
+      subHeader=""
+      message={mnemonics}
+      buttons={[
+        {
+          text: "Copy",
+          cssClass: "alert-button-confirm",
+          handler: (event: React.MouseEvent) => handleCopyClick(event),
+        },
+        {
+          text: "Next",
+          cssClass: "alert-button-confirm",
+        },
+      ]}
+      onDidDismiss={handleOnDidDismiss}
+    ></IonAlert>
   );
 }
 export default MnemonicDialog;

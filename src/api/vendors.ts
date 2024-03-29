@@ -1,6 +1,6 @@
 import useAppStore from "@store/app";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
 import useTransactionStore from "@store/transaction";
@@ -30,10 +30,7 @@ export function useVendor(walletAddress: string): any {
   } = useAppStore.getState();
   if (currentUser)
     return { vendor: currentUser, isLoading: false, error: null };
-  const queryEnabled =
-    projectSettings?.internetAccess &&
-    !!projectSettings?.baseUrl &&
-    !currentUser;
+  const queryEnabled = !!projectSettings?.baseUrl && !currentUser;
 
   const { data, isLoading, error } = useQuery(
     ["vendorDetails", walletAddress],
@@ -79,20 +76,129 @@ export function useVendorChainData(
       return res;
     },
     {
-      enabled: projectSettings?.internetAccess && !!projectSettings?.baseUrl,
+      enabled: !!projectSettings?.baseUrl,
+      staleTime: 60000,
+      cacheTime: 0,
       onSuccess: (data) => {
         setChainData(data?.data);
       },
     }
   );
-  const loading =
-    isLoading && projectSettings?.internetAccess && !!projectSettings?.baseUrl;
+  const loading = isLoading && !!projectSettings?.baseUrl;
 
   const dataChain = useMemo(() => chainData, [data?.data]);
 
   return {
     chainData: dataChain,
     isLoading: loading,
+    error,
+  };
+}
+
+export function useVendorVoucher(
+  walletAddress: string,
+  queryService: any
+): any {
+  const { currentUser } = useAppStore.getState();
+  const { data, isLoading, error } = useQuery(
+    ["vendorVouchers", walletAddress],
+    async () => {
+      const res = await queryService.useVendorVoucher(walletAddress);
+      return res;
+    },
+    {
+      enabled: currentUser?.projects?.length > 0,
+      staleTime: 60000,
+    }
+  );
+
+  return {
+    data,
+    isLoading,
+    error,
+  };
+}
+
+export function useVendorTransaction(walletAddress: string, queryService: any) {
+  const { currentUser } = useAppStore.getState();
+  const { data, isLoading, error } = useQuery(
+    ["vendorTransactions", walletAddress],
+    async () => {
+      const res = await queryService.useVendorTransaction(walletAddress);
+      return res;
+    },
+    {
+      enabled: currentUser?.projects?.length > 0,
+      staleTime: 60000,
+    }
+  );
+
+  const transactionsData = useMemo(() => {
+    if (!data?.data) return [];
+    const {
+      beneficiaryReferreds,
+      projectClaimProcesseds,
+      claimCreateds,
+      tokenRedeems,
+    } = data.data;
+    const fixedBeneficiaryReferreds = beneficiaryReferreds.map((el: any) => ({
+      ...el,
+      beneficiary: el.beneficiaryAddress,
+    }));
+    return [
+      ...fixedBeneficiaryReferreds,
+      ...projectClaimProcesseds,
+      ...claimCreateds,
+      ...tokenRedeems,
+    ];
+  }, [data]);
+
+  return {
+    data: transactionsData,
+    isLoading,
+    error,
+  };
+}
+
+export function useVendorDetails({ forceRender }: any): any {
+  const {
+    currentUser,
+    setCurrentUser,
+    setProjectSettings,
+    projectSettings: { projectId },
+  } = useAppStore.getState();
+
+  const { data, isLoading, error } = useQuery(
+    ["vendorDetails", forceRender],
+    async () => {
+      const res = await VendorsService.getDetails(currentUser?.uuid);
+      return res;
+    },
+    {
+      enabled: !currentUser?.projects?.length || !projectId,
+      staleTime: 0,
+      onSuccess: (data: any) => {
+        console.log("VENDOR GET DETAILS RESPONSE", data?.data?.data);
+        if (data?.data?.data) {
+          setCurrentUser(data?.data?.data);
+          setProjectSettings({
+            projectId: data?.data?.data?.projects[0]?.uuid,
+          });
+        }
+
+        // const payload = {
+        //   ...currentUser,
+        // };
+        // setCurrentUser(payload);
+      },
+    }
+  );
+
+  const vendor = useMemo(() => currentUser, [data?.data?.data]);
+
+  return {
+    data: vendor,
+    isLoading,
     error,
   };
 }

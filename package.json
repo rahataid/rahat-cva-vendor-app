@@ -14,10 +14,11 @@
     "build:androidDevice": "ionic cap run android -l --external"
   },
   "dependencies": {
+    "@capacitor-mlkit/barcode-scanning": "^5.4.0",
     "@capacitor/android": "5.4.2",
     "@capacitor/app": "5.0.6",
     "@capacitor/core": "5.4.2",
-    "@capacitor/haptics": "5.0.6",
+    "@capacitor/haptics": "^5.0.6",
     "@capacitor/ios": "5.4.2",
     "@capacitor/keyboard": "5.0.6",
     "@capacitor/preferences": "^5.0.6",
@@ -26,6 +27,7 @@
     "@ionic/react": "^7.0.0",
     "@ionic/react-router": "^7.0.0",
     "@ionic/storage": "^4.0.0",
+    "@rahataid/el-subgraph": "^0.0.5",
     "@tanstack/react-query": "^4.36.1",
     "axios": "^1.5.1",
     "ethers": "^6.8.0",

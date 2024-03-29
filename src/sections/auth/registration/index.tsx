@@ -64,7 +64,7 @@ const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="register-container">
           <IonRow className="register-form-container">
-            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
+            <IonCol size="12" sizeMd="12" sizeLg="6" sizeXl="4">
               <Controller
                 render={({ field }) => (
                   <TextInputField
@@ -109,10 +109,6 @@ const Register = () => {
                     value: true,
                     message: "Please enter Phone number",
                   },
-                  minLength: {
-                    value: 6,
-                    message: "Phone Number must be at least 6 digits",
-                  },
                 }}
                 control={control}
                 name="phone"
@@ -131,7 +127,7 @@ const Register = () => {
                 mode="md"
                 type="submit"
                 expand="block"
-                color="dark"
+                // color="dark"
                 disabled={isDirty || !isValid || isSubmitting}
               >
                 {isSubmitting ? (
@@ -143,7 +139,7 @@ const Register = () => {
               <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
-                color="dark"
+                // color="dark"
                 fill="outline"
                 expand="block"
                 onClick={handleCancel}

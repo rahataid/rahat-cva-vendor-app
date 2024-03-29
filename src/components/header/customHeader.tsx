@@ -5,66 +5,41 @@ import {
   IonTitle,
   IonButtons,
   IonBackButton,
-  IonIcon,
-  IonLabel,
-  IonText,
+  IonImg,
 } from "@ionic/react";
-import { caretBack, wifi } from "ionicons/icons";
-import useAppStore from "@store/app";
+import { caretBack } from "ionicons/icons";
 import { useHistory } from "react-router";
+import Logo from "@assets/images/logo/rahat-symbol.png";
+import "./customheader.scss";
 
 interface CustomHeaderProps {
   title: string;
   showBackButton?: boolean;
-  showStatus?: boolean;
+  onBackButtonClick?: () => Promise<void>;
 }
-
-const InternetStatus: React.FC<{ isOnline: boolean }> = ({ isOnline }) => (
-  <IonLabel
-    style={{
-      paddingRight: "20px",
-      paddingLeft: "20px",
-      fontSize: "14px",
-      color: "white",
-      display: "flex",
-      alignItems: "center",
-    }}
-  >
-    <IonIcon
-      style={{ fontSize: "25px" }}
-      icon={isOnline ? wifi : wifi}
-      color={isOnline ? "success" : "danger"}
-    />
-    <IonText style={{ marginLeft: "2px" }}>
-      {isOnline ? "Online" : "Offline"}
-    </IonText>
-  </IonLabel>
-);
 
 const CustomHeader: React.FC<CustomHeaderProps> = ({
   title,
   showBackButton = false,
-  showStatus = false,
+  onBackButtonClick = null,
 }) => {
-  const { projectSettings } = useAppStore();
-  const internetAccess = projectSettings?.internetAccess || false;
-
   const history = useHistory();
 
   const handleBack = () => {
+    if (onBackButtonClick) onBackButtonClick();
     history.goBack();
   };
 
   return (
-    <IonHeader mode="md">
+    <IonHeader mode="md" className="custom-toolbar">
       <IonToolbar>
         <IonButtons slot="start">
-          {showBackButton && <IonBackButton color="dark" icon={caretBack} />}
+          {showBackButton && <IonBackButton icon={caretBack} color="primary" />}
         </IonButtons>
-        <IonTitle color="dark">{title}</IonTitle>
         <IonButtons slot="end">
-          {showStatus && <InternetStatus isOnline={internetAccess} />}
+          <IonImg src={Logo} className="header-logo" />
         </IonButtons>
+        <IonTitle>{title}</IonTitle>
       </IonToolbar>
     </IonHeader>
   );

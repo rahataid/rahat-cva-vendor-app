@@ -1,19 +1,15 @@
-import { IonContent, IonPage } from "@ionic/react";
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import OTP from "@sections/claim/otp";
 import "../theme/title.css";
 import { useLocation } from "react-router-dom";
-import { IBeneficiary } from "../types/beneficiaries";
-import { ITransactionItem } from "../types/transactions";
+import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
 import CustomHeader from "@components/header/customHeader";
 
-type Props = {
-  transactionPayload: ITransactionItem;
-  selectedBeneficiary: IBeneficiary;
-  internetAccess: boolean;
-  selectedInput: "phone" | "walletAddress";
-};
 interface LocationState {
-  data: Props;
+  data: {
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiaryAddress: string;
+  };
 }
 
 const OTPPage: React.FC = () => {
@@ -21,9 +17,15 @@ const OTPPage: React.FC = () => {
   const { data } = location.state || { data: null };
   return (
     <IonPage>
-      <CustomHeader title="OTP" />
+      <CustomHeader title="OTP" showBackButton />
       <IonContent fullscreen scrollY={false}>
-        <OTP data={data} />
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <OTP data={data} />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

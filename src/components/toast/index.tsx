@@ -2,6 +2,17 @@ import React from "react";
 import { IonToast } from "@ionic/react";
 
 type ToastPosition = "top" | "bottom" | "middle";
+type ToastColor =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "success"
+  | "warning"
+  | "danger"
+  | "light"
+  | "medium"
+  | "dark"
+  | undefined;
 
 interface Props {
   isOpen: boolean;
@@ -9,6 +20,7 @@ interface Props {
   message: string;
   duration: number;
   position: ToastPosition;
+  color?: ToastColor;
 }
 
 const CustomToast: React.FC<Props> = ({
@@ -17,6 +29,7 @@ const CustomToast: React.FC<Props> = ({
   message,
   duration = 2000,
   position = "top",
+  color = "primary",
 }) => {
   return (
     <IonToast
@@ -28,6 +41,7 @@ const CustomToast: React.FC<Props> = ({
       className="custom-toast"
       translucent={true}
       mode="md"
+      color={color}
     />
   );
 };

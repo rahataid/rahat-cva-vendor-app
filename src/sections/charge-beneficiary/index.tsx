@@ -1,52 +1,28 @@
-import {
-  IonButton,
-  IonCardHeader,
-  IonCol,
-  IonGrid,
-  IonLoading,
-  IonRow,
-  useIonViewWillLeave,
-} from "@ionic/react";
+import { IonButton, IonCardContent, IonLoading } from "@ionic/react";
 
-import useAppStore from "@store/app";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
-import ChargeQr from "./charge-qr";
-import { findObjectInArray, isObjectInArray } from "@utils/helperFunctions";
-import { validateWalletAddress } from "@utils/web3";
-import VendorsService from "@services/vendors";
+
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { ITransactionItem, Status } from "../../types/transactions";
-import useTransactionStore from "@store/transaction";
-import useBeneficiaryStore from "@store/beneficiary";
+import { useGraphService } from "@contexts/graph-query";
+import {
+  isVoucherAssigned,
+  isVoucherClaimed,
+} from "../../utils/helperFunctions";
+import CustomToast from "../../components/toast";
+import useCustomToast from "../../hooks/use-custom-toast";
+import { differentiateInput } from "../../utils/web3";
+import BeneficiariesService from "../../services/beneficiaries";
 
-type formDataType = {
-  phoneWalletInput?: string | null;
-  qrCode?: string | null;
-  token: number | undefined;
-};
-
-const ChargeBeneficiary = () => {
-  const {
-    projectSettings: { internetAccess },
-    wallet,
-    chainData: { allowance },
-  } = useAppStore();
-
-  const { transactions } = useTransactionStore();
-  const { beneficiaries } = useBeneficiaryStore();
-
-  const [loadingVisible, setLoadingVisible] = useState(false);
-
-  const [useQrCode, setUseQrCode] = useState(false);
-
+const ChargeBeneficiary = ({ data }: any) => {
+  const { queryService } = useGraphService();
   const history = useHistory();
-  const handleCancel = () => {
-    history.goBack();
-  };
+  const [loadingVisible, setLoadingVisible] = useState(false);
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
 
   const {
     handleSubmit,
@@ -58,149 +34,54 @@ const ChargeBeneficiary = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      phoneWalletInput: "",
-      token: undefined,
-      qrCode: "",
+      walletAddress: "",
     },
   });
 
-  useIonViewWillLeave(() => {
-    setLoadingVisible(false);
-  });
-
-  const handleToggle = () => {
-    setUseQrCode((prev) => !prev);
-  };
-
-  const validateVendorAllowance = (allowance: number) => {
-    if (!allowance || allowance <= 0) return false;
-    return true;
-  };
-
-  const validateTokenAmount = (
-    selectedBeneficiary: any,
-    formData: formDataType,
-    key: string
-  ) => {
-    const currentBeneficiaryTransactions = transactions.filter(
-      (el: any) => el[key] === formData[key]
-    );
-
-    let totalAmount = 0;
-    currentBeneficiaryTransactions.forEach((el) => (totalAmount += +el.amount));
-
-    if (formData.token) totalAmount += +formData.token;
-
-    if (totalAmount > +selectedBeneficiary.token) return false;
-    return true;
-  };
-
-  const chargeBeneficiaryPhoneQr = async (formData: formDataType) => {
-    const { phoneWalletInput: input, token } = formData;
-
-    let selectedInput;
-    const isInputWalletAddress = validateWalletAddress(input);
-    if (!isInputWalletAddress) selectedInput = "phone";
-    else selectedInput = "walletAddress";
-
-    const checkObj = {
-      [selectedInput]: input,
-      token,
-    };
-
-    let selectedBeneficiary;
-
-    if (!internetAccess) {
-      // 1. check if beneficiary is valid
-
-      if (!beneficiaries?.length)
-        throw new Error("Please sync beneficiaries to charge in offline mode");
-      const isValidBeneficiary = isObjectInArray(
-        beneficiaries,
-        checkObj,
-        selectedInput
-      );
-      if (!isValidBeneficiary) throw new Error("Invalid beneficiary");
-
-      selectedBeneficiary = findObjectInArray(
-        beneficiaries,
-        checkObj,
-        selectedInput
-      );
-
-      //  2. check if token amount is valid
-      if (!validateVendorAllowance(+allowance))
-        throw new Error("Not enough vendor balance");
-      if (!validateTokenAmount(selectedBeneficiary, checkObj, selectedInput))
-        throw new Error("Not enough beneficiary balance");
-
-      //  3. transfer data to the OTP page
-
-      const transactionPayload: ITransactionItem = {
-        amount: token,
-        createdAt: Date.now(),
-        status: Status.NEW,
-        isOffline: !internetAccess,
-        phone: selectedBeneficiary.phone,
-        walletAddress: selectedBeneficiary.walletAddress,
-        vendorWalletAddress: wallet?.address,
-      };
-      history.push("/otp", {
-        data: { transactionPayload, selectedBeneficiary, internetAccess },
-      });
-    } else {
-      let transactionPayload: ITransactionItem;
-      if (selectedInput === "phone") {
-        transactionPayload = {
-          amount: token,
-          createdAt: Date.now(),
-          status: Status.NEW,
-          isOffline: !internetAccess,
-          phone: input,
-          vendorWalletAddress: wallet?.address,
-        };
-      } else {
-        transactionPayload = {
-          amount: token,
-          createdAt: Date.now(),
-          status: Status.NEW,
-          isOffline: !internetAccess,
-          walletAddress: input,
-          vendorWalletAddress: wallet?.address,
-        };
-      }
-
-      const { data } = await VendorsService.initiateTransaction({
-        vendorAddress: wallet?.address || "",
-        beneficiaryAddress: input || "",
-        amount: token || "",
-      });
-
-      history.push("/otp", {
-        data: {
-          transactionPayload,
-          selectedBeneficiary,
-          internetAccess,
-          selectedInput,
-        },
-      });
+  const fetchBeneficiaryVoucher = async (data: any) => {
+    const formData = data?.walletAddress;
+    let benWalletAddress: string;
+    const inputType = differentiateInput(data?.walletAddress);
+    if (inputType === "PHONE") {
+      const data = await BeneficiariesService.getByPhone(formData);
+      if (!data?.data?.data) throw new Error("Invalid Beneficiary");
+      benWalletAddress = data?.data?.data?.walletAddress;
+    } else if (inputType === "WALLET") {
+      benWalletAddress = data?.walletAddress;
     }
-  };
+    const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
+      benWalletAddress
+    );
+    // fix for release
+    // if (isVoucherClaimed(beneficiaryVoucher))
+    //   throw new Error("Beneficiary has already claimed the Voucher");
+    // else if (!isVoucherAssigned(beneficiaryVoucher))
+    //   throw new Error("Voucher not assigned to beneficiary");
 
-  const chargeBeneficiaryQr = async () => {
-    // IMPLEMENT QR SCAN CODE HERE
+    return {
+      //  beneficiary,  get beneficiary details from walletAddress number from the backend
+      beneficiaryVoucher,
+      beneficiaryAddress: benWalletAddress,
+    };
   };
 
   const onSubmit = async (data: any) => {
+    setLoadingVisible(true);
+    await new Promise((resolve) => setTimeout(resolve, 0));
     try {
-      setLoadingVisible(true);
-      if (useQrCode) await chargeBeneficiaryQr();
-      else await chargeBeneficiaryPhoneQr(data);
-      setLoadingVisible(false);
+      const {
+        // beneficiary,
+        beneficiaryAddress,
+        beneficiaryVoucher,
+      } = await fetchBeneficiaryVoucher(data);
+      history.push("/redeem-voucher", {
+        data: {
+          //  data: beneficiary,
+          beneficiaryAddress,
+          beneficiaryVoucher,
+        },
+      });
     } catch (error: any) {
-      setLoadingVisible(false);
-      console.log(error);
-
       // const validErrors = [
       //   "Invalid beneficiary",
       //   "Invalid Beneficiary Address",
@@ -210,12 +91,16 @@ const ChargeBeneficiary = () => {
       // const errorMessage = validErrors.includes(error.message)
       //   ? error.message
       //   : "Something went wrong. Try again later";
-
+      showToast(
+        error.message || "Something went wrong! Try again later.",
+        "danger"
+      );
       setError("root.serverError", {
         type: "manual",
         message: error?.message || "Something went wrong! Try again later.",
       });
     }
+    setLoadingVisible(false);
   };
 
   return (
@@ -225,32 +110,36 @@ const ChargeBeneficiary = () => {
         isOpen={loadingVisible}
         message={"Please wait..."}
       />
+      <CustomToast
+        isOpen={toastVisible}
+        onDidDismiss={hideToast}
+        message={toastMessage}
+        duration={2000}
+        position="middle"
+        color={toastColor}
+      />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-        <IonGrid className="charge-container">
-          <IonRow className="charge-form-container">
-            <IonCol size="11" sizeMd="12" sizeXs="12" sizeLg="11" sizeXl="11">
-              <TransparentCard>
-                <IonCardHeader>
-                  {useQrCode ? (
-                    <ChargeQr
-                      getValues={getValues}
-                      errors={errors}
-                      setValue={setValue}
-                      control={control}
-                    />
-                  ) : (
-                    <ChargePhone
-                      getValues={getValues}
-                      errors={errors}
-                      setValue={setValue}
-                      control={control}
-                    />
-                  )}
-                </IonCardHeader>
-              </TransparentCard>
-            </IonCol>
-          </IonRow>
-          <IonRow className="charge-button-container">
+        <TransparentCard>
+          <IonCardContent>
+            <ChargePhone
+              getValues={getValues}
+              errors={errors}
+              setValue={setValue}
+              control={control}
+            />
+            <IonButton
+              mode="md"
+              type="submit"
+              expand="block"
+              color="primary"
+              disabled={isSubmitting}
+            >
+              Fetch Beneficiary Voucher
+            </IonButton>
+          </IonCardContent>
+        </TransparentCard>
+
+        {/* <IonRow className="charge-button-container">
             <IonCol
               size="11"
               sizeMd="11"
@@ -258,25 +147,18 @@ const ChargeBeneficiary = () => {
               sizeXl="11"
               className="charge-button-wrapper"
             >
-              <IonButton
-                mode="md"
-                color="dark"
-                fill="clear"
-                onClick={handleToggle}
-                disabled={isSubmitting}
-              >
-                {useQrCode ? "Use Phone" : "Use QR"}
-              </IonButton>
-              <IonButton
-                mode="md"
-                color="dark"
-                fill="outline"
-                expand="block"
-                onClick={handleCancel}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </IonButton>
+              {!isPlatformWeb && (
+                <IonButton
+                  mode="md"
+                  color="dark"
+                  fill="outline"
+                  onClick={handleToggle}
+                  disabled={isSubmitting}
+                >
+                  "Scan"
+                </IonButton>
+              )}
+
               <IonButton
                 mode="md"
                 type="submit"
@@ -284,11 +166,10 @@ const ChargeBeneficiary = () => {
                 color="dark"
                 disabled={!isValid || isSubmitting}
               >
-                Submit
+                Fetch Beneficiary Voucher
               </IonButton>
             </IonCol>
-          </IonRow>
-        </IonGrid>
+          </IonRow> */}
       </form>
     </>
   );

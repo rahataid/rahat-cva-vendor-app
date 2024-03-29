@@ -37,6 +37,7 @@ import { copyToClipboard, cropString } from "@utils/helperFunctions";
 import { useState } from "react";
 import CustomToast from "@components/toast";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
+import useCustomToast from "@hooks/use-custom-toast";
 
 type PropTypes = {
   currentUser: any;
@@ -44,20 +45,23 @@ type PropTypes = {
 };
 
 const Profile = ({ currentUser }: PropTypes) => {
-  const [showToast, setShowToast] = useState(false);
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
+  console.log(currentUser);
   const handleCopyClick = (text: string) => {
     copyToClipboard(text);
-    setShowToast(true);
+    showToast("Text copied to clipboard!", "success");
   };
   return (
     <>
       {/* <IonLoading isOpen={isLoading} message={"Syncing..."} /> */}
       <CustomToast
-        isOpen={showToast}
-        onDidDismiss={() => setShowToast(false)}
-        message="Text copied to clipboard!"
+        isOpen={toastVisible}
+        onDidDismiss={() => hideToast()}
+        message={toastMessage}
         duration={2000}
         position="middle"
+        color={toastColor}
       />
       <TransparentCard>
         <IonList>
@@ -66,10 +70,11 @@ const Profile = ({ currentUser }: PropTypes) => {
               aria-hidden="true"
               icon={personOutline}
               slot="start"
+              color="primary"
             ></IonIcon>
             <IonLabel>{currentUser?.name || "-"}</IonLabel>
           </IonItem>
-          <IonItem>
+          {/* <IonItem>
             <IonIcon
               aria-hidden="true"
               icon={mailOutline}
@@ -84,12 +89,13 @@ const Profile = ({ currentUser }: PropTypes) => {
               slot="start"
             ></IonIcon>
             <IonLabel>{currentUser?.address?.city || "-"}</IonLabel>
-          </IonItem>
+          </IonItem> */}
           <IonItem>
             <IonIcon
               aria-hidden="true"
               icon={callOutline}
               slot="start"
+              color="primary"
             ></IonIcon>
             <IonLabel>{currentUser?.phone || "-"}</IonLabel>
           </IonItem>
@@ -98,17 +104,17 @@ const Profile = ({ currentUser }: PropTypes) => {
               aria-hidden="true"
               icon={walletOutline}
               slot="start"
+              color="primary"
             ></IonIcon>
             <IonLabel>
-              {currentUser?.walletAddress
-                ? cropString(currentUser.walletAddress)
-                : "-"}
+              {currentUser?.wallet ? cropString(currentUser.wallet) : "-"}
             </IonLabel>
 
             <IonIcon
               icon={copyOutline}
-              onClick={() => handleCopyClick(currentUser?.walletAddress)}
+              onClick={() => handleCopyClick(currentUser?.wallet)}
               style={{ fontSize: "24px", cursor: "pointer" }}
+              color="success"
             />
           </IonItem>
         </IonList>

@@ -1,66 +1,68 @@
 import React from "react";
 import {
   IonIcon,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
-import BeneficiariesListPage from "@pages/beneficiaries-list";
-import BeneficiariesSettingsPage from "@pages/beneficiaries-settings";
 import ChargeBeneficiaryPage from "@pages/charge-beneficiary";
 import HomePage from "@pages/home";
-import InternetAccessCenterPage from "@pages/internet-center";
 import ProfilePage from "@pages/profile";
 import ProjectSettingsPage from "@pages/project-settings";
 import SettingsPage from "@pages/settings";
 import TransactionsListPage from "@pages/transactions-list";
-import TransactionsSettingsPage from "@pages/transactions-settings";
 import useAppStore from "@store/app";
-import { home, person, qrCode, settings } from "ionicons/icons";
+import {
+  homeOutline,
+  peopleOutline,
+  qrCodeOutline,
+  settingsOutline,
+  swapHorizontalOutline,
+} from "ionicons/icons";
 import { Redirect, Route, Switch } from "react-router-dom";
+import ReferredBeneficiariesListPage from "@pages/referred-beneficiary-list";
+import TransactionsDetailPage from "@pages/transactions-details";
+import ReferredBeneficiariesDetailsPage from "@pages/referred-beneficiary-details";
+import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
+import RedeemVoucherVendorPage from "../pages/redeem-voucher-vendor";
+import RedeemDiscountVoucherPage from "../pages/redeem-discount-voucher";
+import RedeemFreeVoucherPage from "../pages/redeem-free-voucher";
 
 const Tabs: React.FC = () => {
-  const { chainData } = useAppStore((state) => ({
-    chainData: state.chainData,
-  }));
-
+  const { currentUser } = useAppStore();
   return (
     <IonTabs>
       <IonRouterOutlet>
         <Switch>
           <Route path="/tabs/home" component={HomePage} exact />
+
           <Route
             path="/tabs/charge-beneficiary"
             component={ChargeBeneficiaryPage}
             exact
           />
-          <Route path="/tabs/profile" component={ProfilePage} exact />
+          <Route path="/tabs/settings/profile" component={ProfilePage} exact />
           <Route path="/tabs/settings" component={SettingsPage} exact />
+
           <Route
-            path="/tabs/settings/internet-center"
-            component={InternetAccessCenterPage}
+            path="/tabs/referred-beneficiaries"
+            component={ReferredBeneficiariesListPage}
             exact
           />
           <Route
-            path="/tabs/settings/beneficiaries"
-            component={BeneficiariesSettingsPage}
+            path="/tabs/referred-beneficiaries/:id"
+            component={ReferredBeneficiariesDetailsPage}
             exact
           />
           <Route
-            path="/tabs/settings/beneficiaries/list"
-            component={BeneficiariesListPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/transactions"
-            component={TransactionsSettingsPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/transactions/list"
+            path="/tabs/transactions/list"
             component={TransactionsListPage}
+            exact
+          />
+          <Route
+            path="/tabs/transactions/details"
+            component={TransactionsDetailPage}
             exact
           />
           <Route
@@ -68,29 +70,61 @@ const Tabs: React.FC = () => {
             component={ProjectSettingsPage}
             exact
           />
+          <Route
+            path="/tabs/settings/voucher-redemption-details"
+            component={VoucherRedemptionDetailsPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/redeem-voucher-vendor"
+            component={RedeemVoucherVendorPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/redeem-voucher-vendor/discount"
+            component={RedeemDiscountVoucherPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/redeem-voucher-vendor/free"
+            component={RedeemFreeVoucherPage}
+            exact
+          />
           <Redirect exact from="/tabs" to="/tabs/home" />
           <Redirect to="/not-found" />
         </Switch>
       </IonRouterOutlet>
 
-      <IonTabBar slot="bottom" mode="md">
+      <IonTabBar slot="bottom" mode="md" className="custom-tabbar">
         <IonTabButton tab="home" href="/tabs/home">
-          <IonIcon icon={home} />
-          <IonLabel>Home</IonLabel>
+          <IonIcon icon={homeOutline} />
+          {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
-        {chainData?.isVendorApproved && (
-          <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
-            <IonIcon icon={qrCode} />
-            <IonLabel>Charge Beneficiary</IonLabel>
+        {currentUser?.projects?.length > 0 && (
+          <IonTabButton tab="transactions" href="/tabs/transactions/list">
+            <IonIcon icon={swapHorizontalOutline} />
+            {/* <IonLabel>Home</IonLabel> */}
           </IonTabButton>
         )}
-        <IonTabButton tab="profile" href="/tabs/profile">
-          <IonIcon icon={person} />
-          <IonLabel>Profile</IonLabel>
-        </IonTabButton>
+        {currentUser?.projects?.length > 0 && (
+          <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
+            <IonIcon icon={qrCodeOutline} />
+            {/* <IonLabel>Charge Beneficiary</IonLabel> */}
+          </IonTabButton>
+        )}
+        {currentUser?.projects?.length > 0 && (
+          <IonTabButton
+            tab="referred-beneficiaries"
+            href="/tabs/referred-beneficiaries"
+          >
+            <IonIcon icon={peopleOutline} />
+            {/* <IonLabel>Profile</IonLabel> */}
+          </IonTabButton>
+        )}
+
         <IonTabButton tab="settings" href="/tabs/settings">
-          <IonIcon icon={settings} />
-          <IonLabel>Settings</IonLabel>
+          <IonIcon icon={settingsOutline} />
+          {/* <IonLabel>Settings</IonLabel> */}
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { IonPage, IonContent } from "@ionic/react";
+import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import useAppStore from "@store/app";
-import TransactionsSettings from "@sections/settings/transactions-settings";
 import CustomHeader from "@components/header/customHeader";
 import useTransactionStore from "@store/transaction";
-
+import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
 const TransactionsSettingsPage: React.FC = () => {
   const { projectSettings } = useAppStore();
   const { syncTransactions } = useTransactionStore();
@@ -28,12 +27,7 @@ const TransactionsSettingsPage: React.FC = () => {
     }
   };
 
-  const handleButtonFocus = () => {
-    if (!projectSettings?.internetAccess) {
-      setToastMessage("Must go online to sync transactions");
-      setShowToast(true);
-    }
-  };
+  const handleButtonFocus = () => {};
 
   const props = {
     projectSettings,
@@ -48,9 +42,15 @@ const TransactionsSettingsPage: React.FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Transactions" showStatus showBackButton />
+      <CustomHeader title="Transactions" showBackButton />
       <IonContent>
-        <TransactionsSettings {...props} />
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <TransactionsList {...props} />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

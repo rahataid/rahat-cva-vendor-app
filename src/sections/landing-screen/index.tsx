@@ -12,7 +12,7 @@ import {
   IonText,
   IonTextarea,
 } from "@ionic/react";
-import Logo from "@assets/images/logo/rahat-logo-white.png";
+import Logo from "@assets/images/logo/rahat-logo-standard.png";
 import "./landing-screen.scss";
 import { useHistory } from "react-router";
 
@@ -48,7 +48,7 @@ const LandingScreen = () => {
             <IonCol size="11" sizeMd="8" sizeLg="6" sizeXl="4">
               <IonButton
                 mode="md"
-                color="dark"
+                // color="dark"
                 fill="solid"
                 expand="block"
                 onClick={handleRegister}
@@ -58,7 +58,7 @@ const LandingScreen = () => {
               <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
-                color="dark"
+                // color="dark"
                 fill="solid"
                 expand="block"
                 onClick={handleRestore}

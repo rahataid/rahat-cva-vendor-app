@@ -1,48 +1,65 @@
-import { useVendorChainData } from "@api/vendors";
-import { IonContent, IonPage } from "@ionic/react";
+import { useVendorTransaction, useVendorVoucher } from "@api/vendors";
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import Home from "../sections/home";
 import "../theme/title.css";
-import VendorsService from "@services/vendors";
 import useAppStore from "@store/app";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomHeader from "@components/header/customHeader";
-import useTransactionStore from "@store/transaction";
+import IndeterminateLoader from "@components/loaders/Indeterminate";
+import { useGraphService } from "@contexts/graph-query";
+import { useVendorDetails } from "../api/vendors";
+import { useProjectSettings } from "../api/project-settings";
 
 const HomePage: React.FC = () => {
-  const { wallet, projectSettings } = useAppStore();
-  const { vendorTransactions } = useTransactionStore();
+  const { wallet, projectSettings, currentUser } = useAppStore();
+  const { queryService } = useGraphService();
 
   const [forceRender, setForceRender] = useState(false);
   const handleReload = () => {
-    setForceRender(!forceRender);
+    setForceRender((prev) => !prev);
   };
 
-  const { chainData, isLoading } = useVendorChainData(
-    wallet?.address,
-    forceRender
-  );
-  console.log(isLoading);
+  const {
+    data: voucherData,
+    isLoading: voucherLoading,
+    error: voucherError,
+  } = useVendorVoucher(wallet?.address, queryService);
 
-  const acceptPendingTokens = async () => {
-    await VendorsService.acceptPendingTokens(vendorAddress);
-  };
+  const {
+    data: transactionsData,
+    isLoading: transactionsLoading,
+    error: transactionsError,
+  } = useVendorTransaction(wallet?.address, queryService);
+
+  const {
+    data: vendorDetails,
+    isLoading: vendorDetailsLoading,
+    error: vendorDetailsError,
+  } = useVendorDetails({ forceRender });
+
+  const { isLoading: settingsLoading, error: settingsError } =
+    useProjectSettings();
 
   return (
     <IonPage>
-      <CustomHeader title="Home" showStatus />
+      <CustomHeader title="Home" />
       <IonContent fullscreen>
-        <Home
-          allowance={chainData?.allowance}
-          isVendor={chainData?.isVendorApproved}
-          isProjectLocked={chainData?.isProjectLocked}
-          disbursed={chainData?.disbursed}
-          pendingTokensToAccept={chainData?.pendingTokens}
-          acceptPendingTokens={acceptPendingTokens}
-          projectSettings={projectSettings}
-          vendorTransactions={vendorTransactions}
-          handleReload={handleReload}
-          loading={isLoading}
-        />
+        {/* {isLoading && <IndeterminateLoader />} */}
+        <IonGrid>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <Home
+                currentUser={currentUser}
+                projectSettings={projectSettings}
+                handleReload={handleReload}
+                voucherData={voucherData}
+                transactionsData={transactionsData}
+                loading={voucherLoading}
+                transactionsLoading={transactionsLoading}
+              />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

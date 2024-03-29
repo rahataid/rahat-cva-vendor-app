@@ -6,3 +6,76 @@
 .btn-text-white {
   --color: #ffffff;
 }
+
+/* .blue-bg {
+  --background: linear-gradient(
+      rgba(33, 126, 194, 0.7),
+      rgba(33, 126, 194, 0.7)
+    ),
+    url("/src/assets/images/bg/main-bg.png") center/cover no-repeat;
+  --ion-background-blend-mode: multiply;
+} */
+
+.p-0 {
+  padding: 0;
+}
+
+.px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.py-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.pb-0 {
+  padding-bottom: 0;
+}
+
+.pt-0 {
+  padding-top: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.mx-0 {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.my-0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.gap-5 {
+  height: 5px;
+}

@@ -12,6 +12,7 @@ import {
 } from "@utils/web3";
 import { DEFAULT_PASSCODE } from "../config";
 import { HDNodeWallet, Wallet } from "ethers";
+import { mockBeneficiaries } from "@utils/mockData";
 
 type StorageChainData = {
   allowance: number;
@@ -32,7 +33,6 @@ type StorageProjectSettings = {
   network?: IProjectSettingsNetwork;
   contracts?: IProjectSettingsContractsApiResponse;
   projectId?: string;
-  internetAccess?: boolean;
 } | null;
 
 export type AppStateType = {
@@ -42,6 +42,7 @@ export type AppStateType = {
   projectSettings: StorageProjectSettings | undefined;
   isAuthenticated: boolean;
   isInitialized: boolean;
+  mockData: any[];
 };
 
 type AppActionsType = {
@@ -53,9 +54,9 @@ type AppActionsType = {
   setChainData: (data: StorageChainData) => Promise<void>;
   setCurrentUser: (data: StorageCurrentUser) => void;
   setWallet: (data: any) => void;
-  setInternetAccess: (value: boolean) => void;
   setProjectSettings: (data: StorageProjectSettings) => Promise<void>;
   logout: () => void;
+  setMockData: (data: any) => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -68,7 +69,7 @@ const useAppStore = createStore<AppStoreType>(
     currentUser: undefined,
     projectSettings: undefined,
     chainData: undefined,
-
+    mockData: [],
     initialize: async () => {
       const { currentUser, wallet, projectSettings } = get();
 
@@ -77,7 +78,10 @@ const useAppStore = createStore<AppStoreType>(
 
       set({
         isInitialized: true,
-        isAuthenticated: !!currentUser && !!wallet,
+        isAuthenticated: !!currentUser,
+        //   &&
+        // !!wallet,
+        mockData: mockBeneficiaries,
       });
     },
 
@@ -112,6 +116,7 @@ const useAppStore = createStore<AppStoreType>(
       set({
         wallet,
       });
+      return { wallet };
     },
 
     setChainData: async (chainData: StorageChainData) => {
@@ -134,12 +139,6 @@ const useAppStore = createStore<AppStoreType>(
         axiosInstance.defaults.baseURL = fixProjectUrl(data.baseUrl);
     },
 
-    setInternetAccess: async (internetAccess: boolean) => {
-      set((state) => ({
-        projectSettings: { ...state.projectSettings, internetAccess },
-      }));
-    },
-
     logout: async () => {
       set({
         isAuthenticated: false,
@@ -149,6 +148,10 @@ const useAppStore = createStore<AppStoreType>(
         projectSettings: undefined,
         chainData: undefined,
       });
+    },
+
+    setMockData: (data: any) => {
+      set({ mockData: data });
     },
   }),
   {

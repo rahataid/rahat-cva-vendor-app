@@ -5,14 +5,6 @@ export const axiosInstance = axios.create({});
 
 axiosInstance.interceptors.request.use(
   (req) => {
-    let hasInternetAccess =
-      useAppStore.getState().projectSettings?.internetAccess;
-
-    if (hasInternetAccess === false) {
-      console.error("No internet access" + " URL:", req.url);
-      throw new Error("NO INTERNET ACCESS");
-    }
-
     return req;
   },
   (error) => {
@@ -28,6 +20,7 @@ axiosInstance.interceptors.response.use(
       "AXIOS INTERCEPTOR RES error",
       JSON.stringify(error),
       "=======",
+      error,
       error.message
     );
     return Promise.reject(
@@ -66,13 +59,21 @@ export const endpoints = {
     list: "/beneficiaries",
     details: (walletAddress: string) => `/beneficiaries/${walletAddress}`,
     chargeByPhone: (phone: string) => `/beneficiaries/${phone}/charge`,
+    getByPhone: (phone: string) => `/beneficiaries/phone/${phone}`,
+    getByWallet: (walletAddress: string) =>
+      `/beneficiaries/wallet/${walletAddress}`,
   },
   transactions: {
     list: "/transactions",
     details: (txHash: string) => `/transactions/${txHash}`,
   },
   projects: {
-    getProjectOfflineBeneficaries: (contractAddress: string) =>
-      `/projects/${contractAddress}/offlineBeneficiaries`,
+    actions: (uuid: string) => `/projects/${uuid}/actions`,
+  },
+  users: {
+    vendors: {
+      add: "/users/vendors",
+      getByUuid: (uuid: string) => `/users/vendors/${uuid}`,
+    },
   },
 };
