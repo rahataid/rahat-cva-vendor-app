@@ -8,7 +8,7 @@ import {
   IonImg,
   IonSkeletonText,
 } from "@ionic/react";
-import React from "react";
+import { FC } from "react";
 import "./home.scss";
 
 interface CardProps {
@@ -18,12 +18,7 @@ interface CardProps {
   loading?: boolean;
 }
 
-const CardComponent: React.FC<CardProps> = ({
-  title,
-  subtitle,
-  image,
-  loading,
-}) => {
+const CardComponent: FC<CardProps> = ({ title, subtitle, image, loading }) => {
   return (
     <TransparentCard className="stats-card-container">
       {image && <IonImg src={image} />}

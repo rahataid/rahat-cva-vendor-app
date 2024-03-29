@@ -14,6 +14,7 @@ import {
 } from "ethers";
 import { DEFAULT_PASSCODE } from "../config";
 import { types } from "./eip712Types";
+import { RAHAT_TOKEN_ABI, VOUCHER_ADDRESSES } from "../constants/abi";
 
 type BuiltRequest = {
   from: any;
@@ -136,11 +137,22 @@ export const signMessage = async ({ wallet, message }: any) => {
   }
 };
 
-export async function createContractInstance(rpcUrl: string, contract: any) {
+export async function createContractInstance(
+  rpcUrl: string,
+  contract: any,
+  useRahatTokenAbi?: string
+) {
   //  Create Provider
   const provider = new JsonRpcProvider(rpcUrl);
-  const abi = contract.abi.map(convertToLowerCase);
-
+  // const abi = contract.abi.map(convertToLowerCase);
+  let abi;
+  if (useRahatTokenAbi === "useRahatTokenAbi") {
+    abi = RAHAT_TOKEN_ABI;
+    console.log("IF FREE OR DISCOUNT VOUCHER CONTRACT");
+  } else {
+    console.log("ELSE OTHER VOUCHER CONTRACT");
+    abi = contract.abi;
+  }
   //  Create an instance of the contract
   return new Contract(contract.address, abi, provider);
 }
@@ -250,6 +262,7 @@ export async function getMetaTxRequest(
   functionName: string,
   params: any[] | [] | null
 ) {
+  console.log("INSIDE GET META TX", params);
   return signMetaTxRequest(signer, forwarderContract, {
     from: signer.address,
     to: elContractInstance.target,

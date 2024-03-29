@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
 import useTransactionStore from "@store/transaction";
+import { VOUCHER } from "../types/beneficiaries";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -198,6 +199,26 @@ export function useVendorDetails({ forceRender }: any): any {
 
   return {
     data: vendor,
+    isLoading,
+    error,
+  };
+}
+
+export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
+  const { getVendorVoucherRedemptionCount } = useTransactionStore();
+  const { data, isLoading, error } = useQuery(
+    ["vendorVoucherRedemptionCount"],
+    async () => {
+      const res = await getVendorVoucherRedemptionCount(voucherType);
+      return Number(res);
+    },
+    {
+      staleTime: 0,
+    }
+  );
+
+  return {
+    data: data,
     isLoading,
     error,
   };

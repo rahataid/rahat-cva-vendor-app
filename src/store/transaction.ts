@@ -82,6 +82,7 @@ type TransactionActionsType = {
     voucher,
   }: ReferProps) => Promise<any>;
   transferVoucher: ({ voucherType, amount }: TransferVoucher) => Promise<any>;
+  getVendorVoucherRedemptionCount: (voucherType: VOUCHER) => Promise<number>;
   logoutTransactions: () => void;
 };
 
@@ -325,7 +326,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
 
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
-
+      console.log({ backendResponse });
       // contract call
 
       const blockChainResponse = [];
@@ -343,6 +344,14 @@ const useTransactionStore = createStore<TransactionStoreType>(
             referralvoucher?.address,
           ]
         );
+        console.log(
+          "=====",
+          beneficiary.walletAddress,
+          beneficiaryAddress,
+          walletInstance?.address,
+          referralvoucher?.address,
+          "====="
+        );
         const response = await ProjectsService.actions(projectId, {
           action: "elProject.discountVoucher",
           payload: {
@@ -354,6 +363,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
             },
           },
         });
+        console.log("RESPONSE", response);
         payload.push({
           ...beneficiary,
           createdAt:
@@ -366,18 +376,20 @@ const useTransactionStore = createStore<TransactionStoreType>(
     },
 
     transferVoucher: async ({ voucherType, amount }) => {
+      console.log("TRANSFER VOUCHER", voucherType, amount);
       const { referredAppStoreState } = get();
       const {
         wallet,
         projectSettings: {
           contracts: { eyevoucher, referralvoucher, erc2771forwarder },
           network: { rpcurl },
-          admin: { ADDRESS: adminAddress },
+          admin: { address: adminAddress },
           projectId,
         },
       } = referredAppStoreState();
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+      console.log(wallet?.address, walletInstance?.address);
       const forwarderContractInstance = await createContractInstanceFromWallet(
         rpcurl,
         erc2771forwarder,
@@ -386,18 +398,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       let metaTxRequest;
       if (voucherType === VOUCHER.FREE_VOUCHER) {
-        const referralVoucherInstance = await createContractInstance(
-          rpcurl,
-          referralvoucher
-        );
-        metaTxRequest = await getMetaTxRequest(
-          walletInstance,
-          forwarderContractInstance,
-          referralVoucherInstance,
-          "approve",
-          [adminAddress, amount]
-        );
-      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         const eyeVoucherInstance = await createContractInstance(
           rpcurl,
           eyevoucher
@@ -406,12 +406,25 @@ const useTransactionStore = createStore<TransactionStoreType>(
           walletInstance,
           forwarderContractInstance,
           eyeVoucherInstance,
-          "approve",
-          [adminAddress, amount]
+          "transferFrom",
+          [wallet?.address, adminAddress, amount]
+        );
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        const referralVoucherInstance = await createContractInstance(
+          rpcurl,
+          referralvoucher
+        );
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          forwarderContractInstance,
+          referralVoucherInstance,
+          "transferFrom",
+          [wallet?.address, adminAddress, amount]
         );
       }
+      console.log("here meta tx created");
       const payload = {
-        action: "elProject.processOtp",
+        action: "elProject.requestRedemption",
         payload: {
           metaTxRequest: {
             ...metaTxRequest,
@@ -423,6 +436,38 @@ const useTransactionStore = createStore<TransactionStoreType>(
       };
       const res = await ProjectsService.actions(projectId, payload);
       return res?.data?.data;
+    },
+
+    getVendorVoucherRedemptionCount: async (voucherType) => {
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { eyevoucher, referralvoucher },
+          network: { rpcurl },
+        },
+      } = referredAppStoreState();
+      let voucherCount;
+      if (voucherType === VOUCHER.FREE_VOUCHER) {
+        const eyeVoucherInstance = await createContractInstance(
+          rpcurl,
+          eyevoucher,
+          "useRahatTokenAbi"
+        );
+        console.log(eyeVoucherInstance, "===");
+        voucherCount = await eyeVoucherInstance.balanceOf(wallet?.address);
+        console.log(voucherCount, "====-=====");
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        const referralvoucherInstance = await createContractInstance(
+          rpcurl,
+          referralvoucher,
+          "useRahatTokenAbi"
+        );
+        console.log(referralvoucherInstance, "===");
+        voucherCount = await referralvoucherInstance.balanceOf(wallet?.address);
+        console.log(voucherCount, "====-=====");
+      }
+      return voucherCount;
     },
 
     logoutTransactions: () => {
