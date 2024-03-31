@@ -71,7 +71,7 @@ const ChargePhone = ({
           >
             <PhoneCodeSelector
               title="Choose your country Code"
-              searchPlaceholder="enter country code"
+              searchPlaceholder="Enter country code"
               items={phoneCodeOptions || []}
               selectedItem={getValues("code")}
               onSelectionCancel={() => phoneCodeModal.current?.dismiss()}

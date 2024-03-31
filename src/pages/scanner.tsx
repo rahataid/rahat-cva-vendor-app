@@ -3,11 +3,21 @@ import "../theme/title.css";
 import Scanner from "@sections/plugins/scanner";
 import CustomHeader from "@components/header/customHeader";
 import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { useEffect } from "react";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
 
+type LocationState = {
+  data: {
+    redirectTo: string;
+  };
+};
+
 const ScannerPage: React.FC = () => {
+  const location = useLocation<LocationState>();
+  const {
+    data: { redirectTo },
+  } = location.state || { data: null };
   const history = useHistory();
   const stopScan = async () => {
     document.querySelector("body")?.classList.remove("barcode-scanner-active");
@@ -27,7 +37,7 @@ const ScannerPage: React.FC = () => {
       async (result) => {
         await hapticsImpactHeavy();
         stopScan();
-        history.push("/tabs/charge-beneficiary", {
+        history.push(redirectTo, {
           data: {
             scannerValue: result.barcode.displayValue,
           },

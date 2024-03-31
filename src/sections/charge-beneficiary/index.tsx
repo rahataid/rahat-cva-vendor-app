@@ -7,7 +7,7 @@ import {
   IonSegmentButton,
 } from "@ionic/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./charge-beneficiary.scss";
@@ -25,13 +25,19 @@ import { differentiateInput } from "../../utils/web3";
 import BeneficiariesService from "../../services/beneficiaries";
 import ChargeQr from "./charge-qr";
 
-const ChargeBeneficiary = ({ data }: any) => {
+type Props = {
+  data: {
+    scannerValue: string;
+  };
+};
+
+const ChargeBeneficiary = ({ data }: Props) => {
   const { queryService } = useGraphService();
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const [filter, setFilter] = useState("PHONE");
+  const [filter, setFilter] = useState(null);
 
   const {
     handleSubmit,
@@ -43,7 +49,7 @@ const ChargeBeneficiary = ({ data }: any) => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      walletAddress: "",
+      walletAddress: data?.scannerValue || "",
       phone: undefined,
     },
   });
@@ -110,6 +116,11 @@ const ChargeBeneficiary = ({ data }: any) => {
     }
     setLoadingVisible(false);
   };
+
+  useEffect(() => {
+    if (data?.scannerValue) setFilter("WALLET");
+    else setFilter("PHONE");
+  }, []);
 
   return (
     <>
