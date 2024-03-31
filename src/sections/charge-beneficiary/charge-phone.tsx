@@ -53,15 +53,22 @@ const ChargePhone = ({
                 data-testid="registraton_form_image_flags"
               />
             )}
-
-            <TextInputField
-              id="select-phoneCode"
-              clearInput={false}
-              value={getValues("code")}
-              additionalClass=""
-              placeholder="0000"
-              rightIcon={caretDownOutline}
-              hideRightIconBG
+            <Controller
+              render={(field) => (
+                <TextInputField
+                  id="select-phoneCode"
+                  clearInput={false}
+                  value={getValues("code")}
+                  additionalClass=""
+                  placeholder="0000"
+                  rightIcon={caretDownOutline}
+                  hideRightIconBG
+                  onBlur={field.onBlur}
+                />
+              )}
+              rules={{ required: "Please enter country code" }}
+              control={control}
+              name="code"
             />
           </div>
           <IonModal

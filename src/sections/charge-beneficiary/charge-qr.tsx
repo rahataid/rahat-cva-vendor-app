@@ -1,14 +1,5 @@
 import TextInputField from "@components/input/form-text-input";
-import {
-  IonButton,
-  IonButtons,
-  IonCardSubtitle,
-  IonCol,
-  IonContent,
-  IonIcon,
-  IonRow,
-  IonText,
-} from "@ionic/react";
+import { IonButton, IonCol, IonIcon, IonRow, IonText } from "@ionic/react";
 import { Controller } from "react-hook-form";
 import { validateWalletAddress } from "../../utils/web3";
 import { qrCodeOutline } from "ionicons/icons";
@@ -61,8 +52,7 @@ const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
         <IonCol size="0.1" class="ion-no-padding"></IonCol>
         <IonCol size="1" class="ion-no-padding">
           <IonButton
-            fill="clear"
-            color=""
+            fill="solid"
             className="scan-btn"
             onClick={handleScanClick}
           >

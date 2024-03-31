@@ -51,13 +51,16 @@ const ChargeBeneficiary = ({ data }: Props) => {
     defaultValues: {
       walletAddress: data?.scannerValue || "",
       phone: undefined,
+      code: undefined,
     },
   });
 
   const fetchBeneficiaryVoucher = async (formData: any) => {
     let benWalletAddress: string;
     if (filter === "PHONE") {
-      const data = await BeneficiariesService.getByPhone(formData?.phone);
+      const data = await BeneficiariesService.getByPhone(
+        `${formData.code}${formData?.phone}`
+      );
       if (!data?.data?.data) throw new Error("Invalid Beneficiary");
       benWalletAddress = data?.data?.data?.walletAddress;
     } else if (filter === "WALLET") {
