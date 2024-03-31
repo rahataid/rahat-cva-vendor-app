@@ -6,6 +6,10 @@ import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import { useHistory, useLocation } from "react-router";
 import { useEffect } from "react";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
+import {
+  extractWalletAddressOnScan,
+  isValidEthereumAddressOnScan,
+} from "../utils/helperFunctions";
 
 type LocationState = {
   data: {
@@ -19,6 +23,7 @@ const ScannerPage: React.FC = () => {
     data: { redirectTo },
   } = location.state || { data: null };
   const history = useHistory();
+
   const stopScan = async () => {
     document.querySelector("body")?.classList.remove("barcode-scanner-active");
     toggleWrapper(false);
@@ -35,11 +40,24 @@ const ScannerPage: React.FC = () => {
     const listener = await BarcodeScanner.addListener(
       "barcodeScanned",
       async (result) => {
+        if (!isValidEthereumAddressOnScan(result?.barcode?.displayValue)) {
+          await hapticsImpactHeavy();
+          stopScan();
+          history.push(redirectTo, {
+            data: {
+              error: true,
+              showWalletTab: true,
+            },
+          });
+        }
         await hapticsImpactHeavy();
         stopScan();
         history.push(redirectTo, {
           data: {
-            scannerValue: result.barcode.displayValue,
+            scannerValue: extractWalletAddressOnScan(
+              result.barcode.displayValue
+            ),
+            showWalletTab: true,
           },
         });
       }

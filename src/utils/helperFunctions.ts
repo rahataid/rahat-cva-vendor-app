@@ -1,12 +1,8 @@
 import { ITransactionItem, Status } from "../types/transactions";
 import { ENV } from "../config";
-import {
-  FormInputType,
-  checkObjType,
-  formDataType,
-} from "../types/chargeBeneficiary";
-import { IBeneficiary } from "@types/beneficiaries";
+import { FormInputType, checkObjType } from "../types/chargeBeneficiary";
 import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
+import { isAddress } from "ethers";
 
 export const isObjectInArray = (arr: any, obj: any, key: any) => {
   return arr.find((el: any) => el[key] === obj[key]) !== undefined;
@@ -181,4 +177,28 @@ export const randomDelay = (min, max) => {
 export const findArrayElementByName = ({ arr, name }: any): any => {
   console.log(arr, name);
   return arr.find((el: any) => el.name.toUpperCase() === name.toUpperCase());
+};
+
+export const isValidEthereumAddressOnScan = (str: string) => {
+  if (!str.startsWith("ethereum:")) {
+    return false;
+  }
+
+  const address = str.substring(9);
+
+  if (!isAddress(address)) return false;
+  return true;
+};
+
+export const extractWalletAddressOnScan = (str: string) => {
+  // Check if the string starts with "ethereum:"
+  if (!str.startsWith("ethereum:")) {
+    return null; // Not in the expected format
+  }
+
+  // Extract the address part after "ethereum:"
+  const address = str.substring(9);
+
+  // Return the extracted address
+  return address;
 };

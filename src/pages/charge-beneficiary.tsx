@@ -4,7 +4,9 @@ import ChargeBeneficiary from "@sections/charge-beneficiary";
 import { useLocation } from "react-router";
 
 type Props = {
-  scannerValue: string;
+  scannerValue?: string;
+  error?: boolean;
+  showWalletTab?: boolean;
 };
 interface LocationState {
   data: Props;

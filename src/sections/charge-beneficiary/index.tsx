@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
-
+import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useGraphService } from "@contexts/graph-query";
 import {
@@ -27,7 +27,9 @@ import ChargeQr from "./charge-qr";
 
 type Props = {
   data: {
-    scannerValue: string;
+    scannerValue?: string;
+    error?: boolean;
+    showWalletTab?: boolean;
   };
 };
 
@@ -120,9 +122,29 @@ const ChargeBeneficiary = ({ data }: Props) => {
     setLoadingVisible(false);
   };
 
+  const toggleWrapper = (data: boolean) => {
+    const wrapper = document.getElementById("wrapper");
+    if (!wrapper) return;
+    if (data) {
+      wrapper.style.display = "block";
+    } else wrapper.style.display = "none";
+  };
+  const stopScan = async () => {
+    document.querySelector("body")?.classList.remove("barcode-scanner-active");
+    toggleWrapper(false);
+
+    await BarcodeScanner.removeAllListeners();
+
+    await BarcodeScanner.stopScan();
+  };
+
   useEffect(() => {
-    if (data?.scannerValue) setFilter("WALLET");
+    if (data?.showWalletTab) setFilter("WALLET");
     else setFilter("PHONE");
+    if (data?.error) {
+      showToast("Invalid ethereum wallet address", "danger");
+    }
+    stopScan();
   }, []);
 
   return (
