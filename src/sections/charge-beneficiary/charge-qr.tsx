@@ -1,26 +1,26 @@
 import TextInputField from "@components/input/form-text-input";
-import { IonCardSubtitle, IonRow, IonText } from "@ionic/react";
+import { IonCardSubtitle, IonContent, IonRow, IonText } from "@ionic/react";
 import { Controller } from "react-hook-form";
+import { validateWalletAddress } from "../../utils/web3";
 
 const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
   return (
     <>
-      <IonCardSubtitle>Scanner will be here soon...</IonCardSubtitle>
-      {/* <IonCardSubtitle>
-        You are about to send tokens a beneficiary. Please enter QR code
-        of the beneficiary.
-      </IonCardSubtitle>
-      <IonRow className="gap-25"></IonRow>
+      <br />
+      <IonText>
+        <p>Please enter wallet address of the beneficiary.</p>
+      </IonText>
+      <br />
       <Controller
         render={({ field }) => (
           <TextInputField
-            placeholder="Enter Beneficiary QR Code"
+            label="Wallet Address*"
+            placeholder="Enter wallet address"
             type="text"
-            label="Qr Code*"
-            value={getValues("qrCode")}
-            errorText={errors?.qrCode?.message}
+            value={getValues("walletAddress")}
+            errorText={errors?.walletAddress?.message}
             onInput={(e: any) => {
-              setValue("qrCode", e.target.value, {
+              setValue("walletAddress", e.target.value, {
                 shouldValidate: true,
               });
             }}
@@ -28,38 +28,23 @@ const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
           />
         )}
         rules={{
-          required: "Please enter beneficiary qrCode",
+          required: "Please enter valid wallet address",
+          validate: {
+            validateInput: (value) =>
+              (validateWalletAddress(value) && value.length === 42) ||
+              "Please enter a valid wallet address",
+          },
         }}
         control={control}
-        name="qrCode"
+        name="walletAddress"
       />
-      <br />
-      <Controller
-        render={({ field }) => (
-          <TextInputField
-            placeholder="Token"
-            type="text"
-            label="Token*"
-            errorText={errors?.token?.message}
-            value={getValues("token")}
-            onInput={(e: any) => {
-              setValue("token", e.target.value, {
-                shouldValidate: true,
-              });
-            }}
-            onBlur={field.onBlur}
-          />
-        )}
-        rules={{
-          required: "Please enter token amount",
-        }}
-        control={control}
-        name="token"
-      />
-      <br />
       {errors?.root?.serverError?.message && (
-        <IonText color="danger">{errors?.root?.serverError.message}</IonText>
-      )} */}
+        <>
+          <br />
+          <IonText color="danger">{errors?.root?.serverError.message}</IonText>
+        </>
+      )}
+      <br />
     </>
   );
 };

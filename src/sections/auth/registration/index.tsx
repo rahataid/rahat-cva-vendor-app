@@ -174,12 +174,7 @@ const Register = () => {
                 name="phone"
               /> */}
               <div className="ion-margin-top-sm">
-                <IonLabel
-                  class={`text-input-label`}
-                  data-testid="registration_form_label_phone"
-                >
-                  Phone Number*
-                </IonLabel>
+                <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
               </div>
               <IonRow>
                 <IonCol size="4" class="ion-no-padding">

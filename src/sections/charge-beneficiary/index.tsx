@@ -1,4 +1,11 @@
-import { IonButton, IonCardContent, IonLoading } from "@ionic/react";
+import {
+  IonButton,
+  IonCardContent,
+  IonLabel,
+  IonLoading,
+  IonSegment,
+  IonSegmentButton,
+} from "@ionic/react";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,6 +23,7 @@ import CustomToast from "../../components/toast";
 import useCustomToast from "../../hooks/use-custom-toast";
 import { differentiateInput } from "../../utils/web3";
 import BeneficiariesService from "../../services/beneficiaries";
+import ChargeQr from "./charge-qr";
 
 const ChargeBeneficiary = ({ data }: any) => {
   const { queryService } = useGraphService();
@@ -23,6 +31,7 @@ const ChargeBeneficiary = ({ data }: any) => {
   const [loadingVisible, setLoadingVisible] = useState(false);
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
+  const [filter, setFilter] = useState("PHONE");
 
   const {
     handleSubmit,
@@ -35,19 +44,18 @@ const ChargeBeneficiary = ({ data }: any) => {
     mode: "all",
     defaultValues: {
       walletAddress: "",
+      phone: undefined,
     },
   });
 
-  const fetchBeneficiaryVoucher = async (data: any) => {
-    const formData = data?.walletAddress;
+  const fetchBeneficiaryVoucher = async (formData: any) => {
     let benWalletAddress: string;
-    const inputType = differentiateInput(data?.walletAddress);
-    if (inputType === "PHONE") {
-      const data = await BeneficiariesService.getByPhone(formData);
+    if (filter === "PHONE") {
+      const data = await BeneficiariesService.getByPhone(formData?.phone);
       if (!data?.data?.data) throw new Error("Invalid Beneficiary");
       benWalletAddress = data?.data?.data?.walletAddress;
-    } else if (inputType === "WALLET") {
-      benWalletAddress = data?.walletAddress;
+    } else if (filter === "WALLET") {
+      benWalletAddress = formData?.walletAddress;
     }
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
       benWalletAddress
@@ -121,18 +129,46 @@ const ChargeBeneficiary = ({ data }: any) => {
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <TransparentCard>
           <IonCardContent>
-            <ChargePhone
-              getValues={getValues}
-              errors={errors}
-              setValue={setValue}
-              control={control}
-            />
+            <IonSegment
+              swipeGesture={true}
+              value={filter}
+              mode="md"
+              onIonChange={(e: any) => {
+                setFilter(e.detail.value);
+              }}
+            >
+              <IonSegmentButton value="PHONE">
+                <IonLabel className="segment-label">Phone</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton value="WALLET">
+                <IonLabel className="segment-label">Wallet</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+            {filter === "PHONE" && (
+              <ChargePhone
+                getValues={getValues}
+                errors={errors}
+                setValue={setValue}
+                control={control}
+                setError={setError}
+              />
+            )}
+            {filter === "WALLET" && (
+              <ChargeQr
+                getValues={getValues}
+                errors={errors}
+                setValue={setValue}
+                control={control}
+                setError={setError}
+              />
+            )}
+
             <IonButton
               mode="md"
               type="submit"
               expand="block"
               color="primary"
-              disabled={isSubmitting}
+              disabled={!isValid || isSubmitting}
             >
               Fetch Beneficiary Voucher
             </IonButton>
