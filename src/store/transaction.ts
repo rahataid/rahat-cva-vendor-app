@@ -326,7 +326,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
 
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
-      console.log({ backendResponse });
       // contract call
 
       const blockChainResponse = [];
@@ -344,14 +343,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
             referralvoucher?.address,
           ]
         );
-        console.log(
-          "=====",
-          beneficiary.walletAddress,
-          beneficiaryAddress,
-          walletInstance?.address,
-          referralvoucher?.address,
-          "====="
-        );
         const response = await ProjectsService.actions(projectId, {
           action: "elProject.discountVoucher",
           payload: {
@@ -363,7 +354,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
             },
           },
         });
-        console.log("RESPONSE", response);
         payload.push({
           ...beneficiary,
           createdAt:
@@ -459,18 +449,14 @@ const useTransactionStore = createStore<TransactionStoreType>(
           eyevoucher,
           "useRahatTokenAbi"
         );
-        console.log(eyeVoucherInstance, "===");
         voucherCount = await eyeVoucherInstance.balanceOf(wallet?.address);
-        console.log(voucherCount, "====-=====");
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         const referralvoucherInstance = await createContractInstance(
           rpcurl,
           referralvoucher,
           "useRahatTokenAbi"
         );
-        console.log(referralvoucherInstance, "===");
         voucherCount = await referralvoucherInstance.balanceOf(wallet?.address);
-        console.log(voucherCount, "====-=====");
       }
       return voucherCount;
     },
