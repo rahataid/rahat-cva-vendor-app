@@ -223,3 +223,23 @@ export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
     error,
   };
 }
+
+export function useVendorVoucherRedemptionList() {
+  const { getVendorRedemptionList } = useTransactionStore();
+  const { data, isLoading, error } = useQuery(
+    ["vendorVoucherRedemptionList"],
+    async () => {
+      const res = await getVendorRedemptionList();
+      return res?.data?.data || [];
+    },
+    {
+      staleTime: 5,
+    }
+  );
+
+  return {
+    data: data,
+    isLoading,
+    error,
+  };
+}

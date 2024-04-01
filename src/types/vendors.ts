@@ -19,3 +19,29 @@ export type IOnlineVendorTxVerify = {
   beneficiaryAddress: string;
   otp: string;
 };
+
+export enum VoucherTypeBackend {
+  FREEVOUCHER = "FREEVOUCHER",
+  DISCOUNTVOUCHER = "DISCOUNTVOUCHER",
+}
+
+export enum RedemptionStatus {
+  REQUESTED = "REQUESTED",
+  APPROVED = "APPROVED",
+}
+export type VendorVoucherRedemptionDetails = {
+  id?: number;
+  uuid?: string;
+  vendorId?: string;
+  voucherNumber?: number;
+  voucherType?: VoucherTypeBackend;
+  status?: RedemptionStatus;
+  adminAddress?: string;
+  Vendor?: {
+    id?: number;
+    uuid?: string;
+    walletAddress?: string;
+    extras?: any;
+    beneficiaryId?: any;
+  };
+};

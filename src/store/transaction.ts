@@ -475,6 +475,22 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return voucherCount;
     },
 
+    getVendorRedemptionList: async () => {
+      const { referredAppStoreState } = get();
+      const {
+        currentUser: { uuid: vendorId },
+        projectSettings: { projectId },
+      } = referredAppStoreState();
+
+      const payload = {
+        action: "elProject.vendorRedemption",
+        payload: {
+          vendorId,
+        },
+      };
+      return ProjectsService.actions(projectId, payload);
+    },
+
     logoutTransactions: () => {
       set({ vendorTransactions: [], transactions: [] });
     },
