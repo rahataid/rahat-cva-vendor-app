@@ -376,9 +376,9 @@ const useTransactionStore = createStore<TransactionStoreType>(
     },
 
     transferVoucher: async ({ voucherType, amount }) => {
-      console.log("TRANSFER VOUCHER", voucherType, amount);
       const { referredAppStoreState } = get();
       const {
+        currentUser: { uuid: vendorId },
         wallet,
         projectSettings: {
           contracts: { eyevoucher, referralvoucher, erc2771forwarder },
@@ -389,7 +389,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
       } = referredAppStoreState();
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
-      console.log(wallet?.address, walletInstance?.address);
       const forwarderContractInstance = await createContractInstanceFromWallet(
         rpcurl,
         erc2771forwarder,
@@ -406,8 +405,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
           walletInstance,
           forwarderContractInstance,
           eyeVoucherInstance,
-          "transferFrom",
-          [wallet?.address, adminAddress, amount]
+          "transfer",
+          [adminAddress, amount]
         );
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         const referralVoucherInstance = await createContractInstance(
@@ -418,11 +417,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
           walletInstance,
           forwarderContractInstance,
           referralVoucherInstance,
-          "transferFrom",
-          [wallet?.address, adminAddress, amount]
+          "transfer",
+          [adminAddress, amount]
         );
       }
-      console.log("here meta tx created");
       const payload = {
         action: "elProject.requestRedemption",
         payload: {
@@ -432,6 +430,13 @@ const useTransactionStore = createStore<TransactionStoreType>(
             nonce: metaTxRequest.nonce.toString(),
             value: metaTxRequest.value.toString(),
           },
+          vendorId,
+          adminAddress,
+          voucherNumber: +amount,
+          voucherType:
+            voucherType === VOUCHER.FREE_VOUCHER
+              ? "FREEVOUCHER"
+              : "DISCOUNTVOUCHER",
         },
       };
       const res = await ProjectsService.actions(projectId, payload);
