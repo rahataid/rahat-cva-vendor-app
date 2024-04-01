@@ -56,7 +56,7 @@ const Tabs: React.FC = () => {
             exact
           />
           <Route
-            path="/tabs/transactions/list"
+            path="/tabs/transactions"
             component={TransactionsListPage}
             exact
           />
@@ -101,7 +101,7 @@ const Tabs: React.FC = () => {
           {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
         {currentUser?.projects?.length > 0 && (
-          <IonTabButton tab="transactions" href="/tabs/transactions/list">
+          <IonTabButton tab="transactions" href="/tabs/transactions">
             <IonIcon icon={swapHorizontalOutline} />
             {/* <IonLabel>Home</IonLabel> */}
           </IonTabButton>
