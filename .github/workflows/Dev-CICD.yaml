@@ -1,4 +1,4 @@
-name: Dev CD/CD
+name: Dev CI/CD
 on:
   push:
     branches:
@@ -6,6 +6,7 @@ on:
   pull_request:
     branches:
       - "dev"
+  workflow_dispatch:
 
 env:
   CI: false
@@ -15,10 +16,10 @@ jobs:
   deploy:
     name: build && push image to Docker hub
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'action') || contains(github.event.pull_request.title, 'action') || github.event_name == 'workflow_dispatch'
+
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: dev
 
       - name: import env file
         run: |
@@ -40,13 +41,8 @@ jobs:
       - name: build && push
         id: build-push
         uses: docker/build-push-action@v3
-        if: github.event_name == 'push'
         with:
           context: .
           file: Dockerfile
-          push: true
-          tags: esatya/vendor-ionic:dev
-
-      - name: Build Docker image
-        if: github.event_name == 'pull_request'
-        run: docker build -t myimage:${{ github.sha }} -f Dockerfile .
+          push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+          tags: esatya/vendor-ionic-el:dev
