@@ -59,15 +59,19 @@ const ChargeBeneficiary = ({ data }: Props) => {
 
   const fetchBeneficiaryVoucher = async (formData: any) => {
     let benWalletAddress: string;
+    let beneficiary;
     if (filter === "PHONE") {
-      const data = await BeneficiariesService.getByPhone(
+      beneficiary = await BeneficiariesService.getByPhone(
         `${formData.code}${formData?.phone}`
       );
-      if (!data?.data?.data) throw new Error("Invalid Beneficiary");
-      benWalletAddress = data?.data?.data?.walletAddress;
     } else if (filter === "WALLET") {
-      benWalletAddress = formData?.walletAddress;
+      beneficiary = await BeneficiariesService.getByWallet(
+        formData?.walletAddress
+      );
     }
+    benWalletAddress = beneficiary?.data?.data?.walletAddress;
+
+    if (!beneficiary?.data?.data) throw new Error("Invalid Beneficiary");
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
       benWalletAddress
     );
@@ -78,9 +82,8 @@ const ChargeBeneficiary = ({ data }: Props) => {
     //   throw new Error("Voucher not assigned to beneficiary");
 
     return {
-      //  beneficiary,  get beneficiary details from walletAddress number from the backend
+      beneficiary: beneficiary?.data?.data,
       beneficiaryVoucher,
-      beneficiaryAddress: benWalletAddress,
     };
   };
 
@@ -88,15 +91,12 @@ const ChargeBeneficiary = ({ data }: Props) => {
     setLoadingVisible(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     try {
-      const {
-        // beneficiary,
-        beneficiaryAddress,
-        beneficiaryVoucher,
-      } = await fetchBeneficiaryVoucher(data);
+      const { beneficiary, beneficiaryVoucher } = await fetchBeneficiaryVoucher(
+        data
+      );
       history.push("/redeem-voucher", {
         data: {
-          //  data: beneficiary,
-          beneficiaryAddress,
+          beneficiary,
           beneficiaryVoucher,
         },
       });

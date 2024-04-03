@@ -5,24 +5,22 @@ import { useLocation } from "react-router";
 
 const RedeemVoucherPage: React.FC = () => {
   type Prop = {
-    beneficiaryAddress: string;
     beneficiaryVoucher: any;
-    data: any;
+    beneficiary: any;
   };
   interface LocationState {
     data: Prop | null;
   }
   const location = useLocation<LocationState>();
   const {
-    data: { data, beneficiaryAddress, beneficiaryVoucher },
+    data: { beneficiary, beneficiaryVoucher },
   } = location.state || { data: null };
   return (
     <IonPage>
       <CustomHeader title="Redeem Voucher" showBackButton />
       <IonContent>
         <RedeemVoucher
-          data={data}
-          beneficiaryAddress={beneficiaryAddress}
+          beneficiary={beneficiary}
           beneficiaryVoucher={beneficiaryVoucher}
         />
       </IonContent>

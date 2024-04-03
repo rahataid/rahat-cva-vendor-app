@@ -14,7 +14,11 @@ import {
 import "./redeem-voucher.scss";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { BENEFICIARY_VOUCHER_DETAILS, VOUCHER } from "@types/beneficiaries";
+import {
+  BENEFICIARY_DETAILS,
+  BENEFICIARY_VOUCHER_DETAILS,
+  VOUCHER,
+} from "@types/beneficiaries";
 import { homeOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
@@ -27,15 +31,13 @@ import { cropString } from "../../utils/helperFunctions";
 import useAppStore from "../../store/app";
 
 type Props = {
-  beneficiaryAddress: string;
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-  data: any;
+  beneficiary: BENEFICIARY_DETAILS;
 };
 
 const RedeemVoucher: React.FC<Props> = ({
-  beneficiaryAddress,
   beneficiaryVoucher,
-  data,
+  beneficiary,
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -58,8 +60,8 @@ const RedeemVoucher: React.FC<Props> = ({
   } = useForm({
     mode: "all",
     defaultValues: {
-      glassesStatus: data?.glassesStatus || "",
-      eyeCheckupStatus: data?.eyeCheckupStatus || "",
+      glassesStatus: beneficiary?.glassesStatus || "",
+      eyeCheckupStatus: beneficiary?.eyeCheckupStatus || "",
     },
   });
 
@@ -76,14 +78,14 @@ const RedeemVoucher: React.FC<Props> = ({
       if (voucherType === VOUCHER.FREE_VOUCHER) {
         await updateStatus({
           voucherType,
-          beneficiaryAddress: beneficiaryAddress,
+          beneficiary,
           eyeCheckUp,
           glassStatus,
         });
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         await updateStatus({
           voucherType,
-          beneficiaryAddress: beneficiaryAddress,
+          beneficiary,
           referralVoucherAddress: beneficiaryVoucher?.ReferredVoucherAddress,
           eyeCheckUp,
           glassStatus,
@@ -91,6 +93,10 @@ const RedeemVoucher: React.FC<Props> = ({
       }
       showToast("Status Updated Successfully", "success");
       setSubmitSuccess(true);
+      setError("root.serverError", {
+        type: "manual",
+        message: "",
+      });
     } catch (error) {
       console.log(error);
       showToast("Something went wrong! Try again later", "danger");
@@ -114,24 +120,27 @@ const RedeemVoucher: React.FC<Props> = ({
           : false;
       if (voucherType === VOUCHER.FREE_VOUCHER)
         await redeemVoucher({
-          beneficiaryAddress,
+          beneficiary,
           voucherType: VOUCHER.FREE_VOUCHER,
           eyeCheckUp,
           glassStatus,
         });
       else
         await redeemVoucher({
-          beneficiaryAddress,
+          beneficiary,
           voucherType: VOUCHER.DISCOUNT_VOUCHER,
           voucher: beneficiaryVoucher,
           eyeCheckUp,
           glassStatus,
         });
-
+      setError("root.serverError", {
+        type: "manual",
+        message: "",
+      });
       history.push("/otp", {
         data: {
           voucher: beneficiaryVoucher,
-          beneficiaryAddress: beneficiaryAddress,
+          beneficiaryAddress: beneficiary?.walletAddress,
         },
       });
     } catch (error) {
@@ -140,7 +149,7 @@ const RedeemVoucher: React.FC<Props> = ({
       history.push("/otp", {
         data: {
           voucher: beneficiaryVoucher,
-          beneficiaryAddress: beneficiaryAddress,
+          beneficiaryAddress: beneficiary?.walletAddress,
         },
       });
       console.log(error);
@@ -157,7 +166,7 @@ const RedeemVoucher: React.FC<Props> = ({
     history.push("/refer-beneficiaries", {
       data: {
         voucher: beneficiaryVoucher,
-        beneficiaryAddress: beneficiaryAddress,
+        beneficiaryAddress: beneficiary?.walletAddress,
         from: "redeemVoucher",
       },
     });
@@ -191,7 +200,7 @@ const RedeemVoucher: React.FC<Props> = ({
                       Beneficiary Address:
                     </IonCol>
                     <IonCol size="6" className="pr-0">
-                      {cropString(beneficiaryAddress) || "-"}
+                      {cropString(beneficiary?.walletAddress) || "-"}
                     </IonCol>
                     <IonCol size="6" className="pl-0">
                       Voucher Type:
@@ -316,7 +325,7 @@ const RedeemVoucher: React.FC<Props> = ({
                   <CustomDivider />
                   <br />
                   <IonRow>
-                    {data?.voucherType === "DISCOUNT_VOUCHER" ? (
+                    {voucherType === VOUCHER.DISCOUNT_VOUCHER ? (
                       <>
                         <IonCol size="12" className="px-0">
                           {getValues("glassesStatus") ===

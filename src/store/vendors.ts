@@ -1,15 +1,6 @@
 import { create } from "zustand";
 import { IVendorChainData } from "../types/useProject";
-
-export type VendorStateType = {
-  chainData: IVendorChainData;
-};
-
-type VendorActionsType = {
-  setChainData: (chainData: IVendorChainData) => void;
-};
-
-export type VendorStoreType = VendorStateType & VendorActionsType;
+import { VendorStoreType } from "@types/store/vendor";
 
 const useVendorStore = create<VendorStoreType>((set) => ({
   chainData: {

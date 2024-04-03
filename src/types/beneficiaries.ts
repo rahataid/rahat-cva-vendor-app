@@ -88,3 +88,43 @@ export type CreateBeneficiaryDto = {
   extras?: any;
   type?: BENEFICIARY_TYPE;
 };
+
+export type REFERRED_BENEFICIARY_DETAILS = {
+  id?: number;
+  uuid?: string;
+  walletAddress?: string;
+  extras?: any;
+  eyeCheckUp?: boolean;
+  glassRequired?: boolean;
+  beneficiariesReferred?: number;
+  referrerBeneficiary?: string;
+  referrerVendor?: string;
+  type?: BENEFICIARY_TYPE;
+};
+
+export type BENEFICIARY_DETAILS = {
+  id?: number;
+  uuid?: string;
+  gender?: GENDER;
+  walletAddress?: string;
+  birthDate?: string;
+  location?: string;
+  latitude?: number;
+  longitude?: number;
+  extras?: any;
+  notes?: string;
+  bankedStatus?: string;
+  internetStatus?: string;
+  phoneStatus?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
+  isVerified?: boolean;
+  piiData?: {
+    beneficiaryId?: number;
+    name?: string;
+    phone?: string;
+    email?: any;
+    extras?: any;
+  };
+};
