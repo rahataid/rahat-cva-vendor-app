@@ -1,65 +1,116 @@
 import TextInputField from "@components/input/form-text-input";
-import { IonCardSubtitle, IonRow, IonText } from "@ionic/react";
+import {
+  IonButton,
+  IonCol,
+  IonIcon,
+  IonRow,
+  IonText,
+  isPlatform,
+} from "@ionic/react";
 import { Controller } from "react-hook-form";
+import { validateWalletAddress } from "../../utils/web3";
+import { qrCodeOutline } from "ionicons/icons";
+import { useHistory } from "react-router";
 
 const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
+  const history = useHistory();
+  const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
+  const handleScanClick = () => {
+    history.push("/scanner", {
+      data: { redirectTo: "/tabs/charge-beneficiary" },
+    });
+  };
   return (
     <>
-      <IonCardSubtitle>Scanner will be here soon...</IonCardSubtitle>
-      {/* <IonCardSubtitle>
-        You are about to send tokens a beneficiary. Please enter QR code
-        of the beneficiary.
-      </IonCardSubtitle>
-      <IonRow className="gap-25"></IonRow>
-      <Controller
-        render={({ field }) => (
-          <TextInputField
-            placeholder="Enter Beneficiary QR Code"
-            type="text"
-            label="Qr Code*"
-            value={getValues("qrCode")}
-            errorText={errors?.qrCode?.message}
-            onInput={(e: any) => {
-              setValue("qrCode", e.target.value, {
-                shouldValidate: true,
-              });
-            }}
-            onBlur={field.onBlur}
-          />
-        )}
-        rules={{
-          required: "Please enter beneficiary qrCode",
-        }}
-        control={control}
-        name="qrCode"
-      />
       <br />
-      <Controller
-        render={({ field }) => (
-          <TextInputField
-            placeholder="Token"
-            type="text"
-            label="Token*"
-            errorText={errors?.token?.message}
-            value={getValues("token")}
-            onInput={(e: any) => {
-              setValue("token", e.target.value, {
-                shouldValidate: true,
-              });
-            }}
-            onBlur={field.onBlur}
-          />
-        )}
-        rules={{
-          required: "Please enter token amount",
-        }}
-        control={control}
-        name="token"
-      />
+      <IonText>
+        <p>Please enter wallet address of the beneficiary.</p>
+      </IonText>
       <br />
+      <IonRow>
+        {isPlatformWeb ? (
+          <>
+            <IonCol size="12" class="ion-no-padding">
+              <Controller
+                render={({ field }) => (
+                  <TextInputField
+                    label="Wallet Address*"
+                    placeholder="Enter wallet address"
+                    type="text"
+                    value={getValues("walletAddress")}
+                    errorText={errors?.walletAddress?.message}
+                    onInput={(e: any) => {
+                      setValue("walletAddress", e.target.value, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onBlur={field.onBlur}
+                  />
+                )}
+                rules={{
+                  required: "Please enter valid wallet address",
+                  validate: {
+                    validateInput: (value) =>
+                      (validateWalletAddress(value) && value.length === 42) ||
+                      "Please enter a valid wallet address",
+                  },
+                }}
+                control={control}
+                name="walletAddress"
+              />
+            </IonCol>
+          </>
+        ) : (
+          <>
+            <IonCol size="10" class="ion-no-padding">
+              <Controller
+                render={({ field }) => (
+                  <TextInputField
+                    label="Wallet Address*"
+                    placeholder="Enter wallet address"
+                    type="text"
+                    value={getValues("walletAddress")}
+                    errorText={errors?.walletAddress?.message}
+                    onInput={(e: any) => {
+                      setValue("walletAddress", e.target.value, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onBlur={field.onBlur}
+                  />
+                )}
+                rules={{
+                  required: "Please enter valid wallet address",
+                  validate: {
+                    validateInput: (value) =>
+                      (validateWalletAddress(value) && value.length === 42) ||
+                      "Please enter a valid wallet address",
+                  },
+                }}
+                control={control}
+                name="walletAddress"
+              />
+            </IonCol>
+            <IonCol size="0.1" class="ion-no-padding"></IonCol>
+            <IonCol size="1" class="ion-no-padding">
+              <IonButton
+                fill="solid"
+                className="scan-btn"
+                onClick={handleScanClick}
+              >
+                <IonIcon slot="icon-only" icon={qrCodeOutline}></IonIcon>
+              </IonButton>
+            </IonCol>
+          </>
+        )}
+      </IonRow>
       {errors?.root?.serverError?.message && (
-        <IonText color="danger">{errors?.root?.serverError.message}</IonText>
-      )} */}
+        <>
+          <br />
+          <IonText color="danger">{errors?.root?.serverError.message}</IonText>
+        </>
+      )}
+      <br />
     </>
   );
 };

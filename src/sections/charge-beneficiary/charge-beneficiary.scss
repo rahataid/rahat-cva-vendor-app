@@ -1,3 +1,4 @@
+@import "@theme/r-variables.scss";
 .charge-container {
   height: 100%;
   display: flex;
@@ -28,4 +29,9 @@
 
 .gap-25 {
   height: 25px;
+}
+
+.scan-btn {
+  margin-top: 23px;
+  height: 46px;
 }

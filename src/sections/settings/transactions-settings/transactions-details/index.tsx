@@ -26,7 +26,7 @@ const TransactionDetails = ({ data: { transaction } }: Props) => {
               {data.status}
             </IonText>
           </IonCol> */}
-          <IonCol size="6">Beneficiary Name</IonCol>
+          <IonCol size="6">Beneficiary</IonCol>
           <IonCol size="6">
             {cropString(transaction?.beneficiary) || "-"}
           </IonCol>

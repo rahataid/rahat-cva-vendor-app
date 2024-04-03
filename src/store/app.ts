@@ -13,6 +13,7 @@ import {
 import { DEFAULT_PASSCODE } from "../config";
 import { HDNodeWallet, Wallet } from "ethers";
 import { mockBeneficiaries } from "@utils/mockData";
+import countriesData from "../constants/countries.json";
 
 type StorageChainData = {
   allowance: number;
@@ -43,6 +44,7 @@ export type AppStateType = {
   isAuthenticated: boolean;
   isInitialized: boolean;
   mockData: any[];
+  countries: Array<any>;
 };
 
 type AppActionsType = {
@@ -57,6 +59,7 @@ type AppActionsType = {
   setProjectSettings: (data: StorageProjectSettings) => Promise<void>;
   logout: () => void;
   setMockData: (data: any) => void;
+  setCountries: (countries: Array<any>) => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;
@@ -71,7 +74,10 @@ const useAppStore = createStore<AppStoreType>(
     chainData: undefined,
     mockData: [],
     initialize: async () => {
-      const { currentUser, wallet, projectSettings } = get();
+      const { currentUser, wallet, projectSettings, setCountries, countries } =
+        get();
+
+      setCountries(countriesData);
 
       if (projectSettings?.baseUrl)
         axiosInstance.defaults.baseURL = fixProjectUrl(projectSettings.baseUrl);
@@ -153,6 +159,9 @@ const useAppStore = createStore<AppStoreType>(
     setMockData: (data: any) => {
       set({ mockData: data });
     },
+    setCountries: (countries) => {
+      set({ countries });
+    },
   }),
   {
     devtoolsEnabled: true,
@@ -164,6 +173,7 @@ const useAppStore = createStore<AppStoreType>(
         wallet: state.wallet,
         currentUser: state.currentUser,
         projectSettings: state.projectSettings,
+        data: { countries: state.countries },
       }),
     },
   }

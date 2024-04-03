@@ -82,6 +82,7 @@ type TransactionActionsType = {
     voucher,
   }: ReferProps) => Promise<any>;
   transferVoucher: ({ voucherType, amount }: TransferVoucher) => Promise<any>;
+  getVendorVoucherRedemptionCount: (voucherType: VOUCHER) => Promise<number>;
   logoutTransactions: () => void;
 };
 
@@ -325,7 +326,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
 
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
-
       // contract call
 
       const blockChainResponse = [];
@@ -368,11 +368,12 @@ const useTransactionStore = createStore<TransactionStoreType>(
     transferVoucher: async ({ voucherType, amount }) => {
       const { referredAppStoreState } = get();
       const {
+        currentUser: { uuid: vendorId },
         wallet,
         projectSettings: {
           contracts: { eyevoucher, referralvoucher, erc2771forwarder },
           network: { rpcurl },
-          admin: { ADDRESS: adminAddress },
+          admin: { address: adminAddress },
           projectId,
         },
       } = referredAppStoreState();
@@ -386,18 +387,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       let metaTxRequest;
       if (voucherType === VOUCHER.FREE_VOUCHER) {
-        const referralVoucherInstance = await createContractInstance(
-          rpcurl,
-          referralvoucher
-        );
-        metaTxRequest = await getMetaTxRequest(
-          walletInstance,
-          forwarderContractInstance,
-          referralVoucherInstance,
-          "approve",
-          [adminAddress, amount]
-        );
-      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         const eyeVoucherInstance = await createContractInstance(
           rpcurl,
           eyevoucher
@@ -406,12 +395,24 @@ const useTransactionStore = createStore<TransactionStoreType>(
           walletInstance,
           forwarderContractInstance,
           eyeVoucherInstance,
-          "approve",
+          "transfer",
+          [adminAddress, amount]
+        );
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        const referralVoucherInstance = await createContractInstance(
+          rpcurl,
+          referralvoucher
+        );
+        metaTxRequest = await getMetaTxRequest(
+          walletInstance,
+          forwarderContractInstance,
+          referralVoucherInstance,
+          "transfer",
           [adminAddress, amount]
         );
       }
       const payload = {
-        action: "elProject.processOtp",
+        action: "elProject.requestRedemption",
         payload: {
           metaTxRequest: {
             ...metaTxRequest,
@@ -419,10 +420,61 @@ const useTransactionStore = createStore<TransactionStoreType>(
             nonce: metaTxRequest.nonce.toString(),
             value: metaTxRequest.value.toString(),
           },
+          vendorId,
+          adminAddress,
+          voucherNumber: +amount,
+          voucherType:
+            voucherType === VOUCHER.FREE_VOUCHER
+              ? "FREEVOUCHER"
+              : "DISCOUNTVOUCHER",
         },
       };
       const res = await ProjectsService.actions(projectId, payload);
       return res?.data?.data;
+    },
+
+    getVendorVoucherRedemptionCount: async (voucherType) => {
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { eyevoucher, referralvoucher },
+          network: { rpcurl },
+        },
+      } = referredAppStoreState();
+      let voucherCount;
+      if (voucherType === VOUCHER.FREE_VOUCHER) {
+        const eyeVoucherInstance = await createContractInstance(
+          rpcurl,
+          eyevoucher,
+          "useRahatTokenAbi"
+        );
+        voucherCount = await eyeVoucherInstance.balanceOf(wallet?.address);
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        const referralvoucherInstance = await createContractInstance(
+          rpcurl,
+          referralvoucher,
+          "useRahatTokenAbi"
+        );
+        voucherCount = await referralvoucherInstance.balanceOf(wallet?.address);
+      }
+      return voucherCount;
+    },
+
+    getVendorRedemptionList: async () => {
+      const { referredAppStoreState } = get();
+      const {
+        currentUser: { uuid: vendorId },
+        projectSettings: { projectId },
+      } = referredAppStoreState();
+
+      const payload = {
+        action: "elProject.vendorRedemption",
+        payload: {
+          vendorId,
+        },
+      };
+      return ProjectsService.actions(projectId, payload);
     },
 
     logoutTransactions: () => {

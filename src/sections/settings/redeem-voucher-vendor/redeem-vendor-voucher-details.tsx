@@ -7,6 +7,7 @@ import TextInputField from "../../../components/input/form-text-input";
 import { VOUCHER } from "../../../types/beneficiaries";
 import CustomToast from "../../../components/toast";
 import { useState } from "react";
+import { useVendorVoucherRedemptionCount } from "../../../api/vendors";
 
 type FormValues = {
   vouchers: number;
@@ -19,6 +20,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
   const { transferVoucher } = useTransactionStore();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
+  const { data } = useVendorVoucherRedemptionCount(voucherType);
   const {
     handleSubmit,
     setError,
@@ -42,6 +44,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
       setSubmitSuccess(true);
       showToast("Voucher redeemed successfully", "success");
     } catch (error) {
+      console.log(error);
       setSubmitSuccess(false);
       showToast("Something went wrong! Try again later.", "danger");
       setError("root.serverError", {
@@ -63,6 +66,10 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
       />
       <TransparentCard>
         <IonCardContent>
+          <IonText style={{ color: "#000" }}>
+            <p>Total free vouchers available for redemption: {data}</p>
+          </IonText>
+          <br />
           <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
             <Controller
               render={({ field }) => (
@@ -81,7 +88,14 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
                 />
               )}
               rules={{
-                required: "Please enter the number of vouchers",
+                required: {
+                  value: true,
+                  message: "Please enter the number of vouchers",
+                },
+                maxLength: {
+                  value: data,
+                  message: "You can't redeem more than available vouchers",
+                },
               }}
               control={control}
               name="vouchers"
