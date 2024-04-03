@@ -145,7 +145,7 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
           expand="block"
           color="primary"
           className="view-all-btn-padding"
-          onClick={() => history.push("/tabs/transactions/list")}
+          onClick={() => history.push("/tabs/transactions")}
         >
           View All
         </IonButton>

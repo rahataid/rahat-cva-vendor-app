@@ -51,7 +51,7 @@ const Tabs: React.FC = () => {
             exact
           />
           <Route
-            path="/tabs/referred-beneficiaries/:id"
+            path="/tabs/referred-beneficiaries/details"
             component={ReferredBeneficiariesDetailsPage}
             exact
           />
