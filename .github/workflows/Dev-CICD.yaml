@@ -11,6 +11,7 @@ on:
 env:
   CI: false
   env_dev: ${{ secrets.ENV_DEV }}
+  env_npmrc: ${{ secrets.ENV_NPMRC }}
 
 jobs:
   deploy:
@@ -23,7 +24,8 @@ jobs:
 
       - name: import env file
         run: |
-          touch ./.env && echo "$env_dev" >> ./.env
+          touch ./.env && echo "$env_dev" >> ./.env && 
+          touch ./.npmrc && echo "$env_npmrc" >> ./.npmrc
 
       - uses: actions/setup-node@v3
         with:
