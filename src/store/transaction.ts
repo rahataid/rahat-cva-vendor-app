@@ -1,7 +1,6 @@
-import { ITransactionItem } from "@types/transactions";
 import { createStore, ionicIdbStorage } from "@utils/storeUtils";
 import { createJSONStorage } from "zustand/middleware";
-import useAppStore, { AppStoreType } from "./app";
+import useAppStore from "./app";
 import {
   createContractInstance,
   createContractInstanceFromWallet,
@@ -10,15 +9,16 @@ import {
   getWalletUsingMnemonic,
 } from "@utils/web3";
 import {
-  BENEFICIARY_DETAILS,
-  BENEFICIARY_VOUCHER_DETAILS,
-  CreateBeneficiaryDto,
+  BENEFICIARY_TYPE,
   REFER_BENEFICIARY_DETAILS,
   VOUCHER,
 } from "@types/beneficiaries";
 import ProjectsService from "@services/projects";
 import { generateCurrentTimestamp } from "../utils/helperFunctions";
-import { TransactionStoreType } from "@types/store/transaction";
+import {
+  TransactionStoreType,
+  addToProjectPayload,
+} from "@types/store/transaction";
 
 const useTransactionStore = createStore<TransactionStoreType>(
   (set, get) => ({
@@ -202,16 +202,15 @@ const useTransactionStore = createStore<TransactionStoreType>(
           const payload: addToProjectPayload = {
             action: "beneficiary.add_to_project",
             payload: {
-              uuid: generateUuid(),
               walletAddress: beneficiary.walletAddress,
               referrerBeneficiary: generateUuid(),
               referrerVendor: generateUuid(),
-              age: beneficiary?.estimatedAge,
+              // age: beneficiary?.estimatedAge,
               piiData: {
                 name: beneficiary?.name,
                 phone: beneficiary?.phone,
               },
-              type: "REFERRED",
+              type: BENEFICIARY_TYPE.REFERRED,
             },
           };
           return ProjectsService.actions(projectId, payload);

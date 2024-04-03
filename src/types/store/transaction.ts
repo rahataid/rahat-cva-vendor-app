@@ -73,5 +73,6 @@ export type TransactionActionsType = {
   }: ReferProps) => Promise<any>;
   transferVoucher: ({ voucherType, amount }: TransferVoucher) => Promise<any>;
   getVendorVoucherRedemptionCount: (voucherType: VOUCHER) => Promise<number>;
+  getReferredBeneficiaryList: () => Promise<any>;
   logoutTransactions: () => void;
 };
