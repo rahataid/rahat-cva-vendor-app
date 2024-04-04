@@ -75,7 +75,7 @@ const Register = () => {
         phone: `${data?.code}${data?.phone}`,
       };
 
-      const walletValue = await handleRegister(data);
+      const walletValue = await handleRegister(payload);
       if (walletValue) {
         setMnemonics(walletValue.mnemonic.phrase);
       }

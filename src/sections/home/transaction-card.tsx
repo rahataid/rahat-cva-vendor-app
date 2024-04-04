@@ -25,7 +25,7 @@ import { chevronForwardOutline, swapHorizontalOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import "./home.scss";
 import { useEffect, useState } from "react";
-import TransactionSkeleton from "@components/loaders/skeleton/transactions-list";
+import ListSkeleton from "@components/loaders/skeleton/transactions-list";
 type Props = {
   transactionsList: ITransactionItem[];
   transactionsLoading?: boolean;
@@ -60,7 +60,7 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
           </IonSegmentButton>
         </IonSegment>
         {transactionsLoading ? (
-          <TransactionSkeleton length={5} />
+          <ListSkeleton length={5} />
         ) : (
           <IonList className="ion-list-no-padding" mode="md">
             <>
