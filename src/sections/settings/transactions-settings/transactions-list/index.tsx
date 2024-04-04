@@ -18,7 +18,7 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useHistory } from "react-router";
 import { IBeneficiary } from "@types/beneficiaries";
 import { chevronForwardOutline } from "ionicons/icons";
-import TransactionSkeleton from "@components/loaders/skeleton/transactions-list";
+import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 
 type Props = {
   data: IBeneficiary[] | [] | any;
@@ -28,14 +28,7 @@ type Props = {
 const TransactionsList = ({ data, loading }: Props) => {
   const history = useHistory();
 
-  if (loading)
-    return (
-      <TransparentCard>
-        <IonCardContent>
-          <TransactionSkeleton length={9} />
-        </IonCardContent>
-      </TransparentCard>
-    );
+  if (loading) return <ListSkeletonCard length={9} />;
 
   return (
     <>

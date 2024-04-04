@@ -2,7 +2,7 @@ import { IonCardContent, IonCardHeader } from "@ionic/react";
 import { BENEFICIARY_DETAILS } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import ReferredBeneficiaryCard from "../referred-beneficiary-card";
-import TransactionSkeleton from "@components/loaders/skeleton/transactions-list";
+import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 
 type Props = {
   beneficiaries: BENEFICIARY_DETAILS[] | [];
@@ -11,14 +11,7 @@ type Props = {
 };
 
 const ReferredBeneficiariesList = ({ beneficiaries, loading }: Props) => {
-  if (loading)
-    return (
-      <TransparentCard>
-        <IonCardContent>
-          <TransactionSkeleton length={9} />
-        </IonCardContent>
-      </TransparentCard>
-    );
+  if (loading) return <ListSkeletonCard length={9} />;
   return (
     <>
       {beneficiaries?.length ? (
