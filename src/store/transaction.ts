@@ -413,9 +413,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
         currentUser: { uuid: vendorId },
         projectSettings: { projectId },
       } = referredAppStoreState();
-
       const payload = {
-        action: MS_ACTIONS.ELPROJECT.GET_VENDOR_REDEMPTION,
+        action: "elProject.vendorRedemption",
         payload: {
           vendorId,
         },
