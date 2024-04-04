@@ -8,7 +8,6 @@ type Props = {
 };
 
 const TransactionDetails = ({ data }: Props) => {
-  console.log("details last", data);
   return (
     <TransparentCard>
       <IonGrid>
