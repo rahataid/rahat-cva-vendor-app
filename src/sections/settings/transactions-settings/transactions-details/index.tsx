@@ -1,15 +1,14 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
-import { ITransactionItem } from "@types/transactions";
+import { IonCol, IonGrid, IonRow } from "@ionic/react";
+import { IAllTransactionItem } from "@types/transactions";
 import { cropString, formatDate } from "@utils/helperFunctions";
 
 type Props = {
-  data: {
-    transaction: ITransactionItem;
-  };
+  data: IAllTransactionItem;
 };
 
-const TransactionDetails = ({ data: { transaction } }: Props) => {
+const TransactionDetails = ({ data }: Props) => {
+  console.log("details last", data);
   return (
     <TransparentCard>
       <IonGrid>
@@ -26,14 +25,12 @@ const TransactionDetails = ({ data: { transaction } }: Props) => {
               {data.status}
             </IonText>
           </IonCol> */}
-          <IonCol size="6">Beneficiary</IonCol>
-          <IonCol size="6">
-            {cropString(transaction?.beneficiary) || "-"}
-          </IonCol>
-          <IonCol size="6">Phone Number</IonCol>
-          <IonCol size="6">
-            {cropString(transaction?.beneficiary) || "-"}
-          </IonCol>
+          <IonCol size="6">Transaction Type</IonCol>
+          <IonCol size="6">{data?.eventType || "-"}</IonCol>
+          <IonCol size="6">Beneficiary Wallet Address</IonCol>
+          <IonCol size="6">{cropString(data?.beneficiary) || "-"}</IonCol>
+          {/* <IonCol size="6">Phone Number</IonCol>
+          <IonCol size="6">{cropString(data?.beneficiary) || "-"}</IonCol> */}
           {/* <IonCol size="6">Beneficiary Type</IonCol>
           <IonCol size="6">
             <IonText
@@ -62,14 +59,11 @@ const TransactionDetails = ({ data: { transaction } }: Props) => {
                 : "Free Voucher"}
             </IonText>
           </IonCol> */}
+
           <IonCol size="6">Transaction Hash</IonCol>
-          <IonCol size="6">
-            {cropString(transaction?.transactionHash) || "-"}
-          </IonCol>
+          <IonCol size="6">{cropString(data?.transactionHash) || "-"}</IonCol>
           <IonCol size="6">Date</IonCol>
-          <IonCol size="6">
-            {formatDate(transaction?.blockTimestamp) || "-"}
-          </IonCol>
+          <IonCol size="6">{formatDate(data?.blockTimestamp) || "-"}</IonCol>
         </IonRow>
       </IonGrid>
     </TransparentCard>

@@ -1,22 +1,14 @@
-import React from "react";
+import { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
 import CustomHeader from "@components/header/customHeader";
 
-import { sortBeneficiariesByDate } from "@utils/helperFunctions";
-import useAppStore from "@store/app";
 import { useVendorTransaction } from "@api/vendors";
 import { useGraphService } from "@contexts/graph-query";
 
-const TransactionsListPage: React.FC = () => {
+const TransactionsListPage: FC = () => {
   const { queryService } = useGraphService();
-  const { wallet } = useAppStore();
-  const {
-    data: transactionsData,
-    isLoading,
-    error,
-  } = useVendorTransaction(wallet?.address, queryService);
-  const data = sortBeneficiariesByDate(transactionsData);
+  const { data, isLoading, error } = useVendorTransaction(queryService);
 
   return (
     <IonPage>

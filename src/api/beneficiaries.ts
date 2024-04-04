@@ -30,7 +30,7 @@ export function useReferredBeneficiariesDetails({
     ["referredBeneficiaryDetails", uuid],
     async () => {
       const res = await getReferredBeneficiaryDetails(uuid);
-      return res?.data?.data || [];
+      return res?.data?.data || {};
     },
     {
       enabled: !beneficiaryDetails,
