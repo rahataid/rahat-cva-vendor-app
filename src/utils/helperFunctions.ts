@@ -202,3 +202,7 @@ export const extractWalletAddressOnScan = (str: string) => {
   // Return the extracted address
   return address;
 };
+
+export const randomPercentage = () => {
+  return `${Math.floor(Math.random() * 50) + 50}%`;
+};

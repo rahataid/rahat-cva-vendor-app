@@ -62,6 +62,7 @@ export const endpoints = {
     getByPhone: (phone: string) => `/beneficiaries/phone/${phone}`,
     getByWallet: (walletAddress: string) =>
       `/beneficiaries/wallet/${walletAddress}`,
+    getByUuid: (uuid: string) => `/beneficiaries/${uuid}`,
   },
   transactions: {
     list: "/transactions",

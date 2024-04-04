@@ -4,7 +4,7 @@ import { FC } from "react";
 import DetailsSkeleton from "../details";
 
 type Props = {
-  length: number;
+  length?: number;
 };
 
 const DetailsSkeletonCard: FC<Props> = ({ length }) => (

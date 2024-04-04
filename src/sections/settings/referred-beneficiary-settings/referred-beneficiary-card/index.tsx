@@ -26,7 +26,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
 
   const [showAlert, setShowAlert] = useState(false);
   const handleViewDetails = () => {
-    history.push(`/tabs/referred-beneficiaries/details`, {
+    history.push(`/tabs/referred-beneficiaries/${beneficiary?.uuid}`, {
       data: { beneficiary },
     });
   };

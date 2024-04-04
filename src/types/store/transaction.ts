@@ -74,5 +74,6 @@ export type TransactionActionsType = {
   transferVoucher: ({ voucherType, amount }: TransferVoucher) => Promise<any>;
   getVendorVoucherRedemptionCount: (voucherType: VOUCHER) => Promise<number>;
   getReferredBeneficiaryList: () => Promise<any>;
+  getReferredBeneficiaryDetails: (uuid: string) => Promise<any>;
   logoutTransactions: () => void;
 };

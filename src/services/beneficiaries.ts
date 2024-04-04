@@ -5,6 +5,8 @@ const BeneficiariesService = {
     axiosInstance.get(endpoints.beneficiaries.getByPhone(phone)),
   getByWallet: (walletAddress: string) =>
     axiosInstance.get(endpoints.beneficiaries.getByWallet(walletAddress)),
+  getByUuid: (uuid: string) =>
+    axiosInstance.get(endpoints.beneficiaries.getByUuid(uuid)),
 };
 
 export default BeneficiariesService;

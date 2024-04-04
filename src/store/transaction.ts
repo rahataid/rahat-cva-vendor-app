@@ -19,6 +19,7 @@ import {
   TransactionStoreType,
   addToProjectPayload,
 } from "@types/store/transaction";
+import BeneficiariesService from "@services/beneficiaries";
 
 const useTransactionStore = createStore<TransactionStoreType>(
   (set, get) => ({
@@ -436,6 +437,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
       return ProjectsService.actions(projectId, payload);
+    },
+
+    getReferredBeneficiaryDetails: async (uuid: string) => {
+      return BeneficiariesService.getByUuid(uuid);
     },
 
     logoutTransactions: () => {

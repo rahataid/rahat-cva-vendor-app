@@ -20,3 +20,27 @@ export function useReferredBeneficiariesList() {
     error,
   };
 }
+
+export function useReferredBeneficiariesDetails({
+  uuid,
+  beneficiaryDetails,
+}: any) {
+  const { getReferredBeneficiaryDetails } = useTransactionStore();
+  const { data, isLoading, error } = useQuery(
+    ["referredBeneficiaryDetails", uuid],
+    async () => {
+      const res = await getReferredBeneficiaryDetails(uuid);
+      return res?.data?.data || [];
+    },
+    {
+      enabled: !beneficiaryDetails,
+      staleTime: 60000,
+    }
+  );
+
+  return {
+    data: data,
+    isLoading,
+    error,
+  };
+}
