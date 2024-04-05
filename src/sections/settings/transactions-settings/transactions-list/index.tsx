@@ -28,11 +28,11 @@ const TransactionsList = ({ data, loading }: Props) => {
   const history = useHistory();
 
   if (loading) return <ListSkeletonCard length={9} />;
-
-  const sortedData = sortBeneficiariesByDate(data);
+  let sortedData = null;
+  if (data) sortedData = sortBeneficiariesByDate(data);
   return (
     <>
-      {Object.keys(sortedData)?.length ? (
+      {data && sortedData && Object.keys(sortedData)?.length ? (
         <>
           <TransparentCard>
             <IonList mode="md">

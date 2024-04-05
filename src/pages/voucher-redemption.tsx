@@ -1,7 +1,6 @@
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
 import VoucherRedemptionDetails from "@sections/settings/voucher-redemption-details";
-import { mockBeneficiaries } from "@utils/mockData";
 
 const VoucherRedemptionDetailsPage: React.FC = () => {
   return (
@@ -11,7 +10,7 @@ const VoucherRedemptionDetailsPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <VoucherRedemptionDetails data={mockBeneficiaries} />
+              <VoucherRedemptionDetails />
             </IonCol>
           </IonRow>
         </IonGrid>

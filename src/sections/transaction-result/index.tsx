@@ -35,7 +35,7 @@ const TransactionResult = ({
         <IonGrid>
           <IonRow>
             <IonCol size="12">
-              <ResultChip status={otpRes?.status ? "SUCCESS" : "FAILED"} />
+              <ResultChip status="SUCCESS" />
             </IonCol>
             {/* <IonCol size="6">Beneficiary Name</IonCol>
             <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol> */}
@@ -73,7 +73,9 @@ const TransactionResult = ({
             </IonCol>
 
             <IonCol size="6">Transaction Hash</IonCol>
-            <IonCol size="6">{cropString(otpRes?.hash) || "-"}</IonCol>
+            <IonCol size="6">
+              {otpRes?.txHash ? cropString(otpRes?.txHash) : "-"}
+            </IonCol>
 
             <IonCol size="6">Wallet Address</IonCol>
             <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol>
