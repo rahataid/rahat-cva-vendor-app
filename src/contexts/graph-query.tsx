@@ -14,7 +14,7 @@ interface QueryProviderProps {
 }
 
 export function GraphQueryProvider({ children }: QueryProviderProps) {
-  const queryService = new GraphQuery(GRAPHQL_URL);
+  const queryService = new GraphQuery('https://api.studio.thegraph.com/query/42205/el-dev/version/latest');
 
   return (
     <GraphContext.Provider
