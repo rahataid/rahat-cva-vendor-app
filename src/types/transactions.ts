@@ -45,3 +45,51 @@ export type MetaTxResponse = {
   to?: string;
   _type?: string;
 };
+
+export type IBeneficiaryReferreds = {
+  beneficiaryAddress?: string;
+  blockNumber?: string;
+  blockTimestamp?: string;
+  eventType?: string;
+  id?: string;
+  referrerBeneficiaries?: string;
+  referrerVendor?: string;
+  transactionHash?: string;
+  __typename?: string;
+};
+
+export type IProjectClaimProcesseds = {
+  beneficiary?: string;
+  blockNumber?: string;
+  blockTimestamp?: string;
+  eventType?: string;
+  id?: string;
+  token?: string;
+  transactionHash?: string;
+  vendor?: string;
+  __typename?: string;
+};
+
+export type IClaimCreateds = any;
+
+export type ITokenRedeems = any;
+
+export type IAllTransactions = (
+  | IBeneficiaryReferreds
+  | IProjectClaimProcesseds
+  | IClaimCreateds
+  | ITokenRedeems
+)[];
+
+export type ITransactionsResponse = {
+  beneficiaryReferreds?: IBeneficiaryReferreds[] | [];
+  claimCreateds?: IClaimCreateds[] | [];
+  projectClaimProcesseds?: IProjectClaimProcesseds[] | [];
+  tokenRedeems?: ITokenRedeems[] | [];
+};
+
+export type IAllTransactionItem =
+  | IBeneficiaryReferreds
+  | IProjectClaimProcesseds
+  | IClaimCreateds
+  | ITokenRedeems;

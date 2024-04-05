@@ -1,33 +1,27 @@
-import { IonCardHeader, IonCardTitle } from "@ionic/react";
-import { IBeneficiary } from "../../../../types/beneficiaries";
+import { IonCardContent, IonCardHeader } from "@ionic/react";
+import { BENEFICIARY_DETAILS } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import ReferredBeneficiaryCard from "../referred-beneficiary-card";
-import { useState } from "react";
+import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 
 type Props = {
-  data: IBeneficiary[] | [];
+  beneficiaries: BENEFICIARY_DETAILS[] | [];
+  loading: boolean;
+  error: any;
 };
-const ReferredBeneficiariesList = ({ data }: Props) => {
-  const [beneficiaries, setBeneficiaries] = useState(data || []);
-  const handleDelete = (uuid: string) => {
-    setBeneficiaries(beneficiaries.filter((el) => el.uuid !== uuid));
-  };
+
+const ReferredBeneficiariesList = ({ beneficiaries, loading }: Props) => {
+  if (loading) return <ListSkeletonCard length={9} />;
   return (
     <>
       {beneficiaries?.length ? (
-        beneficiaries.map((el, i) => (
-          <ReferredBeneficiaryCard
-            key={i}
-            beneficiary={el}
-            handleDelete={handleDelete}
-          />
+        beneficiaries.map((el: BENEFICIARY_DETAILS, i: number) => (
+          <ReferredBeneficiaryCard key={i} beneficiary={el} />
         ))
       ) : (
         <TransparentCard>
-          <IonCardHeader>
-            <IonCardTitle className="ion-text-center">
-              No data available...
-            </IonCardTitle>
+          <IonCardHeader className="ion-text-center">
+            No data available...
           </IonCardHeader>
         </TransparentCard>
       )}

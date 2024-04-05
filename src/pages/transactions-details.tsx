@@ -1,19 +1,15 @@
-import React from "react";
+import { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
 import TransactionDetails from "@sections/settings/transactions-settings/transactions-details";
-import { useLocation } from "react-router";
-import { ITransactionItem } from "@types/transactions";
+import { useParams } from "react-router";
+import { useVendorTransactionDetails } from "@api/vendors";
 
-interface LocationState {
-  data: {
-    transaction: ITransactionItem;
-  };
-}
+const TransactionsDetailPage: FC = () => {
+  const { txHash } = useParams<{ txHash: string }>();
 
-const TransactionsDetailPage: React.FC = () => {
-  const location = useLocation<LocationState>();
-  const { data } = location.state || { data: null };
+  const { data } = useVendorTransactionDetails(txHash);
+
   return (
     <IonPage>
       <CustomHeader title="Transaction Details" showBackButton />

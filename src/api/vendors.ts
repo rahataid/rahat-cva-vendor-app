@@ -1,10 +1,15 @@
 import useAppStore from "@store/app";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
 import useTransactionStore from "@store/transaction";
 import { VOUCHER } from "../types/beneficiaries";
+import {
+  IAllTransactions,
+  IBeneficiaryReferreds,
+  TransactionDetail,
+} from "@types/transactions";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -120,13 +125,40 @@ export function useVendorVoucher(
   };
 }
 
-export function useVendorTransaction(walletAddress: string, queryService: any) {
-  const { currentUser } = useAppStore.getState();
+export function useVendorTransaction(queryService: any) {
+  const {
+    currentUser,
+    wallet: { address: walletAddress },
+  } = useAppStore.getState();
+
   const { data, isLoading, error } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
-      const res = await queryService.useVendorTransaction(walletAddress);
-      return res;
+      const data = await queryService.useVendorTransaction(walletAddress);
+      if (!data?.data) return [];
+
+      const {
+        beneficiaryReferreds,
+        projectClaimProcesseds,
+        claimCreateds,
+        tokenRedeems,
+      } = data.data;
+
+      const fixedBeneficiaryReferreds = beneficiaryReferreds.map(
+        (el: IBeneficiaryReferreds) => ({
+          ...el,
+          beneficiary: el.beneficiaryAddress,
+        })
+      );
+
+      const allData: IAllTransactions = [
+        ...fixedBeneficiaryReferreds,
+        ...projectClaimProcesseds,
+        ...claimCreateds,
+        ...tokenRedeems,
+      ];
+
+      return allData;
     },
     {
       enabled: currentUser?.projects?.length > 0,
@@ -134,30 +166,28 @@ export function useVendorTransaction(walletAddress: string, queryService: any) {
     }
   );
 
-  const transactionsData = useMemo(() => {
-    if (!data?.data) return [];
-    const {
-      beneficiaryReferreds,
-      projectClaimProcesseds,
-      claimCreateds,
-      tokenRedeems,
-    } = data.data;
-    const fixedBeneficiaryReferreds = beneficiaryReferreds.map((el: any) => ({
-      ...el,
-      beneficiary: el.beneficiaryAddress,
-    }));
-    return [
-      ...fixedBeneficiaryReferreds,
-      ...projectClaimProcesseds,
-      ...claimCreateds,
-      ...tokenRedeems,
-    ];
-  }, [data]);
-
   return {
-    data: transactionsData,
+    data,
     isLoading,
     error,
+  };
+}
+
+export function useVendorTransactionDetails(transactionHash: string) {
+  const {
+    wallet: { address: walletAddress },
+  } = useAppStore.getState();
+
+  const queryClient = useQueryClient();
+  const cachedDataTransactions = queryClient.getQueryData([
+    "vendorTransactions",
+    walletAddress,
+  ]);
+  const details = cachedDataTransactions?.find(
+    (el: TransactionDetail) => el.transactionHash === transactionHash
+  );
+  return {
+    data: details || {},
   };
 }
 

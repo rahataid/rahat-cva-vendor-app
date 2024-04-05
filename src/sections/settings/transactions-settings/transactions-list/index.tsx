@@ -1,49 +1,42 @@
 import {
-  IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardTitle,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
   IonListHeader,
-  IonSkeletonText,
   IonText,
-  IonThumbnail,
 } from "@ionic/react";
-import { ITransactionItem } from "../../../../types/transactions";
+import {
+  IAllTransactions,
+  ITransactionItem,
+} from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useHistory } from "react-router";
-import { IBeneficiary } from "@types/beneficiaries";
 import { chevronForwardOutline } from "ionicons/icons";
-import TransactionSkeleton from "@components/loaders/skeleton/transactions-list";
+import ListSkeletonCard from "@components/loaders/skeleton/card/list";
+import { sortBeneficiariesByDate } from "@utils/helperFunctions";
 
 type Props = {
-  data: IBeneficiary[] | [] | any;
+  data: IAllTransactions;
   loading: boolean;
   error: any;
 };
 const TransactionsList = ({ data, loading }: Props) => {
   const history = useHistory();
 
-  if (loading)
-    return (
-      <TransparentCard>
-        <IonCardContent>
-          <TransactionSkeleton length={9} />
-        </IonCardContent>
-      </TransparentCard>
-    );
+  if (loading) return <ListSkeletonCard length={9} />;
 
+  const sortedData = sortBeneficiariesByDate(data);
   return (
     <>
-      {Object.keys(data)?.length ? (
+      {Object.keys(sortedData)?.length ? (
         <>
           <TransparentCard>
             <IonList mode="md">
-              {Object.keys(data).map((key, i) => {
+              {Object.keys(sortedData).map((key, i) => {
                 return (
                   <div key={i}>
                     <IonListHeader>
@@ -54,26 +47,31 @@ const TransactionsList = ({ data, loading }: Props) => {
                       </IonLabel>
                     </IonListHeader>
                     <IonCardContent className="transactions-container">
-                      {data[key]?.map((el: ITransactionItem, i: number) => (
-                        <IonItem
-                          key={i}
-                          button={true}
-                          lines="full"
-                          onClick={() =>
-                            history.push(`/tabs/transactions/details`, {
-                              data: { transaction: el },
-                            })
-                          }
-                        >
-                          <TransactionCard data={el} />
-                          <IonIcon
-                            className="end-icon"
-                            icon={chevronForwardOutline}
-                            slot="end"
-                            color="medium"
-                          />
-                        </IonItem>
-                      ))}
+                      {sortedData[key]?.map(
+                        (el: ITransactionItem, i: number) => (
+                          <IonItem
+                            key={i}
+                            button={true}
+                            lines="full"
+                            onClick={() =>
+                              history.push(
+                                `/tabs/transactions/${el.transactionHash}`,
+                                {
+                                  data: { transaction: el },
+                                }
+                              )
+                            }
+                          >
+                            <TransactionCard data={el} />
+                            <IonIcon
+                              className="end-icon"
+                              icon={chevronForwardOutline}
+                              slot="end"
+                              color="medium"
+                            />
+                          </IonItem>
+                        )
+                      )}
                     </IonCardContent>
                   </div>
                 );

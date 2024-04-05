@@ -1,17 +1,16 @@
-import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
-  IonCardContent,
   IonItem,
   IonLabel,
   IonList,
   IonSkeletonText,
   IonThumbnail,
 } from "@ionic/react";
+import { FC } from "react";
 
 type Props = {
-  length: number;
+  length?: number;
 };
-const TransactionSkeleton = ({ length }: Props) => {
+const ListSkeleton: FC<Props> = ({ length = 9 }) => {
   return (
     <IonList className="ion-list-no-padding" mode="md">
       {Array.from({ length }).map((_, index) => (
@@ -45,4 +44,4 @@ const TransactionSkeleton = ({ length }: Props) => {
   );
 };
 
-export default TransactionSkeleton;
+export default ListSkeleton;

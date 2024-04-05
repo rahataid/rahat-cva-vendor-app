@@ -1,4 +1,8 @@
-import { ITransactionItem, Status } from "../types/transactions";
+import {
+  IAllTransactions,
+  ITransactionItem,
+  Status,
+} from "../types/transactions";
 import { ENV } from "../config";
 import { FormInputType, checkObjType } from "../types/chargeBeneficiary";
 import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
@@ -115,7 +119,7 @@ export const formatDate = (timestamp: string) => {
   return formattedDate;
 };
 
-export const sortBeneficiariesByDate = (beneficiaries: ITransactionItem[]) => {
+export const sortBeneficiariesByDate = (beneficiaries: IAllTransactions) => {
   const beneficiariesByDate = {};
 
   beneficiaries.forEach((beneficiary) => {
@@ -201,4 +205,8 @@ export const extractWalletAddressOnScan = (str: string) => {
 
   // Return the extracted address
   return address;
+};
+
+export const randomPercentage = () => {
+  return `${Math.floor(Math.random() * 50) + 50}%`;
 };

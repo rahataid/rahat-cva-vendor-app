@@ -1,19 +1,15 @@
-import React from "react";
+import { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
 import ReferredBeneficiariesList from "@sections/settings/referred-beneficiary-settings/referred-beneficiary-list";
-import useAppStore from "@store/app";
+import { useReferredBeneficiariesList } from "@api/beneficiaries";
 
-const ReferredBeneficiariesListPage: React.FC = () => {
-  // const { vendorTransactions } = useTransactionStore();
-  const { mockData, setMockData } = useAppStore();
-  let Beneficiaries = mockData;
-  Beneficiaries = mockData.filter((el) => el.beneficiaryType === "REFERRED");
-
-  const handleDelete = (uuid: string) => {
-    setMockData(mockData.filter((el) => el.uuid !== uuid));
-  };
-
+const ReferredBeneficiariesListPage: FC = () => {
+  const {
+    data: beneficiaries,
+    isLoading,
+    error,
+  } = useReferredBeneficiariesList();
   return (
     <IonPage>
       <CustomHeader title="Referred Beneficiaries List" />
@@ -22,8 +18,9 @@ const ReferredBeneficiariesListPage: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
               <ReferredBeneficiariesList
-                data={Beneficiaries}
-                handleDelete={handleDelete}
+                beneficiaries={beneficiaries}
+                loading={isLoading}
+                error={error}
               />
             </IonCol>
           </IonRow>
