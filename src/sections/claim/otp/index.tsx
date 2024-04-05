@@ -48,7 +48,7 @@ const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
     try {
       const otpRes = await verifyOtp(data?.otp, beneficiaryAddress);
 
-      history.push("/transaction-result", {
+      history.push("/tabs/home", {
         data: { beneficiaryAddress, voucher, otpRes: otpRes.data },
       });
     } catch (error) {
