@@ -12,11 +12,12 @@ import {
   IonRow,
   IonSegment,
   IonSegmentButton,
-  IonSkeletonText,
   IonText,
-  IonThumbnail,
 } from "@ionic/react";
-import { ITransactionItem } from "../../types/transactions";
+import {
+  IAllTransactionItem,
+  IAllTransactions,
+} from "../../types/transactions";
 import { useHistory } from "react-router";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
@@ -27,7 +28,7 @@ import "./home.scss";
 import { useEffect, useState } from "react";
 import ListSkeleton from "@components/loaders/skeleton/transactions-list";
 type Props = {
-  transactionsList: ITransactionItem[];
+  transactionsList: IAllTransactions;
   transactionsLoading?: boolean;
 };
 
@@ -68,16 +69,19 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
                 transactionsList
                   ?.slice(-5)
                   .reverse()
-                  .map((el: ITransactionItem, i: number) => (
+                  .map((el: IAllTransactionItem, i: number) => (
                     <IonItem
                       mode="md"
                       key={i}
                       button={true}
                       lines="full"
                       onClick={() =>
-                        history.push(`/tabs/transactions/details`, {
-                          data: { transaction: el },
-                        })
+                        history.push(
+                          `/tabs/transactions/${el?.transactionHash}`,
+                          {
+                            data: { transaction: el },
+                          }
+                        )
                       }
                     >
                       <>
