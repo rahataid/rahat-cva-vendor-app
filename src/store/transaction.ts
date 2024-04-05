@@ -93,6 +93,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           [beneficiary?.walletAddress, voucher?.ReferredVoucherAddress]
         );
       }
+
       const payload = {
         action: MS_ACTIONS.ELPROJECT.REDEEM_VOUCHER,
         payload: {
@@ -102,12 +103,23 @@ const useTransactionStore = createStore<TransactionStoreType>(
             nonce: metaTxRequest.nonce.toString(),
             value: metaTxRequest.value.toString(),
           },
-          eyeCheckUp,
-          glassStatus,
-          uuid: beneficiary?.uuid,
         },
       };
-      return ProjectsService.actions(projectId, payload);
+      const metaRes = await ProjectsService.actions(projectId, payload);
+      console.log(metaRes, "metaRes");
+      let beRes;
+      if (metaRes?.data?.data?.status === 1) {
+        const payload2 = {
+          action: "elProject.updateStatus",
+          payload: {
+            eyeCheckUp,
+            glassStatus,
+            uuid: beneficiary?.uuid,
+          },
+        };
+        beRes = await ProjectsService.actions(projectId, payload2);
+      }
+      return beRes;
     },
 
     updateStatus: async ({
@@ -165,12 +177,23 @@ const useTransactionStore = createStore<TransactionStoreType>(
             nonce: metaTxRequest.nonce.toString(),
             value: metaTxRequest.value.toString(),
           },
-          eyeCheckUp,
-          glassStatus,
-          uuid: beneficiary?.uuid,
         },
       };
-      return ProjectsService.actions(projectId, payload);
+      const metaRes = await ProjectsService.actions(projectId, payload);
+      console.log(metaRes, "metaRes");
+      let beRes;
+      if (metaRes?.data?.data?.status === 1) {
+        const payload2 = {
+          action: "elProject.updateStatus",
+          payload: {
+            eyeCheckUp,
+            glassStatus,
+            uuid: beneficiary?.uuid,
+          },
+        };
+        beRes = await ProjectsService.actions(projectId, payload2);
+      }
+      return metaRes?.data?.data;
     },
 
     referBeneficiaries: async ({
@@ -220,7 +243,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         return await Promise.all(promises);
       }
 
-      const backendResponse = await processBeneficiaries(referredBeneficiaries);
+      // const backendResponse = await processBeneficiaries(referredBeneficiaries);
       // contract call
 
       const blockChainResponse = [];
@@ -367,17 +390,26 @@ const useTransactionStore = createStore<TransactionStoreType>(
             nonce: metaTxRequest.nonce.toString(),
             value: metaTxRequest.value.toString(),
           },
-          vendorId,
-          adminAddress,
-          voucherNumber: +amount,
-          voucherType:
-            voucherType === VOUCHER.FREE_VOUCHER
-              ? "FREEVOUCHER"
-              : "DISCOUNTVOUCHER",
         },
       };
-      const res = await ProjectsService.actions(projectId, payload);
-      return res?.data?.data;
+      const metaRes = await ProjectsService.actions(projectId, payload);
+      if (metaRes?.data?.data?.status === 1) {
+        const payload2 = {
+          action: "elProject.requestRedemption_be",
+          payload: {
+            vendorId,
+            adminAddress,
+            voucherNumber: +amount,
+            voucherType:
+              voucherType === VOUCHER.FREE_VOUCHER
+                ? "FREEVOUCHER"
+                : "DISCOUNTVOUCHER",
+          },
+        };
+        const beRes = await ProjectsService.actions(projectId, payload2);
+        console.log(beRes, "beRes");
+      }
+      return metaRes?.data?.data;
     },
 
     getVendorVoucherRedemptionCount: async (voucherType) => {
