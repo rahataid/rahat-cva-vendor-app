@@ -1,5 +1,12 @@
 import { useVendorTransaction, useVendorVoucher } from "@api/vendors";
-import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
+import {
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonPage,
+  IonRow,
+  RefresherEventDetail,
+} from "@ionic/react";
 import Home from "../sections/home";
 import "../theme/title.css";
 import useAppStore from "@store/app";
@@ -9,6 +16,7 @@ import IndeterminateLoader from "@components/loaders/Indeterminate";
 import { useGraphService } from "@contexts/graph-query";
 import { useVendorDetails } from "../api/vendors";
 import { useProjectSettings } from "../api/project-settings";
+import CustomRefresher from "@components/refresher/CustomRefresher";
 
 const HomePage: React.FC = () => {
   const { projectSettings, currentUser } = useAppStore();
@@ -23,12 +31,14 @@ const HomePage: React.FC = () => {
     data: voucherData,
     isLoading: voucherLoading,
     error: voucherError,
+    refetch: refetchVoucher,
   } = useVendorVoucher(queryService);
 
   const {
     data: transactionsData,
     isLoading: transactionsLoading,
     error: transactionsError,
+    refetch: refetchTransactions,
   } = useVendorTransaction(queryService);
 
   const {
@@ -40,10 +50,17 @@ const HomePage: React.FC = () => {
   const { isLoading: settingsLoading, error: settingsError } =
     useProjectSettings();
 
+  const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
+    await refetchVoucher();
+    await refetchTransactions();
+    event.detail.complete();
+  };
+
   return (
     <IonPage>
       <CustomHeader title="Home" />
       <IonContent fullscreen>
+        <CustomRefresher handleRefresh={handleRefresh} />
         {/* {isLoading && <IndeterminateLoader />} */}
         <IonGrid>
           <IonRow className="ion-justify-content-center">
