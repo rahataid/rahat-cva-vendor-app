@@ -78,6 +78,7 @@ export type REFER_BENEFICIARY_DETAILS = {
   estimatedAge: ESTIMATED_AGE;
   address: string;
   walletAddress?: string;
+  code?: string;
 };
 
 export type CreateBeneficiaryDto = {
@@ -127,4 +128,15 @@ export type BENEFICIARY_DETAILS = {
     email?: any;
     extras?: any;
   };
+};
+
+export type REFER_RESULT_BENEFICIARY_DETAILS = {
+  address: string;
+  estimatedAge: string;
+  gender: GENDER;
+  name: string;
+  phone: string;
+  transactionHash: string;
+  walletAddress: string;
+  createdAt?: string;
 };

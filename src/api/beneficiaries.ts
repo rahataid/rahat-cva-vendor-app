@@ -44,3 +44,23 @@ export function useReferredBeneficiariesDetails({
     error,
   };
 }
+
+export function useBeneficiaryDetails(walletAddress: string) {
+  const { getBeneficiaryDetailsByWallet } = useTransactionStore();
+  const { data, isLoading, error } = useQuery(
+    ["beneficiaryDetails", walletAddress],
+    async () => {
+      const res = await getBeneficiaryDetailsByWallet(walletAddress);
+      return res?.data?.data || {};
+    },
+    {
+      staleTime: 60000,
+    }
+  );
+
+  return {
+    data: data,
+    isLoading,
+    error,
+  };
+}

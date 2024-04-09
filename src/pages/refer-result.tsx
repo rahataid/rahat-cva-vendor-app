@@ -2,12 +2,15 @@ import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import ReferResult from "@sections/refer-result";
 import { useLocation } from "react-router";
-import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
+import {
+  BENEFICIARY_VOUCHER_DETAILS,
+  REFER_RESULT_BENEFICIARY_DETAILS,
+} from "../types/beneficiaries";
 
 const ReferResultPage: React.FC = () => {
   type LocationState = {
     data: {
-      data: any;
+      data: REFER_RESULT_BENEFICIARY_DETAILS[];
       from: "redeemVoucher" | "transactionResult";
       voucher: BENEFICIARY_VOUCHER_DETAILS;
     };

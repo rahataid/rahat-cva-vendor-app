@@ -6,8 +6,14 @@ import {
   cropString,
   generateCurrentTimestamp,
 } from "../../utils/helperFunctions";
+import { REFER_RESULT_BENEFICIARY_DETAILS } from "@types/beneficiaries";
 
-const ReferItem = ({ data, index }: any) => {
+type Props = {
+  data: REFER_RESULT_BENEFICIARY_DETAILS;
+  index: number;
+};
+
+const ReferItem = ({ data, index }: Props) => {
   return (
     <>
       <IonRow key={index}>

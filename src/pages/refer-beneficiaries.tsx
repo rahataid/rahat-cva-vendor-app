@@ -1,3 +1,4 @@
+import { useBeneficiaryDetails } from "@api/beneficiaries";
 import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import ReferBeneficiaries from "@sections/refer-beneficiaries";
@@ -15,6 +16,9 @@ type LocationState = {
 const ReferBeneficiariesPage: React.FC = () => {
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
+  const { data: beneficiaryDetails } = useBeneficiaryDetails(
+    data?.beneficiaryAddress
+  );
 
   return (
     <IonPage>
@@ -23,7 +27,7 @@ const ReferBeneficiariesPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <ReferBeneficiaries data={data} />
+              <ReferBeneficiaries data={{ ...data, beneficiaryDetails }} />
             </IonCol>
           </IonRow>
         </IonGrid>

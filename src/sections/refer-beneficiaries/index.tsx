@@ -7,12 +7,12 @@ import {
   IonLoading,
   IonText,
 } from "@ionic/react";
-import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import ReferSection from "./refer-section";
-import { add, addOutline } from "ionicons/icons";
+import { add } from "ionicons/icons";
 import { useHistory } from "react-router";
 import {
+  BENEFICIARY_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
   REFER_BENEFICIARY_DETAILS,
 } from "@types/beneficiaries";
@@ -27,11 +27,12 @@ type Props = {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
     beneficiaryAddress: string;
     from: string;
+    beneficiaryDetails: BENEFICIARY_DETAILS;
   };
 };
 
 const ReferBeneficiaries = ({
-  data: { voucher, beneficiaryAddress, from },
+  data: { voucher, beneficiaryAddress, from, beneficiaryDetails },
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -74,6 +75,7 @@ const ReferBeneficiaries = ({
         referredBeneficiaries,
         voucher,
         beneficiaryAddress,
+        beneficiaryDetails,
       });
       history.push("/refer-result", {
         data: { data: response, from, voucher },
@@ -104,7 +106,6 @@ const ReferBeneficiaries = ({
         position="middle"
         color={toastColor}
       />
-      <CustomToast />
       <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
       <TransparentCard>
         <IonCardContent>

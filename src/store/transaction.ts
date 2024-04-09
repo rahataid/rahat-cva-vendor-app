@@ -200,6 +200,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       referredBeneficiaries,
       voucher,
       beneficiaryAddress,
+      beneficiaryDetails,
     }) => {
       const { referredAppStoreState } = get();
       const {
@@ -209,6 +210,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           contracts: { elproject, erc2771forwarder, referralvoucher },
           network: { rpcurl },
         },
+        currentUser: { uuid: vendorId },
       } = referredAppStoreState();
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
@@ -228,8 +230,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
             action: MS_ACTIONS.BENEFICIARY.ADD_TO_PROJECT,
             payload: {
               walletAddress: beneficiary.walletAddress,
-              referrerBeneficiary: generateUuid(),
-              referrerVendor: generateUuid(),
+              referrerBeneficiary: beneficiaryDetails?.uuid,
+              referrerVendor: vendorId,
               // age: beneficiary?.estimatedAge,
               piiData: {
                 name: beneficiary?.name,
@@ -243,9 +245,9 @@ const useTransactionStore = createStore<TransactionStoreType>(
         return await Promise.all(promises);
       }
 
-      // const backendResponse = await processBeneficiaries(referredBeneficiaries);
-      // contract call
+      const backendResponse = await processBeneficiaries(referredBeneficiaries);
 
+      // contract call
       const blockChainResponse = [];
       const payload = [];
       for (const beneficiary of referredBeneficiaries) {
@@ -274,9 +276,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         });
         payload.push({
           ...beneficiary,
-          createdAt:
-            response?.data?.data?.timestamp || generateCurrentTimestamp(),
-          transactionHash: response?.data?.data?.hash || "",
+          transactionHash: response?.data?.data?.txHash || "",
         });
         blockChainResponse.push(response);
       }
@@ -473,6 +473,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
     getReferredBeneficiaryDetails: async (uuid: string) => {
       return BeneficiariesService.getByUuid(uuid);
+    },
+
+    getBeneficiaryDetailsByWallet: async (address: string) => {
+      return BeneficiariesService.getByWallet(address);
     },
 
     logoutTransactions: () => {
