@@ -11,7 +11,7 @@ import { useVendorDetails } from "../api/vendors";
 import { useProjectSettings } from "../api/project-settings";
 
 const HomePage: React.FC = () => {
-  const { wallet, projectSettings, currentUser } = useAppStore();
+  const { projectSettings, currentUser } = useAppStore();
   const { queryService } = useGraphService();
 
   const [forceRender, setForceRender] = useState(false);
@@ -23,13 +23,13 @@ const HomePage: React.FC = () => {
     data: voucherData,
     isLoading: voucherLoading,
     error: voucherError,
-  } = useVendorVoucher(wallet?.address, queryService);
+  } = useVendorVoucher(queryService);
 
   const {
     data: transactionsData,
     isLoading: transactionsLoading,
     error: transactionsError,
-  } = useVendorTransaction(wallet?.address, queryService);
+  } = useVendorTransaction(queryService);
 
   const {
     data: vendorDetails,

@@ -101,11 +101,11 @@ export function useVendorChainData(
   };
 }
 
-export function useVendorVoucher(
-  walletAddress: string,
-  queryService: any
-): any {
-  const { currentUser } = useAppStore.getState();
+export function useVendorVoucher(queryService: any): any {
+  const {
+    currentUser,
+    wallet: { address: walletAddress },
+  } = useAppStore.getState();
   const { data, isLoading, error } = useQuery(
     ["vendorVouchers", walletAddress],
     async () => {

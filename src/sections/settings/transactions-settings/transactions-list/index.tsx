@@ -9,8 +9,8 @@ import {
   IonText,
 } from "@ionic/react";
 import {
+  IAllTransactionItem,
   IAllTransactions,
-  ITransactionItem,
 } from "../../../../types/transactions";
 import TransactionCard from "../transactions-card";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
@@ -28,11 +28,11 @@ const TransactionsList = ({ data, loading }: Props) => {
   const history = useHistory();
 
   if (loading) return <ListSkeletonCard length={9} />;
-
-  const sortedData = sortBeneficiariesByDate(data);
+  let sortedData = null;
+  if (data) sortedData = sortBeneficiariesByDate(data);
   return (
     <>
-      {Object.keys(sortedData)?.length ? (
+      {data && sortedData && Object.keys(sortedData)?.length ? (
         <>
           <TransparentCard>
             <IonList mode="md">
@@ -48,17 +48,14 @@ const TransactionsList = ({ data, loading }: Props) => {
                     </IonListHeader>
                     <IonCardContent className="transactions-container">
                       {sortedData[key]?.map(
-                        (el: ITransactionItem, i: number) => (
+                        (el: IAllTransactionItem, i: number) => (
                           <IonItem
                             key={i}
                             button={true}
                             lines="full"
                             onClick={() =>
                               history.push(
-                                `/tabs/transactions/${el.transactionHash}`,
-                                {
-                                  data: { transaction: el },
-                                }
+                                `/tabs/transactions/${el.transactionHash}`
                               )
                             }
                           >
