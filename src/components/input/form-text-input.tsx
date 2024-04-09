@@ -3,6 +3,7 @@ import { IonIcon, IonInput, IonItem, IonLabel } from "@ionic/react";
 import "./text-input.scss";
 
 interface TextInputFieldProps {
+  className?: string;
   type?: "text" | "password" | "email" | "number" | "search" | "tel" | "url";
   isRequired?: boolean;
   label?: string;

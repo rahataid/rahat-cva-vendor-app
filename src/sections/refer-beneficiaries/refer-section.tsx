@@ -4,29 +4,44 @@ import TextInputField from "@components/input/form-text-input";
 import {
   IonButton,
   IonCol,
-  IonGrid,
   IonIcon,
+  IonImg,
   IonLabel,
+  IonModal,
   IonRow,
-  IonSelect,
   IonSelectOption,
   IonText,
 } from "@ionic/react";
-import { removeCircleOutline } from "ionicons/icons";
+import { caretDownOutline, removeCircleOutline } from "ionicons/icons";
 import { Controller, useFormState } from "react-hook-form";
 import "./refer-beneficiaries.scss";
 import FormInputSelect from "@components/input/form-select-input";
+import PhoneCodeSelector from "@components/modals/phoneCodeSelector";
+import { SelectOptionItem } from "@sections/auth/registration";
+import { useRef } from "react";
+import useAppStore from "@store/app";
 
 const ReferSection = ({
   index,
   getValues,
   setValue,
+  setError,
   field,
   control,
   formState: { isSubmitted, errors },
   handleRemove,
   remove,
 }: any) => {
+  const phoneCodeModal = useRef<HTMLIonModalElement>(null);
+  const { countries, handleRegister } = useAppStore();
+  const phoneCodeOptions: SelectOptionItem[] | undefined = countries?.map(
+    (it) => ({
+      text: `${it.name} (${it.phoneCode})`,
+      value: it.phoneCode,
+      iso: it.iso,
+      id: it.id,
+    })
+  );
   return (
     <>
       <IonRow className="beneficiary-name-wrapper">
@@ -72,7 +87,108 @@ const ReferSection = ({
         }}
       />
       <br />
-      <Controller
+      <div className="ion-margin-top-sm">
+        <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
+      </div>
+      <IonRow>
+        <IonCol size="4" class="ion-no-padding">
+          <div className="wrapper-input">
+            {getValues(`beneficiaries.${index}.iso`) && (
+              <IonImg
+                src={`assets/flags/small/${getValues(
+                  `beneficiaries.${index}.iso`
+                )?.toLocaleLowerCase()}.svg`}
+              />
+            )}
+            <Controller
+              render={(field) => (
+                <TextInputField
+                  className="select-phoneCode"
+                  id={`select-phoneCode${index}`}
+                  clearInput={false}
+                  value={getValues(`beneficiaries.${index}.code`)}
+                  additionalClass=""
+                  placeholder="0000"
+                  rightIcon={caretDownOutline}
+                  hideRightIconBG
+                  onBlur={field.onBlur}
+                />
+              )}
+              rules={{ required: "Please enter country code" }}
+              control={control}
+              name={`beneficiaries.${index}.code`}
+            />
+          </div>
+          <IonModal
+            trigger={`select-phoneCode${index}`}
+            ref={phoneCodeModal}
+            canDismiss={true}
+          >
+            <PhoneCodeSelector
+              title="Choose your country Code"
+              searchPlaceholder="Enter country code"
+              items={phoneCodeOptions || []}
+              selectedItem={getValues(`beneficiaries.${index}.code`)}
+              onSelectionCancel={() => phoneCodeModal.current?.dismiss()}
+              onSelectionChange={(el: any) => {
+                setValue(`beneficiaries.${index}.code`, el.value, {
+                  shouldValidate: true,
+                });
+                setValue(`beneficiaries.${index}.iso`, el.iso, {
+                  shouldValidate: true,
+                });
+                setValue("countryId", el.id, { shouldValidate: true });
+                setError("root", {});
+                phoneCodeModal.current?.dismiss();
+              }}
+              data-testid="registration_form_selector_phone_code"
+            />
+          </IonModal>
+        </IonCol>
+        <IonCol size="8" class="ion-no-padding " style={{ paddingLeft: 3 }}>
+          <Controller
+            render={({ field }) => (
+              <TextInputField
+                type="number"
+                value={getValues(`beneficiaries.${index}.phone`)}
+                placeholder="Phone number"
+                error={
+                  errors?.beneficiaries?.[index]?.phone?.message ? true : false
+                }
+                onInput={(e: any) => {
+                  setError("root", {});
+                  setValue(`beneficiaries.${index}.phone`, e.target.value, {
+                    shouldValidate: true,
+                  });
+                  console.log(errors);
+                }}
+                onFocus={(e: any) => {
+                  setError("root", {});
+                  // setValue('phone', e.target.value, { shouldValidate: true });
+                }}
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+              />
+            )}
+            rules={{
+              required: {
+                value: true,
+                message: "Please enter a valid phone number",
+              },
+            }}
+            control={control}
+            name={`beneficiaries.${index}.phone`}
+          />
+        </IonCol>
+      </IonRow>
+      {errors?.beneficiaries?.[index]?.phone?.message && (
+        <IonText className="select-input-error-text">
+          {errors?.beneficiaries?.[index]?.phone?.message}
+
+          <br />
+        </IonText>
+      )}
+      {/* <Controller
         name={`beneficiaries.${index}.phone`}
         control={control}
         defaultValue={field?.phone || ""}
@@ -103,7 +219,7 @@ const ReferSection = ({
           //   message: "Phone Number must be of 10 digits",
           // },
         }}
-      />
+      /> */}
       <br />
 
       <Controller
