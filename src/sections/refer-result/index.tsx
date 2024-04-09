@@ -11,11 +11,14 @@ import {
 import { homeOutline } from "ionicons/icons";
 import ReferItem from "./refer-item";
 import { useHistory } from "react-router";
-import { BENEFICIARY_VOUCHER_DETAILS } from "../../types/beneficiaries";
+import {
+  BENEFICIARY_VOUCHER_DETAILS,
+  REFER_RESULT_BENEFICIARY_DETAILS,
+} from "../../types/beneficiaries";
 
 type Props = {
   data: {
-    data: any;
+    data: REFER_RESULT_BENEFICIARY_DETAILS[];
     from: "redeemVoucher" | "transactionResult";
     voucher: BENEFICIARY_VOUCHER_DETAILS;
   };
@@ -42,7 +45,7 @@ const ReferResult = ({ data: { data, from, voucher } }: Props) => {
         <IonCardContent>
           <IonGrid>
             {data?.length ? (
-              data?.map((el: any, i: number) => (
+              data?.map((el: REFER_RESULT_BENEFICIARY_DETAILS, i: number) => (
                 <ReferItem key={i} data={el} index={i} />
               ))
             ) : (
