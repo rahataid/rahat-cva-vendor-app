@@ -244,7 +244,7 @@ export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
     ["vendorVoucherRedemptionCount"],
     async () => {
       const res = await getVendorVoucherRedemptionCount(voucherType);
-      return Number(res);
+      return res ? Number(res) : 0;
     },
     {
       staleTime: 0,

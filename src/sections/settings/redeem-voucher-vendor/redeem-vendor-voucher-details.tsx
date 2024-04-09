@@ -92,9 +92,15 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
                   value: true,
                   message: "Please enter the number of vouchers",
                 },
-                maxLength: {
-                  value: data,
-                  message: "You can't redeem more than available vouchers",
+                validate: {
+                  notZero: (value) =>
+                    Number(value) !== 0 || "Value cannot be zero",
+                  positiveInteger: (value) =>
+                    (Number.isInteger(Number(value)) && Number(value) > 0) ||
+                    "Value must be a positive integer",
+                  lessThanOrEqualToData: (value) =>
+                    Number(value) <= data ||
+                    "You can't redeem more than available vouchers",
                 },
               }}
               control={control}
