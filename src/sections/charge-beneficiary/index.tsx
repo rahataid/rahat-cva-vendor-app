@@ -5,6 +5,7 @@ import {
   IonLoading,
   IonSegment,
   IonSegmentButton,
+  isPlatform,
 } from "@ionic/react";
 
 import { useEffect, useState } from "react";
@@ -35,6 +36,7 @@ type Props = {
 
 const ChargeBeneficiary = ({ data }: Props) => {
   const { queryService } = useGraphService();
+  const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
@@ -144,7 +146,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
     if (data?.error) {
       showToast("Invalid ethereum wallet address", "danger");
     }
-    stopScan();
+    if (!isPlatformWeb) stopScan();
   }, []);
 
   return (
