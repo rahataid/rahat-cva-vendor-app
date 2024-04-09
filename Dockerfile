@@ -1,5 +1,5 @@
 # Stage 1 - the build process
-FROM node:16.16.0-alpine3.16 AS builder
+FROM node:18-alpine3.17 AS builder
 WORKDIR /usr/src/app
 COPY . .
 RUN yarn install
