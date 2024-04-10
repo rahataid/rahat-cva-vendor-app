@@ -106,10 +106,12 @@ export function useVendorVoucher(queryService: any): any {
     currentUser,
     wallet: { address: walletAddress },
   } = useAppStore.getState();
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, refetch } = useQuery(
     ["vendorVouchers", walletAddress],
     async () => {
+      console.log("EXECUTE USE VOUCHER");
       const res = await queryService.useVendorVoucher(walletAddress);
+      console.log("RES USE VOUCHER");
       return res;
     },
     {
@@ -122,6 +124,7 @@ export function useVendorVoucher(queryService: any): any {
     data,
     isLoading,
     error,
+    refetch,
   };
 }
 
@@ -131,7 +134,7 @@ export function useVendorTransaction(queryService: any) {
     wallet: { address: walletAddress },
   } = useAppStore.getState();
 
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, refetch } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
       const data = await queryService.useVendorTransaction(walletAddress);
@@ -170,6 +173,7 @@ export function useVendorTransaction(queryService: any) {
     data,
     isLoading,
     error,
+    refetch,
   };
 }
 
@@ -240,7 +244,7 @@ export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
     ["vendorVoucherRedemptionCount"],
     async () => {
       const res = await getVendorVoucherRedemptionCount(voucherType);
-      return Number(res);
+      return res ? Number(res) : 0;
     },
     {
       staleTime: 0,
@@ -256,14 +260,14 @@ export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
 
 export function useVendorVoucherRedemptionList() {
   const { getVendorRedemptionList } = useTransactionStore();
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, refetch } = useQuery(
     ["vendorVoucherRedemptionList"],
     async () => {
       const res = await getVendorRedemptionList();
       return res?.data?.data || [];
     },
     {
-      staleTime: 5,
+      staleTime: 0,
     }
   );
 
@@ -271,5 +275,6 @@ export function useVendorVoucherRedemptionList() {
     data: data,
     isLoading,
     error,
+    refetch,
   };
 }

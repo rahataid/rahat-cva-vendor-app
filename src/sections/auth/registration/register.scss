@@ -47,6 +47,9 @@
   z-index: 10;
 }
 
-#select-phoneCode .native-input.sc-ion-input-md {
-  padding-left: 20px;
+.select-phoneCode {
+  margin-top: 2px;
+  .native-input.sc-ion-input-md {
+    padding-left: 20px;
+  }
 }

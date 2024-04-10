@@ -1,13 +1,14 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-
 import { IonCardContent, IonList, IonText } from "@ionic/react";
 import "./voucher-details-card.scss";
 import VoucherDetailsCard from "./voucher-details-card";
-import { useVendorVoucherRedemptionList } from "../../../api/vendors";
 import { VendorVoucherRedemptionDetails } from "../../../types/vendors";
 
-const VoucherRedemptionDetails = () => {
-  const { data, isLoading, error } = useVendorVoucherRedemptionList();
+type Props = {
+  data: VendorVoucherRedemptionDetails[];
+};
+
+const VoucherRedemptionDetails = ({ data }: Props) => {
   return (
     <>
       <TransparentCard>

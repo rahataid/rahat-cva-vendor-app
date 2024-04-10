@@ -52,7 +52,15 @@ const ReferBeneficiaries = ({
     mode: "all",
     defaultValues: {
       beneficiaries: [
-        { name: "", phone: "", gender: "", estimatedAge: "", address: "" },
+        {
+          name: "",
+          phone: "",
+          gender: "",
+          estimatedAge: "",
+          address: "",
+          code: "",
+          iso: "",
+        },
       ],
     },
   });
@@ -68,9 +76,15 @@ const ReferBeneficiaries = ({
       const { beneficiaries } = data;
       const referredBeneficiaries = beneficiaries.map(
         (el: REFER_BENEFICIARY_DETAILS) => {
-          return { ...el, walletAddress: generateRandomWalletAddress(rpcUrl) };
+          return {
+            ...el,
+            walletAddress: generateRandomWalletAddress(rpcUrl),
+            phone: `${el.code}${el?.phone}`,
+          };
         }
       );
+      console.log("Referred beneficiares", referredBeneficiaries);
+
       const response = await referBeneficiaries({
         referredBeneficiaries,
         voucher,
@@ -119,6 +133,7 @@ const ReferBeneficiaries = ({
                 formState={{ isSubmitted, errors }}
                 handleRemove={() => handleRemove(index)}
                 remove={remove}
+                setError={setError}
               />
             </div>
           ))}
