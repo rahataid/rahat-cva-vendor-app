@@ -32,6 +32,7 @@ const HomePage: React.FC = () => {
     isLoading: voucherLoading,
     error: voucherError,
     refetch: refetchVoucher,
+    isFetching: isFetchingVoucher,
   } = useVendorVoucher(queryService);
 
   const {
@@ -39,6 +40,7 @@ const HomePage: React.FC = () => {
     isLoading: transactionsLoading,
     error: transactionsError,
     refetch: refetchTransactions,
+    isFetching: isFetchingTransactions,
   } = useVendorTransaction(queryService);
 
   const {
@@ -71,8 +73,8 @@ const HomePage: React.FC = () => {
                 handleReload={handleReload}
                 voucherData={voucherData}
                 transactionsData={transactionsData}
-                loading={voucherLoading}
-                transactionsLoading={transactionsLoading}
+                loading={isFetchingVoucher}
+                transactionsLoading={isFetchingTransactions}
               />
             </IonCol>
           </IonRow>
