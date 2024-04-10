@@ -93,10 +93,10 @@ const ReferSection = ({
       <IonRow>
         <IonCol size="4" class="ion-no-padding">
           <div className="wrapper-input">
-            {getValues("iso") ? (
+            {getValues(`beneficiaries.${index}.iso`) ? (
               <IonImg
                 src={`assets/flags/small/${getValues(
-                  "iso"
+                  `beneficiaries.${index}.iso`
                 )?.toLocaleLowerCase()}.svg`}
               />
             ) : (

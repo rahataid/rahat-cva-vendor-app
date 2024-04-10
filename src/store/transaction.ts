@@ -4,7 +4,7 @@ import useAppStore from "./app";
 import {
   createContractInstance,
   createContractInstanceFromWallet,
-  generateUuid,
+  generateMultiCallData,
   getMetaTxRequest,
   getWalletUsingMnemonic,
 } from "@utils/web3";
@@ -14,7 +14,6 @@ import {
   VOUCHER,
 } from "@types/beneficiaries";
 import ProjectsService from "@services/projects";
-import { generateCurrentTimestamp } from "../utils/helperFunctions";
 import {
   TransactionStoreType,
   addToProjectPayload,
@@ -245,42 +244,83 @@ const useTransactionStore = createStore<TransactionStoreType>(
         return await Promise.all(promises);
       }
 
-      const backendResponse = await processBeneficiaries(referredBeneficiaries);
+      // const backendResponse = await processBeneficiaries(referredBeneficiaries);
 
       // contract call
-      const blockChainResponse = [];
-      const payload = [];
-      for (const beneficiary of referredBeneficiaries) {
-        const metaTxRequest = await getMetaTxRequest(
-          walletInstance,
-          ForwarderContractInstance,
-          ElProjectInstance,
-          "assignRefereedClaims",
-          [
-            beneficiary.walletAddress,
-            beneficiaryAddress,
-            walletInstance?.address,
-            referralvoucher?.address,
-          ]
-        );
-        const response = await ProjectsService.actions(projectId, {
-          action: MS_ACTIONS.ELPROJECT.ASSIGN_DISCOUNT_VOUCHER,
-          payload: {
-            metaTxRequest: {
-              ...metaTxRequest,
-              gas: metaTxRequest.gas.toString(),
-              nonce: metaTxRequest.nonce.toString(),
-              value: metaTxRequest.value.toString(),
-            },
-          },
-        });
-        payload.push({
-          ...beneficiary,
-          transactionHash: response?.data?.data?.txHash || "",
-        });
-        blockChainResponse.push(response);
-      }
+      let multiCallInfo = referredBeneficiaries.map((beneficiary) => [
+        beneficiary.walletAddress,
+        beneficiaryAddress,
+        walletInstance?.address,
+        referralvoucher?.address,
+      ]);
+
+      console.log(multiCallInfo, "multiCallInfo");
+
+      const multiCallData = generateMultiCallData(
+        ElProjectInstance,
+        "assignRefereedClaims",
+        multiCallInfo
+      );
+
+      console.log(multiCallData, "multiCallData");
+
+      const metaTxRequest = await getMetaTxRequest(
+        walletInstance,
+        ForwarderContractInstance,
+        ElProjectInstance,
+        "multicall",
+        [multiCallData]
+      );
+
+      // const response = await ProjectsService.actions(projectId, {
+      //   action: MS_ACTIONS.ELPROJECT.ASSIGN_DISCOUNT_VOUCHER,
+      //   payload: {
+      //     metaTxRequest: {
+      //       ...metaTxRequest,
+      //       gas: metaTxRequest.gas.toString(),
+      //       nonce: metaTxRequest.nonce.toString(),
+      //       value: metaTxRequest.value.toString(),
+      //     },
+      //   },
+      // });
+      // console.log(response);
+
+      const payload = referredBeneficiaries.map((el) => ({
+        ...el,
+        transactionHash: response?.data?.data?.txHash || "",
+      }));
       return payload;
+      // const blockChainResponse = [];
+      // for (const beneficiary of referredBeneficiaries) {
+      //   const metaTxRequest = await getMetaTxRequest(
+      //     walletInstance,
+      //     ForwarderContractInstance,
+      //     ElProjectInstance,
+      //     "assignRefereedClaims",
+      //     [
+      //       beneficiary.walletAddress,
+      //       beneficiaryAddress,
+      //       walletInstance?.address,
+      //       referralvoucher?.address,
+      //     ]
+      //   );
+      //   const response = await ProjectsService.actions(projectId, {
+      //     action: MS_ACTIONS.ELPROJECT.ASSIGN_DISCOUNT_VOUCHER,
+      //     payload: {
+      //       metaTxRequest: {
+      //         ...metaTxRequest,
+      //         gas: metaTxRequest.gas.toString(),
+      //         nonce: metaTxRequest.nonce.toString(),
+      //         value: metaTxRequest.value.toString(),
+      //       },
+      //     },
+      //   });
+      //   payload.push({
+      //     ...beneficiary,
+      //     transactionHash: response?.data?.data?.txHash || "",
+      //   });
+      //   blockChainResponse.push(response);
+      // }
     },
 
     verifyOtp: async (otp, beneficiaryAddress) => {
@@ -471,7 +511,21 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return ProjectsService.actions(projectId, payload);
     },
 
-    getReferredBeneficiaryDetails: async (uuid: string) => {
+    getBeneficiaryReferredDetailsByUuid: async (benId: string) => {
+      const { referredAppStoreState } = get();
+      const {
+        projectSettings: { projectId },
+      } = referredAppStoreState();
+      const payload = {
+        action: "beneficiary.project_specific",
+        payload: {
+          benId,
+        },
+      };
+      return ProjectsService.actions(projectId, payload);
+    },
+
+    getBeneficiaryDetailsByUuid: async (uuid: string) => {
       return BeneficiariesService.getByUuid(uuid);
     },
 

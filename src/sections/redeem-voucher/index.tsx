@@ -22,14 +22,12 @@ import {
 import { homeOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useTransactionStore from "@store/transaction";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
 import useVoucherType from "@hooks/use-voucher-type";
 import { cropString } from "../../utils/helperFunctions";
-import useAppStore from "../../store/app";
-
 type Props = {
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
   beneficiary: BENEFICIARY_DETAILS;
