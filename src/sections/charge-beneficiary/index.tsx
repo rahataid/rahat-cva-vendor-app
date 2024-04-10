@@ -41,7 +41,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
   const [loadingVisible, setLoadingVisible] = useState(false);
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState("PHONE");
 
   const {
     handleSubmit,
