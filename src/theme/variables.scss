@@ -364,3 +364,33 @@ ion-header {
     }
   }
 }
+
+// country code
+
+.wrapper-input {
+  position: relative;
+}
+
+.wrapper-input {
+  ion-img {
+    height: 14px;
+    width: 28px;
+    position: absolute;
+    top: 50%;
+    left: -2px;
+    margin: 0 0.5em;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+
+  .default-flag {
+    padding-left: 3px;
+  }
+}
+
+.select-phoneCode {
+  margin-top: 2px;
+  .native-input.sc-ion-input-md {
+    padding-left: 20px;
+  }
+}
