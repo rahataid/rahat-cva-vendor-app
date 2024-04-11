@@ -103,10 +103,11 @@ export type REFERRED_BENEFICIARY_DETAILS = {
   type?: BENEFICIARY_TYPE;
 };
 
-export type BENEFICIARY_DETAILS = {
+export interface BENEFICIARY_DETAILS {
   id?: number;
   uuid?: string;
   gender?: GENDER;
+  ageRange?: string;
   walletAddress?: string;
   birthDate?: string;
   location?: string;
@@ -128,7 +129,7 @@ export type BENEFICIARY_DETAILS = {
     email?: any;
     extras?: any;
   };
-};
+}
 
 export type REFER_RESULT_BENEFICIARY_DETAILS = {
   address: string;
@@ -140,3 +141,31 @@ export type REFER_RESULT_BENEFICIARY_DETAILS = {
   walletAddress: string;
   createdAt?: string;
 };
+
+export type PROJECT_DETAILS = {
+  Project: {
+    contractAddress?: string;
+    createdAt?: string;
+    deletedAt?: string;
+    description?: string;
+    extras?: any;
+    id?: number;
+    name?: string;
+    status?: ANY;
+    type?: string;
+    updatedAt?: string;
+    uuid?: string;
+  };
+  beneficiaryId?: string;
+  createdAt?: string;
+  deletedAt?: string;
+  id?: number;
+  projectId?: string;
+  updatedAt?: string;
+  uuid?: string;
+};
+
+export interface BENEFICIARY_REFERRAL_DETAILS extends BENEFICIARY_DETAILS {
+  BeneficiaryProject?: PROJECT_DETAILS[] | [];
+  beneficiariesReferred?: number;
+}
