@@ -30,15 +30,15 @@ const CardComponent: FC<CardProps> = ({ title, subtitle, image, loading }) => {
           <IonCardTitle>
             <IonSkeletonText
               animated={true}
-              style={{ width: "35%" }}
+              style={{ width: "15%" }}
             ></IonSkeletonText>
             <IonSkeletonText
               animated={true}
-              style={{ width: "50%" }}
+              style={{ width: "25%" }}
             ></IonSkeletonText>
           </IonCardTitle>
         ) : (
-          <IonCardTitle>{title || "-"}</IonCardTitle>
+          <IonCardTitle>{title}</IonCardTitle>
         )}
       </IonCardHeader>
       <IonCardContent>{/* Add any additional content here */}</IonCardContent>

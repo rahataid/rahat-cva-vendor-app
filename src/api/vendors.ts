@@ -242,7 +242,7 @@ export function useVendorDetails({ forceRender }: any): any {
 
 export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
   const { getVendorVoucherRedemptionCount } = useTransactionStore();
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, isRefetching } = useQuery(
     ["vendorVoucherRedemptionCount"],
     async () => {
       const res = await getVendorVoucherRedemptionCount(voucherType);
@@ -254,9 +254,10 @@ export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
   );
 
   return {
-    data: data,
+    data,
     isLoading,
     error,
+    isRefetching,
   };
 }
 
@@ -274,7 +275,7 @@ export function useVendorVoucherRedemptionList() {
   );
 
   return {
-    data: data,
+    data,
     isLoading,
     error,
     refetch,
