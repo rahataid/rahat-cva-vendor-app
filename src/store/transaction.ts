@@ -211,16 +211,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
         currentUser: { uuid: vendorId },
       } = referredAppStoreState();
-
-      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
-
-      const ElProjectInstance = await createContractInstance(rpcurl, elproject);
-
-      const ForwarderContractInstance = await createContractInstance(
-        rpcurl,
-        erc2771forwarder
-      );
-
+      console.log("beneficiaryDetails", beneficiaryDetails);
       async function processBeneficiaries(
         referredBeneficiaries: REFER_BENEFICIARY_DETAILS[]
       ) {
@@ -228,7 +219,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           const payload: addToProjectPayload = {
             action: MS_ACTIONS.BENEFICIARY.ADD_TO_PROJECT,
             payload: {
-              walletAddress: beneficiary.walletAddress,
+              // walletAddress: beneficiary.walletAddress,
               referrerBeneficiary: beneficiaryDetails?.uuid,
               referrerVendor: vendorId,
               // age: beneficiary?.estimatedAge,
@@ -239,20 +230,33 @@ const useTransactionStore = createStore<TransactionStoreType>(
               type: BENEFICIARY_TYPE.REFERRED,
             },
           };
+          console.log("payload", payload);
           return ProjectsService.actions(projectId, payload);
         });
         return await Promise.all(promises);
       }
 
-      // const backendResponse = await processBeneficiaries(referredBeneficiaries);
-
+      const backendResponse = await processBeneficiaries(referredBeneficiaries);
+      console.log(backendResponse, "backendResponse");
+      if (!backendResponse) throw new Error("Backend response is empty");
       // contract call
-      let multiCallInfo = referredBeneficiaries.map((beneficiary) => [
-        beneficiary.walletAddress,
-        beneficiaryAddress,
-        walletInstance?.address,
-        referralvoucher?.address,
-      ]);
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+      const ElProjectInstance = await createContractInstance(rpcurl, elproject);
+
+      const ForwarderContractInstance = await createContractInstance(
+        rpcurl,
+        erc2771forwarder
+      );
+
+      let multiCallInfo = backendResponse?.map((response) => {
+        return [
+          response?.data?.data?.walletAddress,
+          beneficiaryAddress,
+          walletInstance?.address,
+          referralvoucher?.address,
+        ];
+      });
 
       console.log(multiCallInfo, "multiCallInfo");
 
@@ -272,18 +276,18 @@ const useTransactionStore = createStore<TransactionStoreType>(
         [multiCallData]
       );
 
-      // const response = await ProjectsService.actions(projectId, {
-      //   action: MS_ACTIONS.ELPROJECT.ASSIGN_DISCOUNT_VOUCHER,
-      //   payload: {
-      //     metaTxRequest: {
-      //       ...metaTxRequest,
-      //       gas: metaTxRequest.gas.toString(),
-      //       nonce: metaTxRequest.nonce.toString(),
-      //       value: metaTxRequest.value.toString(),
-      //     },
-      //   },
-      // });
-      // console.log(response);
+      const response = await ProjectsService.actions(projectId, {
+        action: MS_ACTIONS.ELPROJECT.ASSIGN_DISCOUNT_VOUCHER,
+        payload: {
+          metaTxRequest: {
+            ...metaTxRequest,
+            gas: metaTxRequest.gas.toString(),
+            nonce: metaTxRequest.nonce.toString(),
+            value: metaTxRequest.value.toString(),
+          },
+        },
+      });
+      console.log(response);
 
       const payload = referredBeneficiaries.map((el) => ({
         ...el,
@@ -522,6 +526,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           benId,
         },
       };
+      console.log(payload, "GET DETAILS");
       return ProjectsService.actions(projectId, payload);
     },
 

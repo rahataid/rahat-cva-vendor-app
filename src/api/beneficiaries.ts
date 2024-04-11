@@ -54,17 +54,17 @@ export function useBeneficiaryDetails(walletAddress: string) {
     ["beneficiaryDetails", walletAddress],
     async () => {
       console.log("before api call");
-      // const res = await getBeneficiaryDetailsByWallet(walletAddress);
-      // console.log(res, "res");
-      // if (res?.data?.data) {
-      const secondRes = await getBeneficiaryReferredDetailsByUuid(
-        // res?.data?.data?.uuid
-        "7e0a861d-da12-4bec-b4d3-ceb18e98adeb"
-      );
-      console.log(secondRes, "secondRes");
-      //   return { beneficiaryDetails: res.data.data, secondData: secondRes };
-      // }
-      return secondRes || {};
+      const res = await getBeneficiaryDetailsByWallet(walletAddress);
+      console.log(res, "res BY WALLET");
+      let secondRes;
+      if (res?.data?.data) {
+        secondRes = await getBeneficiaryReferredDetailsByUuid(
+          res?.data?.data?.uuid
+        );
+        console.log(secondRes, "secondRes");
+        //   return { beneficiaryDetails: res.data.data, secondData: secondRes };
+      }
+      return secondRes?.data?.data || {};
     },
     {
       staleTime: 60000,
