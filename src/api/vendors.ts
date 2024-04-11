@@ -106,7 +106,7 @@ export function useVendorVoucher(queryService: any): any {
     currentUser,
     wallet: { address: walletAddress },
   } = useAppStore.getState();
-  const { data, isLoading, error, refetch } = useQuery(
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorVouchers", walletAddress],
     async () => {
       console.log("EXECUTE USE VOUCHER");
@@ -125,6 +125,7 @@ export function useVendorVoucher(queryService: any): any {
     isLoading,
     error,
     refetch,
+    isFetching,
   };
 }
 
@@ -134,7 +135,7 @@ export function useVendorTransaction(queryService: any) {
     wallet: { address: walletAddress },
   } = useAppStore.getState();
 
-  const { data, isLoading, error, refetch } = useQuery(
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
       const data = await queryService.useVendorTransaction(walletAddress);
@@ -174,6 +175,7 @@ export function useVendorTransaction(queryService: any) {
     isLoading,
     error,
     refetch,
+    isFetching,
   };
 }
 
@@ -240,7 +242,7 @@ export function useVendorDetails({ forceRender }: any): any {
 
 export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
   const { getVendorVoucherRedemptionCount } = useTransactionStore();
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, isRefetching } = useQuery(
     ["vendorVoucherRedemptionCount"],
     async () => {
       const res = await getVendorVoucherRedemptionCount(voucherType);
@@ -252,15 +254,16 @@ export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
   );
 
   return {
-    data: data,
+    data,
     isLoading,
     error,
+    isRefetching,
   };
 }
 
 export function useVendorVoucherRedemptionList() {
   const { getVendorRedemptionList } = useTransactionStore();
-  const { data, isLoading, error, refetch } = useQuery(
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorVoucherRedemptionList"],
     async () => {
       const res = await getVendorRedemptionList();
@@ -272,9 +275,10 @@ export function useVendorVoucherRedemptionList() {
   );
 
   return {
-    data: data,
+    data,
     isLoading,
     error,
     refetch,
+    isFetching,
   };
 }

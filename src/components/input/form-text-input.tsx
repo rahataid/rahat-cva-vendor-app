@@ -17,7 +17,7 @@ interface TextInputFieldProps {
   onChange?: any;
   onInput?: any;
   onBlur?: any;
-  onFocous?: any;
+  onFocus?: any;
   additionalClass?: string;
   style?: {};
   inputStyle?: {};
@@ -75,7 +75,7 @@ const TextInputField: React.FC<TextInputFieldProps> = forwardRef(
           errorText={props.errorText}
           onIonChange={props.onChange}
           onIonInput={props.onInput}
-          onIonFocus={props.onFocous}
+          onIonFocus={props.onFocus}
           onIonBlur={() => {
             markTouched();
             props.onBlur;

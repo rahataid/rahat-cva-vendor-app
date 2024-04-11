@@ -9,6 +9,7 @@
   --color: black;
   text-align: center;
   font-size: 16px;
+  padding: 0;
 }
 
 .select-option-modal-search-bar {
@@ -24,4 +25,9 @@
   margin-inline-end: 0px !important;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
+
+  ion-img {
+    width: 28px;
+    height: 14px;
+  }
 }

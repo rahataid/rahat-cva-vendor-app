@@ -93,11 +93,16 @@ const ReferSection = ({
       <IonRow>
         <IonCol size="4" class="ion-no-padding">
           <div className="wrapper-input">
-            {getValues(`beneficiaries.${index}.iso`) && (
+            {getValues(`beneficiaries.${index}.iso`) ? (
               <IonImg
                 src={`assets/flags/small/${getValues(
                   `beneficiaries.${index}.iso`
                 )?.toLocaleLowerCase()}.svg`}
+              />
+            ) : (
+              <IonImg
+                className="default-flag"
+                src={`assets/flags/small/default.jpg`}
               />
             )}
             <Controller
@@ -141,7 +146,6 @@ const ReferSection = ({
                 setError("root", {});
                 phoneCodeModal.current?.dismiss();
               }}
-              data-testid="registration_form_selector_phone_code"
             />
           </IonModal>
         </IonCol>

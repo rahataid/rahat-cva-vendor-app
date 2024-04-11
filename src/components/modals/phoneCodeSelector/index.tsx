@@ -1,7 +1,20 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonItem, IonList, IonTitle, IonSearchbar, IonToolbar } from '@ionic/react';
-import { SelectOptionItem } from 'models/select-option.item';
-import './index.css';
+import { useEffect, useRef, useState } from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonList,
+  IonTitle,
+  IonSearchbar,
+  IonToolbar,
+  IonButtons,
+  IonButton,
+  IonIcon,
+  IonImg,
+} from "@ionic/react";
+import { SelectOptionItem } from "models/select-option.item";
+import "./index.css";
+import { arrowBack } from "ionicons/icons";
 
 interface SelectOptionProps {
   items: SelectOptionItem[];
@@ -9,11 +22,13 @@ interface SelectOptionProps {
   title?: string;
   searchPlaceholder?: string;
   onSelectionCancel?: () => void;
-  onSelectionChange?: (item: Omit<SelectOptionItem, 'text'>) => void;
+  onSelectionChange?: (item: Omit<SelectOptionItem, "text">) => void;
 }
 
 function PhoneCodeSelector(props: SelectOptionProps) {
-  const [filteredItems, setFilteredItems] = useState<SelectOptionItem[]>([...props.items]);
+  const [filteredItems, setFilteredItems] = useState<SelectOptionItem[]>([
+    ...props.items,
+  ]);
 
   const cancelChanges = () => {
     const { onSelectionCancel } = props;
@@ -41,18 +56,37 @@ function PhoneCodeSelector(props: SelectOptionProps) {
       setFilteredItems(
         props.items.filter((item) => {
           return item.text.toLowerCase().includes(normalizedQuery);
-        }),
+        })
       );
     }
   };
+
+  const searchbarRef = useRef(null);
+
+  useEffect(() => {
+    searchbarRef.current?.setFocus();
+  }, []);
 
   return (
     <>
       <IonHeader className="select-option-modal-header">
         <IonToolbar className="select-option-modal-header">
-          <IonTitle className="select-option-modal-text">{props.title}</IonTitle>
+          <IonToolbar className="select-option-modal-header">
+            <IonButtons slot="start">
+              <IonButton onClick={cancelChanges}>
+                <IonIcon slot="icon-only" icon={arrowBack} />
+              </IonButton>
+            </IonButtons>
+            <IonTitle className="select-option-modal-text">
+              {props.title}
+            </IonTitle>
+            <IonButtons slot="end">
+              <div style={{ width: 48, height: 48 }}></div>
+            </IonButtons>
+          </IonToolbar>
         </IonToolbar>
         <IonSearchbar
+          ref={searchbarRef}
           className="select-option-modal-search-bar"
           placeholder={props.searchPlaceholder}
           onIonInput={searchbarInput}
@@ -60,9 +94,20 @@ function PhoneCodeSelector(props: SelectOptionProps) {
       </IonHeader>
 
       <IonContent color="light">
-        <IonList inset={true} className="ion-no-padding select-option-modal-ion-list">
+        <IonList
+          inset={true}
+          className="ion-no-padding select-option-modal-ion-list"
+        >
           {filteredItems.map((item, idx) => (
-            <IonItem key={`${item.value}-${idx}`} onClick={() => confirmSelection(item)}>
+            <IonItem
+              key={`${item.value}-${idx}`}
+              onClick={() => confirmSelection(item)}
+              lines="full"
+            >
+              {/* <IonImg
+                slot="start"
+                src={`/assets/flags/small/${item.iso.toLocaleLowerCase()}.svg`}
+              /> */}
               {item.text}
             </IonItem>
           ))}

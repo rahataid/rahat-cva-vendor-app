@@ -14,7 +14,8 @@ import { FC } from "react";
 import DetailsSkeletonCard from "@components/loaders/skeleton/card/details";
 
 const VoucherRedemptionDetailsPage: FC = () => {
-  const { data, isLoading, error, refetch } = useVendorVoucherRedemptionList();
+  const { data, isLoading, error, refetch, isFetching } =
+    useVendorVoucherRedemptionList();
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
     await refetch();
     event.detail.complete();
@@ -27,7 +28,7 @@ const VoucherRedemptionDetailsPage: FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              {isLoading ? (
+              {isFetching ? (
                 <DetailsSkeletonCard />
               ) : (
                 <VoucherRedemptionDetails data={data} />

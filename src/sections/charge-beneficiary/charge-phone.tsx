@@ -8,7 +8,6 @@ import {
   IonText,
 } from "@ionic/react";
 import { Controller } from "react-hook-form";
-import { validateWalletAddress } from "../../utils/web3";
 import PhoneCodeSelector from "../../components/modals/phoneCodeSelector";
 import { caretDownOutline } from "ionicons/icons";
 import { useRef } from "react";
@@ -45,17 +44,22 @@ const ChargePhone = ({
       <IonRow>
         <IonCol size="4" class="ion-no-padding">
           <div className="wrapper-input">
-            {getValues("iso") && (
+            {getValues("iso") ? (
               <IonImg
                 src={`assets/flags/small/${getValues(
                   "iso"
                 )?.toLocaleLowerCase()}.svg`}
-                data-testid="registraton_form_image_flags"
+              />
+            ) : (
+              <IonImg
+                className="default-flag"
+                src={`assets/flags/small/default.jpg`}
               />
             )}
             <Controller
               render={(field) => (
                 <TextInputField
+                  className="select-phoneCode"
                   id="select-phoneCode"
                   clearInput={false}
                   value={getValues("code")}
@@ -89,7 +93,6 @@ const ChargePhone = ({
                 setError("root", {});
                 phoneCodeModal.current?.dismiss();
               }}
-              data-testid="registration_form_selector_phone_code"
             />
           </IonModal>
         </IonCol>

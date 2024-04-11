@@ -16,7 +16,7 @@ import CustomRefresher from "@components/refresher/CustomRefresher";
 
 const TransactionsListPage: FC = () => {
   const { queryService } = useGraphService();
-  const { data, isLoading, error, refetch } =
+  const { data, isLoading, error, refetch, isFetching } =
     useVendorTransaction(queryService);
 
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
@@ -32,7 +32,11 @@ const TransactionsListPage: FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <TransactionsList data={data} loading={isLoading} error={error} />
+              <TransactionsList
+                data={data}
+                loading={isFetching}
+                error={error}
+              />
             </IonCol>
           </IonRow>
         </IonGrid>

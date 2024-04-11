@@ -19,6 +19,7 @@ const ReferredBeneficiariesListPage: FC = () => {
     isLoading,
     error,
     refetch,
+    isFetching,
   } = useReferredBeneficiariesList();
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
     await refetch();
@@ -34,7 +35,7 @@ const ReferredBeneficiariesListPage: FC = () => {
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
               <ReferredBeneficiariesList
                 beneficiaries={beneficiaries}
-                loading={isLoading}
+                loading={isFetching}
                 error={error}
               />
             </IonCol>

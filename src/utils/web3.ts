@@ -285,3 +285,20 @@ const convertToLowerCase = (obj: any) => {
   }
   return newObj;
 };
+
+export const generateMultiCallData = (
+  contract: Contract,
+  functionName: string,
+  callData: any
+) => {
+  let encodedData = [];
+  if (callData) {
+    for (const callD of callData) {
+      const encodedD = contract.interface.encodeFunctionData(functionName, [
+        ...callD,
+      ]);
+      encodedData.push(encodedD);
+    }
+  }
+  return encodedData;
+};

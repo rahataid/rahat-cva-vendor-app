@@ -34,9 +34,6 @@ const Register = () => {
 
   const [mnemonics, setMnemonics] = useState(undefined);
 
-  const [countryName, setCountryName] = useState("");
-  const [countryIso, setCountryIso] = useState("");
-
   const phoneCodeOptions: SelectOptionItem[] | undefined = countries?.map(
     (it) => ({
       text: `${it.name} (${it.phoneCode})`,
@@ -62,8 +59,8 @@ const Register = () => {
       address: {
         city: "ktm",
       },
-      iso: "",
       code: "",
+      iso: "",
       countryId: "",
     },
   });
@@ -91,31 +88,6 @@ const Register = () => {
   const handleCancel = () => {
     history.goBack();
   };
-
-  const fetchLocation = async (cList: any[]) => {
-    const countryISO = null;
-    // const countryISO = await getGeoLocation();
-    let country = cList?.find((c) => c.iso == countryISO);
-    if (country) {
-      setValue("code", country.phoneCode);
-      watch("code", country.phoneCode);
-      watch("iso", country.iso);
-      setValue("iso", country.iso);
-      setValue("countryId", country.id);
-      setCountryName(country.name);
-      setCountryIso(country.iso);
-    }
-  };
-
-  useEffect(() => {
-    const list = countries;
-
-    if (list && list?.length > 0) {
-      fetchLocation(list);
-    }
-
-    watch("phone");
-  }, [countries]);
 
   return (
     <>
@@ -179,23 +151,34 @@ const Register = () => {
               <IonRow>
                 <IonCol size="4" class="ion-no-padding">
                   <div className="wrapper-input">
-                    {getValues("iso") && (
+                    {getValues("iso") ? (
                       <IonImg
                         src={`assets/flags/small/${getValues(
                           "iso"
                         )?.toLocaleLowerCase()}.svg`}
-                        data-testid="registraton_form_image_flags"
+                      />
+                    ) : (
+                      <IonImg
+                        className="default-flag"
+                        src={`assets/flags/small/default.jpg`}
                       />
                     )}
-
-                    <TextInputField
-                      id="select-phoneCode"
-                      clearInput={false}
-                      value={getValues("code")}
-                      additionalClass=""
-                      placeholder="0000"
-                      rightIcon={caretDownOutline}
-                      hideRightIconBG
+                    <Controller
+                      render={(field) => (
+                        <TextInputField
+                          className="select-phoneCode"
+                          id="select-phoneCode"
+                          clearInput={false}
+                          value={getValues("code")}
+                          additionalClass=""
+                          placeholder="0000"
+                          rightIcon={caretDownOutline}
+                          hideRightIconBG
+                        />
+                      )}
+                      rules={{ required: "Please enter country code" }}
+                      control={control}
+                      name="code"
                     />
                   </div>
                   <IonModal
@@ -218,7 +201,6 @@ const Register = () => {
                         setError("root", {});
                         phoneCodeModal.current?.dismiss();
                       }}
-                      data-testid="registration_form_selector_phone_code"
                     />
                   </IonModal>
                 </IonCol>
@@ -233,20 +215,13 @@ const Register = () => {
                         type="number"
                         value={getValues("phone")}
                         placeholder="Phone number"
-                        error={errors?.phone?.message ? true : false}
+                        errorText={errors?.phone?.message}
                         onInput={(e: any) => {
-                          setError("root", {});
                           setValue("phone", e.target.value, {
                             shouldValidate: true,
                           });
-                          console.log(errors);
-                        }}
-                        onFocus={(e: any) => {
-                          setError("root", {});
-                          // setValue('phone', e.target.value, { shouldValidate: true });
                         }}
                         onBlur={field.onBlur}
-                        onChange={field.onChange}
                       />
                     )}
                     rules={{
@@ -274,7 +249,7 @@ const Register = () => {
                 type="submit"
                 expand="block"
                 // color="dark"
-                disabled={!isDirty || !isValid || isSubmitting}
+                disabled={!isValid || isSubmitting}
               >
                 {isSubmitting ? (
                   <IonProgressBar type="indeterminate"></IonProgressBar>

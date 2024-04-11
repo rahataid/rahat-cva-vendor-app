@@ -8,6 +8,7 @@ import { VOUCHER } from "../../../types/beneficiaries";
 import CustomToast from "../../../components/toast";
 import { useState } from "react";
 import { useVendorVoucherRedemptionCount } from "../../../api/vendors";
+import CardComponent from "@sections/home/home-card";
 
 type FormValues = {
   vouchers: number;
@@ -20,7 +21,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
   const { transferVoucher } = useTransactionStore();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const { data } = useVendorVoucherRedemptionCount(voucherType);
+  const { data, isRefetching } = useVendorVoucherRedemptionCount(voucherType);
   const {
     handleSubmit,
     setError,
@@ -64,17 +65,19 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
         position="middle"
         color={toastColor}
       />
+      <CardComponent
+        subtitle="Total Available Vouchers For Redemption"
+        title={data}
+        loading={isRefetching}
+      />
       <TransparentCard>
         <IonCardContent>
-          <IonText style={{ color: "#000" }}>
-            <p>Total free vouchers available for redemption: {data}</p>
-          </IonText>
           <br />
           <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
             <Controller
               render={({ field }) => (
                 <TextInputField
-                  placeholder="Enter the number of voucher"
+                  placeholder="Enter the number of vouchers to redeem"
                   type="number"
                   label="Number of vouchers*"
                   value={getValues("vouchers")}

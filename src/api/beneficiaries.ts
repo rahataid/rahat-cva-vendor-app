@@ -3,7 +3,7 @@ import useTransactionStore from "../store/transaction";
 
 export function useReferredBeneficiariesList() {
   const { getReferredBeneficiaryList } = useTransactionStore();
-  const { data, isLoading, error, refetch } = useQuery(
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["referredBeneficiaryList"],
     async () => {
       const res = await getReferredBeneficiaryList();
@@ -19,6 +19,7 @@ export function useReferredBeneficiariesList() {
     isLoading,
     error,
     refetch,
+    isFetching,
   };
 }
 
@@ -26,11 +27,11 @@ export function useReferredBeneficiariesDetails({
   uuid,
   beneficiaryDetails,
 }: any) {
-  const { getReferredBeneficiaryDetails } = useTransactionStore();
+  const { getBeneficiaryDetailsByUuid } = useTransactionStore();
   const { data, isLoading, error } = useQuery(
     ["referredBeneficiaryDetails", uuid],
     async () => {
-      const res = await getReferredBeneficiaryDetails(uuid);
+      const res = await getBeneficiaryDetailsByUuid(uuid);
       return res?.data?.data || {};
     },
     {
@@ -47,12 +48,20 @@ export function useReferredBeneficiariesDetails({
 }
 
 export function useBeneficiaryDetails(walletAddress: string) {
-  const { getBeneficiaryDetailsByWallet } = useTransactionStore();
+  const { getBeneficiaryDetailsByWallet, getBeneficiaryReferredDetailsByUuid } =
+    useTransactionStore();
   const { data, isLoading, error } = useQuery(
     ["beneficiaryDetails", walletAddress],
     async () => {
       const res = await getBeneficiaryDetailsByWallet(walletAddress);
-      return res?.data?.data || {};
+
+      let secondRes;
+      if (res?.data?.data) {
+        secondRes = await getBeneficiaryReferredDetailsByUuid(
+          res?.data?.data?.uuid
+        );
+      }
+      return secondRes?.data?.data || {};
     },
     {
       staleTime: 60000,
@@ -60,7 +69,7 @@ export function useBeneficiaryDetails(walletAddress: string) {
   );
 
   return {
-    data: data,
+    data,
     isLoading,
     error,
   };

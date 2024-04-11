@@ -9,7 +9,7 @@ import {
   IonText,
 } from "@ionic/react";
 import React from "react";
-import Logo from "@assets/images/logo/rahat-logo-white.png";
+import Logo from "@assets/images/logo/rahat-logo-standard.png";
 import "./not-found.scss";
 import { useHistory } from "react-router";
 
@@ -33,7 +33,7 @@ const NotFoundPage: React.FC = () => {
                 <p>Sorry, the page you are looking for does not exist.</p>
               </IonText>
               <IonButton
-                color="dark"
+                // color="dark"
                 fill="solid"
                 expand="block"
                 onClick={() => history.goBack()}
