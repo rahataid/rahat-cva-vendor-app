@@ -15,7 +15,7 @@ import "./redeem-voucher.scss";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import {
-  BENEFICIARY_DETAILS,
+  BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
   VOUCHER,
 } from "@types/beneficiaries";
@@ -30,12 +30,12 @@ import useVoucherType from "@hooks/use-voucher-type";
 import { cropString } from "../../utils/helperFunctions";
 type Props = {
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-  beneficiary: BENEFICIARY_DETAILS;
+  beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
 };
 
 const RedeemVoucher: React.FC<Props> = ({
   beneficiaryVoucher,
-  beneficiary,
+  beneficiaryDetails,
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -58,8 +58,8 @@ const RedeemVoucher: React.FC<Props> = ({
   } = useForm({
     mode: "all",
     defaultValues: {
-      glassesStatus: beneficiary?.glassesStatus || "",
-      eyeCheckupStatus: beneficiary?.eyeCheckupStatus || "",
+      glassesStatus: beneficiaryDetails?.glassesStatus || "",
+      eyeCheckupStatus: beneficiaryDetails?.eyeCheckupStatus || "",
     },
   });
 
@@ -76,14 +76,14 @@ const RedeemVoucher: React.FC<Props> = ({
       if (voucherType === VOUCHER.FREE_VOUCHER) {
         await updateStatus({
           voucherType,
-          beneficiary,
+          beneficiary: beneficiaryDetails,
           eyeCheckUp,
           glassStatus,
         });
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
         await updateStatus({
           voucherType,
-          beneficiary,
+          beneficiary: beneficiaryDetails,
           referralVoucherAddress: beneficiaryVoucher?.ReferredVoucherAddress,
           eyeCheckUp,
           glassStatus,
@@ -118,14 +118,14 @@ const RedeemVoucher: React.FC<Props> = ({
           : false;
       if (voucherType === VOUCHER.FREE_VOUCHER)
         await redeemVoucher({
-          beneficiary,
+          beneficiary: beneficiaryDetails,
           voucherType: VOUCHER.FREE_VOUCHER,
           eyeCheckUp,
           glassStatus,
         });
       else
         await redeemVoucher({
-          beneficiary,
+          beneficiary: beneficiaryDetails,
           voucherType: VOUCHER.DISCOUNT_VOUCHER,
           voucher: beneficiaryVoucher,
           eyeCheckUp,
@@ -138,7 +138,7 @@ const RedeemVoucher: React.FC<Props> = ({
       history.push("/otp", {
         data: {
           voucher: beneficiaryVoucher,
-          beneficiaryAddress: beneficiary?.walletAddress,
+          beneficiaryAddress: beneficiaryDetails?.walletAddress,
         },
       });
     } catch (error) {
@@ -147,7 +147,7 @@ const RedeemVoucher: React.FC<Props> = ({
       history.push("/otp", {
         data: {
           voucher: beneficiaryVoucher,
-          beneficiaryAddress: beneficiary?.walletAddress,
+          beneficiaryAddress: beneficiaryDetails?.walletAddress,
         },
       });
       console.log(error);
@@ -164,14 +164,21 @@ const RedeemVoucher: React.FC<Props> = ({
     history.push("/refer-beneficiaries", {
       data: {
         voucher: beneficiaryVoucher,
-        beneficiaryAddress: beneficiary?.walletAddress,
+        beneficiaryAddress: beneficiaryDetails?.walletAddress,
         from: "redeemVoucher",
+        beneficiaryDetails,
       },
     });
   };
+
+  const handleDisabledRefer = () => {
+    showToast("You have already referred 3 beneficiaries", "danger");
+  };
+
   const handleGoHome = () => {
     history.push("/tabs/home");
   };
+
   const handleInputChange = () => {
     setSubmitSuccess(false);
   };
@@ -184,7 +191,7 @@ const RedeemVoucher: React.FC<Props> = ({
         onDidDismiss={hideToast}
         message={toastMessage}
         duration={2000}
-        position="middle"
+        position="top"
         color={toastColor}
       />
       <IonGrid>
@@ -198,7 +205,7 @@ const RedeemVoucher: React.FC<Props> = ({
                       Beneficiary Address:
                     </IonCol>
                     <IonCol size="6" className="pr-0">
-                      {cropString(beneficiary?.walletAddress) || "-"}
+                      {cropString(beneficiaryDetails?.walletAddress) || "-"}
                     </IonCol>
                     <IonCol size="6" className="pl-0">
                       Voucher Type:
@@ -212,6 +219,12 @@ const RedeemVoucher: React.FC<Props> = ({
                         ))}
                     </IonCol>
                   </IonRow>
+                </IonGrid>
+              </IonCardContent>
+            </TransparentCard>
+            <TransparentCard>
+              <IonCardContent>
+                <IonGrid className="p-0">
                   <div className="gap-5"></div>
                   {/* {voucherType === VOUCHER.DISCOUNT_VOUCHER && ( */}
                   <Controller
@@ -416,14 +429,22 @@ const RedeemVoucher: React.FC<Props> = ({
                         </IonCol>
 
                         <IonCol size="12" className="px-0">
-                          <IonButton
-                            mode="md"
-                            expand="block"
-                            color="warning"
-                            onClick={handleRefer}
+                          <div
+                            onClick={handleDisabledRefer}
+                            className="button-full-width"
                           >
-                            Refer
-                          </IonButton>
+                            <IonButton
+                              mode="md"
+                              expand="block"
+                              color="warning"
+                              onClick={handleRefer}
+                              disabled={
+                                beneficiaryDetails?.beneficiariesReferred >= 3
+                              }
+                            >
+                              Refer
+                            </IonButton>
+                          </div>
                         </IonCol>
                       </>
                     )}

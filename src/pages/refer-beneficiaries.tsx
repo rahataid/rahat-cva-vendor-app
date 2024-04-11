@@ -1,14 +1,17 @@
-import { useBeneficiaryDetails } from "@api/beneficiaries";
 import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import ReferBeneficiaries from "@sections/refer-beneficiaries";
-import { BENEFICIARY_VOUCHER_DETAILS } from "@types/beneficiaries";
+import {
+  BENEFICIARY_REFERRAL_DETAILS,
+  BENEFICIARY_VOUCHER_DETAILS,
+} from "@types/beneficiaries";
 import { useLocation } from "react-router";
 
 type LocationState = {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
     beneficiaryAddress: string;
+    beneficiary: BENEFICIARY_REFERRAL_DETAILS;
     from: "redeemVoucher" | "transactionResult";
   };
 };
@@ -16,9 +19,6 @@ type LocationState = {
 const ReferBeneficiariesPage: React.FC = () => {
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
-  const { data: beneficiaryDetails } = useBeneficiaryDetails(
-    data?.beneficiaryAddress
-  );
 
   return (
     <IonPage>
@@ -27,7 +27,7 @@ const ReferBeneficiariesPage: React.FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <ReferBeneficiaries data={{ ...data, beneficiaryDetails }} />
+              <ReferBeneficiaries data={data} />
             </IonCol>
           </IonRow>
         </IonGrid>

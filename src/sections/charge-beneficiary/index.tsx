@@ -16,15 +16,12 @@ import ChargePhone from "./charge-phone";
 import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useGraphService } from "@contexts/graph-query";
-import {
-  isVoucherAssigned,
-  isVoucherClaimed,
-} from "../../utils/helperFunctions";
+
 import CustomToast from "../../components/toast";
 import useCustomToast from "../../hooks/use-custom-toast";
-import { differentiateInput } from "../../utils/web3";
 import BeneficiariesService from "../../services/beneficiaries";
 import ChargeQr from "./charge-qr";
+import useTransactionStore from "@store/transaction";
 
 type Props = {
   data: {
@@ -36,6 +33,7 @@ type Props = {
 
 const ChargeBeneficiary = ({ data }: Props) => {
   const { queryService } = useGraphService();
+  const { getBeneficiaryReferredDetailsByUuid } = useTransactionStore();
   const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
@@ -71,9 +69,14 @@ const ChargeBeneficiary = ({ data }: Props) => {
         formData?.walletAddress
       );
     }
-    benWalletAddress = beneficiary?.data?.data?.walletAddress;
 
     if (!beneficiary?.data?.data) throw new Error("Invalid Beneficiary");
+
+    beneficiary = await getBeneficiaryReferredDetailsByUuid(
+      beneficiary?.data?.data?.uuid
+    );
+
+    benWalletAddress = beneficiary?.data?.data?.walletAddress;
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
       benWalletAddress
     );
@@ -84,7 +87,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
     //   throw new Error("Voucher not assigned to beneficiary");
 
     return {
-      beneficiary: beneficiary?.data?.data,
+      beneficiaryDetails: beneficiary?.data?.data,
       beneficiaryVoucher,
     };
   };
@@ -93,12 +96,11 @@ const ChargeBeneficiary = ({ data }: Props) => {
     setLoadingVisible(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     try {
-      const { beneficiary, beneficiaryVoucher } = await fetchBeneficiaryVoucher(
-        data
-      );
+      const { beneficiaryDetails, beneficiaryVoucher } =
+        await fetchBeneficiaryVoucher(data);
       history.push("/redeem-voucher", {
         data: {
-          beneficiary,
+          beneficiaryDetails,
           beneficiaryVoucher,
         },
       });

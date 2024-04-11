@@ -53,16 +53,13 @@ export function useBeneficiaryDetails(walletAddress: string) {
   const { data, isLoading, error } = useQuery(
     ["beneficiaryDetails", walletAddress],
     async () => {
-      console.log("before api call");
       const res = await getBeneficiaryDetailsByWallet(walletAddress);
-      console.log(res, "res BY WALLET");
+
       let secondRes;
       if (res?.data?.data) {
         secondRes = await getBeneficiaryReferredDetailsByUuid(
           res?.data?.data?.uuid
         );
-        console.log(secondRes, "secondRes");
-        //   return { beneficiaryDetails: res.data.data, secondData: secondRes };
       }
       return secondRes?.data?.data || {};
     },

@@ -12,22 +12,24 @@ import ReferSection from "./refer-section";
 import { add } from "ionicons/icons";
 import { useHistory } from "react-router";
 import {
-  BENEFICIARY_DETAILS,
+  BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
   REFER_BENEFICIARY_DETAILS,
 } from "@types/beneficiaries";
 import useTransactionStore from "@store/transaction";
-import { generateRandomWalletAddress } from "@utils/web3";
 import CustomToast from "../../components/toast";
 import useCustomToast from "../../hooks/use-custom-toast";
-import useAppStore from "../../store/app";
+
+import CardComponent from "@sections/home/home-card";
+import { useMemo } from "react";
+const MAX_REFERALS = 3;
 
 type Props = {
   data: {
     voucher: BENEFICIARY_VOUCHER_DETAILS;
     beneficiaryAddress: string;
     from: string;
-    beneficiaryDetails: BENEFICIARY_DETAILS;
+    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
   };
 };
 
@@ -68,6 +70,14 @@ const ReferBeneficiaries = ({
     max: 3,
   });
 
+  const isMaxReferralsReached = useMemo(() => {
+    return (
+      fields?.length >=
+        MAX_REFERALS - beneficiaryDetails?.beneficiariesReferred ||
+      fields.length >= 3
+    );
+  }, [fields, beneficiaryDetails]);
+
   const onSubmit = async (data: any) => {
     try {
       console.log("REFER SUBMIT DATA", data);
@@ -107,6 +117,11 @@ const ReferBeneficiaries = ({
     if (index > 0) remove(index);
   };
 
+  const handleDisabledAddMore = (condition: boolean) => {
+    if (condition)
+      showToast("You can only refer up to 3 beneficiaries", "danger");
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CustomToast
@@ -114,10 +129,15 @@ const ReferBeneficiaries = ({
         onDidDismiss={hideToast}
         message={toastMessage}
         duration={2000}
-        position="middle"
+        position="top"
         color={toastColor}
       />
       <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
+      <CardComponent
+        subtitle="Total Available Referrals"
+        title={MAX_REFERALS - beneficiaryDetails?.beneficiariesReferred || 0}
+        loading={false}
+      />
       <TransparentCard>
         <IonCardContent>
           {fields.map((field, index) => (
@@ -134,24 +154,30 @@ const ReferBeneficiaries = ({
               />
             </div>
           ))}
-
-          <IonButton
-            fill="outline"
-            color="primary"
-            onClick={() =>
-              append({
-                name: "",
-                phone: "",
-                gender: "",
-                estimatedAge: "",
-                address: "",
-              })
-            }
-            disabled={fields.length >= 3}
+          <div
+            onClick={() => handleDisabledAddMore(isMaxReferralsReached)}
+            className="button-full-width"
           >
-            <IonIcon icon={add} />
-            Add More
-          </IonButton>
+            <IonButton
+              fill="outline"
+              color="primary"
+              onClick={() =>
+                append({
+                  name: "",
+                  phone: "",
+                  gender: "",
+                  estimatedAge: "",
+                  address: "",
+                  code: "",
+                  iso: "",
+                })
+              }
+              disabled={isMaxReferralsReached}
+            >
+              <IonIcon icon={add} />
+              Add More
+            </IonButton>
+          </div>
           <br />
           <br />
 
