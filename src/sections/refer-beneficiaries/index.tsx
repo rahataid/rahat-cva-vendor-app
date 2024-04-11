@@ -36,9 +36,7 @@ const ReferBeneficiaries = ({
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const { rpcUrl } = useAppStore((state) => ({
-    rpcUrl: state.projectSettings.network.RPCURL,
-  }));
+
   const { referBeneficiaries } = useTransactionStore();
   const history = useHistory();
   const {
@@ -78,7 +76,6 @@ const ReferBeneficiaries = ({
         (el: REFER_BENEFICIARY_DETAILS) => {
           return {
             ...el,
-            walletAddress: generateRandomWalletAddress(rpcUrl),
             phone: `${el.code}${el?.phone}`,
           };
         }
