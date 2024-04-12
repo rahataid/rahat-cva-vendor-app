@@ -12,6 +12,7 @@ import ReferredBeneficiariesList from "@sections/settings/referred-beneficiary-s
 import { useReferredBeneficiariesList } from "@api/beneficiaries";
 
 import CustomRefresher from "@components/refresher/CustomRefresher";
+import CardComponent from "@sections/home/home-card";
 
 const ReferredBeneficiariesListPage: FC = () => {
   const {
@@ -33,6 +34,11 @@ const ReferredBeneficiariesListPage: FC = () => {
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
+              <CardComponent
+                title={beneficiaries?.length || 0}
+                subtitle="Total Beneficiares Referred"
+                loading={isFetching}
+              />
               <ReferredBeneficiariesList
                 beneficiaries={beneficiaries}
                 loading={isFetching}

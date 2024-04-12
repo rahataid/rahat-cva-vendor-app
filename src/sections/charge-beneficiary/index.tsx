@@ -39,7 +39,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
   const [loadingVisible, setLoadingVisible] = useState(false);
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const [filter, setFilter] = useState("PHONE");
+  const [filter, setFilter] = useState(null);
 
   const {
     handleSubmit,
@@ -202,7 +202,6 @@ const ChargeBeneficiary = ({ data }: Props) => {
                 setError={setError}
               />
             )}
-
             <IonButton
               mode="md"
               type="submit"
@@ -214,38 +213,6 @@ const ChargeBeneficiary = ({ data }: Props) => {
             </IonButton>
           </IonCardContent>
         </TransparentCard>
-
-        {/* <IonRow className="charge-button-container">
-            <IonCol
-              size="11"
-              sizeMd="11"
-              sizeLg="11"
-              sizeXl="11"
-              className="charge-button-wrapper"
-            >
-              {!isPlatformWeb && (
-                <IonButton
-                  mode="md"
-                  color="dark"
-                  fill="outline"
-                  onClick={handleToggle}
-                  disabled={isSubmitting}
-                >
-                  "Scan"
-                </IonButton>
-              )}
-
-              <IonButton
-                mode="md"
-                type="submit"
-                expand="block"
-                color="dark"
-                disabled={!isValid || isSubmitting}
-              >
-                Fetch Beneficiary Voucher
-              </IonButton>
-            </IonCol>
-          </IonRow> */}
       </form>
     </>
   );
