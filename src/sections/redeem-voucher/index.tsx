@@ -192,7 +192,6 @@ const RedeemVoucher: React.FC<Props> = ({
         onDidDismiss={hideToast}
         message={toastMessage}
         duration={2000}
-        position="top"
         color={toastColor}
       />
       <IonGrid>
