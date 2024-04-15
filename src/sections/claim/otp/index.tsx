@@ -11,7 +11,6 @@ import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { BENEFICIARY_VOUCHER_DETAILS } from "../../../types/beneficiaries";
 
-import { useState } from "react";
 import useTransactionStore from "@store/transaction";
 
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
@@ -138,31 +137,6 @@ const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
             </div>
           </IonCardContent>
         </TransparentCard>
-
-        {/* <IonRow className="restore-button-container">
-            <IonCol size="11" sizeMd="11" sizeLg="6" sizeXl="4">
-              <IonButton
-                mode="md"
-                type="submit"
-                expand="block"
-                color="primary"
-                disabled={isSubmitting}
-              >
-                Verify
-              </IonButton>
-              <IonRow className="gap-5"></IonRow>
-              <IonButton
-                mode="md"
-                color="primary"
-                fill="outline"
-                expand="block"
-                onClick={handleCancel}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </IonButton>
-            </IonCol>
-          </IonRow> */}
       </form>
     </>
   );

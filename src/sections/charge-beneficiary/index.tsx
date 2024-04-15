@@ -22,6 +22,7 @@ import useCustomToast from "../../hooks/use-custom-toast";
 import BeneficiariesService from "../../services/beneficiaries";
 import ChargeQr from "./charge-qr";
 import useTransactionStore from "@store/transaction";
+import { isVoucherAssigned, isVoucherClaimed } from "@utils/helperFunctions";
 
 type Props = {
   data: {
@@ -80,11 +81,11 @@ const ChargeBeneficiary = ({ data }: Props) => {
     const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
       benWalletAddress
     );
-    // fix for release
-    // if (isVoucherClaimed(beneficiaryVoucher))
-    //   throw new Error("Beneficiary has already claimed the Voucher");
-    // else if (!isVoucherAssigned(beneficiaryVoucher))
-    //   throw new Error("Voucher not assigned to beneficiary");
+    // fix for release -> comment out the below line to go to the next page even if there is error
+    if (isVoucherClaimed(beneficiaryVoucher))
+      throw new Error("Beneficiary has already claimed the Voucher");
+    else if (!isVoucherAssigned(beneficiaryVoucher))
+      throw new Error("Voucher not assigned to beneficiary");
 
     return {
       beneficiaryDetails: beneficiary?.data?.data,
