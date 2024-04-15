@@ -135,14 +135,6 @@ const RedeemVoucher: React.FC<Props> = ({
         type: "manual",
         message: "",
       });
-      history.push("/otp", {
-        data: {
-          voucher: beneficiaryVoucher,
-          beneficiaryAddress: beneficiaryDetails?.walletAddress,
-        },
-      });
-    } catch (error) {
-      // fix for release
       await new Promise((resolve) => setTimeout(resolve, 0));
       history.push("/otp", {
         data: {
@@ -150,6 +142,15 @@ const RedeemVoucher: React.FC<Props> = ({
           beneficiaryAddress: beneficiaryDetails?.walletAddress,
         },
       });
+    } catch (error) {
+      // fix for release -> uncomment the following lines
+      // await new Promise((resolve) => setTimeout(resolve, 0));
+      // history.push("/otp", {
+      //   data: {
+      //     voucher: beneficiaryVoucher,
+      //     beneficiaryAddress: beneficiaryDetails?.walletAddress,
+      //   },
+      // });
       console.log(error);
       setSubmitSuccess(false);
       setError("root.serverError", {
