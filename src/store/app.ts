@@ -1,7 +1,3 @@
-import {
-  IProjectSettingsContractsApiResponse,
-  IProjectSettingsNetwork,
-} from "@types/project-settings";
 import { IAddVendorPayload } from "@types/vendors";
 import { axiosInstance } from "@utils/axios";
 import { fixProjectUrl } from "@utils/helperFunctions";
@@ -11,9 +7,9 @@ import {
   getWalletUsingMnemonic,
 } from "@utils/web3";
 import { DEFAULT_PASSCODE } from "../config";
-import { HDNodeWallet, Wallet } from "ethers";
 import { mockBeneficiaries } from "@utils/mockData";
 import countriesData from "../constants/countries.json";
+import { AppStoreType } from "@types/store/app";
 
 const useAppStore = createStore<AppStoreType>(
   (set, get) => ({
@@ -24,6 +20,8 @@ const useAppStore = createStore<AppStoreType>(
     projectSettings: undefined,
     chainData: undefined,
     mockData: [],
+    countries: [],
+
     initialize: async () => {
       const { currentUser, wallet, projectSettings, setCountries, countries } =
         get();
