@@ -60,7 +60,6 @@ const Profile = ({ currentUser }: PropTypes) => {
         onDidDismiss={() => hideToast()}
         message={toastMessage}
         duration={2000}
-        position="middle"
         color={toastColor}
       />
       <TransparentCard>

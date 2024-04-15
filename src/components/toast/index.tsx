@@ -21,6 +21,7 @@ interface Props {
   duration: number;
   position: ToastPosition;
   color?: ToastColor;
+  positionAnchor?: "header" | "footer";
 }
 
 const CustomToast: React.FC<Props> = ({
@@ -30,6 +31,7 @@ const CustomToast: React.FC<Props> = ({
   duration = 2000,
   position = "top",
   color = "primary",
+  positionAnchor = "header",
 }) => {
   return (
     <IonToast
@@ -42,6 +44,7 @@ const CustomToast: React.FC<Props> = ({
       translucent={true}
       mode="md"
       color={color}
+      positionAnchor={positionAnchor}
     />
   );
 };
