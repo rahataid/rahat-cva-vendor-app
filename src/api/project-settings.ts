@@ -4,7 +4,8 @@ import ProjectsService from "../services/projects";
 import { findArrayElementByName } from "../utils/helperFunctions";
 
 export function useProjectSettings(): any {
-  const { currentUser, setProjectSettings } = useAppStore.getState();
+  const { currentUser, projectSettings, setProjectSettings } =
+    useAppStore.getState();
 
   const { data, isLoading, error } = useQuery(
     ["settings", currentUser],
@@ -19,7 +20,12 @@ export function useProjectSettings(): any {
       return res;
     },
     {
-      enabled: currentUser?.projects?.length > 0,
+      enabled:
+        currentUser?.projects?.length > 0 &&
+        (!projectSettings?.contracts ||
+          !projectSettings?.network ||
+          !projectSettings?.subGraph ||
+          !projectSettings?.admin),
       staleTime: 60000,
       onSuccess: async (data: any) => {
         const { value: blockChainSettings } = findArrayElementByName({
