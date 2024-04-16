@@ -37,7 +37,6 @@ const DismissibleAlert: React.FC<DismissibleAlertProps> = ({
         onDidDismiss={() => hideToast()}
         message={toastMessage}
         duration={2000}
-        position="middle"
       />
       {visible && (
         <IonItem

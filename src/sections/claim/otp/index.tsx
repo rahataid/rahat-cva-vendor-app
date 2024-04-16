@@ -72,7 +72,6 @@ const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
         onDidDismiss={hideToast}
         message={toastMessage}
         duration={2000}
-        position="middle"
         color={toastColor}
       />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>

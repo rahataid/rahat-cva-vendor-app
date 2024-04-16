@@ -62,7 +62,6 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
         onDidDismiss={hideToast}
         message={toastMessage}
         duration={2000}
-        position="middle"
         color={toastColor}
       />
       <CardComponent
