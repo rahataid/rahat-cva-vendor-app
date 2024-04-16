@@ -18,11 +18,13 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 
 /* Theme variables */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Router from "@navigations/router";
 import "./theme/global.scss";
 import { GraphQueryProvider } from "@contexts/graph-query";
+import { GraphQuery } from "@rahataid/el-subgraph";
+import useAppStore from "@store/app";
 
 setupIonicReact();
 

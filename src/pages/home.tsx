@@ -49,14 +49,23 @@ const HomePage: React.FC = () => {
     error: vendorDetailsError,
   } = useVendorDetails({ forceRender });
 
-  const { isLoading: settingsLoading, error: settingsError } =
-    useProjectSettings();
+  const {
+    data: projectSettingsData,
+    isLoading: settingsLoading,
+    error: settingsError,
+  } = useProjectSettings();
 
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
     await refetchVoucher();
     await refetchTransactions();
     event.detail.complete();
   };
+
+  useEffect(() => {
+    if (projectSettingsData && projectSettings?.subGraph?.url) {
+      window.location.reload();
+    }
+  }, [projectSettingsData, projectSettings?.subGraph?.url]);
 
   return (
     <IonPage>
