@@ -31,7 +31,7 @@ export function useProjectSettings(): any {
           arr: data?.data?.data,
         });
         const { value: subgraphSettings } = findArrayElementByName({
-          name: "SUBGRAPH",
+          name: "SUBGRAPH_URL",
           arr: data?.data?.data,
         });
         const { value: adminSettings } = findArrayElementByName({
