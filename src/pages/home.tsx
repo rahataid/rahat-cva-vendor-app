@@ -49,8 +49,12 @@ const HomePage: React.FC = () => {
     error: vendorDetailsError,
   } = useVendorDetails({ forceRender });
 
-  const { isLoading: settingsLoading, error: settingsError } =
-    useProjectSettings();
+  const {
+    data: projectSettingsData,
+    isLoading: settingsLoading,
+    isFetching: isSettingsFetching,
+    error: settingsError,
+  } = useProjectSettings();
 
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
     await refetchVoucher();
@@ -58,12 +62,18 @@ const HomePage: React.FC = () => {
     event.detail.complete();
   };
 
+  useEffect(() => {
+    if (projectSettingsData && projectSettings?.subGraph?.url) {
+      window.location.reload();
+    }
+  }, [projectSettingsData, projectSettings?.subGraph?.url]);
+
   return (
     <IonPage>
       <CustomHeader title="Home" />
       <IonContent fullscreen>
         <CustomRefresher handleRefresh={handleRefresh} />
-        {/* {isLoading && <IndeterminateLoader />} */}
+        {/* {isSettingsFetching && <IndeterminateLoader />} */}
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
@@ -75,6 +85,7 @@ const HomePage: React.FC = () => {
                 transactionsData={transactionsData}
                 loading={isFetchingVoucher}
                 transactionsLoading={isFetchingTransactions}
+                isSettingsFetching={isSettingsFetching}
               />
             </IonCol>
           </IonRow>

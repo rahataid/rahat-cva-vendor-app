@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
+import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 
 type VoucherStats = {
   freeVoucherRedeemed: number;
@@ -20,6 +21,7 @@ type PropTypes = {
   loading?: boolean;
   transactionsLoading?: boolean;
   currentUser?: any;
+  isSettingsFetching?: boolean;
 };
 
 const Home = ({
@@ -31,8 +33,17 @@ const Home = ({
   loading,
   transactionsLoading,
   currentUser,
+  isSettingsFetching,
 }: PropTypes) => {
   const history = useHistory();
+
+  if (isSettingsFetching) {
+    return (
+      <>
+        <ListSkeletonCard length={6} />
+      </>
+    );
+  }
 
   if (!currentUser?.projects?.length > 0) {
     return (

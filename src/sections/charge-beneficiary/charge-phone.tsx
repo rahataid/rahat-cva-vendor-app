@@ -64,7 +64,7 @@ const ChargePhone = ({
                   clearInput={false}
                   value={getValues("code")}
                   additionalClass=""
-                  placeholder="0000"
+                  placeholder="code"
                   rightIcon={caretDownOutline}
                   hideRightIconBG
                   onBlur={field.onBlur}
