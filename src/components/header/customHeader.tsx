@@ -31,7 +31,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({
   };
 
   return (
-    <IonHeader mode="md" className="custom-toolbar">
+    <IonHeader mode="md" className="custom-toolbar" id="header">
       <IonToolbar>
         <IonButtons slot="start">
           {showBackButton && <IonBackButton icon={caretBack} color="primary" />}

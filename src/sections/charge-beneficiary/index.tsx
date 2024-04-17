@@ -82,9 +82,9 @@ const ChargeBeneficiary = ({ data }: Props) => {
       benWalletAddress
     );
     // fix for release -> comment out the below line to go to the next page even if there is error
-    if (isVoucherClaimed(beneficiaryVoucher))
-      throw new Error("Beneficiary has already claimed the Voucher");
-    else if (!isVoucherAssigned(beneficiaryVoucher))
+    // if (isVoucherClaimed(beneficiaryVoucher))
+    //   throw new Error("Beneficiary has already claimed the Voucher");
+    if (!isVoucherAssigned(beneficiaryVoucher))
       throw new Error("Voucher not assigned to beneficiary");
 
     return {
