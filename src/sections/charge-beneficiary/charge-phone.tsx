@@ -16,6 +16,8 @@ const ChargePhone = ({
   setValue,
   control,
   setError,
+  watch,
+  trigger,
 }: any) => {
   return (
     <>
@@ -28,23 +30,40 @@ const ChargePhone = ({
         <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
       </div>
       <IonRow>
-        <IonCol size="4" class="ion-no-padding">
+        <IonCol size="12" class="ion-no-padding">
           <Controller
+            control={control}
+            name="fullPhone"
+            rules={{
+              required: "Please enter valid phone number",
+              validate: {
+                validateCountryCode: (value) => {
+                  if (!getValues("code")) return "Please enter country code";
+                },
+                validatePhoneNumber: (value) => {
+                  if (!getValues("phone")) return "Please enter phone number";
+                },
+                validateFullPhone: (value) => {
+                  if (!getValues("fullPhone"))
+                    return "Please enter phone number";
+                },
+              },
+            }}
             render={(field) => (
               <CountryCodeInput
+                watch={watch}
                 additionalClass=""
                 placeholder="0000"
                 onBlur={field.onBlur}
-                errorText={errors?.code?.message || errors?.phone?.message}
+                errors={errors}
+                errorText={errors?.fullPhone?.message}
                 setValue={setValue}
                 setError={setError}
                 getValues={getValues}
                 clearInput={false}
+                trigger={trigger}
               />
             )}
-            rules={{ required: "Please enter country code" }}
-            control={control}
-            name="code"
           />
         </IonCol>
         {/* <IonCol size="4" class="ion-no-padding">
@@ -101,8 +120,8 @@ const ChargePhone = ({
             />
           </IonModal>
         </IonCol> */}
-        <IonCol size="0.1" class="ion-no-padding"></IonCol>
-        <IonCol class="ion-no-padding">
+        {/* <IonCol size="0.1" class="ion-no-padding"></IonCol> */}
+        {/* <IonCol size="12" class="ion-no-padding">
           <Controller
             render={({ field }) => (
               <TextInputField
@@ -139,7 +158,7 @@ const ChargePhone = ({
             control={control}
             name="phone"
           />
-        </IonCol>
+        </IonCol> */}
       </IonRow>
       {errors?.root?.serverError?.message && (
         <>

@@ -43,11 +43,13 @@ const ChargeBeneficiary = ({ data }: Props) => {
   const [filter, setFilter] = useState(null);
 
   const {
+    trigger,
     handleSubmit,
     setError,
     control,
     setValue,
     getValues,
+    watch,
     formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: "all",
@@ -192,6 +194,8 @@ const ChargeBeneficiary = ({ data }: Props) => {
                 setValue={setValue}
                 control={control}
                 setError={setError}
+                watch={watch}
+                trigger={trigger}
               />
             )}
             {filter === "WALLET" && (
