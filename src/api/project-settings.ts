@@ -14,6 +14,7 @@ export function useProjectSettings(): any {
     data: projectSettings,
     isLoading,
     error,
+    isFetching,
   } = useQuery(
     ["settings", currentUser],
     async () => {
@@ -67,5 +68,6 @@ export function useProjectSettings(): any {
     data: projectSettings,
     isLoading,
     error,
+    isFetching,
   };
 }

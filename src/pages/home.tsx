@@ -52,6 +52,7 @@ const HomePage: React.FC = () => {
   const {
     data: projectSettingsData,
     isLoading: settingsLoading,
+    isFetching: isSettingsFetching,
     error: settingsError,
   } = useProjectSettings();
 
@@ -72,7 +73,7 @@ const HomePage: React.FC = () => {
       <CustomHeader title="Home" />
       <IonContent fullscreen>
         <CustomRefresher handleRefresh={handleRefresh} />
-        {/* {isLoading && <IndeterminateLoader />} */}
+        {/* {isSettingsFetching && <IndeterminateLoader />} */}
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
@@ -84,6 +85,7 @@ const HomePage: React.FC = () => {
                 transactionsData={transactionsData}
                 loading={isFetchingVoucher}
                 transactionsLoading={isFetchingTransactions}
+                isSettingsFetching={isSettingsFetching}
               />
             </IonCol>
           </IonRow>
