@@ -4,10 +4,18 @@ import ProjectsService from "../services/projects";
 import { findArrayElementByName } from "../utils/helperFunctions";
 
 export function useProjectSettings(): any {
-  const { currentUser, projectSettings, setProjectSettings } =
-    useAppStore.getState();
+  const {
+    currentUser,
+    projectSettings: storeProjectSettings,
+    setProjectSettings,
+  } = useAppStore.getState();
 
-  const { data, isLoading, error } = useQuery(
+  const {
+    data: projectSettings,
+    isLoading,
+    error,
+    isFetching,
+  } = useQuery(
     ["settings", currentUser],
     async () => {
       const res = await ProjectsService.actions(
@@ -22,10 +30,10 @@ export function useProjectSettings(): any {
     {
       enabled:
         currentUser?.projects?.length > 0 &&
-        (!projectSettings?.contracts ||
-          !projectSettings?.network ||
-          !projectSettings?.subGraph ||
-          !projectSettings?.admin),
+        (!storeProjectSettings?.contracts ||
+          !storeProjectSettings?.network ||
+          !storeProjectSettings?.subGraph ||
+          !storeProjectSettings?.admin),
       staleTime: 60000,
       onSuccess: async (data: any) => {
         const { value: blockChainSettings } = findArrayElementByName({
@@ -47,16 +55,19 @@ export function useProjectSettings(): any {
         const projectSettings = {
           contracts: contractSettings,
           network: blockChainSettings,
-          subGraph: subgraphSettings,
+          subGraph: { url: subgraphSettings },
           admin: adminSettings,
         };
         await setProjectSettings(projectSettings);
+        return projectSettings;
       },
     }
   );
 
   return {
+    data: projectSettings,
     isLoading,
     error,
+    isFetching,
   };
 }

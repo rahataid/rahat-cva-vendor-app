@@ -19,7 +19,6 @@ import RedeemVoucherPage from "@pages/redeem-voucher";
 import ReferBeneficiariesPage from "@pages/refer-beneficiaries";
 import ReferResultPage from "@pages/refer-result";
 import TransactionResultPage from "@pages/transaction-result";
-import ProfilePage from "@pages/profile";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();

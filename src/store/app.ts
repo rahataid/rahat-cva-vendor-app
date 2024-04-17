@@ -6,7 +6,7 @@ import {
   createRandomWalletWithPhone,
   getWalletUsingMnemonic,
 } from "@utils/web3";
-import { DEFAULT_PASSCODE } from "../config";
+import { DEFAULT_PASSCODE, GRAPHQL_URL } from "../config";
 import { mockBeneficiaries } from "@utils/mockData";
 import countriesData from "../constants/countries.json";
 import { AppStoreType } from "@types/store/app";
@@ -23,8 +23,14 @@ const useAppStore = createStore<AppStoreType>(
     countries: [],
 
     initialize: async () => {
-      const { currentUser, wallet, projectSettings, setCountries, countries } =
-        get();
+      const {
+        currentUser,
+        wallet,
+        projectSettings,
+        setCountries,
+        countries,
+        setProjectSettings,
+      } = get();
 
       setCountries(countriesData);
 
