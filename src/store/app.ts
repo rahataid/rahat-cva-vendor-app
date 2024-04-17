@@ -44,8 +44,6 @@ const useAppStore = createStore<AppStoreType>(
         // !!wallet,
         mockData: mockBeneficiaries,
       });
-      if (!projectSettings?.subGraph?.url)
-        setProjectSettings({ subGraph: { url: GRAPHQL_URL } });
     },
 
     handleRegister: async (data: IAddVendorPayload) => {
