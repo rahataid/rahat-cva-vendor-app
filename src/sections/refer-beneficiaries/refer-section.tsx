@@ -20,6 +20,7 @@ import PhoneCodeSelector from "@components/modals/phoneCodeSelector";
 import { SelectOptionItem } from "@sections/auth/registration";
 import { useRef } from "react";
 import useAppStore from "@store/app";
+import CountryCodeInput from "@components/countryCode/countryCodeInput";
 
 const ReferSection = ({
   index,
@@ -28,9 +29,11 @@ const ReferSection = ({
   setError,
   field,
   control,
-  formState: { isSubmitted, errors },
   handleRemove,
   remove,
+  watch,
+  trigger,
+  formState: { isSubmitted, errors },
 }: any) => {
   const phoneCodeModal = useRef<HTMLIonModalElement>(null);
   const { countries, handleRegister } = useAppStore();
@@ -91,6 +94,47 @@ const ReferSection = ({
         <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
       </div>
       <IonRow>
+        <IonCol size="12" class="ion-no-padding">
+          <Controller
+            control={control}
+            name="fullPhone"
+            rules={{
+              required: "Please enter valid phone number",
+              validate: {
+                validateCountryCode: (value) => {
+                  if (!getValues("code")) return "Please enter country code";
+                },
+                validatePhoneNumber: (value) => {
+                  if (!getValues("phone")) return "Please enter phone number";
+                },
+                validateFullPhone: (value) => {
+                  if (!getValues("fullPhone"))
+                    return "Please enter phone number";
+                },
+              },
+            }}
+            render={(field) => (
+              <CountryCodeInput
+                watch={watch}
+                placeholder="0000"
+                onBlur={field.onBlur}
+                errors={errors}
+                errorText={errors?.fullPhone?.message}
+                setValue={setValue}
+                setError={setError}
+                getValues={getValues}
+                clearInput={false}
+                modalId={`select-phoneCode${index}`}
+                trigger={trigger}
+                isoValue={getValues(`beneficiaries.${index}.iso`)}
+                codeValue={getValues(`beneficiaries.${index}.code`)}
+                phoneValue={getValues(`beneficiaries.${index}.phone`)}
+              />
+            )}
+          />
+        </IonCol>
+      </IonRow>
+      {/* <IonRow>
         <IonCol size="4" class="ion-no-padding">
           <div className="wrapper-input">
             {getValues(`beneficiaries.${index}.iso`) ? (
@@ -184,14 +228,14 @@ const ReferSection = ({
             name={`beneficiaries.${index}.phone`}
           />
         </IonCol>
-      </IonRow>
-      {errors?.beneficiaries?.[index]?.phone?.message && (
+      </IonRow> */}
+      {/* {errors?.beneficiaries?.[index]?.phone?.message && (
         <IonText className="select-input-error-text">
           {errors?.beneficiaries?.[index]?.phone?.message}
 
           <br />
         </IonText>
-      )}
+      )} */}
       {/* <Controller
         name={`beneficiaries.${index}.phone`}
         control={control}

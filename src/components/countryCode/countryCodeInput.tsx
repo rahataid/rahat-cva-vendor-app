@@ -27,7 +27,11 @@ const CountryCodeInput: FC<Props> = ({
   clearInput,
   onBlur,
   placeholder,
+  modalId,
   trigger,
+  isoValue,
+  codeValue,
+  phoneValue,
 }) => {
   const { countries } = useAppStore();
   const phoneCodeModal = useRef<HTMLIonModalElement>(null);
@@ -40,15 +44,13 @@ const CountryCodeInput: FC<Props> = ({
     })
   );
 
-  const code = watch("code");
-  const phone = watch("phone");
   useEffect(() => {
-    setValue("fullPhone", `${code}${phone}`);
-  }, [code, phone, setValue]);
+    setValue("fullPhone", `${codeValue}${phoneValue}`);
+  }, [codeValue, phoneValue, setValue]);
 
   useEffect(() => {
     // trigger();
-    console.log(getValues("code"), getValues("phone"), getValues("fullPhone"));
+    console.log(codeValue, phoneValue, getValues("fullPhone"));
     console.log(errors);
   });
 
@@ -57,11 +59,9 @@ const CountryCodeInput: FC<Props> = ({
       <IonRow>
         <IonCol size="4" className="ion-no-padding">
           <div className="wrapper-input">
-            {getValues("iso") ? (
+            {isoValue ? (
               <IonImg
-                src={`assets/flags/small/${getValues(
-                  "iso"
-                )?.toLocaleLowerCase()}.svg`}
+                src={`assets/flags/small/${isoValue?.toLocaleLowerCase()}.svg`}
               />
             ) : (
               <IonImg
@@ -77,16 +77,16 @@ const CountryCodeInput: FC<Props> = ({
               clearInput={clearInput}
               onBlur={onBlur}
               placeholder={placeholder}
-              value={getValues("code")}
+              value={codeValue}
             />
           </div>
         </IonCol>
-        <IonCol size="0.1"></IonCol>
+        <IonCol size="0.1" className="ion-no-padding"></IonCol>
         <IonCol className="ion-no-padding">
           <TextInputField
             placeholder="Enter phone number"
             type="number"
-            value={getValues("phone")}
+            value={phoneValue}
             onInput={(e: any) => {
               setValue("phone", e.target.value, {
                 shouldValidate: true,
@@ -113,7 +113,7 @@ const CountryCodeInput: FC<Props> = ({
           title="Choose your country Code"
           searchPlaceholder="Enter country code"
           items={phoneCodeOptions || []}
-          selectedItem={getValues("code")}
+          selectedItem={codeValue}
           onSelectionCancel={() => phoneCodeModal.current?.dismiss()}
           onSelectionChange={(el: any) => {
             setValue("code", el.value, { shouldValidate: true });
