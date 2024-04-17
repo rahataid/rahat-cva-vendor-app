@@ -25,6 +25,7 @@ interface TextInputFieldProps {
   id?: string | undefined;
   rightIcon?: string;
   rightIconClick?: any;
+  hasCountryFlag?: boolean;
   isSubmitted?: boolean;
 }
 
@@ -91,7 +92,7 @@ const TextInputField: React.FC<TextInputFieldProps> = forwardRef(
             (isTouched || isSubmitted) && "ion-touched"
           } ${props.errorText ? "ion-invalid" : "ion-valid"} ${
             disabled && "text-input-disabled"
-          }`}
+          } ${props.hasCountryFlag && "text-input-country-flag"} `}
           {...props}
         />
 

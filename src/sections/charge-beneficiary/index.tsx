@@ -55,6 +55,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
       walletAddress: data?.scannerValue || "",
       phone: undefined,
       code: undefined,
+      fullPhone: undefined,
     },
   });
 

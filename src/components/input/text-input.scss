@@ -77,10 +77,18 @@ ion-input {
   bottom: 0;
   color: grey;
   z-index: 100;
+  cursor: pointer;
 }
 
 .text-input-password-icon {
   color: #{$r-input-focused};
+}
+
+.text-input-country-flag {
+  margin-top: 2px;
+  .native-input.sc-ion-input-md {
+    padding-left: 20px;
+  }
 }
 
 /* Chrome, Safari, Edge, Opera */

@@ -8,11 +8,7 @@ import {
   IonText,
 } from "@ionic/react";
 import { Controller } from "react-hook-form";
-import PhoneCodeSelector from "../../components/modals/phoneCodeSelector";
-import { caretDownOutline } from "ionicons/icons";
-import { useRef } from "react";
-import { SelectOptionItem } from "../auth/registration";
-import useAppStore from "../../store/app";
+import CountryCodeInput from "@components/countryCode/countryCodeInput";
 
 const ChargePhone = ({
   getValues,
@@ -21,16 +17,6 @@ const ChargePhone = ({
   control,
   setError,
 }: any) => {
-  const { countries } = useAppStore();
-  const phoneCodeModal = useRef<HTMLIonModalElement>(null);
-  const phoneCodeOptions: SelectOptionItem[] | undefined = countries?.map(
-    (it) => ({
-      text: `${it.name} (${it.phoneCode})`,
-      value: it.phoneCode,
-      iso: it.iso,
-      id: it.id,
-    })
-  );
   return (
     <>
       <br />
@@ -43,6 +29,25 @@ const ChargePhone = ({
       </div>
       <IonRow>
         <IonCol size="4" class="ion-no-padding">
+          <Controller
+            render={(field) => (
+              <CountryCodeInput
+                additionalClass=""
+                placeholder="0000"
+                onBlur={field.onBlur}
+                errorText={errors?.code?.message || errors?.phone?.message}
+                setValue={setValue}
+                setError={setError}
+                getValues={getValues}
+                clearInput={false}
+              />
+            )}
+            rules={{ required: "Please enter country code" }}
+            control={control}
+            name="code"
+          />
+        </IonCol>
+        {/* <IonCol size="4" class="ion-no-padding">
           <div className="wrapper-input">
             {getValues("iso") ? (
               <IonImg
@@ -95,7 +100,7 @@ const ChargePhone = ({
               }}
             />
           </IonModal>
-        </IonCol>
+        </IonCol> */}
         <IonCol size="0.1" class="ion-no-padding"></IonCol>
         <IonCol class="ion-no-padding">
           <Controller
