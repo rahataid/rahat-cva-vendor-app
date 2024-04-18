@@ -48,6 +48,7 @@ const ReferBeneficiaries = ({
     getValues,
     setValue,
     setError,
+    trigger,
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -60,6 +61,7 @@ const ReferBeneficiaries = ({
           address: "",
           code: "",
           iso: "",
+          fullPhone: "",
         },
       ],
     },
@@ -86,7 +88,7 @@ const ReferBeneficiaries = ({
         (el: REFER_BENEFICIARY_DETAILS) => {
           return {
             ...el,
-            phone: `${el.code}${el?.phone}`,
+            phone: `${el?.fullPhone}`,
           };
         }
       );
@@ -151,6 +153,7 @@ const ReferBeneficiaries = ({
                 handleRemove={() => handleRemove(index)}
                 remove={remove}
                 setError={setError}
+                trigger={trigger}
               />
             </div>
           ))}
@@ -170,6 +173,7 @@ const ReferBeneficiaries = ({
                   address: "",
                   code: "",
                   iso: "",
+                  fullPhone: "",
                 })
               }
               disabled={isMaxReferralsReached}

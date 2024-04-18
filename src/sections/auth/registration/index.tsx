@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 
 import TextInputField from "@components/input/form-text-input";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import MnemonicDialog from "./mnemonicDialog";
@@ -38,7 +38,7 @@ const Register = () => {
     getValues,
     watch,
     trigger,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -49,7 +49,6 @@ const Register = () => {
       },
       code: "",
       iso: "",
-      countryId: "",
       fullPhone: "",
     },
   });
@@ -136,16 +135,44 @@ const Register = () => {
                     }}
                     render={(field) => (
                       <CountryCodeInput
-                        watch={watch}
-                        placeholder="0000"
-                        onBlur={field.onBlur}
+                        clearInput={false}
+                        codePlaceholder="Code"
+                        phonePlaceholder="Phone number"
                         errors={errors}
                         errorText={errors?.fullPhone?.message}
-                        setValue={setValue}
-                        setError={setError}
-                        getValues={getValues}
-                        clearInput={false}
-                        trigger={trigger}
+                        isoValue={getValues("iso")}
+                        codeValue={getValues("code")}
+                        phoneValue={getValues("phone")}
+                        modalId="select-phoneCode"
+                        onModalSelectionChange={(
+                          el: any,
+                          phoneCodeModal: any
+                        ) => {
+                          setValue("code", el.value, {
+                            shouldValidate: true,
+                          });
+                          setValue("iso", el.iso, {
+                            shouldValidate: true,
+                          });
+                          setError("root", {});
+                          trigger("fullPhone");
+                          phoneCodeModal.current?.dismiss();
+                        }}
+                        onPhoneChange={(e: any) => {
+                          setValue("phone", e.target.value, {
+                            shouldValidate: true,
+                          });
+                          trigger("fullPhone");
+                        }}
+                        onPhoneBlur={() => {
+                          trigger("fullPhone");
+                        }}
+                        combineInputs={() =>
+                          setValue(
+                            "fullPhone",
+                            `${getValues("code")}${getValues("phone")}`
+                          )
+                        }
                       />
                     )}
                   />

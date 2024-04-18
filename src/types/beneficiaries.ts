@@ -79,6 +79,7 @@ export type REFER_BENEFICIARY_DETAILS = {
   address: string;
   walletAddress?: string;
   code?: string;
+  fullPhone?: string;
 };
 
 export type CreateBeneficiaryDto = {

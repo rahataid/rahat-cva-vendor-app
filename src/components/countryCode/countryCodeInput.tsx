@@ -1,14 +1,6 @@
 import TextInputField from "@components/input/form-text-input";
 import PhoneCodeSelector from "@components/modals/phoneCodeSelector";
-import {
-  IonCol,
-  IonIcon,
-  IonImg,
-  IonInput,
-  IonModal,
-  IonRow,
-  IonText,
-} from "@ionic/react";
+import { IonCol, IonImg, IonModal, IonRow, IonText } from "@ionic/react";
 import { SelectOptionItem } from "@sections/auth/registration";
 import useAppStore from "@store/app";
 import { caretDownOutline, searchOutline, watch } from "ionicons/icons";
@@ -18,20 +10,18 @@ import "./countryCodeInput.scss";
 type Props = any;
 
 const CountryCodeInput: FC<Props> = ({
-  watch,
   errorText,
-  errors,
-  getValues,
-  setValue,
-  setError,
   clearInput,
-  onBlur,
-  placeholder,
+  onPhoneBlur,
+  codePlaceholder,
+  phonePlaceholder,
   modalId,
-  trigger,
   isoValue,
   codeValue,
   phoneValue,
+  onModalSelectionChange,
+  onPhoneChange,
+  combineInputs,
 }) => {
   const { countries } = useAppStore();
   const phoneCodeModal = useRef<HTMLIonModalElement>(null);
@@ -45,14 +35,8 @@ const CountryCodeInput: FC<Props> = ({
   );
 
   useEffect(() => {
-    setValue("fullPhone", `${codeValue}${phoneValue}`);
-  }, [codeValue, phoneValue, setValue]);
-
-  useEffect(() => {
-    // trigger();
-    console.log(codeValue, phoneValue, getValues("fullPhone"));
-    console.log(errors);
-  });
+    combineInputs();
+  }, [codeValue, phoneValue]);
 
   return (
     <>
@@ -70,13 +54,13 @@ const CountryCodeInput: FC<Props> = ({
               />
             )}
             <TextInputField
-              id="select-phoneCode"
+              id={modalId}
               hasCountryFlag={true}
               rightIcon={caretDownOutline}
               rightIconClick={() => phoneCodeModal.current?.present()}
               clearInput={clearInput}
-              onBlur={onBlur}
-              placeholder={placeholder}
+              onBlur={onPhoneBlur}
+              placeholder={codePlaceholder}
               value={codeValue}
             />
           </div>
@@ -84,44 +68,31 @@ const CountryCodeInput: FC<Props> = ({
         <IonCol size="0.1" className="ion-no-padding"></IonCol>
         <IonCol className="ion-no-padding">
           <TextInputField
-            placeholder="Enter phone number"
+            placeholder={phonePlaceholder}
             type="number"
             value={phoneValue}
             onInput={(e: any) => {
-              setValue("phone", e.target.value, {
-                shouldValidate: true,
-              });
-              trigger("fullPhone");
+              console.log(e.target.value);
+              onPhoneChange(e);
             }}
             onBlur={() => {
-              onBlur;
-              trigger("fullPhone");
+              onPhoneBlur();
             }}
           />
         </IonCol>
       </IonRow>
-      <IonText>
-        <p className="country-code-error-msg">{errorText}</p>
-      </IonText>
+      <IonText className="country-code-error-msg">{errorText}</IonText>
 
-      <IonModal
-        trigger="select-phoneCode"
-        ref={phoneCodeModal}
-        canDismiss={true}
-      >
+      <IonModal trigger={modalId} ref={phoneCodeModal} canDismiss={true}>
         <PhoneCodeSelector
           title="Choose your country Code"
           searchPlaceholder="Enter country code"
           items={phoneCodeOptions || []}
           selectedItem={codeValue}
           onSelectionCancel={() => phoneCodeModal.current?.dismiss()}
-          onSelectionChange={(el: any) => {
-            setValue("code", el.value, { shouldValidate: true });
-            setValue("iso", el.iso, { shouldValidate: true });
-            setError("root", {});
-            setError("fullPhone", {});
-            phoneCodeModal.current?.dismiss();
-          }}
+          onSelectionChange={(el: any) =>
+            onModalSelectionChange(el, phoneCodeModal)
+          }
         />
       </IonModal>
     </>

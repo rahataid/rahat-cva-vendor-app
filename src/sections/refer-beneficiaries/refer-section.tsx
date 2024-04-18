@@ -30,7 +30,6 @@ const ReferSection = ({
   field,
   control,
   handleRemove,
-  remove,
   watch,
   trigger,
   formState: { isSubmitted, errors },
@@ -97,18 +96,20 @@ const ReferSection = ({
         <IonCol size="12" class="ion-no-padding">
           <Controller
             control={control}
-            name="fullPhone"
+            name={`beneficiaries.${index}.fullPhone`}
             rules={{
-              required: "Please enter valid phone number",
+              required: "Please enter a valid phone number",
               validate: {
                 validateCountryCode: (value) => {
-                  if (!getValues("code")) return "Please enter country code";
+                  if (!getValues(`beneficiaries.${index}.code`))
+                    return "Please enter country code";
                 },
                 validatePhoneNumber: (value) => {
-                  if (!getValues("phone")) return "Please enter phone number";
+                  if (!getValues(`beneficiaries.${index}.phone`))
+                    return "Please enter phone number";
                 },
                 validateFullPhone: (value) => {
-                  if (!getValues("fullPhone"))
+                  if (!getValues(`beneficiaries.${index}.fullPhone`))
                     return "Please enter phone number";
                 },
               },
@@ -116,19 +117,51 @@ const ReferSection = ({
             render={(field) => (
               <CountryCodeInput
                 watch={watch}
-                placeholder="0000"
+                codePlaceholder="Code"
+                phonePlaceholder="Phone number"
                 onBlur={field.onBlur}
                 errors={errors}
-                errorText={errors?.fullPhone?.message}
+                errorText={errors?.beneficiaries?.[index]?.fullPhone?.message}
                 setValue={setValue}
                 setError={setError}
                 getValues={getValues}
                 clearInput={false}
-                modalId={`select-phoneCode${index}`}
                 trigger={trigger}
                 isoValue={getValues(`beneficiaries.${index}.iso`)}
                 codeValue={getValues(`beneficiaries.${index}.code`)}
                 phoneValue={getValues(`beneficiaries.${index}.phone`)}
+                modalId={`select-phoneCode${index}`}
+                onModalSelectionChange={(el: any, phoneCodeModal: any) => {
+                  console.log("iso", el.iso);
+                  setValue(`beneficiaries.${index}.code`, el.value, {
+                    shouldValidate: true,
+                  });
+                  setValue(`beneficiaries.${index}.iso`, el.iso, {
+                    shouldValidate: true,
+                  });
+                  setError("root", {});
+                  // setError(`beneficiaries.${index}.iso`, {});
+                  trigger(`beneficiaries.${index}.fullPhone`);
+                  phoneCodeModal.current?.dismiss();
+                }}
+                onPhoneChange={(e: any) => {
+                  setValue(`beneficiaries.${index}.phone`, e.target.value, {
+                    shouldValidate: true,
+                  });
+                  trigger(`beneficiaries.${index}.fullPhone`);
+                }}
+                onPhoneBlur={() => {
+                  // field?.onBlur();
+                  trigger(`beneficiaries.${index}.fullPhone`);
+                }}
+                combineInputs={() =>
+                  setValue(
+                    `beneficiaries.${index}.fullPhone`,
+                    `${getValues(`beneficiaries.${index}.code`)}${getValues(
+                      `beneficiaries.${index}.phone`
+                    )}`
+                  )
+                }
               />
             )}
           />
