@@ -1,4 +1,11 @@
-import { IonButton, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
+import {
+  IonButton,
+  IonCol,
+  IonGrid,
+  IonLoading,
+  IonRow,
+  IonText,
+} from "@ionic/react";
 
 import TextInputField from "@components/input/form-text-input";
 import useAppStore from "@store/app";
@@ -8,6 +15,7 @@ import { useHistory } from "react-router";
 import { endpoints } from "@utils/axios";
 import { fixProjectUrl } from "@utils/helperFunctions";
 import useTransactionStore from "@store/transaction";
+import { handleError } from "@utils/errorHandler";
 
 enum From {
   register = "register",
@@ -178,20 +186,9 @@ const SelectProject = ({ from }: Props) => {
         // }
       }
     } catch (error: any) {
-      console.log(error);
-      // const validErrors = [
-      //   "No Vendor found",
-      //   "Duplicate entry in [phone] is not allowed.",
-      // ];
-      // const errorMessage = validErrors.includes(error?.response?.data?.message)
-      //   ? error?.response?.data?.message
-      //   : "Something went wrong. Try again later";
       setError("root.serverError", {
         type: "manual",
-        message:
-          error?.response?.data?.message ||
-          error?.message ||
-          "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
   };
@@ -202,6 +199,7 @@ const SelectProject = ({ from }: Props) => {
 
   return (
     <>
+      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="register-container">
           <IonRow className="register-form-container">

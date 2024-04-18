@@ -16,6 +16,7 @@ import MnemonicDialog from "./mnemonicDialog";
 import "./register.scss";
 import useAppStore from "@store/app";
 import CountryCodeInput from "@components/countryCode/countryCodeInput";
+import { handleError } from "@utils/errorHandler";
 
 export interface SelectOptionItem {
   text: string;
@@ -65,10 +66,9 @@ const Register = () => {
         setMnemonics(walletValue.mnemonic.phrase);
       }
     } catch (error) {
-      console.log("REGISTER SERVER ERROR", JSON.stringify(error));
       setError("root.serverError", {
         type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
   };
