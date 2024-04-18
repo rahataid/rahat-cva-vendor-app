@@ -2,13 +2,16 @@ import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import OTP from "@sections/claim/otp";
 import "../theme/title.css";
 import { useLocation } from "react-router-dom";
-import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
+import {
+  BENEFICIARY_REFERRAL_DETAILS,
+  BENEFICIARY_VOUCHER_DETAILS,
+} from "../types/beneficiaries";
 import CustomHeader from "@components/header/customHeader";
 
 interface LocationState {
   data: {
-    voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryAddress: string;
+    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
   };
 }
 

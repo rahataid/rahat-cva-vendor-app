@@ -2,14 +2,17 @@ import React from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
 import TransactionResult from "@sections/transaction-result";
-import { BENEFICIARY_VOUCHER_DETAILS } from "@types/beneficiaries";
+import {
+  BENEFICIARY_REFERRAL_DETAILS,
+  BENEFICIARY_VOUCHER_DETAILS,
+} from "@types/beneficiaries";
 import { useLocation } from "react-router";
 import { MetaTxResponse } from "@types/transactions";
 
 interface LocationState {
   data: {
-    voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryAddress: string;
+    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
+    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
     otpRes: MetaTxResponse;
   };
 }

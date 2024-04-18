@@ -26,15 +26,14 @@ const MAX_REFERALS = 3;
 
 type Props = {
   data: {
-    voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryAddress: string;
-    from: string;
+    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
     beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
+    from: string;
   };
 };
 
 const ReferBeneficiaries = ({
-  data: { voucher, beneficiaryAddress, from, beneficiaryDetails },
+  data: { beneficiaryVoucher, from, beneficiaryDetails },
 }: Props) => {
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -80,6 +79,10 @@ const ReferBeneficiaries = ({
     );
   }, [fields, beneficiaryDetails]);
 
+  const totalAvailableReferrals = useMemo(() => {
+    return MAX_REFERALS - beneficiaryDetails?.beneficiariesReferred;
+  }, [beneficiaryDetails]);
+
   const onSubmit = async (data: any) => {
     try {
       console.log("REFER SUBMIT DATA", data);
@@ -96,12 +99,12 @@ const ReferBeneficiaries = ({
 
       const response = await referBeneficiaries({
         referredBeneficiaries,
-        voucher,
-        beneficiaryAddress,
+        beneficiaryVoucher,
+        beneficiaryAddress: beneficiaryDetails?.walletAddress,
         beneficiaryDetails,
       });
       history.push("/refer-result", {
-        data: { data: response, from, voucher },
+        data: { data: response, from, beneficiaryVoucher },
       });
     } catch (error) {
       showToast(
@@ -137,7 +140,7 @@ const ReferBeneficiaries = ({
       <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
       <CardComponent
         subtitle="Total Available Referrals"
-        title={MAX_REFERALS - beneficiaryDetails?.beneficiariesReferred || 0}
+        title={totalAvailableReferrals || 0}
         loading={false}
       />
       <TransparentCard>
@@ -201,7 +204,7 @@ const ReferBeneficiaries = ({
           <IonButton
             expand="block"
             type="submit"
-            disabled={isLoading || isSubmitting}
+            disabled={isLoading || isSubmitting || totalAvailableReferrals <= 0}
           >
             Submit
           </IonButton>

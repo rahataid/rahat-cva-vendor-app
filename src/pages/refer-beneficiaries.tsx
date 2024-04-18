@@ -9,9 +9,8 @@ import { useLocation } from "react-router";
 
 type LocationState = {
   data: {
-    voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryAddress: string;
-    beneficiary: BENEFICIARY_REFERRAL_DETAILS;
+    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
     from: "redeemVoucher" | "transactionResult";
   };
 };

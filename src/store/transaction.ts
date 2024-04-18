@@ -197,7 +197,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
     referBeneficiaries: async ({
       referredBeneficiaries,
-      voucher,
+      beneficiaryVoucher,
       beneficiaryAddress,
       beneficiaryDetails,
     }) => {

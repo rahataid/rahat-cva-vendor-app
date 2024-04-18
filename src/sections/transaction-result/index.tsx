@@ -7,7 +7,11 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import { BENEFICIARY_VOUCHER_DETAILS, VOUCHER } from "@types/beneficiaries";
+import {
+  BENEFICIARY_REFERRAL_DETAILS,
+  BENEFICIARY_VOUCHER_DETAILS,
+  VOUCHER,
+} from "@types/beneficiaries";
 import { MetaTxResponse } from "@types/transactions";
 import ResultChip from "@components/chip/statusChip";
 import { useHistory } from "react-router";
@@ -17,20 +21,24 @@ import { generateCurrentTimestamp } from "../../utils/helperFunctions";
 
 type Props = {
   data: {
-    voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryAddress: string;
+    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
+    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
     otpRes: MetaTxResponse;
   };
 };
 
 const TransactionResult = ({
-  data: { voucher, beneficiaryAddress, otpRes },
+  data: { beneficiaryDetails, beneficiaryVoucher, otpRes },
 }: Props) => {
   const history = useHistory();
-  const { voucherType } = useVoucherType(voucher);
+  const { voucherType } = useVoucherType(beneficiaryVoucher);
   const handleReferBeneficiaries = () => {
     history.push("/refer-beneficiaries", {
-      data: { from: "transactionResult", beneficiaryAddress, voucher },
+      data: {
+        from: "transactionResult",
+        beneficiaryDetails,
+        beneficiaryVoucher,
+      },
     });
   };
   const handleDone = () => {
@@ -86,7 +94,13 @@ const TransactionResult = ({
               </IonCol>
 
               <IonCol size="6">Wallet Address</IonCol>
-              <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol>
+              <IonCol size="6">
+                {beneficiaryDetails?.walletAddress
+                  ? cropString(beneficiaryDetails?.walletAddress)
+                  : "-"}
+              </IonCol>
+              <br />
+              <br />
               <br />
               <IonCol size="12">
                 <IonText>
