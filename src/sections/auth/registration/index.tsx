@@ -2,23 +2,20 @@ import {
   IonButton,
   IonCol,
   IonGrid,
-  IonImg,
   IonLabel,
-  IonModal,
   IonProgressBar,
   IonRow,
   IonText,
 } from "@ionic/react";
 
 import TextInputField from "@components/input/form-text-input";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import MnemonicDialog from "./mnemonicDialog";
 import "./register.scss";
 import useAppStore from "@store/app";
-import { caretDownOutline } from "ionicons/icons";
-import PhoneCodeSelector from "../../../components/modals/phoneCodeSelector";
+import CountryCodeInput from "@components/countryCode/countryCodeInput";
 
 export interface SelectOptionItem {
   text: string;
@@ -28,20 +25,10 @@ export interface SelectOptionItem {
 }
 
 const Register = () => {
-  const phoneCodeModal = useRef<HTMLIonModalElement>(null);
-  const { countries, handleRegister } = useAppStore();
+  const { handleRegister } = useAppStore();
   const history = useHistory();
 
   const [mnemonics, setMnemonics] = useState(undefined);
-
-  const phoneCodeOptions: SelectOptionItem[] | undefined = countries?.map(
-    (it) => ({
-      text: `${it.name} (${it.phoneCode})`,
-      value: it.phoneCode,
-      iso: it.iso,
-      id: it.id,
-    })
-  );
 
   const {
     handleSubmit,
@@ -50,7 +37,8 @@ const Register = () => {
     setValue,
     getValues,
     watch,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    trigger,
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -61,7 +49,7 @@ const Register = () => {
       },
       code: "",
       iso: "",
-      countryId: "",
+      fullPhone: "",
     },
   });
 
@@ -69,7 +57,7 @@ const Register = () => {
     try {
       const payload = {
         name: data?.name,
-        phone: `${data?.code}${data?.phone}`,
+        phone: data?.fullPhone,
       };
 
       const walletValue = await handleRegister(payload);
@@ -120,118 +108,73 @@ const Register = () => {
                 name="name"
               />
               <br />
-              {/* <Controller
-                render={({ field }) => (
-                  <TextInputField
-                    placeholder="Phone"
-                    type="number"
-                    label="Phone*"
-                    errorText={errors?.phone?.message}
-                    value={getValues("phone")}
-                    onInput={(e: any) => {
-                      setValue("phone", e.target.value, {
-                        shouldValidate: true,
-                      });
-                    }}
-                    onBlur={field.onBlur}
-                  />
-                )}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Please enter Phone number",
-                  },
-                }}
-                control={control}
-                name="phone"
-              /> */}
               <div className="ion-margin-top-sm">
                 <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
               </div>
               <IonRow>
-                <IonCol size="4" class="ion-no-padding">
-                  <div className="wrapper-input">
-                    {getValues("iso") ? (
-                      <IonImg
-                        src={`assets/flags/small/${getValues(
-                          "iso"
-                        )?.toLocaleLowerCase()}.svg`}
-                      />
-                    ) : (
-                      <IonImg
-                        className="default-flag"
-                        src={`assets/flags/small/default.jpg`}
-                      />
-                    )}
-                    <Controller
-                      render={(field) => (
-                        <TextInputField
-                          className="select-phoneCode"
-                          id="select-phoneCode"
-                          clearInput={false}
-                          value={getValues("code")}
-                          additionalClass=""
-                          placeholder="0000"
-                          rightIcon={caretDownOutline}
-                          hideRightIconBG
-                        />
-                      )}
-                      rules={{ required: "Please enter country code" }}
-                      control={control}
-                      name="code"
-                    />
-                  </div>
-                  <IonModal
-                    trigger="select-phoneCode"
-                    ref={phoneCodeModal}
-                    canDismiss={true}
-                  >
-                    <PhoneCodeSelector
-                      title="Choose your country Code"
-                      searchPlaceholder="Enter country code"
-                      items={phoneCodeOptions || []}
-                      selectedItem={getValues("code")}
-                      onSelectionCancel={() =>
-                        phoneCodeModal.current?.dismiss()
-                      }
-                      onSelectionChange={(el: any) => {
-                        setValue("code", el.value, { shouldValidate: true });
-                        setValue("iso", el.iso, { shouldValidate: true });
-                        setValue("countryId", el.id, { shouldValidate: true });
-                        setError("root", {});
-                        phoneCodeModal.current?.dismiss();
-                      }}
-                    />
-                  </IonModal>
-                </IonCol>
-                <IonCol
-                  size="8"
-                  class="ion-no-padding "
-                  style={{ paddingLeft: 3 }}
-                >
+                <IonCol size="12" class="ion-no-padding">
                   <Controller
-                    render={({ field }) => (
-                      <TextInputField
-                        type="number"
-                        value={getValues("phone")}
-                        placeholder="Phone number"
-                        errorText={errors?.phone?.message}
-                        onInput={(e: any) => {
+                    control={control}
+                    name="fullPhone"
+                    rules={{
+                      required: "Please enter valid phone number",
+                      validate: {
+                        validateCountryCode: (value) => {
+                          if (!getValues("code"))
+                            return "Please enter country code";
+                        },
+                        validatePhoneNumber: (value) => {
+                          if (!getValues("phone"))
+                            return "Please enter phone number";
+                        },
+                        validateFullPhone: (value) => {
+                          if (!getValues("fullPhone"))
+                            return "Please enter phone number";
+                        },
+                      },
+                    }}
+                    render={(field) => (
+                      <CountryCodeInput
+                        clearInput={false}
+                        codePlaceholder="Code"
+                        phonePlaceholder="Phone number"
+                        errors={errors}
+                        errorText={errors?.fullPhone?.message}
+                        isoValue={getValues("iso")}
+                        codeValue={getValues("code")}
+                        phoneValue={getValues("phone")}
+                        modalId="select-phoneCode"
+                        onModalSelectionChange={(
+                          el: any,
+                          phoneCodeModal: any
+                        ) => {
+                          setValue("code", el.value, {
+                            shouldValidate: true,
+                          });
+                          setValue("iso", el.iso, {
+                            shouldValidate: true,
+                          });
+                          setError("root", {});
+                          trigger("fullPhone");
+                          phoneCodeModal.current?.dismiss();
+                        }}
+                        onPhoneChange={(e: any) => {
                           setValue("phone", e.target.value, {
                             shouldValidate: true,
                           });
+                          trigger("fullPhone");
                         }}
-                        onBlur={field.onBlur}
+                        onPhoneBlur={() => {
+                          trigger("fullPhone");
+                        }}
+                        combineInputs={() =>
+                          setValue(
+                            "fullPhone",
+                            `${getValues("code")}${getValues("phone")}`
+                          )
+                        }
                       />
                     )}
-                    rules={{
-                      required: {
-                        value: true,
-                        message: "Please enter a valid phone number",
-                      },
-                    }}
-                    control={control}
-                    name="phone"
                   />
                 </IonCol>
               </IonRow>

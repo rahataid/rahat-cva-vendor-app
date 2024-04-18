@@ -20,6 +20,7 @@ import PhoneCodeSelector from "@components/modals/phoneCodeSelector";
 import { SelectOptionItem } from "@sections/auth/registration";
 import { useRef } from "react";
 import useAppStore from "@store/app";
+import CountryCodeInput from "@components/countryCode/countryCodeInput";
 
 const ReferSection = ({
   index,
@@ -28,9 +29,10 @@ const ReferSection = ({
   setError,
   field,
   control,
-  formState: { isSubmitted, errors },
   handleRemove,
-  remove,
+  watch,
+  trigger,
+  formState: { isSubmitted, errors },
 }: any) => {
   const phoneCodeModal = useRef<HTMLIonModalElement>(null);
   const { countries, handleRegister } = useAppStore();
@@ -91,6 +93,81 @@ const ReferSection = ({
         <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
       </div>
       <IonRow>
+        <IonCol size="12" class="ion-no-padding">
+          <Controller
+            control={control}
+            name={`beneficiaries.${index}.fullPhone`}
+            rules={{
+              required: "Please enter a valid phone number",
+              validate: {
+                validateCountryCode: (value) => {
+                  if (!getValues(`beneficiaries.${index}.code`))
+                    return "Please enter country code";
+                },
+                validatePhoneNumber: (value) => {
+                  if (!getValues(`beneficiaries.${index}.phone`))
+                    return "Please enter phone number";
+                },
+                validateFullPhone: (value) => {
+                  if (!getValues(`beneficiaries.${index}.fullPhone`))
+                    return "Please enter phone number";
+                },
+              },
+            }}
+            render={(field) => (
+              <CountryCodeInput
+                watch={watch}
+                codePlaceholder="Code"
+                phonePlaceholder="Phone number"
+                onBlur={field.onBlur}
+                errors={errors}
+                errorText={errors?.beneficiaries?.[index]?.fullPhone?.message}
+                setValue={setValue}
+                setError={setError}
+                getValues={getValues}
+                clearInput={false}
+                trigger={trigger}
+                isoValue={getValues(`beneficiaries.${index}.iso`)}
+                codeValue={getValues(`beneficiaries.${index}.code`)}
+                phoneValue={getValues(`beneficiaries.${index}.phone`)}
+                modalId={`select-phoneCode${index}`}
+                onModalSelectionChange={(el: any, phoneCodeModal: any) => {
+                  console.log("iso", el.iso);
+                  setValue(`beneficiaries.${index}.code`, el.value, {
+                    shouldValidate: true,
+                  });
+                  setValue(`beneficiaries.${index}.iso`, el.iso, {
+                    shouldValidate: true,
+                  });
+                  setError("root", {});
+                  // setError(`beneficiaries.${index}.iso`, {});
+                  trigger(`beneficiaries.${index}.fullPhone`);
+                  phoneCodeModal.current?.dismiss();
+                }}
+                onPhoneChange={(e: any) => {
+                  setValue(`beneficiaries.${index}.phone`, e.target.value, {
+                    shouldValidate: true,
+                  });
+                  trigger(`beneficiaries.${index}.fullPhone`);
+                }}
+                onPhoneBlur={() => {
+                  // field?.onBlur();
+                  trigger(`beneficiaries.${index}.fullPhone`);
+                }}
+                combineInputs={() =>
+                  setValue(
+                    `beneficiaries.${index}.fullPhone`,
+                    `${getValues(`beneficiaries.${index}.code`)}${getValues(
+                      `beneficiaries.${index}.phone`
+                    )}`
+                  )
+                }
+              />
+            )}
+          />
+        </IonCol>
+      </IonRow>
+      {/* <IonRow>
         <IonCol size="4" class="ion-no-padding">
           <div className="wrapper-input">
             {getValues(`beneficiaries.${index}.iso`) ? (
@@ -184,14 +261,14 @@ const ReferSection = ({
             name={`beneficiaries.${index}.phone`}
           />
         </IonCol>
-      </IonRow>
-      {errors?.beneficiaries?.[index]?.phone?.message && (
+      </IonRow> */}
+      {/* {errors?.beneficiaries?.[index]?.phone?.message && (
         <IonText className="select-input-error-text">
           {errors?.beneficiaries?.[index]?.phone?.message}
 
           <br />
         </IonText>
-      )}
+      )} */}
       {/* <Controller
         name={`beneficiaries.${index}.phone`}
         control={control}

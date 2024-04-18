@@ -1,5 +1,6 @@
 import { IonLabel, IonSelect, IonSelectOption, IonText } from "@ionic/react";
 import { forwardRef, useImperativeHandle, useState } from "react";
+import "./text-input.scss";
 
 const FormInputSelect: React.FC<any> = forwardRef(
   (
