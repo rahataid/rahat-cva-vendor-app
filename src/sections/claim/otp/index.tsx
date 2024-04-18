@@ -9,7 +9,10 @@ import {
 
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { BENEFICIARY_VOUCHER_DETAILS } from "../../../types/beneficiaries";
+import {
+  BENEFICIARY_REFERRAL_DETAILS,
+  BENEFICIARY_VOUCHER_DETAILS,
+} from "../../../types/beneficiaries";
 
 import useTransactionStore from "@store/transaction";
 
@@ -19,12 +22,12 @@ import useCustomToast from "@hooks/use-custom-toast";
 
 type Props = {
   data: {
-    voucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryAddress: string;
+    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
+    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
   };
 };
 
-const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
+const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
   const { verifyOtp } = useTransactionStore();
   const history = useHistory();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
@@ -45,10 +48,13 @@ const OTP = ({ data: { voucher, beneficiaryAddress } }: Props) => {
 
   const onSubmit = async (data: { otp: string }) => {
     try {
-      const otpRes = await verifyOtp(data?.otp, beneficiaryAddress);
+      const otpRes = await verifyOtp(
+        data?.otp,
+        beneficiaryDetails?.walletAddress
+      );
 
       history.push("/transaction-result", {
-        data: { beneficiaryAddress, voucher, otpRes: otpRes.data },
+        data: { beneficiaryDetails, beneficiaryVoucher, otpRes: otpRes.data },
       });
     } catch (error) {
       console.log(error);

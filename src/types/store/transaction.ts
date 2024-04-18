@@ -20,7 +20,7 @@ export type TransactionStateType = {
 export type ReferProps = {
   beneficiaryAddress: string;
   referredBeneficiaries: REFER_BENEFICIARY_DETAILS[];
-  voucher: BENEFICIARY_VOUCHER_DETAILS;
+  beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
   beneficiaryDetails: BENEFICIARY_DETAILS;
 };
 
@@ -70,7 +70,7 @@ export type TransactionActionsType = {
   referBeneficiaries: ({
     beneficiaryAddress,
     referredBeneficiaries,
-    voucher,
+    beneficiaryVoucher,
     beneficiaryDetails,
   }: ReferProps) => Promise<any>;
   transferVoucher: ({ voucherType, amount }: TransferVoucher) => Promise<any>;

@@ -137,8 +137,8 @@ const RedeemVoucher: React.FC<Props> = ({
       await new Promise((resolve) => setTimeout(resolve, 0));
       history.push("/otp", {
         data: {
-          voucher: beneficiaryVoucher,
-          beneficiaryAddress: beneficiaryDetails?.walletAddress,
+          beneficiaryVoucher,
+          beneficiaryDetails,
         },
       });
     } catch (error) {

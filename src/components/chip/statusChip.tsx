@@ -17,7 +17,7 @@ const ResultChip = ({ status }: Props) => {
         <>
           <IonIcon size="large" icon={checkmarkCircleOutline} color="success" />
           <IonText color="success">
-            <h3 className="m-0">Successful</h3>
+            <h1 className="m-0">Successful</h1>
           </IonText>
         </>
       )}
@@ -25,7 +25,7 @@ const ResultChip = ({ status }: Props) => {
         <>
           <IonIcon size="large" icon={codeWorkingOutline} color="warning" />
           <IonText color="warning">
-            <h3 className="m-0">Pending</h3>
+            <h1 className="m-0">Pending</h1>
           </IonText>
         </>
       )}
@@ -33,7 +33,7 @@ const ResultChip = ({ status }: Props) => {
         <>
           <IonIcon size="large" icon={closeCircleOutline} color="danger" />
           <IonText color="danger">
-            <h3 className="m-0">Failed</h3>
+            <h1 className="m-0">Failed</h1>
           </IonText>
         </>
       )}

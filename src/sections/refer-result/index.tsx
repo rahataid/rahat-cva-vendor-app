@@ -3,9 +3,10 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import {
   IonButton,
   IonCardContent,
-  IonCardHeader,
+  IonCol,
   IonGrid,
   IonIcon,
+  IonRow,
   IonText,
 } from "@ionic/react";
 import { homeOutline } from "ionicons/icons";
@@ -15,6 +16,7 @@ import {
   BENEFICIARY_VOUCHER_DETAILS,
   REFER_RESULT_BENEFICIARY_DETAILS,
 } from "../../types/beneficiaries";
+import ResultChip from "@components/chip/statusChip";
 
 type Props = {
   data: {
@@ -37,13 +39,17 @@ const ReferResult = ({ data: { data, from, voucher } }: Props) => {
   return (
     <>
       <TransparentCard>
-        <IonCardHeader>
-          <IonText>
-            <p>The referral has been registered successfully</p>
-          </IonText>
-        </IonCardHeader>
         <IonCardContent>
           <IonGrid>
+            <IonRow>
+              <IonCol size="12">
+                <ResultChip status="SUCCESS" />
+              </IonCol>
+              <IonCol size="12">
+                <IonText>The referral has been registered successfully</IonText>
+              </IonCol>
+            </IonRow>
+            <br />
             {data?.length ? (
               data?.map((el: REFER_RESULT_BENEFICIARY_DETAILS, i: number) => (
                 <ReferItem key={i} data={el} index={i} />
