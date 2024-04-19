@@ -55,7 +55,7 @@ export function useProjectSettings(): any {
         const projectSettings = {
           contracts: contractSettings,
           network: blockChainSettings,
-          subGraph: { url: subgraphSettings },
+          subGraph: subgraphSettings,
           admin: adminSettings,
         };
         await setProjectSettings(projectSettings);

@@ -179,6 +179,93 @@ export function useVendorTransaction(queryService: any) {
   };
 }
 
+export function useVendorFilteredTransaction(
+  queryService: any,
+  voucherType: VOUCHER
+) {
+  console.log("INSIDE filtered transaction", voucherType);
+  const {
+    currentUser,
+    walletAddress,
+    freeVoucherAddress,
+    discountVoucherAddress,
+  } = useAppStore.getState((s) => ({
+    current: s?.current,
+    walletAddress: s?.wallet?.address,
+    freeVoucherAddress:
+      s?.projectSettings?.contracts?.eyevoucher?.freeVoucherAddress,
+    discountVoucherAddress:
+      s?.projectSettings?.contracts?.referralvoucher?.discountVoucherAddress,
+  }));
+
+  // const {
+  //   projectSettings: {
+  //     eyevoucher: { freeVoucherAddress },
+  //   },
+  // } = useAppStore;
+
+  console.log(
+    currentUser,
+    walletAddress,
+    freeVoucherAddress,
+    discountVoucherAddress
+  );
+
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
+    ["vendorTransactions", walletAddress],
+    async () => {
+      console.log(" API call");
+      const data = await queryService.useVendorFilteredTransaction(
+        walletAddress,
+        voucherType === VOUCHER.FREE_VOUCHER
+          ? freeVoucherAddress
+          : discountVoucherAddress
+      );
+      console.log("FILTERED VENDOR TRANSACTIONS", data);
+      return data;
+      if (!data?.data) return [];
+
+      const {
+        beneficiaryReferreds,
+        projectClaimProcesseds,
+        claimCreateds,
+        tokenRedeems,
+      } = data.data;
+
+      const fixedBeneficiaryReferreds = beneficiaryReferreds.map(
+        (el: IBeneficiaryReferreds) => ({
+          ...el,
+          beneficiary: el.beneficiaryAddress,
+        })
+      );
+
+      const allData: IAllTransactions = [
+        ...fixedBeneficiaryReferreds,
+        ...projectClaimProcesseds,
+        ...claimCreateds,
+        ...tokenRedeems,
+      ];
+
+      return allData;
+    },
+    {
+      enabled:
+        currentUser?.projects?.length > 0 &&
+        freeVoucherAddress &&
+        discountVoucherAddress,
+      staleTime: 0,
+    }
+  );
+
+  return {
+    data,
+    isLoading,
+    error,
+    refetch,
+    isFetching,
+  };
+}
+
 export function useVendorTransactionDetails(transactionHash: string) {
   const {
     wallet: { address: walletAddress },

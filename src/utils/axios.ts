@@ -47,13 +47,13 @@ export const endpoints = {
   },
 
   vendors: {
+    add: "/vendors",
     list: "/vendors",
+    getByUuid: (uuid: string) => `/vendors/${uuid}`,
     details: (walletAddress: string) => `/vendors/${walletAddress}`,
     update: (walletAddress: string) => `/vendors/${walletAddress}`,
-    add: `/vendors`,
     chargeByPhone: (walletAddress: string) =>
       `/vendors/${walletAddress}/chargeBeneficiary`,
-    blockchain: "/vendors/blockchain",
   },
   beneficiaries: {
     list: "/beneficiaries",
