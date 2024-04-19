@@ -64,7 +64,7 @@ const VendorsService = {
     }),
 
   getDetails: (uuid: string) =>
-    axiosInstance.get(endpoints.users.vendors.getByUuid(uuid)),
+    axiosInstance.get(endpoints.vendors.getByUuid(uuid)),
 };
 
 export default VendorsService;

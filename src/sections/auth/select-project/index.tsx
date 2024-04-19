@@ -86,9 +86,10 @@ const SelectProject = ({ from }: Props) => {
       console.log("FIXED PROJECT URL", projectUrl);
       if (from === "register") {
         const vendor = await axios.post(
-          `${projectUrl}${endpoints.users.vendors.add}`,
+          `${projectUrl}${endpoints.vendors.add}`,
           addPayload
         );
+
         console.log("VENDOR RESPONSE", vendor?.data?.data);
         setCurrentUser(vendor?.data?.data);
         setProjectSettings({ baseUrl: data?.projectURL });
@@ -116,7 +117,7 @@ const SelectProject = ({ from }: Props) => {
       } else if (from === "restore") {
         console.log("ELSE IF INSIDE");
         const vendor = await axios.get(
-          `${projectUrl}${endpoints.users.vendors.getByUuid(wallet?.address)}`
+          `${projectUrl}${endpoints.vendors.getByUuid(wallet?.address)}`
         );
         const vendorDetails = vendor?.data?.data;
         setCurrentUser(vendor?.data?.data);
@@ -186,6 +187,7 @@ const SelectProject = ({ from }: Props) => {
         // }
       }
     } catch (error: any) {
+      console.log("error============", error);
       setError("root.serverError", {
         type: "manual",
         message: handleError(error),
