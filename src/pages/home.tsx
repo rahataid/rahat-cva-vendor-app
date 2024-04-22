@@ -1,4 +1,8 @@
-import { useVendorTransaction, useVendorVoucher } from "@api/vendors";
+import {
+  useVendorFilteredTransaction,
+  useVendorTransaction,
+  useVendorVoucher,
+} from "@api/vendors";
 import {
   IonCol,
   IonContent,
@@ -17,6 +21,7 @@ import { useGraphService } from "@contexts/graph-query";
 import { useVendorDetails } from "../api/vendors";
 import { useProjectSettings } from "../api/project-settings";
 import CustomRefresher from "@components/refresher/CustomRefresher";
+import { VOUCHER } from "@types/beneficiaries";
 
 const HomePage: React.FC = () => {
   const { projectSettings, currentUser } = useAppStore();
@@ -42,6 +47,23 @@ const HomePage: React.FC = () => {
     refetch: refetchTransactions,
     isFetching: isFetchingTransactions,
   } = useVendorTransaction(queryService);
+
+  // const {
+  //   data: filteredTransactionsData,
+  //   isFetching: isFetchingFilteredTransactions,
+  // } = useVendorFilteredTransaction(queryService, "FREE_VOUCHER");
+
+  const {
+    data: referredTransactions,
+    isLoading: referredLoading,
+    isFetching: isReferredFetching,
+  } = useVendorFilteredTransaction(queryService, VOUCHER.DISCOUNT_VOUCHER);
+
+  const {
+    data: enrolledTransactions,
+    isLoading: enrolledLoading,
+    isFetching: isEnrolledFetching,
+  } = useVendorFilteredTransaction(queryService, VOUCHER.FREE_VOUCHER);
 
   const {
     data: vendorDetails,
@@ -82,10 +104,14 @@ const HomePage: React.FC = () => {
                 projectSettings={projectSettings}
                 handleReload={handleReload}
                 voucherData={voucherData}
-                transactionsData={transactionsData}
                 loading={isFetchingVoucher}
+                transactionsData={transactionsData}
                 transactionsLoading={isFetchingTransactions}
                 isSettingsFetching={isSettingsFetching}
+                enrolledTransactions={enrolledTransactions}
+                isEnrolledFetching={isEnrolledFetching}
+                referredTransactions={referredTransactions}
+                isReferredFetching={isReferredFetching}
               />
             </IonCol>
           </IonRow>

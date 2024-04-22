@@ -44,10 +44,10 @@ export function useProjectSettings(): any {
           name: "CONTRACT",
           arr: data?.data?.data,
         });
-        const { value: subgraphSettings } = findArrayElementByName({
-          name: "SUBGRAPH_URL",
-          arr: data?.data?.data,
-        });
+        // const { value: subgraphSettings } = findArrayElementByName({
+        //   name: "SUBGRAPH_URL",
+        //   arr: data?.data?.data,
+        // });
         const { value: adminSettings } = findArrayElementByName({
           name: "ADMIN",
           arr: data?.data?.data,
@@ -55,7 +55,9 @@ export function useProjectSettings(): any {
         const projectSettings = {
           contracts: contractSettings,
           network: blockChainSettings,
-          subGraph: subgraphSettings,
+          subGraph: {
+            url: "https://api.studio.thegraph.com/query/42205/el-dev-arbi/version/latest",
+          },
           admin: adminSettings,
         };
         await setProjectSettings(projectSettings);

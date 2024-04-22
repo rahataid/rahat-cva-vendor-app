@@ -1,3 +1,4 @@
+import { GENDER, PROJECT_DETAILS } from "@types/beneficiaries";
 import {
   IProjectSettingsContractsApiResponse,
   IProjectSettingsNetwork,
@@ -5,29 +6,35 @@ import {
 import { IAddVendorPayload } from "@types/vendors";
 import { HDNodeWallet, Wallet } from "ethers";
 
-export type StorageChainData = {
-  allowance: number;
-  disbursed: number;
-  distributed: number;
-  isVendorApproved: boolean;
-};
-
 export type StorageCurrentUser = {
   name: string;
   phone: string;
   address?: any;
   walletAddress: string;
+  createdAt?: string;
+  createdBy?: string;
+  deletedAt?: string;
+  email?: string;
+  extras?: any;
+  gender?: GENDER;
+  id?: number;
+  projects?: PROJECT_DETAILS[];
+  updatedAt?: string;
+  updatedBy?: null;
+  uuid?: string;
+  wallet?: string;
 };
 
 export type StorageProjectSettings = {
+  admin: { url: "string" };
   baseUrl?: string;
-  network?: IProjectSettingsNetwork;
   contracts?: IProjectSettingsContractsApiResponse;
+  network?: IProjectSettingsNetwork;
   projectId?: string;
+  subGraph: { url: "string" };
 } | null;
 
 export type AppStateType = {
-  chainData: StorageChainData | undefined;
   wallet: Wallet | HDNodeWallet | undefined;
   currentUser: StorageCurrentUser | undefined;
   projectSettings: StorageProjectSettings | undefined;
@@ -43,7 +50,6 @@ export type AppActionsType = {
     data: IAddVendorPayload
   ) => Promise<Wallet | HDNodeWallet | any>;
   handleRestore: (data: string) => void;
-  setChainData: (data: StorageChainData) => Promise<void>;
   setCurrentUser: (data: StorageCurrentUser) => void;
   setWallet: (data: any) => void;
   setProjectSettings: (data: StorageProjectSettings) => Promise<void>;
