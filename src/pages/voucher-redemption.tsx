@@ -11,7 +11,7 @@ import VoucherRedemptionDetails from "@sections/settings/voucher-redemption-deta
 import CustomRefresher from "@components/refresher/CustomRefresher";
 import { useVendorVoucherRedemptionList } from "@api/vendors";
 import { FC } from "react";
-import DetailsSkeletonCard from "@components/loaders/skeleton/card/details";
+import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 
 const VoucherRedemptionDetailsPage: FC = () => {
   const { data, isLoading, error, refetch, isFetching } =
@@ -29,7 +29,7 @@ const VoucherRedemptionDetailsPage: FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
               {isFetching ? (
-                <DetailsSkeletonCard />
+                <ListSkeletonCard length={5} />
               ) : (
                 <VoucherRedemptionDetails data={data} />
               )}
