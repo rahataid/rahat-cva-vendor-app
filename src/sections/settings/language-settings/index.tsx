@@ -1,30 +1,17 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import {
-  IonButton,
-  IonItem,
-  IonList,
-  IonInput,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonIcon,
-  IonLabel,
-  IonImg,
-} from "@ionic/react";
+import { IonItem, IonList, IonIcon, IonLabel, IonImg } from "@ionic/react";
 import { checkmarkOutline, languageOutline } from "ionicons/icons";
 
 import i18n from "@utils/translation-service";
 import { FC, useState } from "react";
 import "./languageSettings.scss";
-import { useHistory } from "react-router";
 
 type Props = {
-  redirect?: boolean;
+  customStyle?: any;
 };
 
-const LanguageSettings: FC<Props> = ({ redirect = false }) => {
+const LanguageSettings: FC<Props> = ({ customStyle }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
-  const history = useHistory();
   const languageOptions = [
     {
       label: "English",
@@ -47,16 +34,13 @@ const LanguageSettings: FC<Props> = ({ redirect = false }) => {
 
   return (
     <>
-      <TransparentCard>
+      <TransparentCard styles={customStyle}>
         <IonList>
           {languageOptions.map((option, index) => (
             <IonItem
               key={index}
               button={true}
-              onClick={() => {
-                handleLanguageChange(option.value);
-                if (redirect) history.push("/landing");
-              }}
+              onClick={() => handleLanguageChange(option.value)}
               className={
                 selectedLanguage === option.value ? "selected-language" : ""
               }

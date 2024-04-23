@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonCol,
   IonContent,
   IonGrid,
@@ -14,7 +15,9 @@ import { useTranslation } from "react-i18next";
 import LanguageSettings from "@sections/settings/language-settings";
 
 const SelectLanguage = () => {
+  const history = useHistory();
   const { t } = useTranslation();
+  const handleProceed = () => history.push("/landing");
   return (
     <IonPage>
       <IonContent className="bg" scrollY={false}>
@@ -39,22 +42,19 @@ const SelectLanguage = () => {
               <IonText>
                 <h6>{t("SELECT_LANGUAGE_PAGE.MSG")}</h6>
               </IonText>
-              <LanguageSettings redirect />
-              {/* <IonRow className="gap-5"></IonRow>
+              <LanguageSettings
+                customStyle={{ margin: "3px", borderRadius: "4px" }}
+              />
+              <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
-                color="light"
+                color="primary"
                 fill="solid"
                 expand="block"
-                onClick={handleRestore}
+                onClick={handleProceed}
               >
-                <IonImg
-                  src="/assets/flags/small/id.svg"
-                  className="flag"
-                  slot="start"
-                />
-                Indonesian
-              </IonButton> */}
+                Proceed
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>
