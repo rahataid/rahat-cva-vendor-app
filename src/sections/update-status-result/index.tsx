@@ -12,12 +12,11 @@ import {
   BENEFICIARY_VOUCHER_DETAILS,
   VOUCHER,
 } from "@types/beneficiaries";
-import { MetaTxResponse } from "@types/transactions";
+import { UpdateStatusRes } from "@types/transactions";
 import ResultChip from "@components/chip/statusChip";
 import { useHistory } from "react-router";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import useVoucherType from "@hooks/use-voucher-type";
-import { generateCurrentTimestamp } from "../../utils/helperFunctions";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -25,12 +24,12 @@ type Props = {
   data: {
     beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
     beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-    otpRes: MetaTxResponse;
+    updateRes: UpdateStatusRes;
   };
 };
 
-const TransactionResult: FC<Props> = ({
-  data: { beneficiaryDetails, beneficiaryVoucher, otpRes },
+const UpdateStatusResult: FC<Props> = ({
+  data: { beneficiaryDetails, beneficiaryVoucher, updateRes },
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -59,7 +58,7 @@ const TransactionResult: FC<Props> = ({
               {/* <IonCol size="6">Beneficiary Name</IonCol>
             <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol> */}
               <IonCol size="6">
-                {t("TRANSACTION_RESULT_PAGE.LABELS.VOUCHER_TYPE")}
+                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.VOUCHER_TYPE")}
               </IonCol>
               <IonCol size="6">
                 <IonText
@@ -74,22 +73,65 @@ const TransactionResult: FC<Props> = ({
                     : t("GLOBAL.TEXTS.VOUCHER_TYPE.FREE")}
                 </IonText>
               </IonCol>
+              {/* <IonCol size="6">Beneficiary Type</IonCol>
+            <IonCol size="6">
+              <IonText
+                color={
+                  data.beneficiaryType === BENEFICIARY_TYPE.REFERRED
+                    ? "success"
+                    : "warning"
+                }
+              >
+                {data?.beneficiaryType === BENEFICIARY_TYPE.REFERRED
+                  ? "Referred"
+                  : "Enrolled"}
+              </IonText>
+            </IonCol> */}
               <IonCol size="6">
-                {t("TRANSACTION_RESULT_PAGE.LABELS.DATE")}
+                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.CHECKUP_STATUS")}
               </IonCol>
               <IonCol size="6">
-                {formatDate(generateCurrentTimestamp()) || "-"}
+                {updateRes?.eyeCheckUp
+                  ? t("GLOBAL.TEXTS.SELECT.CHECKUP_DONE")
+                  : t("GLOBAL.TEXTS.SELECT.CHECKUP_NOT_DONE")}
+              </IonCol>
+              <IonCol size="6">
+                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.GLASSES_STATUS")}
+              </IonCol>
+              <IonCol size="6">
+                {voucherType === VOUCHER.FREE_VOUCHER && (
+                  <IonText>
+                    {updateRes?.glassRequired
+                      ? t("GLOBAL.TEXTS.SELECT.GLASSES_REQUIRED")
+                      : t("GLOBAL.TEXTS.SELECT.GLASSES_NOT_REQUIRED")}
+                  </IonText>
+                )}
+                {voucherType === VOUCHER.DISCOUNT_VOUCHER && (
+                  <IonText>
+                    {updateRes?.glassRequired
+                      ? t("GLOBAL.TEXTS.SELECT.GLASSES_BOUGHT")
+                      : t("GLOBAL.TEXTS.SELECT.GLASSES_NOT_BOUGHT")}
+                  </IonText>
+                )}
+              </IonCol>
+              <IonCol size="6">
+                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.DATE")}
+              </IonCol>
+              <IonCol size="6">
+                {updateRes?.createdAt
+                  ? formatDate(new Date(updateRes?.createdAt) / 1000)
+                  : "-"}
               </IonCol>
 
               <IonCol size="6">
-                {t("TRANSACTION_RESULT_PAGE.LABELS.TRANSACTION_HASH")}
+                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.TRANSACTION_HASH")}
               </IonCol>
               <IonCol size="6">
-                {otpRes?.txHash ? cropString(otpRes?.txHash) : "-"}
+                {updateRes?.txHash ? cropString(updateRes?.txHash) : "-"}
               </IonCol>
 
               <IonCol size="6">
-                {t("TRANSACTION_RESULT_PAGE.LABELS.WALLET_ADDRESS")}
+                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.WALLET_ADDRESS")}
               </IonCol>
               <IonCol size="6">
                 {beneficiaryDetails?.walletAddress
@@ -101,7 +143,7 @@ const TransactionResult: FC<Props> = ({
               <br />
               <IonCol size="12">
                 <IonText>
-                  <p>{t("TRANSACTION_RESULT_PAGE.SUCCESS_MSG")}</p>
+                  <p>{t("UPDATE_STATUS_RESULT_PAGE.SUCCESS_MSG")}</p>
                 </IonText>
               </IonCol>
 
@@ -114,7 +156,7 @@ const TransactionResult: FC<Props> = ({
                       expand="block"
                       onClick={handleReferBeneficiaries}
                     >
-                      {t("TRANSACTION_RESULT_PAGE.BUTTONS.REFER")}
+                      {t("UPDATE_STATUS_RESULT_PAGE.BUTTONS.REFER")}
                     </IonButton>
                   </IonCol>
                 </>
@@ -123,7 +165,7 @@ const TransactionResult: FC<Props> = ({
               <IonRow className="gap-5"></IonRow>
               <IonCol size="12">
                 <IonButton color="primary" expand="block" onClick={handleDone}>
-                  {t("TRANSACTION_RESULT_PAGE.BUTTONS.DONE")}
+                  {t("UPDATE_STATUS_RESULT_PAGE.BUTTONS.DONE")}
                 </IonButton>
               </IonCol>
             </IonRow>
@@ -134,4 +176,4 @@ const TransactionResult: FC<Props> = ({
   );
 };
 
-export default TransactionResult;
+export default UpdateStatusResult;

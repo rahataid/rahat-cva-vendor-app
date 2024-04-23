@@ -20,6 +20,7 @@ import ReferBeneficiariesPage from "@pages/refer-beneficiaries";
 import ReferResultPage from "@pages/refer-result";
 import TransactionResultPage from "@pages/transaction-result";
 import SelectLanguagePage from "@pages/select-language";
+import UpdateStatusResultPage from "@pages/update-status-result";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -66,6 +67,11 @@ const Router = () => {
           <PrivateRoute
             path="/transaction-result"
             component={TransactionResultPage}
+            exact
+          />
+          <PrivateRoute
+            path="/update-status-result"
+            component={UpdateStatusResultPage}
             exact
           />
 

@@ -17,7 +17,8 @@
       "PHONE_EXISTS": "Nomor telepon sudah ada",
       "NOT_APPROVED": "Anda belum disetujui. Silakan hubungi admin",
       "VOUCHER_CLAIMED": "Penerima sudah mengklaim voucher",
-      "REFER_LIMIT_REACHED": "Anda sudah merujuk 3 orang"
+      "REFER_LIMIT_REACHED": "Anda sudah merujuk 3 orang",
+      "RESTRICT_REFER": "Tidak dapat merujuk lebih dari 3 penerima manfaat"
     },
     "TEXTS": {
       "NO_DATA": "Tidak ada data yang tersedia...",
@@ -25,9 +26,17 @@
         "FREE": "Voucher Gratis",
         "DISCOUNT": "Voucher Diskon"
       },
-      "BENEFIICARY_TYPE": {
+      "BENEFICARY_TYPE": {
         "ENROLLED": "terdaftar",
         "REFERRED": "dirujuk"
+      },
+      "SELECT": {
+        "CHECKUP_DONE": "Pemeriksaan selesai",
+        "CHECKUP_NOT_DONE": "Pemeriksaan belum dilakukan",
+        "GLASSES_REQUIRED": "Kacamata diperlukan",
+        "GLASSES_NOT_REQUIRED": "Kacamata tidak diperlukan",
+        "GLASSES_BOUGHT": "Kacamata sudah dibeli",
+        "GLASSES_NOT_BOUGHT": "Kacamata belum dibeli"
       }
     }
   },
@@ -378,6 +387,22 @@
     "SUCCESS_MSG": "Penerima telah berhasil menyelesaikan penebusan voucher",
     "BUTTONS": {
       "REFER": "Rujuk Penerima",
+      "DONE": "Selesai"
+    }
+  },
+  "UPDATE_STATUS_RESULT_PAGE": {
+    "PAGE_TITLE": "Hasil Pembaruan Status",
+    "LABELS": {
+      "VOUCHER_TYPE": "Jenis Voucher",
+      "CHECKUP_STATUS": "Status Pemeriksaan",
+      "GLASSES_STATUS": "Status Kacamata",
+      "DATE": "Tanggal",
+      "TRANSACTION_HASH": "Hash Transaksi",
+      "WALLET_ADDRESS": "Alamat Dompet"
+    },
+    "SUCCESS_MSG": "Status penerima manfaat telah diperbarui dengan sukses",
+    "BUTTONS": {
+      "REFER": "Rujuk",
       "DONE": "Selesai"
     }
   }

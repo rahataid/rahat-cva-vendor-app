@@ -1,11 +1,4 @@
-import {
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonLoading,
-  IonRow,
-  IonText,
-} from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 
 import TextInputField from "@components/input/form-text-input";
 import useAppStore from "@store/app";
@@ -16,6 +9,7 @@ import { endpoints } from "@utils/axios";
 import { fixProjectUrl } from "@utils/helperFunctions";
 import useTransactionStore from "@store/transaction";
 import { handleError } from "@utils/errorHandler";
+import CustomLoader from "@components/loaders/customLoader";
 
 enum From {
   register = "register",
@@ -201,7 +195,7 @@ const SelectProject = ({ from }: Props) => {
 
   return (
     <>
-      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
+      <CustomLoader isOpen={isSubmitting} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="register-container">
           <IonRow className="register-form-container">

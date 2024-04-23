@@ -5,7 +5,6 @@ import {
   IonCol,
   IonGrid,
   IonIcon,
-  IonLoading,
   IonRow,
   IonSelectOption,
   IonText,
@@ -31,6 +30,7 @@ import { cropString } from "../../utils/helperFunctions";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";
+import { MAX_REFERALS } from "@constants/values";
 
 type Props = {
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
@@ -41,6 +41,11 @@ const RedeemVoucher: FC<Props> = ({
   beneficiaryVoucher,
   beneficiaryDetails,
 }) => {
+  console.log(
+    "COUNT",
+    beneficiaryDetails?.beneficiariesReferred,
+    +beneficiaryDetails?.beneficiariesReferred >= 3
+  );
   const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -52,6 +57,8 @@ const RedeemVoucher: FC<Props> = ({
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const history = useHistory();
+  const isMaxReferred =
+    +beneficiaryDetails?.beneficiariesReferred >= MAX_REFERALS;
   const {
     handleSubmit,
     setError,
@@ -77,15 +84,16 @@ const RedeemVoucher: FC<Props> = ({
         getValues("glassesStatus") === "GLASSES_REQUIRED"
           ? true
           : false;
+      let updateRes;
       if (voucherType === VOUCHER.FREE_VOUCHER) {
-        await updateStatus({
+        updateRes = await updateStatus({
           voucherType,
           beneficiary: beneficiaryDetails,
           eyeCheckUp,
           glassStatus,
         });
       } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
-        await updateStatus({
+        updateRes = await updateStatus({
           voucherType,
           beneficiary: beneficiaryDetails,
           referralVoucherAddress: beneficiaryVoucher?.ReferredVoucherAddress,
@@ -93,11 +101,20 @@ const RedeemVoucher: FC<Props> = ({
           glassStatus,
         });
       }
-      showToast("Status Updated Successfully", "success");
+      console.log("RES============", updateRes);
+      // showToast("Status Updated Successfully", "success");
       setSubmitSuccess(true);
       setError("root.serverError", {
         type: "manual",
         message: "",
+      });
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      history.push("/update-status-result", {
+        data: {
+          beneficiaryVoucher,
+          beneficiaryDetails,
+          updateRes,
+        },
       });
     } catch (error) {
       showToast(handleError(error), "danger");
@@ -247,7 +264,8 @@ const RedeemVoucher: FC<Props> = ({
                   <IonRow>
                     <IonCol size="12" className="px-0">
                       <IonText color="danger">
-                        {t("GLOBAL.ERRORS.REFER_LIMIT_REACHED")}
+                        {isMaxReferred &&
+                          t("GLOBAL.ERRORS.REFER_LIMIT_REACHED")}
                       </IonText>
                       <div
                         onClick={handleDisabledRefer}
@@ -258,10 +276,7 @@ const RedeemVoucher: FC<Props> = ({
                           expand="block"
                           color="warning"
                           onClick={handleRefer}
-                          disabled={
-                            true
-                            // beneficiaryDetails?.beneficiariesReferred >= 3
-                          }
+                          disabled={isMaxReferred}
                         >
                           {t("REDEEM_VOUCHER_PAGE.BUTTONS.REFER")}
                         </IonButton>
@@ -503,9 +518,7 @@ const RedeemVoucher: FC<Props> = ({
                                 expand="block"
                                 color="warning"
                                 onClick={handleRefer}
-                                disabled={
-                                  beneficiaryDetails?.beneficiariesReferred >= 3
-                                }
+                                disabled={isMaxReferred}
                               >
                                 {t("REDEEM_VOUCHER_PAGE.BUTTONS.REFER")}
                               </IonButton>

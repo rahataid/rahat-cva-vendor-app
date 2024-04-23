@@ -2,7 +2,6 @@ import {
   IonButton,
   IonCardContent,
   IonLabel,
-  IonLoading,
   IonSegment,
   IonSegmentButton,
   isPlatform,

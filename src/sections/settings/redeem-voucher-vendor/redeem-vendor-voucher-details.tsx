@@ -1,4 +1,4 @@
-import { IonButton, IonCardContent, IonLoading, IonText } from "@ionic/react";
+import { IonButton, IonCardContent, IonText } from "@ionic/react";
 import TransparentCard from "../../../components/cards/Transparentcard/TransparentCard";
 import { Controller, useForm } from "react-hook-form";
 import useCustomToast from "../../../hooks/use-custom-toast";
