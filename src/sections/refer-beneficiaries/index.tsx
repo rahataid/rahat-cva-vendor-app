@@ -4,7 +4,6 @@ import {
   IonCardContent,
   IonCol,
   IonIcon,
-  IonLoading,
   IonText,
 } from "@ionic/react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -24,7 +23,7 @@ import CardComponent from "@sections/home/home-card";
 import { useMemo } from "react";
 import { handleError } from "@utils/errorHandler";
 import CustomLoader from "@components/loaders/customLoader";
-const MAX_REFERALS = 3;
+import { MAX_REFERALS } from "@constants/values";
 
 type Props = {
   data: {
@@ -123,7 +122,7 @@ const ReferBeneficiaries = ({
   };
 
   const handleDisabledAddMore = (condition: boolean) => {
-    if (condition) showToast(t("GLOBAL.ERRORS.REFER_LIMIT_REACHED"), "danger");
+    if (condition) showToast(t("GLOBAL.ERRORS.RESTRICT_REFER"), "danger");
   };
 
   return (

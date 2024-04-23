@@ -2,7 +2,6 @@ import {
   IonButton,
   IonCol,
   IonGrid,
-  IonLoading,
   IonProgressBar,
   IonRow,
   IonText,
