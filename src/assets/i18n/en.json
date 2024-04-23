@@ -323,5 +323,36 @@
     "BUTTONS": {
       "GO_HOME": "Go To HomePage"
     }
+  },
+  "OTP_PAGE": {
+    "PAGE_TITLE": "OTP",
+    "MSG": "OTP code from SMS (Ask OTP from the beneficiary)",
+    "LABELS": {
+      "OTP": "OTP*"
+    },
+    "PLACEHOLDERS": {
+      "OTP": "Enter OTP"
+    },
+    "ERRORS": {
+      "OTP": "Please enter OTP"
+    },
+    "BUTTONS": {
+      "SUBMIT": "Submit",
+      "CANCEL": "Cancel"
+    }
+  },
+  "TRANSACTION_RESULT_PAGE": {
+    "PAGE_TITLE": "Transaction Result",
+    "LABELS": {
+      "VOUCHER_TYPE": "Voucher Type",
+      "DATE": "Date",
+      "TRANSACTION_HASH": "Transaction Hash",
+      "WALLET_ADDRESS": "Wallet Address"
+    },
+    "SUCCESS_MSG": "The beneficiary has redeemed the voucher successfully",
+    "BUTTONS": {
+      "REFER": "Refer Beneficiaries",
+      "DONE": "Done"
+    }
   }
 }
