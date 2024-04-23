@@ -45,6 +45,10 @@
       "BACK": "Kembali"
     }
   },
+  "SELECT_LANGUAGE_PAGE": {
+    "TAGLINE": "Mendukung komunitas rentan dengan platform distribusi bantuan yang sederhana dan efisien",
+    "MSG": "Pilih bahasa Anda untuk memulai"
+  },
   "LANDING_PAGE": {
     "TAGLINE": "Mendukung komunitas rentan dengan platform distribusi bantuan yang sederhana dan efisien",
     "BUTTONS": {
@@ -183,7 +187,8 @@
   },
   "REFERRED_BENEFICIARIES_PAGE": {
     "PAGE_TITLE": "Daftar Penerima Rujukan",
-    "CARD_TITLE": "Total Penerima Dirujuk"
+    "CARD_TITLE": "Total Penerima Dirujuk",
+    "NO_DATA": "Tidak ada data yang tersedia..."
   },
   "REFERRED_BENEFICIARY_DETAILS_PAGE": {
     "PAGE_TITLE": "Detail Penerima Rujukan",

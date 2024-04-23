@@ -14,11 +14,17 @@ import {
 import { checkmarkOutline, languageOutline } from "ionicons/icons";
 
 import i18n from "@utils/translation-service";
-import { useState } from "react";
+import { FC, useState } from "react";
 import "./languageSettings.scss";
+import { useHistory } from "react-router";
 
-const LanguageSettings = () => {
+type Props = {
+  redirect?: boolean;
+};
+
+const LanguageSettings: FC<Props> = ({ redirect = false }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+  const history = useHistory();
   const languageOptions = [
     {
       label: "English",
@@ -47,7 +53,10 @@ const LanguageSettings = () => {
             <IonItem
               key={index}
               button={true}
-              onClick={() => handleLanguageChange(option.value)}
+              onClick={() => {
+                handleLanguageChange(option.value);
+                if (redirect) history.push("/landing");
+              }}
               className={
                 selectedLanguage === option.value ? "selected-language" : ""
               }

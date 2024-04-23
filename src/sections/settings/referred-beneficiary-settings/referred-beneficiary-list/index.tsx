@@ -1,4 +1,4 @@
-import { IonCardContent, IonCardHeader } from "@ionic/react";
+import { IonCardHeader } from "@ionic/react";
 import { BENEFICIARY_DETAILS } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import ReferredBeneficiaryCard from "../referred-beneficiary-card";
@@ -23,7 +23,7 @@ const ReferredBeneficiariesList = ({ beneficiaries, loading }: Props) => {
       ) : (
         <TransparentCard>
           <IonCardHeader className="ion-text-center">
-            {t("REFERRED_BENEFICIARIES_PAGE.PAGE_TITLE")}
+            {t("REFERRED_BENEFICIARIES_PAGE.NO_DATA")}
           </IonCardHeader>
         </TransparentCard>
       )}

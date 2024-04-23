@@ -19,6 +19,7 @@ import RedeemVoucherPage from "@pages/redeem-voucher";
 import ReferBeneficiariesPage from "@pages/refer-beneficiaries";
 import ReferResultPage from "@pages/refer-result";
 import TransactionResultPage from "@pages/transaction-result";
+import SelectLanguagePage from "@pages/select-language";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -40,6 +41,7 @@ const Router = () => {
           <Route exact path="/landing" component={LandingPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/restore-wallet" component={RestoreWalletPage} />
+          <Route exact path="/select-language" component={SelectLanguagePage} />
           <Route exact path="/select-project" component={SelectProjectPage} />
           <Route exact path="/otp" component={OTPPage} />
           <Route exact path="/reset" component={ResetPage} />
@@ -70,11 +72,11 @@ const Router = () => {
           {isAuthenticated ? (
             <Redirect exact from="/" to="/tabs/home" />
           ) : (
-            <Redirect exact from="/" to="/landing" />
+            <Redirect exact from="/" to="/select-language" />
           )}
 
           <Route path="*" component={NotFoundPage} />
-          <Redirect to="/landing" />
+          <Redirect to="/select-language" />
         </Switch>
       </IonRouterOutlet>
     </IonReactRouter>

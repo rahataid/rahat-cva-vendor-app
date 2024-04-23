@@ -45,6 +45,10 @@
       "BACK": "Go Back"
     }
   },
+  "SELECT_LANGUAGE_PAGE": {
+    "TAGLINE": "Supporting vulnerable communities with a simple and efficient relief distribution platform",
+    "MSG": "Choose your language to get started"
+  },
   "LANDING_PAGE": {
     "TAGLINE": "Supporting vulnerable communities with a simple and efficient relief distribution platform",
     "BUTTONS": {
@@ -183,7 +187,8 @@
   },
   "REFERRED_BENEFICIARIES_PAGE": {
     "PAGE_TITLE": "Referred Beneficiaries List",
-    "CARD_TITLE": "Total Beneficiaries Referred"
+    "CARD_TITLE": "Total Beneficiaries Referred",
+    "NO_DATA": "No Data Available..."
   },
   "REFERRED_BENEFICIARY_DETAILS_PAGE": {
     "PAGE_TITLE": "Referred Beneficiary Details",

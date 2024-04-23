@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonCol,
   IonContent,
   IonGrid,
@@ -9,19 +8,12 @@ import {
   IonText,
 } from "@ionic/react";
 import Logo from "@assets/images/logo/rahat-logo-standard.png";
-import "./landing-screen.scss";
+import "./select-language.scss";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
-import { FC } from "react";
+import LanguageSettings from "@sections/settings/language-settings";
 
-const LandingScreen: FC = () => {
-  const history = useHistory();
-  const handleRegister = () => {
-    history.push("/register");
-  };
-  const handleRestore = () => {
-    history.push("/restore-wallet");
-  };
+const SelectLanguage = () => {
   const { t } = useTranslation();
   return (
     <IonPage>
@@ -37,32 +29,32 @@ const LandingScreen: FC = () => {
             >
               <IonImg src={Logo} />
               <IonText className="landing-text-container">
-                {t("LANDING_PAGE.TAGLINE")}
+                {t("SELECT_LANGUAGE_PAGE.TAGLINE")}
               </IonText>
             </IonCol>
           </IonRow>
 
           <IonRow className="landing-button-container">
             <IonCol size="11" sizeMd="8" sizeLg="6" sizeXl="4">
+              <IonText>
+                <h6>{t("SELECT_LANGUAGE_PAGE.MSG")}</h6>
+              </IonText>
+              <LanguageSettings redirect />
+              {/* <IonRow className="gap-5"></IonRow>
               <IonButton
                 mode="md"
-                // color="dark"
-                fill="solid"
-                expand="block"
-                onClick={handleRegister}
-              >
-                {t("LANDING_PAGE.BUTTONS.CREATE_WALLET")}
-              </IonButton>
-              <IonRow className="gap-5"></IonRow>
-              <IonButton
-                mode="md"
-                // color="dark"
+                color="light"
                 fill="solid"
                 expand="block"
                 onClick={handleRestore}
               >
-                {t("LANDING_PAGE.BUTTONS.RESTORE_WALLET")}
-              </IonButton>
+                <IonImg
+                  src="/assets/flags/small/id.svg"
+                  className="flag"
+                  slot="start"
+                />
+                Indonesian
+              </IonButton> */}
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -71,4 +63,4 @@ const LandingScreen: FC = () => {
   );
 };
 
-export default LandingScreen;
+export default SelectLanguage;
