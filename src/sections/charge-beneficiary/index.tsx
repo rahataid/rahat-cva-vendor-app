@@ -91,10 +91,10 @@ const ChargeBeneficiary = ({ data }: Props) => {
     // fix for release -> comment out the below line to go to the next page even if there is error
     // if (isVoucherClaimed(beneficiaryVoucher))
     //   throw new Error("Beneficiary has already claimed the Voucher");
-    // if (!isVoucherAssigned(beneficiaryVoucher)) {
-    //   console.log("HERE NOT ASSIGNED");
-    //   throw new Error("Voucher not assigned to beneficiary");
-    // }
+    if (!isVoucherAssigned(beneficiaryVoucher)) {
+      console.log("HERE NOT ASSIGNED");
+      throw new Error("Voucher not assigned to beneficiary");
+    }
 
     return {
       beneficiaryDetails: beneficiary?.data?.data,
@@ -124,12 +124,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
       // const errorMessage = validErrors.includes(error.message)
       //   ? error.message
       //   : "Something went wrong. Try again later";
-      history.push("/redeem-voucher", {
-        data: {
-          beneficiaryDetails,
-          beneficiaryVoucher,
-        },
-      });
+
       showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",
