@@ -30,17 +30,17 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
       mode="md"
       backdropDismiss={false}
       isOpen={isOpen}
-      header={t("REGISTRATION.MNEMONIC_DIALOG.TITLE")}
+      header={t("REGISTER_PAGE.MNEMONICS.TITLE")}
       subHeader=""
       message={mnemonics}
       buttons={[
         {
-          text: `${t("REGISTRATION.MNEMONIC_DIALOG.BUTTONS.COPY")}`,
+          text: `${t("REGISTER_PAGE.MNEMONICS.BUTTONS.COPY")}`,
           cssClass: "alert-button-confirm",
           handler: (event: React.MouseEvent) => handleCopyClick(event),
         },
         {
-          text: `${t("REGISTRATION.MNEMONIC_DIALOG.BUTTONS.NEXT")}`,
+          text: `${t("REGISTER_PAGE.MNEMONICS.BUTTONS.NEXT")}`,
           cssClass: "alert-button-confirm",
         },
       ]}
