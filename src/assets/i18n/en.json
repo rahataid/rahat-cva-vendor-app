@@ -268,5 +268,60 @@
     },
     "REDEEMED": "Redeemed",
     "NOT_REDEEMED": "Not Redeemed"
+  },
+  "REFER_BENEFICIARIES_PAGE": {
+    "PAGE_TITLE": "Refer Beneficiaries",
+    "LABELS": {
+      "NAME": "Name*",
+      "PHONE": "Phone Number*",
+      "GENDER": "Gender*",
+      "AGE": "Estimated Age*",
+      "ADDRESS": "Address"
+    },
+    "PLACEHOLDERS": {
+      "NAME": "Enter name",
+      "CODE": "Code",
+      "PHONE": "Enter phone number",
+      "GENDER": "Select gender",
+      "AGE": "Select estimated age",
+      "ADDRESS": "Enter address"
+    },
+    "SELECT": {
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "OTHERS": "Others"
+    },
+    "ERRORS": {
+      "NAME": "Please enter full name",
+      "CODE": "Please enter country code",
+      "PHONE": "Please enter phone number",
+      "GENDER": "Please select gender",
+      "AGE": "Please select age",
+      "ADDRESS": "Please enter address",
+      "INVALID_FORM": "Please fill in all the required fields correctly"
+    },
+    "TOTAL_AVAILABLE_REFERRALS": "Total Available Referrals",
+    "BENEFICIARY": "Beneficiary",
+    "BUTTONS": {
+      "ADD_MORE": "Add More",
+      "SUBMIT": "Submit"
+    }
+  },
+  "REFER_RESULT_PAGE": {
+    "PAGE_TITLE": "Referral Details",
+    "SUCCESS_MSG": "The referral has been reistered successfully",
+    "NO_DATA": "No Data Available...",
+    "LABELS": {
+      "NAME": "Name",
+      "AGE": "Estimated Age",
+      "PHONE": "Phone",
+      "GENDER": "Gender",
+      "ADDRESS": "Address",
+      "TRANSACTION_HASH": "Transaction Hash",
+      "CREATED_AT": "Created At"
+    },
+    "BUTTONS": {
+      "GO_HOME": "Go To HomePage"
+    }
   }
 }

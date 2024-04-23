@@ -21,6 +21,7 @@ import { SelectOptionItem } from "@sections/auth/registration";
 import { useRef } from "react";
 import useAppStore from "@store/app";
 import CountryCodeInput from "@components/countryCode/countryCodeInput";
+import { useTranslation } from "react-i18next";
 
 const ReferSection = ({
   index,
@@ -34,21 +35,14 @@ const ReferSection = ({
   trigger,
   formState: { isSubmitted, errors },
 }: any) => {
-  const phoneCodeModal = useRef<HTMLIonModalElement>(null);
-  const { countries, handleRegister } = useAppStore();
-  const phoneCodeOptions: SelectOptionItem[] | undefined = countries?.map(
-    (it) => ({
-      text: `${it.name} (${it.phoneCode})`,
-      value: it.phoneCode,
-      iso: it.iso,
-      id: it.id,
-    })
-  );
+  const { t } = useTranslation();
   return (
     <>
       <IonRow className="beneficiary-name-wrapper">
         <IonCol size="5" className="refer-section-left-col">
-          <h2>Beneficiary {index + 1}</h2>
+          <h2>
+            {t("REFER_BENEFICIARIES_PAGE.BENEFICIARY")} {index + 1}
+          </h2>
         </IonCol>
 
         <IonCol size="7" className="refer-section-right-col">
@@ -70,9 +64,9 @@ const ReferSection = ({
         defaultValue={field?.name || ""}
         render={({ field }) => (
           <TextInputField
-            placeholder="Enter Name"
+            placeholder={t("REFER_BENEFICIARIES_PAGE.PLACEHOLDERS.NAME")}
             type="text"
-            label="Name*"
+            label={t("REFER_BENEFICIARIES_PAGE.LABELS.NAME")}
             value={getValues(`beneficiaries.${index}.name`)}
             errorText={errors?.beneficiaries?.[index]?.name?.message}
             onInput={(e) => {
@@ -85,40 +79,42 @@ const ReferSection = ({
           />
         )}
         rules={{
-          required: "Please enter your full name",
+          required: t("REFER_BENEFICIARIES_PAGE.ERRORS.NAME"),
         }}
       />
       <br />
-      <div className="ion-margin-top-sm">
-        <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
-      </div>
       <IonRow>
         <IonCol size="12" class="ion-no-padding">
           <Controller
             control={control}
             name={`beneficiaries.${index}.fullPhone`}
             rules={{
-              required: "Please enter a valid phone number",
+              required: t("REFER_BENEFICIARIES_PAGE.ERRORS.PHONE"),
               validate: {
                 validateCountryCode: (value) => {
                   if (!getValues(`beneficiaries.${index}.code`))
-                    return "Please enter country code";
+                    return t("REFER_BENEFICIARIES_PAGE.ERRORS.CODE");
                 },
                 validatePhoneNumber: (value) => {
                   if (!getValues(`beneficiaries.${index}.phone`))
-                    return "Please enter phone number";
+                    return t("REFER_BENEFICIARIES_PAGE.ERRORS.PHONE");
                 },
                 validateFullPhone: (value) => {
                   if (!getValues(`beneficiaries.${index}.fullPhone`))
-                    return "Please enter phone number";
+                    return t("REFER_BENEFICIARIES_PAGE.ERRORS.PHONE");
                 },
               },
             }}
             render={(field) => (
               <CountryCodeInput
+                label={t("REFER_BENEFICIARIES_PAGE.LABELS.PHONE")}
                 watch={watch}
-                codePlaceholder="Code"
-                phonePlaceholder="Phone number"
+                codePlaceholder={t(
+                  "REFER_BENEFICIARIES_PAGE.PLACEHOLDERS.CODE"
+                )}
+                phonePlaceholder={t(
+                  "REFER_BENEFICIARIES_PAGE.PLACEHOLDERS.PHONE"
+                )}
                 onBlur={field.onBlur}
                 errors={errors}
                 errorText={errors?.beneficiaries?.[index]?.fullPhone?.message}
@@ -167,150 +163,15 @@ const ReferSection = ({
           />
         </IonCol>
       </IonRow>
-      {/* <IonRow>
-        <IonCol size="4" class="ion-no-padding">
-          <div className="wrapper-input">
-            {getValues(`beneficiaries.${index}.iso`) ? (
-              <IonImg
-                src={`assets/flags/small/${getValues(
-                  `beneficiaries.${index}.iso`
-                )?.toLocaleLowerCase()}.svg`}
-              />
-            ) : (
-              <IonImg
-                className="default-flag"
-                src={`assets/flags/small/default.jpg`}
-              />
-            )}
-            <Controller
-              render={(field) => (
-                <TextInputField
-                  className="select-phoneCode"
-                  id={`select-phoneCode${index}`}
-                  clearInput={false}
-                  value={getValues(`beneficiaries.${index}.code`)}
-                  additionalClass=""
-                  placeholder="0000"
-                  rightIcon={caretDownOutline}
-                  hideRightIconBG
-                  onBlur={field.onBlur}
-                />
-              )}
-              rules={{ required: "Please enter country code" }}
-              control={control}
-              name={`beneficiaries.${index}.code`}
-            />
-          </div>
-          <IonModal
-            trigger={`select-phoneCode${index}`}
-            ref={phoneCodeModal}
-            canDismiss={true}
-          >
-            <PhoneCodeSelector
-              title="Choose your country Code"
-              searchPlaceholder="Enter country code"
-              items={phoneCodeOptions || []}
-              selectedItem={getValues(`beneficiaries.${index}.code`)}
-              onSelectionCancel={() => phoneCodeModal.current?.dismiss()}
-              onSelectionChange={(el: any) => {
-                setValue(`beneficiaries.${index}.code`, el.value, {
-                  shouldValidate: true,
-                });
-                setValue(`beneficiaries.${index}.iso`, el.iso, {
-                  shouldValidate: true,
-                });
-                setValue("countryId", el.id, { shouldValidate: true });
-                setError("root", {});
-                phoneCodeModal.current?.dismiss();
-              }}
-            />
-          </IonModal>
-        </IonCol>
-        <IonCol size="8" class="ion-no-padding " style={{ paddingLeft: 3 }}>
-          <Controller
-            render={({ field }) => (
-              <TextInputField
-                type="number"
-                value={getValues(`beneficiaries.${index}.phone`)}
-                placeholder="Phone number"
-                error={
-                  errors?.beneficiaries?.[index]?.phone?.message ? true : false
-                }
-                onInput={(e: any) => {
-                  setError("root", {});
-                  setValue(`beneficiaries.${index}.phone`, e.target.value, {
-                    shouldValidate: true,
-                  });
-                  console.log(errors);
-                }}
-                onFocus={(e: any) => {
-                  setError("root", {});
-                  // setValue('phone', e.target.value, { shouldValidate: true });
-                }}
-                onBlur={field.onBlur}
-                onChange={field.onChange}
-              />
-            )}
-            rules={{
-              required: {
-                value: true,
-                message: "Please enter a valid phone number",
-              },
-            }}
-            control={control}
-            name={`beneficiaries.${index}.phone`}
-          />
-        </IonCol>
-      </IonRow> */}
-      {/* {errors?.beneficiaries?.[index]?.phone?.message && (
-        <IonText className="select-input-error-text">
-          {errors?.beneficiaries?.[index]?.phone?.message}
-
-          <br />
-        </IonText>
-      )} */}
-      {/* <Controller
-        name={`beneficiaries.${index}.phone`}
-        control={control}
-        defaultValue={field?.phone || ""}
-        render={({ field }) => (
-          <TextInputField
-            placeholder="Enter Phone"
-            type="number"
-            label="Phone*"
-            value={getValues(`beneficiaries.${index}.phone`)}
-            errorText={errors?.beneficiaries?.[index]?.phone?.message}
-            onInput={(e) => {
-              setValue(`beneficiaries.${index}.phone`, e.target.value, {
-                shouldValidate: true,
-              });
-            }}
-            onBlur={field?.onBlur}
-            isSubmitted={isSubmitted}
-          />
-        )}
-        rules={{
-          required: "Please enter phone number",
-          // minLength: {
-          //   value: 10,
-          //   message: "Phone Number must be of 10 digits",
-          // },
-          // maxLength: {
-          //   value: 10,
-          //   message: "Phone Number must be of 10 digits",
-          // },
-        }}
-      /> */}
       <br />
-
       <Controller
         name={`beneficiaries.${index}.gender`}
         control={control}
         defaultValue={field?.gender || ""}
         render={({ field }) => (
           <FormInputSelect
-            label="Gender*"
-            placeholder="Select Gender"
+            label={t("REFER_BENEFICIARIES_PAGE.LABELS.GENDER")}
+            placeholder={t("REFER_BENEFICIARIES_PAGE.PLACEHOLDERS.GENDER")}
             errorText={errors?.beneficiaries?.[index]?.gender?.message}
             isSubmitted={isSubmitted}
             value={getValues(`beneficiaries.${index}.gender`)}
@@ -321,13 +182,19 @@ const ReferSection = ({
             }}
             onBlur={field?.onBlur}
           >
-            <IonSelectOption value="MALE">Male</IonSelectOption>
-            <IonSelectOption value="FEMALE">Female</IonSelectOption>
-            <IonSelectOption value="OTHERS">Others</IonSelectOption>
+            <IonSelectOption value="MALE">
+              {t("REFER_BENEFICIARIES_PAGE.SELECT.MALE")}
+            </IonSelectOption>
+            <IonSelectOption value="FEMALE">
+              {t("REFER_BENEFICIARIES_PAGE.SELECT.FEMALE")}
+            </IonSelectOption>
+            <IonSelectOption value="OTHERS">
+              {t("REFER_BENEFICIARIES_PAGE.SELECT.OTHERS")}
+            </IonSelectOption>
           </FormInputSelect>
         )}
         rules={{
-          required: "Please select gender",
+          required: t("REFER_BENEFICIARIES_PAGE.ERRORS.GENDER"),
         }}
       />
 
@@ -338,8 +205,8 @@ const ReferSection = ({
         defaultValue={field?.estimatedAge || ""}
         render={({ field }) => (
           <FormInputSelect
-            label="Estimated Age*"
-            placeholder="Select Estimated Age"
+            label={t("REFER_BENEFICIARIES_PAGE.LABELS.AGE")}
+            placeholder={t("REFER_BENEFICIARIES_PAGE.PLACEHOLDERS.AGE")}
             errorText={errors?.beneficiaries?.[index]?.estimatedAge?.message}
             isSubmitted={isSubmitted}
             value={getValues(`beneficiaries.${index}.estimatedAge`)}
@@ -373,7 +240,7 @@ const ReferSection = ({
           </FormInputSelect>
         )}
         rules={{
-          required: "Please select estimated age",
+          required: t("REFER_BENEFICIARIES_PAGE.ERRORS.AGE"),
         }}
       />
       <br />
@@ -383,9 +250,9 @@ const ReferSection = ({
         defaultValue={field?.address || ""}
         render={({ field }) => (
           <TextInputField
-            placeholder="Enter Address"
+            placeholder={t("REFER_BENEFICIARIES_PAGE.PLACEHOLDERS.ADDRESS")}
             type="text"
-            label="Address"
+            label={t("REFER_BENEFICIARIES_PAGE.LABELS.ADDRESS")}
             value={getValues(`beneficiaries.${index}.address`)}
             errorText={errors?.beneficiaries?.[index]?.address?.message}
             onInput={(e) => {
