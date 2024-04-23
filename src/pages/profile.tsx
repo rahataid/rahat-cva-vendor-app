@@ -12,8 +12,10 @@ import {
 } from "@ionic/react";
 import Profile from "@sections/profile";
 import useAppStore from "@store/app";
+import { useTranslation } from "react-i18next";
 
 const ProfilePage: React.FC = () => {
+  const { t } = useTranslation();
   let { wallet } = useAppStore();
   const { vendor, isLoading, error } = useVendor(wallet?.address);
   const props = {
@@ -21,7 +23,7 @@ const ProfilePage: React.FC = () => {
   };
   return (
     <IonPage>
-      <CustomHeader title="Profile" showBackButton />
+      <CustomHeader title={t("PROFILE_PAGE.PAGE_TITLE")} showBackButton />
       <IonContent fullscreen scrollY={false}>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

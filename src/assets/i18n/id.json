@@ -1,0 +1,231 @@
+{
+  "GLOBAL": {
+    "LOADERS": {
+      "LOADING": "Mohon tunggu..."
+    },
+    "TOASTS": {
+      "COPIED": "Disalin ke papan klip"
+    },
+    "ERRORS": {
+      "DEFAULT": "Ada yang salah! Silakan coba lagi nanti",
+      "INVALID_BENEFICIARY": "Penerima tidak valid",
+      "INVALID_ETHEREUM_ADDRESS": "Alamat dompet ethereum tidak valid",
+      "INVALID_MNEMONICS": "Mnemonik tidak valid",
+      "INVALID_WALLET_ADDRESS": "Harap masukkan alamat dompet yang valid",
+      "VOUCHER_NOT_ASSIGNED": "Voucher tidak ditugaskan ke penerima manfaat",
+      "NETWORK_ERROR": "URL proyek tidak valid",
+      "PHONE_EXISTS": "Nomor telepon sudah ada",
+      "NOT_APPROVED": "Anda belum disetujui. Harap Hubungi admin"
+    },
+    "TEXTS": {
+      "NO_DATA": "Tidak ada data yang tersedia...",
+      "VOUCHER_TYPE": {
+        "FREE": "Voucher Gratis",
+        "DISCOUNT": "Voucher Diskon"
+      },
+      "BENEFIICARY_TYPE": {
+        "ENROLLED": "terdaftar",
+        "REFERRED": "dirujuk"
+      }
+    }
+  },
+  "LANDING_PAGE": {
+    "TAGLINE": "Mendukung komunitas rentan dengan platform distribusi bantuan yang sederhana dan efisien",
+    "BUTTONS": {
+      "CREATE_WALLET": "Buat Dompet",
+      "RESTORE_WALLET": "Pulihkan Dompet"
+    }
+  },
+  "REGISTER_PAGE": {
+    "PAGE_TITLE": "Daftar",
+    "LABELS": {
+      "NAME": "Nama*",
+      "PHONE": "Nomor Telepon*"
+    },
+    "PLACEHOLDERS": {
+      "NAME": "Masukkan Nama",
+      "CODE": "Kode",
+      "PHONE": "Nomor Telepon"
+    },
+    "ERRORS": {
+      "NAME": "Harap masukkan nama lengkap Anda",
+      "PHONE": "Harap masukkan nomor telepon",
+      "CODE": "Harap masukkan kode negara"
+    },
+    "MNEMONICS": {
+      "TITLE": "Tuliskan mnemonik dengan aman",
+      "BUTTONS": {
+        "COPY": "Salin",
+        "NEXT": "Berikutnya"
+      }
+    },
+    "BUTTONS": {
+      "SUBMIT": "Kirim",
+      "CANCEL": "Batal"
+    }
+  },
+  "RESTORE_WALLET_PAGE": {
+    "PAGE_TITLE": "Pulihkan Dompet",
+    "LABELS": {
+      "PNEUMONICS": "Pneumonik*"
+    },
+    "PLACEHOLDERS": {
+      "PNEUMONICS": "Harap masukkan 12 kata pneumonik"
+    },
+    "ERRORS": {
+      "PNEUMONICS": "Harap masukkan 12 kata pneumonik"
+    },
+    "BUTTONS": {
+      "SUBMIT": "Kirim",
+      "CANCEL": "Batal"
+    }
+  },
+  "SELECT_PROJECT_PAGE": {
+    "PAGE_TITLE": "Pilih Proyek"
+  },
+  "HOME_PAGE": {
+    "PAGE_TITLE": "Beranda",
+
+    "TITLES": {
+      "NOT_APPROVED": "Belum Disetujui",
+      "FREE_VOUCHER": "Voucher Gratis Ditebus",
+      "DISCOUNT_VOUCHER": "Voucher Diskon Ditebus",
+      "TRANSACTIONS": "Transaksi"
+    },
+    "SEGMENTS": {
+      "ALL": "Semua",
+      "ENROLLED": "Terdaftar",
+      "REFERRED": "Dirujuk"
+    },
+    "NO_DATA": "Tidak ada data yang tersedia...",
+    "BUTTONS": {
+      "VIEW_ALL": "Lihat Semua"
+    }
+  },
+  "SETTINGS_PAGE": {
+    "PAGE_TITLE": "Pengaturan",
+    "PROFILE": "Profil",
+    "REDEEM_VOUCHER": "Tukar Voucher",
+    "VOUCHER_REDEMPTION_DETAILS": "Detail Penebusan Voucher",
+    "LANGUAGE": "Bahasa",
+    "PROJECTS": "Proyek",
+    "LOGOUT": "Keluar",
+    "LOGOUT_DIALOG": {
+      "TITLE": "Keluar",
+      "MESSAGE": "Apakah Anda yakin ingin keluar?",
+      "BUTTONS": {
+        "CANCEL": "Batal",
+        "CONFIRM": "Konfirmasi"
+      }
+    }
+  },
+  "LANGUAGE_SETTINGS_PAGE": {
+    "PAGE_TITLE": "Bahasa"
+  },
+  "PROFILE_PAGE": {
+    "PAGE_TITLE": "Profil"
+  },
+  "REDEEM_VENDOR_VOUCHER_PAGE": {
+    "PAGE_TITLE": "Tukar Voucher Penyedia",
+    "FREE_VOUCHER": "Voucher Gratis",
+    "DISCOUNT_VOUCHER": "Voucher Diskon"
+  },
+  "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE": {
+    "PAGE_TITLE": {
+      "FREE_VOUCHER": "Tukar Voucher Gratis",
+      "DISCOUNT_VOUCHER": "Tukar Voucher Diskon"
+    },
+    "CARD_TITLE": "Total Voucher Tersedia Untuk Penebusan",
+    "LABELS": {
+      "VOUCHER": "Jumlah voucher*"
+    },
+    "PLACEHOLDERS": {
+      "VOUCHER": "Masukkan jumlah voucher yang akan ditebus"
+    },
+    "ERRORS": {
+      "VOUCHER": {
+        "MAIN": "Harap masukkan jumlah voucher",
+        "NON_ZERO": "Nilai tidak boleh nol",
+        "POSITIVE_INTEGER": "Nilai harus berupa bilangan bulat positif",
+        "MAX": "Nilai tidak boleh lebih besar dari voucher yang tersedia"
+      }
+    },
+    "SUCCESS": "Voucher berhasil ditukar",
+    "BUTTONS": {
+      "SUBMIT": "Kirim"
+    }
+  },
+  "REDEEM_VENDOR_VOUCHER_LIST_PAGE": {
+    "PAGE_TITLE": "Detail Penebusan Voucher"
+  },
+  "PROJECT_SETTINGS_PAGE": {
+    "PAGE_TITLE": "Pilih Proyek"
+  },
+  "REFERRED_BENEFICIARIES_PAGE": {
+    "PAGE_TITLE": "Daftar Penerima yang Dirujuk",
+    "CARD_TITLE": "Total Penerima yang Dirujuk"
+  },
+  "REFERRED_BENEFICIARY_DETAILS_PAGE": {
+    "PAGE_TITLE": "Detail Penerima yang Dirujuk",
+    "LABELS": {
+      "NAME": "Nama Penerima",
+      "PHONE": "Nomor Telepon",
+      "GENDER": "Jenis Kelamin",
+      "VOUCHER_TYPE": "Jenis Voucher",
+      "DISCOUNT_VOUCHER": "Voucher Diskon",
+      "WALLET_ADDRESS": "Alamat Dompet",
+      "DATE": "Tanggal"
+    }
+  },
+  "CHARGE_BENEFICIARY_PAGE": {
+    "PAGE_TITLE": "Isi Ulang Penerima",
+    "SEGMENTS": {
+      "PHONE": {
+        "TITLE": "NOMOR TELEPON",
+        "DESCRIPTION": "Masukkan nomor telepon penerima",
+        "LABELS": {
+          "PHONE": "Nomor Telepon*"
+        },
+        "PLACEHOLDERS": {
+          "PHONE": "Masukkan nomor telepon",
+          "CODE": "Kode"
+        },
+        "ERRORS": {
+          "PHONE": "Harap masukkan nomor telepon",
+          "CODE": "Harap masukkan kode negara"
+        }
+      },
+      "WALLET": {
+        "TITLE": "DOMPET",
+        "DESCRIPTION": "Masukkan alamat dompet penerima",
+        "LABELS": {
+          "WALLET_ADDRESS": "Alamat Dompet*"
+        },
+        "PLACEHOLDERS": {
+          "WALLET_ADDRESS": "Masukkan alamat dompet"
+        },
+        "ERRORS": {
+          "WALLET_ADDRESS": "Harap masukkan alamat dompet yang valid"
+        }
+      },
+      "BUTTONS": {
+        "SUBMIT": "Ambil Voucher Penerima"
+      }
+    }
+  },
+  "TRANSACTIONS_LIST_PAGE": {
+    "PAGE_TITLE": "Daftar Transaksi",
+    "NO_DATA": "Tidak ada data yang tersedia..."
+  },
+  "TRANSACTIONS_DETAILS_PAGE": {
+    "PAGE_TITLE": "Detail Transaksi",
+    "LABELS": {
+      "TRANSACTION_TYPE": "Tanggal",
+      "WALLET_ADDRESS": "Alamat Dompet Penerima",
+      "VOUCHER_TYPE": "Jenis Voucher",
+      "BENEFICIARY_TYPE": "Jenis Penerima",
+      "TRANSACTION_HASH": "Hash Transaksi",
+      "DATE": "Tanggal"
+    }
+  }
+}

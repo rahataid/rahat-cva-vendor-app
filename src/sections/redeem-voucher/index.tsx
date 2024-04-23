@@ -22,21 +22,26 @@ import {
 import { homeOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
-import { useState } from "react";
+import { FC, useState } from "react";
 import useTransactionStore from "@store/transaction";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
 import useVoucherType from "@hooks/use-voucher-type";
 import { cropString } from "../../utils/helperFunctions";
+import { useTranslation } from "react-i18next";
+import CustomLoader from "@components/loaders/customLoader";
+import { handleError } from "@utils/errorHandler";
+
 type Props = {
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
   beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
 };
 
-const RedeemVoucher: React.FC<Props> = ({
+const RedeemVoucher: FC<Props> = ({
   beneficiaryVoucher,
   beneficiaryDetails,
-}: Props) => {
+}) => {
+  const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
   const { redeemVoucher, updateStatus } = useTransactionStore((state) => ({
@@ -95,12 +100,11 @@ const RedeemVoucher: React.FC<Props> = ({
         message: "",
       });
     } catch (error) {
-      console.log(error);
-      showToast("Something went wrong! Try again later", "danger");
+      showToast(handleError(error), "danger");
       setSubmitSuccess(false);
       setError("root.serverError", {
         type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
     setInProgress(false);
@@ -154,7 +158,7 @@ const RedeemVoucher: React.FC<Props> = ({
       setSubmitSuccess(false);
       setError("root.serverError", {
         type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
     setInProgress(false);
@@ -172,7 +176,7 @@ const RedeemVoucher: React.FC<Props> = ({
   };
 
   const handleDisabledRefer = () => {
-    showToast("You have already referred 3 beneficiaries", "danger");
+    showToast(t("GLOBAL.ERRORS.REFER_LIMIT_REACHED"), "danger");
   };
 
   const handleGoHome = () => {
@@ -185,7 +189,7 @@ const RedeemVoucher: React.FC<Props> = ({
 
   return (
     <form>
-      <IonLoading mode="md" isOpen={inProgress} message={"Please wait..."} />
+      <CustomLoader isOpen={inProgress} />
       <CustomToast
         isOpen={toastVisible}
         onDidDismiss={hideToast}
@@ -201,30 +205,36 @@ const RedeemVoucher: React.FC<Props> = ({
                 <IonGrid className="p-0">
                   <IonRow>
                     <IonCol size="6" className="pl-0">
-                      Beneficiary Address:
+                      {t("REDEEM_VOUCHER_PAGE.LABELS.BENEFICIARY_ADDRESS")}
                     </IonCol>
                     <IonCol size="6" className="pr-0">
                       {cropString(beneficiaryDetails?.walletAddress) || "-"}
                     </IonCol>
                     <IonCol size="6" className="pl-0">
-                      Voucher Type:
+                      {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_TYPE")}
                     </IonCol>
                     <IonCol size="6" className="pr-0">
                       {(voucherType === VOUCHER.DISCOUNT_VOUCHER && (
-                        <IonText color="success">Discount Voucher</IonText>
+                        <IonText color="success">
+                          {t("GLOBAL.TEXTS.VOUCHER_TYPE.DISCOUNT")}
+                        </IonText>
                       )) ||
                         (voucherType === VOUCHER.FREE_VOUCHER && (
-                          <IonText color="warning">Free Voucher</IonText>
+                          <IonText color="warning">
+                            {t("GLOBAL.TEXTS.VOUCHER_TYPE.FREE")}
+                          </IonText>
                         ))}
                     </IonCol>
                     <IonCol size="6" className="pl-0">
-                      Voucher Status:
+                      {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_STATUS")}
                     </IonCol>
                     <IonCol size="6" className="pr-0">
                       {isVoucherClaimed ? (
-                        <IonText>Redeemed</IonText>
+                        <IonText>{t("REDEEM_VOUCHER_PAGE.REDEEMED")}</IonText>
                       ) : (
-                        <IonText>Not Redeemed</IonText>
+                        <IonText>
+                          {t("REDEEM_VOUCHER_PAGE.NOT_REDEEMED")}
+                        </IonText>
                       )}
                     </IonCol>
                   </IonRow>
@@ -237,7 +247,7 @@ const RedeemVoucher: React.FC<Props> = ({
                   <IonRow>
                     <IonCol size="12" className="px-0">
                       <IonText color="danger">
-                        You have already referred 3 beneficiaries
+                        {t("GLOBAL.ERRORS.REFER_LIMIT_REACHED")}
                       </IonText>
                       <div
                         onClick={handleDisabledRefer}
@@ -253,7 +263,7 @@ const RedeemVoucher: React.FC<Props> = ({
                             // beneficiaryDetails?.beneficiariesReferred >= 3
                           }
                         >
-                          Refer
+                          {t("REDEEM_VOUCHER_PAGE.BUTTONS.REFER")}
                         </IonButton>
                       </div>
                     </IonCol>
@@ -269,8 +279,12 @@ const RedeemVoucher: React.FC<Props> = ({
                     <Controller
                       render={({ field }) => (
                         <FormInputSelect
-                          label="Eye Checkup Status:"
-                          placeholder="Select Status"
+                          label={t(
+                            "REDEEM_VOUCHER_PAGE.LABELS.EYE_CHECKUP_STATUS"
+                          )}
+                          placeholder={t(
+                            "REDEEM_VOUCHER_PAGE.PLACEHOLDERS.EYE_CHECKUP_STATUS"
+                          )}
                           value={getValues("eyeCheckupStatus")}
                           onChange={(e) => {
                             setValue("eyeCheckupStatus", e.target.value, {
@@ -282,15 +296,17 @@ const RedeemVoucher: React.FC<Props> = ({
                           errorText={errors?.eyeCheckupStatus?.message}
                         >
                           <IonSelectOption value="EYE_CHECKUP_DONE">
-                            Checkup Done
+                            {t("REDEEM_VOUCHER_PAGE.SELECT.CHECKUP_DONE")}
                           </IonSelectOption>
                           <IonSelectOption value="EYE_CHECKUP_NOT_DONE">
-                            Checkup Not Done
+                            {t("REDEEM_VOUCHER_PAGE.SELECT.CHECKUP_NOT_DONE")}
                           </IonSelectOption>
                         </FormInputSelect>
                       )}
                       rules={{
-                        required: "Please select the status",
+                        required: t(
+                          "REDEEM_VOUCHER_PAGE.ERRORS.EYE_CHECKUP_STATUS"
+                        ),
                       }}
                       control={control}
                       name="eyeCheckupStatus"
@@ -302,8 +318,10 @@ const RedeemVoucher: React.FC<Props> = ({
                     <Controller
                       render={({ field }) => (
                         <FormInputSelect
-                          label="Glasses Status:"
-                          placeholder="Select Status"
+                          label={t("REDEEM_VOUCHER_PAGE.LABELS.GLASSES_STATUS")}
+                          placeholder={t(
+                            "REDEEM_VOUCHER_PAGE.PLACEHOLDERS.GLASSES_STATUS"
+                          )}
                           value={getValues("glassesStatus")}
                           onChange={(e) => {
                             setValue("glassesStatus", e.target.value, {
@@ -317,26 +335,34 @@ const RedeemVoucher: React.FC<Props> = ({
                           {voucherType === VOUCHER.FREE_VOUCHER ? (
                             <>
                               <IonSelectOption value="GLASSES_REQUIRED">
-                                Glasses Required
+                                {t(
+                                  "REDEEM_VOUCHER_PAGE.SELECT.GLASSES_REQUIRED"
+                                )}
                               </IonSelectOption>
                               <IonSelectOption value="GLASSES_NOT_REQUIRED">
-                                Glasses Not Required
+                                {t(
+                                  "REDEEM_VOUCHER_PAGE.SELECT.GLASSES_NOT_REQUIRED"
+                                )}
                               </IonSelectOption>
                             </>
                           ) : (
                             <>
                               <IonSelectOption value="GLASSES_BOUGHT">
-                                Glasses Bought
+                                {t("REDEEM_VOUCHER_PAGE.SELECT.GLASSES_BOUGHT")}
                               </IonSelectOption>
                               <IonSelectOption value="GLASSES_NOT_BOUGHT">
-                                Glasses Not Bought
+                                {t(
+                                  "REDEEM_VOUCHER_PAGE.SELECT.GLASSES_NOT_BOUGHT"
+                                )}
                               </IonSelectOption>
                             </>
                           )}
                         </FormInputSelect>
                       )}
                       rules={{
-                        required: "Please select the status",
+                        required: t(
+                          "REDEEM_VOUCHER_PAGE.ERRORS.GLASSES_STATUS"
+                        ),
                       }}
                       control={control}
                       name="glassesStatus"
@@ -347,7 +373,7 @@ const RedeemVoucher: React.FC<Props> = ({
                     <IonCol size="12" className="px-0">
                       {submitSuccess && (
                         <IonText color="success">
-                          Status saved successfully!
+                          {t("REDEEM_VOUCHER_PAGE.SUCCESS.GLASSES")}
                         </IonText>
                       )}
                       {errors?.root?.serverError?.message && (
@@ -393,7 +419,7 @@ const RedeemVoucher: React.FC<Props> = ({
                                 }
                                 onClick={handleUpdateStatus}
                               >
-                                Update Status
+                                {t("REDEEM_VOUCHER_PAGE.BUTTONS.UPDATE_STATUS")}
                               </IonButton>
                             ) : (
                               <IonButton
@@ -411,7 +437,7 @@ const RedeemVoucher: React.FC<Props> = ({
                                 }
                                 onClick={handleRedeemVoucher}
                               >
-                                Redeem Voucher
+                                {t("REDEEM_VOUCHER_PAGE.BUTTONS.REDEEM")}
                               </IonButton>
                             )}
                           </IonCol>
@@ -422,7 +448,7 @@ const RedeemVoucher: React.FC<Props> = ({
                               fill="outline"
                             >
                               <IonIcon slot="start" icon={homeOutline} />
-                              Go To Homepage
+                              {t("REDEEM_VOUCHER_PAGE.BUTTONS.GO_HOME")}
                             </IonButton>
                           </IonCol>
                         </>
@@ -444,7 +470,7 @@ const RedeemVoucher: React.FC<Props> = ({
                                 }
                                 onClick={handleUpdateStatus}
                               >
-                                Update Status
+                                {t("REDEEM_VOUCHER_PAGE.BUTTONS.UPDATE_STATUS")}
                               </IonButton>
                             ) : (
                               <IonButton
@@ -462,7 +488,7 @@ const RedeemVoucher: React.FC<Props> = ({
                                 }
                                 onClick={handleRedeemVoucher}
                               >
-                                Redeem Voucher
+                                {t("REDEEM_VOUCHER_PAGE.BUTTONS.REDEEM")}
                               </IonButton>
                             )}
                           </IonCol>
@@ -481,7 +507,7 @@ const RedeemVoucher: React.FC<Props> = ({
                                   beneficiaryDetails?.beneficiariesReferred >= 3
                                 }
                               >
-                                Refer
+                                {t("REDEEM_VOUCHER_PAGE.BUTTONS.REFER")}
                               </IonButton>
                             </div>
                           </IonCol>

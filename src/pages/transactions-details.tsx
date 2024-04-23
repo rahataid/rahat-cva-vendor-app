@@ -5,8 +5,10 @@ import TransactionDetails from "@sections/settings/transactions-settings/transac
 import { useParams } from "react-router";
 import { useVendorTransactionDetails } from "@api/vendors";
 import useAppStore from "@store/app";
+import { useTranslation } from "react-i18next";
 
 const TransactionsDetailPage: FC = () => {
+  const { t } = useTranslation();
   const { txHash } = useParams<{ txHash: string }>();
   const voucherAddresses = useAppStore((state) => ({
     freeVoucherAddress: state?.projectSettings?.contracts?.eyevoucher?.address,
@@ -17,7 +19,10 @@ const TransactionsDetailPage: FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Transaction Details" showBackButton />
+      <CustomHeader
+        title={t("TRANSACTION_DETAILS_PAGE.PAGE_TITLE")}
+        showBackButton
+      />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

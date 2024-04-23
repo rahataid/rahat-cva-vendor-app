@@ -13,8 +13,10 @@ import { useReferredBeneficiariesList } from "@api/beneficiaries";
 
 import CustomRefresher from "@components/refresher/CustomRefresher";
 import CardComponent from "@sections/home/home-card";
+import { useTranslation } from "react-i18next";
 
 const ReferredBeneficiariesListPage: FC = () => {
+  const { t } = useTranslation();
   const {
     data: beneficiaries,
     isLoading,
@@ -28,7 +30,7 @@ const ReferredBeneficiariesListPage: FC = () => {
   };
   return (
     <IonPage>
-      <CustomHeader title="Referred Beneficiaries List" />
+      <CustomHeader title={t("REFERRED_BENEFICIARIES_PAGE.PAGE_TITLE")} />
       <IonContent>
         <CustomRefresher handleRefresh={handleRefresh} />
         <IonGrid>
@@ -36,7 +38,7 @@ const ReferredBeneficiariesListPage: FC = () => {
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
               <CardComponent
                 title={beneficiaries?.length || 0}
-                subtitle="Total Beneficiares Referred"
+                subtitle={t("REFERRED_BENEFICIARIES_PAGE.CARD_TITLE")}
                 loading={isFetching}
               />
               <ReferredBeneficiariesList

@@ -4,6 +4,7 @@ import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
 import ListSkeletonCard from "@components/loaders/skeleton/card/list";
+import { useTranslation } from "react-i18next";
 
 type VoucherStats = {
   freeVoucherRedeemed: number;
@@ -35,6 +36,7 @@ const Home = ({
   currentUser,
   isSettingsFetching,
 }: PropTypes) => {
+  const { t } = useTranslation();
   const history = useHistory();
 
   if (isSettingsFetching) {
@@ -49,10 +51,10 @@ const Home = ({
     return (
       <>
         <DismissibleAlert
-          title="Not Approved"
+          title={t("HOME_PAGE.TITLES.NOT_APPROVED")}
           color="warning"
           dismissText="Reload"
-          description="You have not been approved. Please Contact admin."
+          description={t("GLOBAL.ERRORS.NOT_APPROVED")}
           onButtonClick={handleReload}
           visible={!isVendor}
         />
@@ -110,12 +112,12 @@ const Home = ({
         }}
       >
         <CardComponent
-          subtitle="Free Vouchers Redeemed"
+          subtitle={t("HOME_PAGE.TITLES.FREE_VOUCHER")}
           title={voucherData?.freeVoucherRedeemed}
           loading={loading}
         />
         <CardComponent
-          subtitle="Discount Vouchers Redeemed"
+          subtitle={t("HOME_PAGE.TITLES.DISCOUNT_VOUCHER")}
           title={voucherData?.referredVoucherRedeemed}
           loading={loading}
         />

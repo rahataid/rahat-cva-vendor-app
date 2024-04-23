@@ -9,6 +9,8 @@ import CustomToast from "../../../components/toast";
 import { useState } from "react";
 import { useVendorVoucherRedemptionCount } from "../../../api/vendors";
 import CardComponent from "@sections/home/home-card";
+import { useTranslation } from "react-i18next";
+import CustomLoader from "@components/loaders/customLoader";
 
 type FormValues = {
   vouchers: number;
@@ -17,6 +19,7 @@ type FormValues = {
 const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
   voucherType,
 }) => {
+  const { t } = useTranslation();
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const { transferVoucher } = useTransactionStore();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
@@ -56,7 +59,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
   };
   return (
     <>
-      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
+      <CustomLoader isOpen={isSubmitting} />
       <CustomToast
         isOpen={toastVisible}
         onDidDismiss={hideToast}
@@ -65,7 +68,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
         color={toastColor}
       />
       <CardComponent
-        subtitle="Total Available Vouchers For Redemption"
+        subtitle={t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.CARD_TITLE")}
         title={data}
         loading={isRefetching}
       />
@@ -76,9 +79,11 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
             <Controller
               render={({ field }) => (
                 <TextInputField
-                  placeholder="Enter the number of vouchers to redeem"
+                  placeholder={t(
+                    "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.PLACEHOLDERS.VOUCHER"
+                  )}
                   type="number"
-                  label="Number of vouchers*"
+                  label={t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.LABELS.VOUCHER")}
                   value={getValues("vouchers")}
                   errorText={errors?.vouchers?.message}
                   onInput={(e: any) => {
@@ -92,17 +97,24 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
               rules={{
                 required: {
                   value: true,
-                  message: "Please enter the number of vouchers",
+                  message: t(
+                    "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.ERRORS.VOUCHER.MAIN"
+                  ),
                 },
                 validate: {
                   notZero: (value) =>
-                    Number(value) !== 0 || "Value cannot be zero",
+                    Number(value) !== 0 ||
+                    t(
+                      "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.ERRORS.VOUCHER.NON_ZERO"
+                    ),
                   positiveInteger: (value) =>
                     (Number.isInteger(Number(value)) && Number(value) > 0) ||
-                    "Value must be a positive integer",
+                    t(
+                      "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.ERRORS.VOUCHER.POSITIVE_INTEGER"
+                    ),
                   lessThanOrEqualToData: (value) =>
                     Number(value) <= data ||
-                    "You can't redeem more than available vouchers",
+                    t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.ERRORS.VOUCHER.MAX"),
                 },
               }}
               control={control}
@@ -110,7 +122,9 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
             />
             <br />
             {submitSuccess && (
-              <IonText color="success">Voucher redeemed successfully</IonText>
+              <IonText color="success">
+                {t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.SUCCESS")}
+              </IonText>
             )}
             {errors?.root?.serverError?.message && (
               <>
@@ -127,7 +141,7 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
               color="primary"
               disabled={isSubmitting || !isValid}
             >
-              Submit
+              {t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.BUTTONS.SUBMIT")}
             </IonButton>
           </form>
         </IonCardContent>

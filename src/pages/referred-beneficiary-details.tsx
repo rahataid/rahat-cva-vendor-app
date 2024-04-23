@@ -15,6 +15,7 @@ import { useReferredBeneficiariesDetails } from "@api/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import BeneficiaryDetailsSkeleton from "@components/loaders/skeleton/details";
 import DetailsSkeletonCard from "@components/loaders/skeleton/card/details";
+import { useTranslation } from "react-i18next";
 
 type LocationState = {
   data: {
@@ -23,6 +24,7 @@ type LocationState = {
 };
 
 const ReferredBeneficiariesDetailsPage: FC = () => {
+  const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
   const { uuid } = useParams<{ uuid: string }>();
@@ -38,7 +40,10 @@ const ReferredBeneficiariesDetailsPage: FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Referred Beneficiary Details" showBackButton />
+      <CustomHeader
+        title={t("REFERRED_BENEFICIARY_DETAILS_PAGE.PAGE_TITLE")}
+        showBackButton
+      />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

@@ -1,6 +1,13 @@
 import TextInputField from "@components/input/form-text-input";
 import PhoneCodeSelector from "@components/modals/phoneCodeSelector";
-import { IonCol, IonImg, IonModal, IonRow, IonText } from "@ionic/react";
+import {
+  IonCol,
+  IonImg,
+  IonLabel,
+  IonModal,
+  IonRow,
+  IonText,
+} from "@ionic/react";
 import { SelectOptionItem } from "@sections/auth/registration";
 import useAppStore from "@store/app";
 import { caretDownOutline, searchOutline, watch } from "ionicons/icons";
@@ -10,6 +17,7 @@ import "./countryCodeInput.scss";
 type Props = any;
 
 const CountryCodeInput: FC<Props> = ({
+  label,
   errorText,
   clearInput,
   onPhoneBlur,
@@ -40,6 +48,9 @@ const CountryCodeInput: FC<Props> = ({
 
   return (
     <>
+      <div className="ion-margin-top-sm">
+        <IonLabel class={`text-input-label`}>{label}</IonLabel>
+      </div>
       <IonRow>
         <IonCol size="4" className="ion-no-padding">
           <div className="wrapper-input">
