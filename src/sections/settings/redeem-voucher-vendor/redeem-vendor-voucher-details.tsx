@@ -6,19 +6,22 @@ import useTransactionStore from "../../../store/transaction";
 import TextInputField from "../../../components/input/form-text-input";
 import { VOUCHER } from "../../../types/beneficiaries";
 import CustomToast from "../../../components/toast";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useVendorVoucherRedemptionCount } from "../../../api/vendors";
 import CardComponent from "@sections/home/home-card";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
+import { handleError } from "@utils/errorHandler";
 
 type FormValues = {
   vouchers: number;
 };
 
-const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
-  voucherType,
-}) => {
+type Props = {
+  voucherType: VOUCHER;
+};
+
+const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
   const { t } = useTranslation();
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const { transferVoucher } = useTransactionStore();
@@ -46,14 +49,14 @@ const RedeemVendorVoucherDetails: React.FC<{ voucherType: VOUCHER }> = ({
         amount: data?.vouchers,
       });
       setSubmitSuccess(true);
-      showToast("Voucher redeemed successfully", "success");
+      showToast(t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.SUCCESS_MSG"), "success");
     } catch (error) {
       console.log(error);
       setSubmitSuccess(false);
-      showToast("Something went wrong! Try again later.", "danger");
+      showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
   };

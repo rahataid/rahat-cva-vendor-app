@@ -1,9 +1,10 @@
 import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import Settings from "@sections/settings";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-const SettingsPage: React.FC = () => {
+const SettingsPage: FC = () => {
   const { t } = useTranslation();
   return (
     <IonPage>

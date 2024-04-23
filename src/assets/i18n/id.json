@@ -4,18 +4,20 @@
       "LOADING": "Mohon tunggu..."
     },
     "TOASTS": {
-      "COPIED": "Disalin ke papan klip"
+      "COPIED": "Disalin ke clipboard"
     },
     "ERRORS": {
-      "DEFAULT": "Ada yang salah! Silakan coba lagi nanti",
+      "DEFAULT": "Ada kesalahan! Silakan coba lagi nanti",
       "INVALID_BENEFICIARY": "Penerima tidak valid",
-      "INVALID_ETHEREUM_ADDRESS": "Alamat dompet ethereum tidak valid",
+      "INVALID_ETHEREUM_ADDRESS": "Alamat dompet Ethereum tidak valid",
       "INVALID_MNEMONICS": "Mnemonik tidak valid",
       "INVALID_WALLET_ADDRESS": "Harap masukkan alamat dompet yang valid",
-      "VOUCHER_NOT_ASSIGNED": "Voucher tidak ditugaskan ke penerima manfaat",
+      "VOUCHER_NOT_ASSIGNED": "Voucher tidak ditugaskan kepada penerima",
       "NETWORK_ERROR": "URL proyek tidak valid",
       "PHONE_EXISTS": "Nomor telepon sudah ada",
-      "NOT_APPROVED": "Anda belum disetujui. Harap Hubungi admin"
+      "NOT_APPROVED": "Anda belum disetujui. Silakan hubungi admin",
+      "VOUCHER_CLAIMED": "Penerima sudah mengklaim voucher",
+      "REFER_LIMIT_REACHED": "Anda sudah merujuk 3 orang"
     },
     "TEXTS": {
       "NO_DATA": "Tidak ada data yang tersedia...",
@@ -27,6 +29,20 @@
         "ENROLLED": "terdaftar",
         "REFERRED": "dirujuk"
       }
+    }
+  },
+  "RESET_PAGE": {
+    "TITLE": "Apakah Anda yakin ingin mereset aplikasi",
+    "MSG": "Ini akan menghapus semua data aplikasi",
+    "BUTTONS": {
+      "RESET": "Reset"
+    }
+  },
+  "NOT_FOUND_PAGE": {
+    "TITLE": "404 Halaman Tidak Ditemukan",
+    "MSG": "Maaf, halaman yang Anda cari tidak ada",
+    "BUTTONS": {
+      "BACK": "Kembali"
     }
   },
   "LANDING_PAGE": {
@@ -48,15 +64,15 @@
       "PHONE": "Nomor Telepon"
     },
     "ERRORS": {
-      "NAME": "Harap masukkan nama lengkap Anda",
-      "PHONE": "Harap masukkan nomor telepon",
-      "CODE": "Harap masukkan kode negara"
+      "NAME": "Silakan masukkan nama lengkap Anda",
+      "PHONE": "Silakan masukkan nomor telepon",
+      "CODE": "Silakan masukkan kode negara"
     },
     "MNEMONICS": {
-      "TITLE": "Tuliskan mnemonik dengan aman",
+      "TITLE": "Tulis mnemonik dengan aman",
       "BUTTONS": {
         "COPY": "Salin",
-        "NEXT": "Berikutnya"
+        "NEXT": "Selanjutnya"
       }
     },
     "BUTTONS": {
@@ -70,10 +86,10 @@
       "PNEUMONICS": "Pneumonik*"
     },
     "PLACEHOLDERS": {
-      "PNEUMONICS": "Harap masukkan 12 kata pneumonik"
+      "PNEUMONICS": "Silakan masukkan 12 kata pneumonik"
     },
     "ERRORS": {
-      "PNEUMONICS": "Harap masukkan 12 kata pneumonik"
+      "PNEUMONICS": "Silakan masukkan 12 kata pneumonik"
     },
     "BUTTONS": {
       "SUBMIT": "Kirim",
@@ -85,7 +101,6 @@
   },
   "HOME_PAGE": {
     "PAGE_TITLE": "Beranda",
-
     "TITLES": {
       "NOT_APPROVED": "Belum Disetujui",
       "FREE_VOUCHER": "Voucher Gratis Ditebus",
@@ -105,7 +120,7 @@
   "SETTINGS_PAGE": {
     "PAGE_TITLE": "Pengaturan",
     "PROFILE": "Profil",
-    "REDEEM_VOUCHER": "Tukar Voucher",
+    "REDEEM_VOUCHER": "Tebus Voucher",
     "VOUCHER_REDEMPTION_DETAILS": "Detail Penebusan Voucher",
     "LANGUAGE": "Bahasa",
     "PROJECTS": "Proyek",
@@ -126,62 +141,67 @@
     "PAGE_TITLE": "Profil"
   },
   "REDEEM_VENDOR_VOUCHER_PAGE": {
-    "PAGE_TITLE": "Tukar Voucher Penyedia",
+    "PAGE_TITLE": "Tebus Voucher Vendor",
     "FREE_VOUCHER": "Voucher Gratis",
     "DISCOUNT_VOUCHER": "Voucher Diskon"
   },
   "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE": {
     "PAGE_TITLE": {
-      "FREE_VOUCHER": "Tukar Voucher Gratis",
-      "DISCOUNT_VOUCHER": "Tukar Voucher Diskon"
+      "FREE_VOUCHER": "Tebus Voucher Gratis",
+      "DISCOUNT_VOUCHER": "Tebus Voucher Diskon"
     },
     "CARD_TITLE": "Total Voucher Tersedia Untuk Penebusan",
     "LABELS": {
       "VOUCHER": "Jumlah voucher*"
     },
     "PLACEHOLDERS": {
-      "VOUCHER": "Masukkan jumlah voucher yang akan ditebus"
+      "VOUCHER": "Masukkan jumlah voucher yang ingin ditebus"
     },
     "ERRORS": {
       "VOUCHER": {
-        "MAIN": "Harap masukkan jumlah voucher",
+        "MAIN": "Silakan masukkan jumlah voucher",
         "NON_ZERO": "Nilai tidak boleh nol",
-        "POSITIVE_INTEGER": "Nilai harus berupa bilangan bulat positif",
+        "POSITIVE_INTEGER": "Nilai harus bilangan bulat positif",
         "MAX": "Nilai tidak boleh lebih besar dari voucher yang tersedia"
       }
     },
-    "SUCCESS": "Voucher berhasil ditukar",
+    "SUCCESS_MSG": "Voucher berhasil ditebus",
     "BUTTONS": {
       "SUBMIT": "Kirim"
     }
   },
   "REDEEM_VENDOR_VOUCHER_LIST_PAGE": {
-    "PAGE_TITLE": "Detail Penebusan Voucher"
+    "PAGE_TITLE": "Detail Penebusan Voucher",
+    "NO_DATA": "Tidak Ada Data...",
+    "LABELS": {
+      "STATUS": "Status:",
+      "AMOUNT": "Jumlah:"
+    }
   },
   "PROJECT_SETTINGS_PAGE": {
     "PAGE_TITLE": "Pilih Proyek"
   },
   "REFERRED_BENEFICIARIES_PAGE": {
-    "PAGE_TITLE": "Daftar Penerima yang Dirujuk",
-    "CARD_TITLE": "Total Penerima yang Dirujuk"
+    "PAGE_TITLE": "Daftar Penerima Rujukan",
+    "CARD_TITLE": "Total Penerima Dirujuk"
   },
   "REFERRED_BENEFICIARY_DETAILS_PAGE": {
-    "PAGE_TITLE": "Detail Penerima yang Dirujuk",
+    "PAGE_TITLE": "Detail Penerima Rujukan",
     "LABELS": {
       "NAME": "Nama Penerima",
       "PHONE": "Nomor Telepon",
       "GENDER": "Jenis Kelamin",
-      "VOUCHER_TYPE": "Jenis Voucher",
+      "VOUCHER_TYPE": "Tipe Voucher",
       "DISCOUNT_VOUCHER": "Voucher Diskon",
       "WALLET_ADDRESS": "Alamat Dompet",
       "DATE": "Tanggal"
     }
   },
   "CHARGE_BENEFICIARY_PAGE": {
-    "PAGE_TITLE": "Isi Ulang Penerima",
+    "PAGE_TITLE": "Isi Saldo Penerima",
     "SEGMENTS": {
       "PHONE": {
-        "TITLE": "NOMOR TELEPON",
+        "TITLE": "TELEPON",
         "DESCRIPTION": "Masukkan nomor telepon penerima",
         "LABELS": {
           "PHONE": "Nomor Telepon*"
@@ -191,8 +211,8 @@
           "CODE": "Kode"
         },
         "ERRORS": {
-          "PHONE": "Harap masukkan nomor telepon",
-          "CODE": "Harap masukkan kode negara"
+          "PHONE": "Silakan masukkan nomor telepon",
+          "CODE": "Silakan masukkan kode negara"
         }
       },
       "WALLET": {
@@ -205,13 +225,16 @@
           "WALLET_ADDRESS": "Masukkan alamat dompet"
         },
         "ERRORS": {
-          "WALLET_ADDRESS": "Harap masukkan alamat dompet yang valid"
+          "WALLET_ADDRESS": "Silakan masukkan alamat dompet yang valid"
         }
       },
       "BUTTONS": {
-        "SUBMIT": "Ambil Voucher Penerima"
+        "SUBMIT": "Dapatkan Voucher Penerima"
       }
     }
+  },
+  "SCANNER_PAGE": {
+    "PAGE_TITLE": "Pemindai"
   },
   "TRANSACTIONS_LIST_PAGE": {
     "PAGE_TITLE": "Daftar Transaksi",
@@ -222,10 +245,135 @@
     "LABELS": {
       "TRANSACTION_TYPE": "Tanggal",
       "WALLET_ADDRESS": "Alamat Dompet Penerima",
-      "VOUCHER_TYPE": "Jenis Voucher",
-      "BENEFICIARY_TYPE": "Jenis Penerima",
-      "TRANSACTION_HASH": "Hash Transaksi",
+      "VOUCHER_TYPE": "Tipe Voucher",
+      "BENEFICIARY_TYPE": "Tipe Penerima",
+      "TRANSACTION_HASH": "Transaksi Hash",
       "DATE": "Tanggal"
+    }
+  },
+  "REDEEM_VOUCHER_PAGE": {
+    "PAGE_TITLE": "Tebus Voucher",
+    "LABELS": {
+      "EYE_CHECKUP_STATUS": "Status Pemeriksaan Mata",
+      "GLASSES_STATUS": "Status Kacamata",
+      "BENEFICIARY_ADDRESS": "Alamat Penerima",
+      "VOUCHER_TYPE": "Tipe Voucher",
+      "VOUCHER_STATUS": "Status Voucher"
+    },
+    "PLACEHOLDERS": {
+      "EYE_CHECKUP_STATUS": "Pilih status",
+      "GLASSES_STATUS": "Pilih status"
+    },
+    "SELECT": {
+      "CHECKUP_DONE": "Pemeriksaan selesai",
+      "CHECKUP_NOT_DONE": "Pemeriksaan belum dilakukan",
+      "GLASSES_REQUIRED": "Butuh kacamata",
+      "GLASSES_NOT_REQUIRED": "Tidak butuh kacamata",
+      "GLASSES_BOUGHT": "Kacamata sudah dibeli",
+      "GLASSES_NOT_BOUGHT": "Kacamata belum dibeli"
+    },
+    "ERRORS": {
+      "PHONE": "Silakan pilih status",
+      "CODE": "Silakan pilih status",
+      "EYE_CHECKUP_STATUS": "Silakan pilih status",
+      "GLASSES_STATUS": "Silakan pilih status"
+    },
+    "SUCCESS": {
+      "GLASSES": "Status berhasil disimpan!"
+    },
+    "BUTTONS": {
+      "REDEEM": "Tebus Voucher",
+      "REFER": "Rujuk",
+      "UPDATE_STATUS": "Perbarui Status",
+      "GO_HOME": "Pergi ke Beranda"
+    },
+    "REDEEMED": "Terserah",
+    "NOT_REDEEMED": "Belum Terserah"
+  },
+  "REFER_BENEFICIARIES_PAGE": {
+    "PAGE_TITLE": "Rujuk Penerima",
+    "LABELS": {
+      "NAME": "Nama*",
+      "PHONE": "Nomor Telepon*",
+      "GENDER": "Jenis Kelamin*",
+      "AGE": "Usia Ditaksir*",
+      "ADDRESS": "Alamat"
+    },
+    "PLACEHOLDERS": {
+      "NAME": "Masukkan nama",
+      "CODE": "Kode",
+      "PHONE": "Masukkan nomor telepon",
+      "GENDER": "Pilih jenis kelamin",
+      "AGE": "Pilih usia",
+      "ADDRESS": "Masukkan alamat"
+    },
+    "SELECT": {
+      "MALE": "Laki-laki",
+      "FEMALE": "Perempuan",
+      "OTHERS": "Lainnya"
+    },
+    "ERRORS": {
+      "NAME": "Silakan masukkan nama lengkap",
+      "CODE": "Silakan masukkan kode negara",
+      "PHONE": "Silakan masukkan nomor telepon",
+      "GENDER": "Silakan pilih jenis kelamin",
+      "AGE": "Silakan pilih usia",
+      "ADDRESS": "Silakan masukkan alamat",
+      "INVALID_FORM": "Silakan isi semua bidang yang diperlukan dengan benar"
+    },
+    "TOTAL_AVAILABLE_REFERRALS": "Total Referral Tersedia",
+    "BENEFICIARY": "Penerima",
+    "BUTTONS": {
+      "ADD_MORE": "Tambahkan Lebih Banyak",
+      "SUBMIT": "Kirim"
+    }
+  },
+  "REFER_RESULT_PAGE": {
+    "PAGE_TITLE": "Detail Rujukan",
+    "SUCCESS_MSG": "Rujukan telah berhasil terdaftar",
+    "NO_DATA": "Tidak Ada Data...",
+    "LABELS": {
+      "NAME": "Nama",
+      "AGE": "Usia Ditaksir",
+      "PHONE": "Nomor Telepon",
+      "GENDER": "Jenis Kelamin",
+      "ADDRESS": "Alamat",
+      "TRANSACTION_HASH": "Transaksi Hash",
+      "CREATED_AT": "Dibuat Pada"
+    },
+    "BUTTONS": {
+      "GO_HOME": "Pergi ke Halaman Utama"
+    }
+  },
+  "OTP_PAGE": {
+    "PAGE_TITLE": "OTP",
+    "MSG": "Kode OTP dari SMS (Minta OTP dari penerima)",
+    "LABELS": {
+      "OTP": "OTP*"
+    },
+    "PLACEHOLDERS": {
+      "OTP": "Masukkan OTP"
+    },
+    "ERRORS": {
+      "OTP": "Silakan masukkan OTP"
+    },
+    "BUTTONS": {
+      "SUBMIT": "Kirim",
+      "CANCEL": "Batal"
+    }
+  },
+  "TRANSACTION_RESULT_PAGE": {
+    "PAGE_TITLE": "Hasil Transaksi",
+    "LABELS": {
+      "VOUCHER_TYPE": "Tipe Voucher",
+      "DATE": "Tanggal",
+      "TRANSACTION_HASH": "Transaksi Hash",
+      "WALLET_ADDRESS": "Alamat Dompet"
+    },
+    "SUCCESS_MSG": "Penerima telah berhasil menyelesaikan penebusan voucher",
+    "BUTTONS": {
+      "REFER": "Rujuk Penerima",
+      "DONE": "Selesai"
     }
   }
 }

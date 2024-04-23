@@ -10,7 +10,6 @@ import {
 import CustomHeader from "@components/header/customHeader";
 import ReferredBeneficiariesList from "@sections/settings/referred-beneficiary-settings/referred-beneficiary-list";
 import { useReferredBeneficiariesList } from "@api/beneficiaries";
-
 import CustomRefresher from "@components/refresher/CustomRefresher";
 import CardComponent from "@sections/home/home-card";
 import { useTranslation } from "react-i18next";

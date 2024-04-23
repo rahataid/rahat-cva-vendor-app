@@ -11,11 +11,11 @@ enum From {
   restore = "restore",
 }
 
-type Prop = {
+type Props = {
   from: From;
 };
 interface LocationState {
-  data: Prop;
+  data: Props;
 }
 
 const SelectProjectPage: FC = () => {

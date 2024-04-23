@@ -7,6 +7,7 @@ import {
 } from "@types/beneficiaries";
 import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
 type Props = {
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
@@ -16,7 +17,7 @@ interface LocationState {
   data: Props | null;
 }
 
-const RedeemVoucherPage: React.FC = () => {
+const RedeemVoucherPage: FC = () => {
   const location = useLocation<LocationState>();
   const {
     data: { beneficiaryDetails, beneficiaryVoucher },

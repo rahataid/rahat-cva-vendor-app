@@ -4,12 +4,13 @@ import Scanner from "@sections/plugins/scanner";
 import CustomHeader from "@components/header/customHeader";
 import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import { useHistory, useLocation } from "react-router";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
 import {
   extractWalletAddressOnScan,
   isValidEthereumAddressOnScan,
 } from "../utils/helperFunctions";
+import { useTranslation } from "react-i18next";
 
 type LocationState = {
   data: {
@@ -17,7 +18,8 @@ type LocationState = {
   };
 };
 
-const ScannerPage: React.FC = () => {
+const ScannerPage: FC = () => {
+  const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const {
     data: { redirectTo },
@@ -102,7 +104,7 @@ const ScannerPage: React.FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Scanner" showBackButton />
+      <CustomHeader title={t("SCANNER_PAGE.PAGE_TITLE")} showBackButton />
       <IonContent fullscreen scrollY={false}>
         <Scanner toggleTorch={toggleTorch} setZoomRatio={setZoomRatio} />
       </IonContent>

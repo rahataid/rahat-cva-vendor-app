@@ -31,6 +31,20 @@
       }
     }
   },
+  "RESET_PAGE": {
+    "TITLE": "Are you sure you want to reset the app",
+    "MSG": "This will clear all the data of the application",
+    "BUTTONS": {
+      "RESET": "Reset"
+    }
+  },
+  "NOT_FOUND_PAGE": {
+    "TITLE": "404 Not Found",
+    "MSG": "Sorry, the page you are looking for does not exist",
+    "BUTTONS": {
+      "BACK": "Go Back"
+    }
+  },
   "LANDING_PAGE": {
     "TAGLINE": "Supporting vulnerable communities with a simple and efficient relief distribution platform",
     "BUTTONS": {
@@ -87,7 +101,6 @@
   },
   "HOME_PAGE": {
     "PAGE_TITLE": "Home",
-
     "TITLES": {
       "NOT_APPROVED": "Not Approved",
       "FREE_VOUCHER": "Free Vouchers Redeemed",
@@ -152,13 +165,18 @@
         "MAX": "Value cannot be greater than available vouchers"
       }
     },
-    "SUCCESS": "Voucher redeemed successfully",
+    "SUCCESS_MSG": "Voucher redeemed successfully",
     "BUTTONS": {
       "SUBMIT": "Submit"
     }
   },
   "REDEEM_VENDOR_VOUCHER_LIST_PAGE": {
-    "PAGE_TITLE": "Voucher Redemption Details"
+    "PAGE_TITLE": "Voucher Redemption Details",
+    "NO_DATA": "No Data Available...",
+    "LABELS": {
+      "STATUS": "Status:",
+      "AMOUNT": "Amount:"
+    }
   },
   "PROJECT_SETTINGS_PAGE": {
     "PAGE_TITLE": "Select Project"
@@ -214,6 +232,9 @@
         "SUBMIT": "Fetch Beneficiary Voucher"
       }
     }
+  },
+  "SCANNER_PAGE": {
+    "PAGE_TITLE": "Scanner"
   },
   "TRANSACTIONS_LIST_PAGE": {
     "PAGE_TITLE": "Transactions List",

@@ -2,8 +2,9 @@ import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import RedeemVoucherVendor from "../sections/settings/redeem-voucher-vendor";
 import CustomHeader from "../components/header/customHeader";
 import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
-const RedeemVoucherVendorPage = () => {
+const RedeemVoucherVendorPage: FC = () => {
   const { t } = useTranslation();
   return (
     <IonPage>
