@@ -1,23 +1,16 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import {
-  IonButton,
-  IonItem,
-  IonList,
-  IonInput,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonIcon,
-  IonLabel,
-  IonImg,
-} from "@ionic/react";
+import { IonItem, IonList, IonIcon, IonLabel, IonImg } from "@ionic/react";
 import { checkmarkOutline, languageOutline } from "ionicons/icons";
 
 import i18n from "@utils/translation-service";
-import { useState } from "react";
+import { FC, useState } from "react";
 import "./languageSettings.scss";
 
-const LanguageSettings = () => {
+type Props = {
+  customStyle?: any;
+};
+
+const LanguageSettings: FC<Props> = ({ customStyle }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const languageOptions = [
     {
@@ -41,7 +34,7 @@ const LanguageSettings = () => {
 
   return (
     <>
-      <TransparentCard>
+      <TransparentCard styles={customStyle}>
         <IonList>
           {languageOptions.map((option, index) => (
             <IonItem
