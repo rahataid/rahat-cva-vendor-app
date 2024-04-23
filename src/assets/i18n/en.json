@@ -17,7 +17,8 @@
       "PHONE_EXISTS": "Phone number already exists",
       "NOT_APPROVED": "You have not been approved. Please Contact admin",
       "VOUCHER_CLAIMED": "Beneficiary has already claimed the voucher",
-      "REFER_LIMIT_REACHED": "You have already referred 3 bene"
+      "REFER_LIMIT_REACHED": "You have already referred 3 beneficiaries",
+      "RESTRICT_REFER": "Cannot refer more than 3 beneficiaries"
     },
     "TEXTS": {
       "NO_DATA": "No data available...",
@@ -28,6 +29,14 @@
       "BENEFICARY_TYPE": {
         "ENROLLED": "enrolled",
         "REFERRED": "referred"
+      },
+      "SELECT": {
+        "CHECKUP_DONE": "Checkup done",
+        "CHECKUP_NOT_DONE": "Checkup not done",
+        "GLASSES_REQUIRED": "Glasses required",
+        "GLASSES_NOT_REQUIRED": "Glasses not required",
+        "GLASSES_BOUGHT": "Glasses bought",
+        "GLASSES_NOT_BOUGHT": "Glasses not bought"
       }
     }
   },
@@ -378,6 +387,22 @@
     "SUCCESS_MSG": "The beneficiary has redeemed the voucher successfully",
     "BUTTONS": {
       "REFER": "Refer Beneficiaries",
+      "DONE": "Done"
+    }
+  },
+  "UPDATE_STATUS_RESULT_PAGE": {
+    "PAGE_TITLE": "Update Status Result",
+    "LABELS": {
+      "VOUCHER_TYPE": "Voucher Type",
+      "CHECKUP_STATUS": "Checkup Status",
+      "GLASSES_STATUS": "Glasses Status",
+      "DATE": "Date",
+      "TRANSACTION_HASH": "Transaction Hash",
+      "WALLET_ADDRESS": "Wallet Address"
+    },
+    "SUCCESS_MSG": "The status of the beneficiary has been updated successfully",
+    "BUTTONS": {
+      "REFER": "Refer",
       "DONE": "Done"
     }
   }
