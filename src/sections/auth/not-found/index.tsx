@@ -8,12 +8,14 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import React from "react";
+import { FC } from "react";
 import Logo from "@assets/images/logo/rahat-logo-standard.png";
 import "./not-found.scss";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
-const NotFoundPage: React.FC = () => {
+const NotFoundPage: FC = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   return (
     <IonPage>
@@ -29,8 +31,8 @@ const NotFoundPage: React.FC = () => {
             >
               <IonImg src={Logo} />
               <IonText className="landing-text-container">
-                <h1>404 Not Found</h1>
-                <p>Sorry, the page you are looking for does not exist.</p>
+                <h1>{t("NOT_FOUND_PAGE.TITLE")}</h1>
+                <p>{t("NOT_FOUND_PAGE.MSG")}</p>
               </IonText>
               <IonButton
                 // color="dark"
@@ -38,7 +40,7 @@ const NotFoundPage: React.FC = () => {
                 expand="block"
                 onClick={() => history.goBack()}
               >
-                Go Back
+                {t("NOT_FOUND_PAGE.BUTTONS.BACK")}
               </IonButton>
             </IonCol>
           </IonRow>

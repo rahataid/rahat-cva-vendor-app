@@ -6,22 +6,26 @@ import {
   BENEFICIARY_VOUCHER_DETAILS,
   REFER_RESULT_BENEFICIARY_DETAILS,
 } from "../types/beneficiaries";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
-const ReferResultPage: React.FC = () => {
-  type LocationState = {
-    data: {
-      data: REFER_RESULT_BENEFICIARY_DETAILS[];
-      from: "redeemVoucher" | "transactionResult";
-      voucher: BENEFICIARY_VOUCHER_DETAILS;
-    };
+type LocationState = {
+  data: {
+    data: REFER_RESULT_BENEFICIARY_DETAILS[];
+    from: "redeemVoucher" | "transactionResult";
+    voucher: BENEFICIARY_VOUCHER_DETAILS;
   };
+};
+
+const ReferResultPage: FC = () => {
+  const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
 
   console.log("refer result", data);
   return (
     <IonPage>
-      <CustomHeader title="Refer Details" />
+      <CustomHeader title={t("REFER_RESULT_PAGE.PAGE_TITLE")} />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

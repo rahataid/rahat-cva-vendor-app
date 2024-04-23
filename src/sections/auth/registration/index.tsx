@@ -17,6 +17,7 @@ import "./register.scss";
 import useAppStore from "@store/app";
 import CountryCodeInput from "@components/countryCode/countryCodeInput";
 import { handleError } from "@utils/errorHandler";
+import { useTranslation } from "react-i18next";
 
 export interface SelectOptionItem {
   text: string;
@@ -28,7 +29,7 @@ export interface SelectOptionItem {
 const Register = () => {
   const { handleRegister } = useAppStore();
   const history = useHistory();
-
+  const { t } = useTranslation();
   const [mnemonics, setMnemonics] = useState(undefined);
 
   const {
@@ -88,9 +89,9 @@ const Register = () => {
               <Controller
                 render={({ field }) => (
                   <TextInputField
-                    placeholder="Enter Name"
+                    placeholder={t("REGISTER_PAGE.PLACEHOLDERS.NAME")}
                     type="text"
-                    label="Name*"
+                    label={t("REGISTER_PAGE.LABELS.NAME")}
                     value={getValues("name")}
                     errorText={errors?.name?.message}
                     onInput={(e: any) => {
@@ -102,15 +103,12 @@ const Register = () => {
                   />
                 )}
                 rules={{
-                  required: "Please enter your full name",
+                  required: t("REGISTER_PAGE.ERRORS.NAME"),
                 }}
                 control={control}
                 name="name"
               />
               <br />
-              <div className="ion-margin-top-sm">
-                <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
-              </div>
               <IonRow>
                 <IonCol size="12" class="ion-no-padding">
                   <Controller
@@ -121,23 +119,24 @@ const Register = () => {
                       validate: {
                         validateCountryCode: (value) => {
                           if (!getValues("code"))
-                            return "Please enter country code";
+                            return t("REGISTER_PAGE.ERRORS.CODE");
                         },
                         validatePhoneNumber: (value) => {
                           if (!getValues("phone"))
-                            return "Please enter phone number";
+                            return t("REGISTER_PAGE.ERRORS.PHONE");
                         },
                         validateFullPhone: (value) => {
                           if (!getValues("fullPhone"))
-                            return "Please enter phone number";
+                            return t("REGISTER_PAGE.ERRORS.PHONE");
                         },
                       },
                     }}
                     render={(field) => (
                       <CountryCodeInput
+                        label={t("REGISTER_PAGE.LABELS.PHONE")}
                         clearInput={false}
-                        codePlaceholder="Code"
-                        phonePlaceholder="Phone number"
+                        codePlaceholder={t("REGISTER_PAGE.PLACEHOLDERS.CODE")}
+                        phonePlaceholder={t("REGISTER_PAGE.PLACEHOLDERS.PHONE")}
                         errors={errors}
                         errorText={errors?.fullPhone?.message}
                         isoValue={getValues("iso")}
@@ -197,7 +196,7 @@ const Register = () => {
                 {isSubmitting ? (
                   <IonProgressBar type="indeterminate"></IonProgressBar>
                 ) : (
-                  "Submit"
+                  t("REGISTER_PAGE.BUTTONS.SUBMIT")
                 )}
               </IonButton>
               <IonRow className="gap-5"></IonRow>
@@ -209,7 +208,7 @@ const Register = () => {
                 onClick={handleCancel}
                 disabled={isSubmitting}
               >
-                Cancel
+                {t("REGISTER_PAGE.BUTTONS.CANCEL")}
               </IonButton>
             </IonCol>
           </IonRow>

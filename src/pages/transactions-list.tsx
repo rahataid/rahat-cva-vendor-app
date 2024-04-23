@@ -9,12 +9,13 @@ import {
 } from "@ionic/react";
 import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
 import CustomHeader from "@components/header/customHeader";
-
 import { useVendorTransaction } from "@api/vendors";
 import { useGraphService } from "@contexts/graph-query";
 import CustomRefresher from "@components/refresher/CustomRefresher";
+import { useTranslation } from "react-i18next";
 
 const TransactionsListPage: FC = () => {
+  const { t } = useTranslation();
   const { queryService } = useGraphService();
   const { data, isLoading, error, refetch, isFetching } =
     useVendorTransaction(queryService);
@@ -26,7 +27,7 @@ const TransactionsListPage: FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Transactions List" />
+      <CustomHeader title={t("TRANSACTIONS_LIST_PAGE.PAGE_TITLE")} />
       <IonContent>
         <CustomRefresher handleRefresh={handleRefresh} />
         <IonGrid>

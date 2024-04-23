@@ -7,8 +7,10 @@ import {
 } from "ionicons/icons";
 import { useHistory } from "react-router";
 import TransparentCard from "../../../components/cards/Transparentcard/TransparentCard";
+import { useTranslation } from "react-i18next";
 
 const RedeemVoucherVendor = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const onFreeVoucherCardClick = () => {
     history.push("/tabs/settings/redeem-voucher-vendor/free", {
@@ -36,7 +38,7 @@ const RedeemVoucherVendor = () => {
       <IonList mode="md">
         <IonItem button={true} onClick={onFreeVoucherCardClick}>
           <IonIcon icon={pricetagOutline} slot="start" color="warning" />
-          <IonText>Free Voucher</IonText>
+          <IonText>{t("REDEEM_VENDOR_VOUCHER_PAGE.FREE_VOUCHER")}</IonText>
           <IonIcon
             className="end-icon"
             icon={chevronForwardOutline}
@@ -46,7 +48,7 @@ const RedeemVoucherVendor = () => {
         </IonItem>
         <IonItem button={true} onClick={onDiscountVoucherCardClick}>
           <IonIcon icon={pricetagOutline} slot="start" color="success" />
-          <IonText>Discount Voucher</IonText>
+          <IonText>{t("REDEEM_VENDOR_VOUCHER_PAGE.DISCOUNT_VOUCHER")}</IonText>
           <IonIcon
             className="end-icon"
             icon={chevronForwardOutline}

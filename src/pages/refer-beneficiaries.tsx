@@ -6,6 +6,8 @@ import {
   BENEFICIARY_VOUCHER_DETAILS,
 } from "@types/beneficiaries";
 import { useLocation } from "react-router";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
 type LocationState = {
   data: {
@@ -15,13 +17,14 @@ type LocationState = {
   };
 };
 
-const ReferBeneficiariesPage: React.FC = () => {
+const ReferBeneficiariesPage: FC = () => {
+  const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
 
   return (
     <IonPage>
-      <CustomHeader title="Refer Beneficiaries" showBackButton />
+      <CustomHeader title={t("")} showBackButton />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

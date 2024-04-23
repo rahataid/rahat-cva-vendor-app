@@ -2,12 +2,15 @@ import CustomChip from "@components/chip/customChip";
 import { IonCol, IonGrid, IonItem, IonRow, IonText } from "@ionic/react";
 import { formatDate } from "@utils/helperFunctions";
 import { VendorVoucherRedemptionDetails } from "../../../types/vendors";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: VendorVoucherRedemptionDetails;
 };
 
-const VoucherDetailsCard = ({ data }: Props) => {
+const VoucherDetailsCard: FC<Props> = ({ data }) => {
+  const { t } = useTranslation();
   return (
     <IonItem mode="md" button={false} lines="full">
       <IonGrid className="px-0">
@@ -15,10 +18,13 @@ const VoucherDetailsCard = ({ data }: Props) => {
           <IonCol size="6" className="px-0">
             <IonText>
               <p>
-                Status:{" "}
+                {t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.LABELS.STATUS")}{" "}
                 {data?.status === "REQUESTED" ? "Requested" : "Approved"}
               </p>
-              <p>Amount: {data?.voucherNumber}</p>
+              <p>
+                {t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.LABELS.AMOUNT")}{" "}
+                {data?.voucherNumber}
+              </p>
               {/* <p>{formatDate(data?.createdAt) || "-"}</p> */}
             </IonText>
           </IonCol>
@@ -26,8 +32,8 @@ const VoucherDetailsCard = ({ data }: Props) => {
             <CustomChip
               label={
                 data?.voucherType === "DISCOUNTVOUCHER"
-                  ? "Discount Voucher"
-                  : "Free Voucher"
+                  ? t("GLOBALS.TEXTS.VOUCHER_TYPE.DISCOUNT")
+                  : t("GLOBALS.TEXTS.VOUCHER_TYPE.DISCOUNT")
               }
               color={
                 data?.voucherType === "DISCOUNTVOUCHER" ? "success" : "warning"

@@ -27,19 +27,22 @@ import CustomDivider from "@components/divider";
 import "./home.scss";
 import { useEffect, useState } from "react";
 import ListSkeleton from "@components/loaders/skeleton/transactions-list";
+import { useTranslation } from "react-i18next";
+
 type Props = {
   transactionsList: IAllTransactions;
   transactionsLoading?: boolean;
 };
 
 const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const [filter, setFilter] = useState("ALL");
 
   return (
     <TransparentCard>
       <IonCardHeader>
-        <IonCardTitle>Transactions</IonCardTitle>
+        <IonCardTitle>{t("HOME_PAGE.TITLES.TRANSACTIONS")}</IonCardTitle>
       </IonCardHeader>
       <IonCardContent className="transactions-container">
         <IonSegment
@@ -51,13 +54,19 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
           }}
         >
           <IonSegmentButton value="ALL">
-            <IonLabel className="segment-label">All</IonLabel>
+            <IonLabel className="segment-label">
+              {t("HOME_PAGE.SEGMENTS.ALL")}
+            </IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="ENROLLED">
-            <IonLabel className="segment-label">Enrolled</IonLabel>
+            <IonLabel className="segment-label">
+              {t("HOME_PAGE.SEGMENTS.ENROLLED")}
+            </IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="REFERRED">
-            <IonLabel className="segment-label">Referred</IonLabel>
+            <IonLabel className="segment-label">
+              {t("HOME_PAGE.SEGMENTS.REFERRED")}
+            </IonLabel>
           </IonSegmentButton>
         </IonSegment>
         {transactionsLoading ? (
@@ -137,7 +146,7 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
                   ))
               ) : (
                 <IonText className="home-tx-no-data-text">
-                  No data available...
+                  {t("HOME_PAGE.NO_DATA")}
                 </IonText>
               )}
             </>
@@ -151,7 +160,7 @@ const TransactionCard = ({ transactionsList, transactionsLoading }: Props) => {
           className="view-all-btn-padding"
           onClick={() => history.push("/tabs/transactions")}
         >
-          View All
+          {t("HOME_PAGE.BUTTONS.VIEW_ALL")}
         </IonButton>
       </IonCardContent>
     </TransparentCard>

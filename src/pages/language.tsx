@@ -1,27 +1,22 @@
 import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
-import RedeemVendorVoucherDetails from "../sections/settings/redeem-voucher-vendor/redeem-vendor-voucher-details";
-import { useTranslation } from "react-i18next";
-import { VOUCHER } from "@types/beneficiaries";
+import LanguageSettings from "@sections/settings/language-settings";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
-const RedeemDiscountVoucherPage: FC = () => {
+const LanguageSettingsPage: FC = () => {
   const { t } = useTranslation();
   return (
     <IonPage>
       <CustomHeader
-        title={t(
-          "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.PAGE_TITLE.DISCOUNT_VOUCHER"
-        )}
+        title={t("LANGUAGE_SETTINGS_PAGE.PAGE_TITLE")}
         showBackButton
       />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
-              <RedeemVendorVoucherDetails
-                voucherType={VOUCHER.DISCOUNT_VOUCHER}
-              />
+              <LanguageSettings />
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -29,5 +24,4 @@ const RedeemDiscountVoucherPage: FC = () => {
     </IonPage>
   );
 };
-
-export default RedeemDiscountVoucherPage;
+export default LanguageSettingsPage;

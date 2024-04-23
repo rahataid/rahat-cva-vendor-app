@@ -2,11 +2,14 @@ import { IonContent, IonPage } from "@ionic/react";
 import Register from "@sections/auth/registration";
 import "../theme/title.css";
 import CustomHeader from "@components/header/customHeader";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
-const RegisterPage: React.FC = () => {
+const RegisterPage: FC = () => {
+  const { t } = useTranslation();
   return (
     <IonPage>
-      <CustomHeader title="Register" showBackButton />
+      <CustomHeader title={t("REGISTER_PAGE.PAGE_TITLE")} showBackButton />
       <IonContent fullscreen scrollY={false}>
         <Register />
       </IonContent>

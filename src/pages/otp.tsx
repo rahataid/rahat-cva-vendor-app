@@ -7,6 +7,7 @@ import {
   BENEFICIARY_VOUCHER_DETAILS,
 } from "../types/beneficiaries";
 import CustomHeader from "@components/header/customHeader";
+import { useTranslation } from "react-i18next";
 
 interface LocationState {
   data: {
@@ -16,11 +17,12 @@ interface LocationState {
 }
 
 const OTPPage: React.FC = () => {
+  const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
   return (
     <IonPage>
-      <CustomHeader title="OTP" showBackButton />
+      <CustomHeader title={t("OTP_PAGE.PAGE_TITLE")} showBackButton />
       <IonContent fullscreen>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

@@ -1,6 +1,7 @@
 import { IonCol, IonLabel, IonRow, IonText } from "@ionic/react";
 import { Controller } from "react-hook-form";
 import CountryCodeInput from "@components/countryCode/countryCodeInput";
+import { useTranslation } from "react-i18next";
 
 const ChargePhone = ({
   getValues,
@@ -10,41 +11,54 @@ const ChargePhone = ({
   setError,
   trigger,
 }: any) => {
+  const { t } = useTranslation();
   return (
     <>
       <br />
       <IonText>
-        <p>Please enter phone number of the beneficiary.</p>
+        <p>{t("CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.DESCRIPTION")}</p>
       </IonText>
       <br />
-      <div className="ion-margin-top-sm">
-        <IonLabel class={`text-input-label`}>Phone Number*</IonLabel>
-      </div>
       <IonRow>
         <IonCol size="12" class="ion-no-padding">
           <Controller
             control={control}
             name="fullPhone"
             rules={{
-              required: "Please enter valid phone number",
+              required: t(
+                "CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.ERRORS.PHONE"
+              ),
               validate: {
                 validateCountryCode: (value) => {
-                  if (!getValues("code")) return "Please enter country code";
+                  if (!getValues("code"))
+                    return `${t(
+                      "CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.ERRORS.CODE"
+                    )}`;
                 },
                 validatePhoneNumber: (value) => {
-                  if (!getValues("phone")) return "Please enter phone number";
+                  if (!getValues("phone"))
+                    return `${t(
+                      "CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.ERRORS.PHONE"
+                    )}`;
                 },
                 validateFullPhone: (value) => {
                   if (!getValues("fullPhone"))
-                    return "Please enter phone number";
+                    return `${t(
+                      "CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.ERRORS.PHONE"
+                    )}`;
                 },
               },
             }}
             render={(field) => (
               <CountryCodeInput
                 clearInput={false}
-                codePlaceholder="Code"
-                phonePlaceholder="Phone number"
+                label={t("CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.LABELS.PHONE")}
+                codePlaceholder={t(
+                  "CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.PLACEHOLDERS.CODE"
+                )}
+                phonePlaceholder={t(
+                  "CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.PLACEHOLDERS.PHONE"
+                )}
                 errors={errors}
                 errorText={errors?.fullPhone?.message}
                 isoValue={getValues("iso")}

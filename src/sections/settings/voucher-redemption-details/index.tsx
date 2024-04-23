@@ -3,12 +3,15 @@ import { IonCardContent, IonList, IonText } from "@ionic/react";
 import "./voucher-details-card.scss";
 import VoucherDetailsCard from "./voucher-details-card";
 import { VendorVoucherRedemptionDetails } from "../../../types/vendors";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: VendorVoucherRedemptionDetails[];
 };
 
-const VoucherRedemptionDetails = ({ data }: Props) => {
+const VoucherRedemptionDetails: FC<Props> = ({ data }) => {
+  const { t } = useTranslation();
   return (
     <>
       <TransparentCard>
@@ -21,7 +24,7 @@ const VoucherRedemptionDetails = ({ data }: Props) => {
             </IonList>
           ) : (
             <IonText className="ion-text-center">
-              <p>No data available...</p>
+              <p>{t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.NO_DATA")}</p>
             </IonText>
           )}
         </IonCardContent>

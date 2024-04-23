@@ -23,6 +23,9 @@ import BeneficiariesService from "../../services/beneficiaries";
 import ChargeQr from "./charge-qr";
 import useTransactionStore from "@store/transaction";
 import { isVoucherAssigned, isVoucherClaimed } from "@utils/helperFunctions";
+import { useTranslation } from "react-i18next";
+import CustomLoader from "@components/loaders/customLoader";
+import { handleError } from "@utils/errorHandler";
 
 type Props = {
   data: {
@@ -33,6 +36,7 @@ type Props = {
 };
 
 const ChargeBeneficiary = ({ data }: Props) => {
+  const { t } = useTranslation();
   const { queryService } = useGraphService();
   const { getBeneficiaryReferredDetailsByUuid } = useTransactionStore();
   const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
@@ -87,8 +91,10 @@ const ChargeBeneficiary = ({ data }: Props) => {
     // fix for release -> comment out the below line to go to the next page even if there is error
     // if (isVoucherClaimed(beneficiaryVoucher))
     //   throw new Error("Beneficiary has already claimed the Voucher");
-    if (!isVoucherAssigned(beneficiaryVoucher))
-      throw new Error("Voucher not assigned to beneficiary");
+    // if (!isVoucherAssigned(beneficiaryVoucher)) {
+    //   console.log("HERE NOT ASSIGNED");
+    //   throw new Error("Voucher not assigned to beneficiary");
+    // }
 
     return {
       beneficiaryDetails: beneficiary?.data?.data,
@@ -97,7 +103,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
   };
 
   const onSubmit = async (data: any) => {
-    setLoadingVisible(true);
+    // setLoadingVisible(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     try {
       const { beneficiaryDetails, beneficiaryVoucher } =
@@ -118,13 +124,16 @@ const ChargeBeneficiary = ({ data }: Props) => {
       // const errorMessage = validErrors.includes(error.message)
       //   ? error.message
       //   : "Something went wrong. Try again later";
-      showToast(
-        error.message || "Something went wrong! Try again later.",
-        "danger"
-      );
+      history.push("/redeem-voucher", {
+        data: {
+          beneficiaryDetails,
+          beneficiaryVoucher,
+        },
+      });
+      showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
     setLoadingVisible(false);
@@ -150,18 +159,14 @@ const ChargeBeneficiary = ({ data }: Props) => {
     if (data?.showWalletTab) setFilter("WALLET");
     else setFilter("PHONE");
     if (data?.error) {
-      showToast("Invalid ethereum wallet address", "danger");
+      showToast(`${t("ERRORS.INVALID_ETHEREUM_ADDRESS")}`, "danger");
     }
     if (!isPlatformWeb) stopScan();
   }, []);
 
   return (
     <>
-      <IonLoading
-        mode="md"
-        isOpen={loadingVisible}
-        message={"Please wait..."}
-      />
+      <CustomLoader isOpen={loadingVisible} />
       <CustomToast
         isOpen={toastVisible}
         onDidDismiss={hideToast}
@@ -181,10 +186,14 @@ const ChargeBeneficiary = ({ data }: Props) => {
               }}
             >
               <IonSegmentButton value="PHONE">
-                <IonLabel className="segment-label">Phone</IonLabel>
+                <IonLabel className="segment-label">
+                  {t("CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.TITLE")}
+                </IonLabel>
               </IonSegmentButton>
               <IonSegmentButton value="WALLET">
-                <IonLabel className="segment-label">Wallet</IonLabel>
+                <IonLabel className="segment-label">
+                  {t("CHARGE_BENEFICIARY_PAGE.SEGMENTS.WALLET.TITLE")}
+                </IonLabel>
               </IonSegmentButton>
             </IonSegment>
             {filter === "PHONE" && (
@@ -214,7 +223,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
               color="primary"
               disabled={!isValid || isSubmitting}
             >
-              Fetch Beneficiary Voucher
+              {t("CHARGE_BENEFICIARY_PAGE.SEGMENTS.BUTTONS.SUBMIT")}
             </IonButton>
           </IonCardContent>
         </TransparentCard>

@@ -15,16 +15,19 @@ import {
   personOutline,
   idCardOutline,
   giftOutline,
+  languageOutline,
 } from "ionicons/icons";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import "../auth/registration/mnemonicDialog.scss";
 import useTransactionStore from "@store/transaction";
 import useBeneficiaryStore from "@store/beneficiary";
+import { useTranslation } from "react-i18next";
 
 import "../../theme/main.scss";
 
 function Settings() {
+  const { t } = useTranslation();
   const [showAlert, setShowAlert] = useState(false);
   const { currentUser, logout } = useAppStore();
   const { logoutTransactions } = useTransactionStore();
@@ -74,14 +77,21 @@ function Settings() {
     //   endIcon: chevronForwardOutline,
     // },
     {
-      label: "Profile",
+      label: t("SETTINGS_PAGE.PROFILE"),
       startIcon: personOutline,
       action: () => history.push("/tabs/settings/profile"),
       isToggle: false,
       endIcon: chevronForwardOutline,
     },
     {
-      label: "Projects",
+      label: t("SETTINGS_PAGE.LANGUAGE"),
+      startIcon: languageOutline,
+      action: () => history.push("/tabs/settings/language"),
+      isToggle: false,
+      endIcon: chevronForwardOutline,
+    },
+    {
+      label: t("SETTINGS_PAGE.PROJECTS"),
       startIcon: hammerOutline,
       action: () => history.push("/tabs/settings/project"),
       isToggle: false,
@@ -89,7 +99,7 @@ function Settings() {
     },
 
     {
-      label: "Logout",
+      label: t("SETTINGS_PAGE.LOGOUT"),
       startIcon: logOutOutline,
       action: handleLogout,
     },
@@ -100,14 +110,14 @@ function Settings() {
       1,
       0,
       {
-        label: "Redeem Voucher",
+        label: t("SETTINGS_PAGE.REDEEM_VOUCHER"),
         startIcon: giftOutline,
         action: () => history.push("/tabs/settings/redeem-voucher-vendor"),
         isToggle: false,
         endIcon: chevronForwardOutline,
       },
       {
-        label: "Voucher Redemption Details",
+        label: t("SETTINGS_PAGE.VOUCHER_REDEMPTION_DETAILS"),
         startIcon: idCardOutline,
         action: () => history.push("/tabs/settings/voucher-redemption-details"),
         isToggle: false,
@@ -122,16 +132,16 @@ function Settings() {
         mode="md"
         isOpen={showAlert}
         onDidDismiss={() => setShowAlert(false)}
-        header={"Confirm Logout"}
-        message={"Are you sure you want to logout?"}
+        header={t("SETTINGS_PAGE.LOGOUT_DIALOG.TITLE")}
+        message={t("SETTINGS_PAGE.LOGOUT_DIALOG.MESSAGE")}
         buttons={[
           {
-            text: "Cancel",
+            text: `${t("SETTINGS_PAGE.LOGOUT_DIALOG.BUTTONS.CANCEL")}`,
             cssClass: "alert-button-cancel",
             handler: handleCancelLogout,
           },
           {
-            text: "Confirm",
+            text: `${t("SETTINGS_PAGE.LOGOUT_DIALOG.BUTTONS.CONFIRM")}`,
             cssClass: "alert-button-confirm",
             handler: handleConfirmLogout,
           },

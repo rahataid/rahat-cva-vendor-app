@@ -1,0 +1,379 @@
+{
+  "GLOBAL": {
+    "LOADERS": {
+      "LOADING": "Please wait..."
+    },
+    "TOASTS": {
+      "COPIED": "Copied to clipboard"
+    },
+    "ERRORS": {
+      "DEFAULT": "Something went wrong! Please try again later",
+      "INVALID_BENEFICIARY": "Invalid Beneficiary",
+      "INVALID_ETHEREUM_ADDRESS": "Invalid ethereum wallet address",
+      "INVALID_MNEMONICS": "Invalid mnemonics",
+      "INVALID_WALLET_ADDRESS": "Please enter a valid wallet address",
+      "VOUCHER_NOT_ASSIGNED": "Voucher not assigned to beneficiary",
+      "NETWORK_ERROR": "Invalid project URL",
+      "PHONE_EXISTS": "Phone number already exists",
+      "NOT_APPROVED": "You have not been approved. Please Contact admin",
+      "VOUCHER_CLAIMED": "Beneficiary has already claimed the voucher",
+      "REFER_LIMIT_REACHED": "You have already referred 3 bene"
+    },
+    "TEXTS": {
+      "NO_DATA": "No data available...",
+      "VOUCHER_TYPE": {
+        "FREE": "Free Voucher",
+        "DISCOUNT": "Discount Voucher"
+      },
+      "BENEFIICARY_TYPE": {
+        "ENROLLED": "enrolled",
+        "REFERRED": "referred"
+      }
+    }
+  },
+  "RESET_PAGE": {
+    "TITLE": "Are you sure you want to reset the app",
+    "MSG": "This will clear all the data of the application",
+    "BUTTONS": {
+      "RESET": "Reset"
+    }
+  },
+  "NOT_FOUND_PAGE": {
+    "TITLE": "404 Not Found",
+    "MSG": "Sorry, the page you are looking for does not exist",
+    "BUTTONS": {
+      "BACK": "Go Back"
+    }
+  },
+  "LANDING_PAGE": {
+    "TAGLINE": "Supporting vulnerable communities with a simple and efficient relief distribution platform",
+    "BUTTONS": {
+      "CREATE_WALLET": "Create Wallet",
+      "RESTORE_WALLET": "Restore Wallet"
+    }
+  },
+  "REGISTER_PAGE": {
+    "PAGE_TITLE": "Register",
+    "LABELS": {
+      "NAME": "Name*",
+      "PHONE": "Phone Number*"
+    },
+    "PLACEHOLDERS": {
+      "NAME": "Enter Name",
+      "CODE": "Code",
+      "PHONE": "Phone Number"
+    },
+    "ERRORS": {
+      "NAME": "Please enter your full name",
+      "PHONE": "Please enter phone number",
+      "CODE": "Please enter country code"
+    },
+    "MNEMONICS": {
+      "TITLE": "Please write down the mnemonics safely",
+      "BUTTONS": {
+        "COPY": "Copy",
+        "NEXT": "Next"
+      }
+    },
+    "BUTTONS": {
+      "SUBMIT": "Submit",
+      "CANCEL": "Cancel"
+    }
+  },
+  "RESTORE_WALLET_PAGE": {
+    "PAGE_TITLE": "Restore Wallet",
+    "LABELS": {
+      "PNEUMONICS": "Pneumonics*"
+    },
+    "PLACEHOLDERS": {
+      "PNEUMONICS": "Please enter 12 words pneumonics"
+    },
+    "ERRORS": {
+      "PNEUMONICS": "Please enter 12 words pneumonics"
+    },
+    "BUTTONS": {
+      "SUBMIT": "Submit",
+      "CANCEL": "Cancel"
+    }
+  },
+  "SELECT_PROJECT_PAGE": {
+    "PAGE_TITLE": "Select Project"
+  },
+  "HOME_PAGE": {
+    "PAGE_TITLE": "Home",
+    "TITLES": {
+      "NOT_APPROVED": "Not Approved",
+      "FREE_VOUCHER": "Free Vouchers Redeemed",
+      "DISCOUNT_VOUCHER": "Discount Vouchers Redeemed",
+      "TRANSACTIONS": "Transactions"
+    },
+    "SEGMENTS": {
+      "ALL": "All",
+      "ENROLLED": "Enrolled",
+      "REFERRED": "Referred"
+    },
+    "NO_DATA": "No data available...",
+    "BUTTONS": {
+      "VIEW_ALL": "View All"
+    }
+  },
+  "SETTINGS_PAGE": {
+    "PAGE_TITLE": "Settings",
+    "PROFILE": "Profile",
+    "REDEEM_VOUCHER": "Redeem Voucher",
+    "VOUCHER_REDEMPTION_DETAILS": "Voucher Redemption Details",
+    "LANGUAGE": "Language",
+    "PROJECTS": "Projects",
+    "LOGOUT": "Logout",
+    "LOGOUT_DIALOG": {
+      "TITLE": "Logout",
+      "MESSAGE": "Are you sure you want to logout?",
+      "BUTTONS": {
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm"
+      }
+    }
+  },
+  "LANGUAGE_SETTINGS_PAGE": {
+    "PAGE_TITLE": "Language"
+  },
+  "PROFILE_PAGE": {
+    "PAGE_TITLE": "Profile"
+  },
+  "REDEEM_VENDOR_VOUCHER_PAGE": {
+    "PAGE_TITLE": "Redeem Vendor Voucher",
+    "FREE_VOUCHER": "Free Voucher",
+    "DISCOUNT_VOUCHER": "Discount Voucher"
+  },
+  "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE": {
+    "PAGE_TITLE": {
+      "FREE_VOUCHER": "Redeem Free Voucher",
+      "DISCOUNT_VOUCHER": "Redeem Discount Voucher"
+    },
+    "CARD_TITLE": "Total Available Vouchers For Redemption",
+    "LABELS": {
+      "VOUCHER": "Number of vouchers*"
+    },
+    "PLACEHOLDERS": {
+      "VOUCHER": "Enter number of vouchers to redeem"
+    },
+    "ERRORS": {
+      "VOUCHER": {
+        "MAIN": "Please enter the number of vouchers",
+        "NON_ZERO": "Value cannot be zero",
+        "POSITIVE_INTEGER": "Value must be a positive integer",
+        "MAX": "Value cannot be greater than available vouchers"
+      }
+    },
+    "SUCCESS_MSG": "Voucher redeemed successfully",
+    "BUTTONS": {
+      "SUBMIT": "Submit"
+    }
+  },
+  "REDEEM_VENDOR_VOUCHER_LIST_PAGE": {
+    "PAGE_TITLE": "Voucher Redemption Details",
+    "NO_DATA": "No Data Available...",
+    "LABELS": {
+      "STATUS": "Status:",
+      "AMOUNT": "Amount:"
+    }
+  },
+  "PROJECT_SETTINGS_PAGE": {
+    "PAGE_TITLE": "Select Project"
+  },
+  "REFERRED_BENEFICIARIES_PAGE": {
+    "PAGE_TITLE": "Referred Beneficiaries List",
+    "CARD_TITLE": "Total Beneficiaries Referred"
+  },
+  "REFERRED_BENEFICIARY_DETAILS_PAGE": {
+    "PAGE_TITLE": "Referred Beneficiary Details",
+    "LABELS": {
+      "NAME": "Beneficiary Name",
+      "PHONE": "Phone Number",
+      "GENDER": "Gender",
+      "VOUCHER_TYPE": "Voucher Type",
+      "DISCOUNT_VOUCHER": "Discount Voucher",
+      "WALLET_ADDRESS": "Wallet Address",
+      "DATE": "DATE"
+    }
+  },
+  "CHARGE_BENEFICIARY_PAGE": {
+    "PAGE_TITLE": "Charge Beneficiary",
+    "SEGMENTS": {
+      "PHONE": {
+        "TITLE": "PHONE",
+        "DESCRIPTION": "Enter the phone number of the beneficiary",
+        "LABELS": {
+          "PHONE": "Phone Number*"
+        },
+        "PLACEHOLDERS": {
+          "PHONE": "Enter phone number",
+          "CODE": "Code"
+        },
+        "ERRORS": {
+          "PHONE": "Please enter phone number",
+          "CODE": "Please enter country code"
+        }
+      },
+      "WALLET": {
+        "TITLE": "WALLET",
+        "DESCRIPTION": "Enter the wallet address of the beneficiary",
+        "LABELS": {
+          "WALLET_ADDRESS": "Wallet Address*"
+        },
+        "PLACEHOLDERS": {
+          "WALLET_ADDRESS": "Enter wallet address"
+        },
+        "ERRORS": {
+          "WALLET_ADDRESS": "Please enter valid wallet address"
+        }
+      },
+      "BUTTONS": {
+        "SUBMIT": "Fetch Beneficiary Voucher"
+      }
+    }
+  },
+  "SCANNER_PAGE": {
+    "PAGE_TITLE": "Scanner"
+  },
+  "TRANSACTIONS_LIST_PAGE": {
+    "PAGE_TITLE": "Transactions List",
+    "NO_DATA": "No data available..."
+  },
+  "TRANSACTIONS_DETAILS_PAGE": {
+    "PAGE_TITLE": "Transaction Details",
+    "LABELS": {
+      "TRANSACTION_TYPE": "Date",
+      "WALLET_ADDRESS": "Beneficiary Wallet Address",
+      "VOUCHER_TYPE": "Voucher Type",
+      "BENEFICIARY_TYPE": "Benefiary Type",
+      "TRANSACTION_HASH": "Transaction Hash",
+      "DATE": "Date"
+    }
+  },
+  "REDEEM_VOUCHER_PAGE": {
+    "PAGE_TITLE": "Redeem Voucher",
+    "LABELS": {
+      "EYE_CHECKUP_STATUS": "Eye Checkup Status",
+      "GLASSES_STATUS": "Glasses Status",
+      "BENEFICIARY_ADDRESS": "Beneficiary Address",
+      "VOUCHER_TYPE": "Voucher Type",
+      "VOUCHER_STATUS": "Voucher Status"
+    },
+    "PLACEHOLDERS": {
+      "EYE_CHECKUP_STATUS": "Select status",
+      "GLASSES_STATUS": "Select status"
+    },
+    "SELECT": {
+      "CHECKUP_DONE": "Checkup done",
+      "CHECKUP_NOT_DONE": "Checkup not done",
+      "GLASSES_REQUIRED": "Glasses required",
+      "GLASSES_NOT_REQUIRED": "Glasses not required",
+      "GLASSES_BOUGHT": "Glasses bought",
+      "GLASSES_NOT_BOUGHT": "Glasses not bought"
+    },
+    "ERRORS": {
+      "PHONE": "Please select the status",
+      "CODE": "Please select the status",
+      "EYE_CHECKUP_STATUS": "Please select the status",
+      "GLASSES_STATUS": "Please select the status"
+    },
+    "SUCCESS": {
+      "GLASSES": "Status saved successfully!"
+    },
+    "BUTTONS": {
+      "REDEEM": "Redeem Voucher",
+      "REFER": "Refer",
+      "UPDATE_STATUS": "Update Status",
+      "GO_HOME": "Go To Homepage"
+    },
+    "REDEEMED": "Redeemed",
+    "NOT_REDEEMED": "Not Redeemed"
+  },
+  "REFER_BENEFICIARIES_PAGE": {
+    "PAGE_TITLE": "Refer Beneficiaries",
+    "LABELS": {
+      "NAME": "Name*",
+      "PHONE": "Phone Number*",
+      "GENDER": "Gender*",
+      "AGE": "Estimated Age*",
+      "ADDRESS": "Address"
+    },
+    "PLACEHOLDERS": {
+      "NAME": "Enter name",
+      "CODE": "Code",
+      "PHONE": "Enter phone number",
+      "GENDER": "Select gender",
+      "AGE": "Select estimated age",
+      "ADDRESS": "Enter address"
+    },
+    "SELECT": {
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "OTHERS": "Others"
+    },
+    "ERRORS": {
+      "NAME": "Please enter full name",
+      "CODE": "Please enter country code",
+      "PHONE": "Please enter phone number",
+      "GENDER": "Please select gender",
+      "AGE": "Please select age",
+      "ADDRESS": "Please enter address",
+      "INVALID_FORM": "Please fill in all the required fields correctly"
+    },
+    "TOTAL_AVAILABLE_REFERRALS": "Total Available Referrals",
+    "BENEFICIARY": "Beneficiary",
+    "BUTTONS": {
+      "ADD_MORE": "Add More",
+      "SUBMIT": "Submit"
+    }
+  },
+  "REFER_RESULT_PAGE": {
+    "PAGE_TITLE": "Referral Details",
+    "SUCCESS_MSG": "The referral has been reistered successfully",
+    "NO_DATA": "No Data Available...",
+    "LABELS": {
+      "NAME": "Name",
+      "AGE": "Estimated Age",
+      "PHONE": "Phone",
+      "GENDER": "Gender",
+      "ADDRESS": "Address",
+      "TRANSACTION_HASH": "Transaction Hash",
+      "CREATED_AT": "Created At"
+    },
+    "BUTTONS": {
+      "GO_HOME": "Go To HomePage"
+    }
+  },
+  "OTP_PAGE": {
+    "PAGE_TITLE": "OTP",
+    "MSG": "OTP code from SMS (Ask OTP from the beneficiary)",
+    "LABELS": {
+      "OTP": "OTP*"
+    },
+    "PLACEHOLDERS": {
+      "OTP": "Enter OTP"
+    },
+    "ERRORS": {
+      "OTP": "Please enter OTP"
+    },
+    "BUTTONS": {
+      "SUBMIT": "Submit",
+      "CANCEL": "Cancel"
+    }
+  },
+  "TRANSACTION_RESULT_PAGE": {
+    "PAGE_TITLE": "Transaction Result",
+    "LABELS": {
+      "VOUCHER_TYPE": "Voucher Type",
+      "DATE": "Date",
+      "TRANSACTION_HASH": "Transaction Hash",
+      "WALLET_ADDRESS": "Wallet Address"
+    },
+    "SUCCESS_MSG": "The beneficiary has redeemed the voucher successfully",
+    "BUTTONS": {
+      "REFER": "Refer Beneficiaries",
+      "DONE": "Done"
+    }
+  }
+}
