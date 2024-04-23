@@ -5,7 +5,7 @@ import {
   REFER_BENEFICIARY_DETAILS,
   VOUCHER,
 } from "@types/beneficiaries";
-import { ITransactionItem } from "@types/transactions";
+import { ITransactionItem, UpdateStatusRes } from "@types/transactions";
 import { AppStoreType } from "./app";
 
 export type TransactionStoreType = TransactionStateType &
@@ -66,7 +66,7 @@ export type TransactionActionsType = {
     referralVoucherAddress,
     eyeCheckUp,
     glassStatus,
-  }: UpdateStatusProps) => Promise<any>;
+  }: UpdateStatusProps) => Promise<UpdateStatusRes>;
   referBeneficiaries: ({
     beneficiaryAddress,
     referredBeneficiaries,

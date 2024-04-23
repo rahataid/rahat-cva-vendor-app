@@ -192,7 +192,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         };
         beRes = await ProjectsService.actions(projectId, payload2);
       }
-      return metaRes?.data?.data;
+      return { ...beRes?.data?.data, ...metaRes?.data?.data };
     },
 
     referBeneficiaries: async ({
