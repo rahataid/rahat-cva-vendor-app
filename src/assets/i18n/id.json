@@ -383,6 +383,8 @@
     "PAGE_TITLE": "Hasil Transaksi",
     "LABELS": {
       "VOUCHER_TYPE": "Tipe Voucher",
+      "CHECKUP_STATUS": "Checkup Status",
+      "GLASSES_STATUS": "Glasses Status",
       "DATE": "Tanggal",
       "TRANSACTION_HASH": "Transaksi Hash",
       "WALLET_ADDRESS": "Alamat Dompet"

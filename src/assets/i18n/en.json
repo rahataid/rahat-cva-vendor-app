@@ -188,7 +188,7 @@
   },
   "REDEEM_VENDOR_VOUCHER_LIST_PAGE": {
     "PAGE_TITLE": "Voucher Redemption Details",
-    "NO_DATA": "No Data Available...",
+    "NO_DATA": "No data available...",
     "LABELS": {
       "STATUS": "Status:",
       "AMOUNT": "Amount:"
@@ -200,7 +200,7 @@
   "REFERRED_BENEFICIARIES_PAGE": {
     "PAGE_TITLE": "Referred Beneficiaries List",
     "CARD_TITLE": "Total Beneficiaries Referred",
-    "NO_DATA": "No Data Available..."
+    "NO_DATA": "No data available..."
   },
   "REFERRED_BENEFICIARY_DETAILS_PAGE": {
     "PAGE_TITLE": "Referred Beneficiary Details",
@@ -347,8 +347,8 @@
   },
   "REFER_RESULT_PAGE": {
     "PAGE_TITLE": "Referral Details",
-    "SUCCESS_MSG": "The referral has been reistered successfully",
-    "NO_DATA": "No Data Available...",
+    "SUCCESS_MSG": "The referral has been registered successfully",
+    "NO_DATA": "No data available...",
     "LABELS": {
       "NAME": "Name",
       "AGE": "Estimated Age",
@@ -383,6 +383,8 @@
     "PAGE_TITLE": "Transaction Result",
     "LABELS": {
       "VOUCHER_TYPE": "Voucher Type",
+      "CHECKUP_STATUS": "Checkup Status",
+      "GLASSES_STATUS": "Glasses Status",
       "DATE": "Date",
       "TRANSACTION_HASH": "Transaction Hash",
       "WALLET_ADDRESS": "Wallet Address"
