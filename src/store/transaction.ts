@@ -105,7 +105,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
       const metaRes = await ProjectsService.actions(projectId, payload);
-      console.log(metaRes, "metaRes");
+
       let beRes;
       if (metaRes?.data?.data?.status === 1) {
         const payload2 = {
@@ -118,7 +118,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
         };
         beRes = await ProjectsService.actions(projectId, payload2);
       }
-      return beRes;
+
+      return { ...beRes?.data?.data, ...metaRes?.data?.data };
     },
 
     updateStatus: async ({

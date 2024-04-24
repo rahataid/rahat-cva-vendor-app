@@ -136,15 +136,16 @@ const RedeemVoucher: FC<Props> = ({
         getValues("glassesStatus") === "GLASSES_BOUGHT" || "GLASSES_REQUIRED"
           ? true
           : false;
+      let redeemRes;
       if (voucherType === VOUCHER.FREE_VOUCHER)
-        await redeemVoucher({
+        redeemRes = await redeemVoucher({
           beneficiary: beneficiaryDetails,
           voucherType: VOUCHER.FREE_VOUCHER,
           eyeCheckUp,
           glassStatus,
         });
       else
-        await redeemVoucher({
+        redeemRes = await redeemVoucher({
           beneficiary: beneficiaryDetails,
           voucherType: VOUCHER.DISCOUNT_VOUCHER,
           voucher: beneficiaryVoucher,
@@ -156,10 +157,12 @@ const RedeemVoucher: FC<Props> = ({
         message: "",
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
+      console.log(redeemRes, "REDEEM ERS");
       history.push("/otp", {
         data: {
           beneficiaryVoucher,
           beneficiaryDetails,
+          redeemRes,
         },
       });
     } catch (error) {

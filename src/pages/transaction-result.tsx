@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
 import TransactionResult from "@sections/transaction-result";
@@ -7,14 +7,14 @@ import {
   BENEFICIARY_VOUCHER_DETAILS,
 } from "@types/beneficiaries";
 import { useLocation } from "react-router";
-import { MetaTxResponse } from "@types/transactions";
+import { MetaTxResponse, UpdateStatusRes } from "@types/transactions";
 import { useTranslation } from "react-i18next";
 
 interface LocationState {
   data: {
     beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
     beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-    otpRes: MetaTxResponse;
+    redeemRes: UpdateStatusRes;
   };
 }
 
