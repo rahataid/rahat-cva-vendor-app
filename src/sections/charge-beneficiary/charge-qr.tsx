@@ -76,7 +76,7 @@ const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
                       "CHARGE_BENEFICIARY_PAGE.SEGMENTS.WALLET.LABELS.WALLET_ADDRESS"
                     )}
                     placeholder={t(
-                      "CHARGE_BENEFICIARY_PAGE.SEGMENTS.PHONE.PLACEHOLDERS.WALLET_ADDRESS"
+                      "CHARGE_BENEFICIARY_PAGE.SEGMENTS.WALLET.PLACEHOLDERS.WALLET_ADDRESS"
                     )}
                     type="text"
                     value={getValues("walletAddress")}

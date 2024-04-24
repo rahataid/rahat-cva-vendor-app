@@ -56,7 +56,10 @@
   },
   "SELECT_LANGUAGE_PAGE": {
     "TAGLINE": "Mendukung komunitas rentan dengan platform distribusi bantuan yang sederhana dan efisien",
-    "MSG": "Pilih bahasa Anda untuk memulai"
+    "MSG": "Pilih bahasa Anda untuk memulai",
+    "BUTTONS": {
+      "PROCEED": "Melanjutkan"
+    }
   },
   "LANDING_PAGE": {
     "TAGLINE": "Mendukung komunitas rentan dengan platform distribusi bantuan yang sederhana dan efisien",

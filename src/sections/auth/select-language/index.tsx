@@ -53,7 +53,7 @@ const SelectLanguage = () => {
                 expand="block"
                 onClick={handleProceed}
               >
-                Proceed
+                {t("SELECT_LANGUAGE_PAGE.BUTTONS.PROCEED")}
               </IonButton>
             </IonCol>
           </IonRow>
