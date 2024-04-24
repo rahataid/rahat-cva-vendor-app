@@ -20,7 +20,7 @@ const SelectLanguage = () => {
   const handleProceed = () => history.push("/landing");
   return (
     <IonPage>
-      <IonContent className="bg" scrollY={false}>
+      <IonContent>
         <IonGrid className="landing-container">
           <IonRow className="landing-top-container">
             <IonCol
@@ -44,6 +44,7 @@ const SelectLanguage = () => {
               </IonText>
               <LanguageSettings
                 customStyle={{ margin: "3px", borderRadius: "4px" }}
+                lines="full"
               />
               <IonRow className="gap-5"></IonRow>
               <IonButton
