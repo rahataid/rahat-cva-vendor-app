@@ -15,6 +15,8 @@ import "./home.scss";
 import { useState } from "react";
 import ListSkeleton from "@components/loaders/skeleton/transactions-list";
 import HomeTransactionsList from "./home-transaction-list";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
 type Props = {
   transactionsList: IAllTransactions;
@@ -25,14 +27,15 @@ type Props = {
   isReferredFetching: boolean;
 };
 
-const TransactionCard = ({
+const TransactionCard: FC<Props> = ({
   transactionsList,
   transactionsLoading,
   enrolledTransactions,
   isEnrolledFetching,
   referredTransactions,
   isReferredFetching,
-}: Props) => {
+}) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const [selectedSegment, setSelectedSegment] = useState("ALL");
 
@@ -41,7 +44,7 @@ const TransactionCard = ({
   return (
     <TransparentCard>
       <IonCardHeader>
-        <IonCardTitle>Transactions</IonCardTitle>
+        <IonCardTitle>{t("HOME_PAGE.TITLES.TRANSACTIONS")}</IonCardTitle>
       </IonCardHeader>
       <IonCardContent className="transactions-container">
         <IonSegment
@@ -53,13 +56,19 @@ const TransactionCard = ({
           }}
         >
           <IonSegmentButton value="ALL">
-            <IonLabel className="segment-label">All</IonLabel>
+            <IonLabel className="segment-label">
+              {t("HOME_PAGE.SEGMENTS.ALL")}
+            </IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="ENROLLED">
-            <IonLabel className="segment-label">Enrolled</IonLabel>
+            <IonLabel className="segment-label">
+              {t("HOME_PAGE.SEGMENTS.ENROLLED")}
+            </IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="REFERRED">
-            <IonLabel className="segment-label">Referred</IonLabel>
+            <IonLabel className="segment-label">
+              {t("HOME_PAGE.SEGMENTS.REFERRED")}
+            </IonLabel>
           </IonSegmentButton>
         </IonSegment>
 
@@ -89,7 +98,7 @@ const TransactionCard = ({
           className="view-all-btn-padding"
           onClick={() => history.push("/tabs/transactions")}
         >
-          View All
+          {t("HOME_PAGE.BUTTONS.VIEW_ALL")}
         </IonButton>
       </IonCardContent>
     </TransparentCard>

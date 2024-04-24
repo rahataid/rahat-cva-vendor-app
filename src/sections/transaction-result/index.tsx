@@ -18,6 +18,8 @@ import { useHistory } from "react-router";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import useVoucherType from "@hooks/use-voucher-type";
 import { generateCurrentTimestamp } from "../../utils/helperFunctions";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: {
@@ -27,9 +29,10 @@ type Props = {
   };
 };
 
-const TransactionResult = ({
+const TransactionResult: FC<Props> = ({
   data: { beneficiaryDetails, beneficiaryVoucher, otpRes },
-}: Props) => {
+}) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { voucherType } = useVoucherType(beneficiaryVoucher);
   const handleReferBeneficiaries = () => {
@@ -55,7 +58,9 @@ const TransactionResult = ({
               </IonCol>
               {/* <IonCol size="6">Beneficiary Name</IonCol>
             <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol> */}
-              <IonCol size="6">Voucher Type</IonCol>
+              <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.VOUCHER_TYPE")}
+              </IonCol>
               <IonCol size="6">
                 <IonText
                   color={
@@ -65,35 +70,27 @@ const TransactionResult = ({
                   }
                 >
                   {voucherType === VOUCHER.DISCOUNT_VOUCHER
-                    ? "Discount Voucher"
-                    : "Free Voucher"}
+                    ? t("GLOBAL.TEXTS.VOUCHER_TYPE.DISCOUNT")
+                    : t("GLOBAL.TEXTS.VOUCHER_TYPE.FREE")}
                 </IonText>
               </IonCol>
-              {/* <IonCol size="6">Beneficiary Type</IonCol>
-            <IonCol size="6">
-              <IonText
-                color={
-                  data.beneficiaryType === BENEFICIARY_TYPE.REFERRED
-                    ? "success"
-                    : "warning"
-                }
-              >
-                {data?.beneficiaryType === BENEFICIARY_TYPE.REFERRED
-                  ? "Referred"
-                  : "Enrolled"}
-              </IonText>
-            </IonCol> */}
-              <IonCol size="6">Date</IonCol>
+              <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.DATE")}
+              </IonCol>
               <IonCol size="6">
                 {formatDate(generateCurrentTimestamp()) || "-"}
               </IonCol>
 
-              <IonCol size="6">Transaction Hash</IonCol>
+              <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.TRANSACTION_HASH")}
+              </IonCol>
               <IonCol size="6">
                 {otpRes?.txHash ? cropString(otpRes?.txHash) : "-"}
               </IonCol>
 
-              <IonCol size="6">Wallet Address</IonCol>
+              <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.WALLET_ADDRESS")}
+              </IonCol>
               <IonCol size="6">
                 {beneficiaryDetails?.walletAddress
                   ? cropString(beneficiaryDetails?.walletAddress)
@@ -104,7 +101,7 @@ const TransactionResult = ({
               <br />
               <IonCol size="12">
                 <IonText>
-                  <p>The beneficiary has redeemed the voucher successfully.</p>
+                  <p>{t("TRANSACTION_RESULT_PAGE.SUCCESS_MSG")}</p>
                 </IonText>
               </IonCol>
 
@@ -117,7 +114,7 @@ const TransactionResult = ({
                       expand="block"
                       onClick={handleReferBeneficiaries}
                     >
-                      Refer Beneficiaries
+                      {t("TRANSACTION_RESULT_PAGE.BUTTONS.REFER")}
                     </IonButton>
                   </IonCol>
                 </>
@@ -126,7 +123,7 @@ const TransactionResult = ({
               <IonRow className="gap-5"></IonRow>
               <IonCol size="12">
                 <IonButton color="primary" expand="block" onClick={handleDone}>
-                  Done
+                  {t("TRANSACTION_RESULT_PAGE.BUTTONS.DONE")}
                 </IonButton>
               </IonCol>
             </IonRow>

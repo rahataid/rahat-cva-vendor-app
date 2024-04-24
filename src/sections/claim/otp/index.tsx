@@ -1,11 +1,5 @@
 import TextInputField from "@components/input/form-text-input";
-import {
-  IonButton,
-  IonCardContent,
-  IonLoading,
-  IonRow,
-  IonText,
-} from "@ionic/react";
+import { IonButton, IonCardContent, IonRow, IonText } from "@ionic/react";
 
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
@@ -19,6 +13,10 @@ import useTransactionStore from "@store/transaction";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+import CustomLoader from "@components/loaders/customLoader";
+import { handleError } from "@utils/errorHandler";
 
 type Props = {
   data: {
@@ -27,7 +25,10 @@ type Props = {
   };
 };
 
-const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
+const OTP: FC<Props> = ({
+  data: { beneficiaryVoucher, beneficiaryDetails },
+}) => {
+  const { t } = useTranslation();
   const { verifyOtp } = useTransactionStore();
   const history = useHistory();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
@@ -58,10 +59,10 @@ const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
       });
     } catch (error) {
       console.log(error);
-      showToast("Something went wrong! Try again later.", "danger");
+      showToast(handleError(error));
       setError("root.serverError", {
         type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
   };
@@ -72,7 +73,7 @@ const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
 
   return (
     <>
-      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
+      <CustomLoader isOpen={isSubmitting} />
       <CustomToast
         isOpen={toastVisible}
         onDidDismiss={hideToast}
@@ -84,15 +85,15 @@ const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
         <TransparentCard>
           <IonCardContent>
             <IonText>
-              <p>OTP code from SMS (Ask OTP from the beneficiary)</p>
+              <p>{t("OTP_PAGE.MSG")}</p>
             </IonText>
             <br />
             <Controller
               render={({ field }) => (
                 <TextInputField
-                  placeholder="Enter OTP"
+                  placeholder={t("OTP_PAGE.PLACEHOLDERS.OTP")}
                   type="number"
-                  label="OTP*"
+                  label={t("OTP_PAGE.LABELS.OTP")}
                   value={getValues("otp")}
                   errorText={errors?.otp?.message}
                   onInput={(e: any) => {
@@ -104,7 +105,7 @@ const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
                 />
               )}
               rules={{
-                required: "Please enter OTP",
+                required: t("OTP_PAGE.ERRORS.OTP"),
               }}
               control={control}
               name="otp"
@@ -126,7 +127,7 @@ const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
                 color="primary"
                 disabled={isSubmitting}
               >
-                Verify
+                {t("OTP_PAGE.BUTTONS.SUBMIT")}
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
@@ -137,7 +138,7 @@ const OTP = ({ data: { beneficiaryVoucher, beneficiaryDetails } }: Props) => {
                 onClick={handleCancel}
                 disabled={isSubmitting}
               >
-                Cancel
+                {t("OTP_PAGE.BUTTONS.CANCEL")}
               </IonButton>
             </div>
           </IonCardContent>

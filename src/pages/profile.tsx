@@ -1,19 +1,13 @@
 import { useVendor } from "@api/vendors";
 import CustomHeader from "@components/header/customHeader";
-import {
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonPage,
-  IonRow,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import Profile from "@sections/profile";
 import useAppStore from "@store/app";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
-const ProfilePage: React.FC = () => {
+const ProfilePage: FC = () => {
+  const { t } = useTranslation();
   let { wallet } = useAppStore();
   const { vendor, isLoading, error } = useVendor(wallet?.address);
   const props = {
@@ -21,7 +15,7 @@ const ProfilePage: React.FC = () => {
   };
   return (
     <IonPage>
-      <CustomHeader title="Profile" showBackButton />
+      <CustomHeader title={t("PROFILE_PAGE.PAGE_TITLE")} showBackButton />
       <IonContent fullscreen scrollY={false}>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

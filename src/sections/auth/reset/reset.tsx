@@ -8,16 +8,17 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import React from "react";
+import React, { FC } from "react";
 import Logo from "@assets/images/logo/rahat-logo-white.png";
 import { useHistory } from "react-router";
 import useAppStore from "@store/app";
 import useTransactionStore from "@store/transaction";
 import useBeneficiaryStore from "@store/beneficiary";
+import { useTranslation } from "react-i18next";
 
-const Reset: React.FC = () => {
+const Reset: FC = () => {
+  const { t } = useTranslation();
   const history = useHistory();
-
   const { logout } = useAppStore();
   const { logoutTransactions } = useTransactionStore();
   const { logoutBeneficiaries } = useBeneficiaryStore();
@@ -42,8 +43,8 @@ const Reset: React.FC = () => {
             >
               <IonImg src={Logo} />
               <IonText className="landing-text-container">
-                <h1>Are you sure you want to reset the app?</h1>
-                <p>This will clear all the data of the application</p>
+                <h1>{t("RESET_PAGE.TITLE")}</h1>
+                <p>{t("RESET_PAGE.MSG")}</p>
               </IonText>
               <IonButton
                 color="dark"
@@ -51,7 +52,7 @@ const Reset: React.FC = () => {
                 expand="block"
                 onClick={handleReset}
               >
-                Reset
+                {t("RESET_PAGE.BUTTONS.RESET")}
               </IonButton>
             </IonCol>
           </IonRow>

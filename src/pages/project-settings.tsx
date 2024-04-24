@@ -1,22 +1,12 @@
-import React, { useState } from "react";
-import {
-  IonPage,
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonBackButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-} from "@ionic/react";
-import { caretBack } from "ionicons/icons";
+import { FC, useState } from "react";
+import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import useAppStore from "@store/app";
 import ProjectSettings from "@sections/settings/project-settings";
 import CustomHeader from "@components/header/customHeader";
+import { useTranslation } from "react-i18next";
 
-const ProjectSettingsPage: React.FC = () => {
+const ProjectSettingsPage: FC = () => {
+  const { t } = useTranslation();
   const { projectSettings, setProjectSettings } = useAppStore();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -46,7 +36,10 @@ const ProjectSettingsPage: React.FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Project" showBackButton />
+      <CustomHeader
+        title={t("PROJECT_SETTINGS_PAGE.PAGE_TITLE")}
+        showBackButton
+      />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

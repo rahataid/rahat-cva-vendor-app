@@ -6,8 +6,10 @@ type PropTypes = {
 import { IonAlert } from "@ionic/react";
 import "./mnemonicDialog.scss";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
 function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
+  const { t } = useTranslation();
   const history = useHistory();
   const handleOnDidDismiss = () => {
     history.push("/select-project", {
@@ -28,17 +30,17 @@ function MnemonicDialog({ mnemonics, isOpen }: PropTypes) {
       mode="md"
       backdropDismiss={false}
       isOpen={isOpen}
-      header="Please write down the mnemonics safely"
+      header={t("REGISTER_PAGE.MNEMONICS.TITLE")}
       subHeader=""
       message={mnemonics}
       buttons={[
         {
-          text: "Copy",
+          text: `${t("REGISTER_PAGE.MNEMONICS.BUTTONS.COPY")}`,
           cssClass: "alert-button-confirm",
           handler: (event: React.MouseEvent) => handleCopyClick(event),
         },
         {
-          text: "Next",
+          text: `${t("REGISTER_PAGE.MNEMONICS.BUTTONS.NEXT")}`,
           cssClass: "alert-button-confirm",
         },
       ]}

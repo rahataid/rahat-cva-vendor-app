@@ -12,8 +12,10 @@ import CustomRefresher from "@components/refresher/CustomRefresher";
 import { useVendorVoucherRedemptionList } from "@api/vendors";
 import { FC } from "react";
 import ListSkeletonCard from "@components/loaders/skeleton/card/list";
+import { useTranslation } from "react-i18next";
 
 const VoucherRedemptionDetailsPage: FC = () => {
+  const { t } = useTranslation();
   const { data, isLoading, error, refetch, isFetching } =
     useVendorVoucherRedemptionList();
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
@@ -22,7 +24,10 @@ const VoucherRedemptionDetailsPage: FC = () => {
   };
   return (
     <IonPage>
-      <CustomHeader title="Voucher Redemption Details" showBackButton />
+      <CustomHeader
+        title={t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.PAGE_TITLE")}
+        showBackButton
+      />
       <IonContent>
         <CustomRefresher handleRefresh={handleRefresh} />
         <IonGrid>

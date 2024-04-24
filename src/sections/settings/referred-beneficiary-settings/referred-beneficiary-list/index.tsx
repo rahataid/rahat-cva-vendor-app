@@ -1,8 +1,9 @@
-import { IonCardContent, IonCardHeader } from "@ionic/react";
+import { IonCardHeader } from "@ionic/react";
 import { BENEFICIARY_DETAILS } from "../../../../types/beneficiaries";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import ReferredBeneficiaryCard from "../referred-beneficiary-card";
 import ListSkeletonCard from "@components/loaders/skeleton/card/list";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   beneficiaries: BENEFICIARY_DETAILS[] | [];
@@ -11,6 +12,7 @@ type Props = {
 };
 
 const ReferredBeneficiariesList = ({ beneficiaries, loading }: Props) => {
+  const { t } = useTranslation();
   if (loading) return <ListSkeletonCard length={9} />;
   return (
     <>
@@ -21,7 +23,7 @@ const ReferredBeneficiariesList = ({ beneficiaries, loading }: Props) => {
       ) : (
         <TransparentCard>
           <IonCardHeader className="ion-text-center">
-            No data available...
+            {t("REFERRED_BENEFICIARIES_PAGE.NO_DATA")}
           </IonCardHeader>
         </TransparentCard>
       )}

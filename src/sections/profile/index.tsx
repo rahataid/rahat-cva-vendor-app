@@ -38,6 +38,7 @@ import { useState } from "react";
 import CustomToast from "@components/toast";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import useCustomToast from "@hooks/use-custom-toast";
+import { useTranslation } from "react-i18next";
 
 type PropTypes = {
   currentUser: any;
@@ -45,12 +46,13 @@ type PropTypes = {
 };
 
 const Profile = ({ currentUser }: PropTypes) => {
+  const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
   console.log(currentUser);
   const handleCopyClick = (text: string) => {
     copyToClipboard(text);
-    showToast("Text copied to clipboard!", "success");
+    showToast(`${t("GLOBAL.TOASTS.COPIED")}`, "success");
   };
   return (
     <>

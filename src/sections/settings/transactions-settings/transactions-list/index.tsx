@@ -18,6 +18,7 @@ import { useHistory } from "react-router";
 import { chevronForwardOutline } from "ionicons/icons";
 import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 import { sortBeneficiariesByDate } from "@utils/helperFunctions";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: IAllTransactions;
@@ -25,6 +26,7 @@ type Props = {
   error: any;
 };
 const TransactionsList = ({ data, loading }: Props) => {
+  const { t } = useTranslation();
   const history = useHistory();
 
   if (loading) return <ListSkeletonCard length={9} />;
@@ -79,7 +81,9 @@ const TransactionsList = ({ data, loading }: Props) => {
       ) : (
         <TransparentCard>
           <IonCardHeader>
-            <IonText className="ion-text-center">No data available...</IonText>
+            <IonText className="ion-text-center">
+              {t("TRANSACTIONS_LIST_PAGE.NO_DATA")}
+            </IonText>
           </IonCardHeader>
         </TransparentCard>
       )}

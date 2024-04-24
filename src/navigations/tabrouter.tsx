@@ -28,6 +28,7 @@ import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
 import RedeemVoucherVendorPage from "../pages/redeem-voucher-vendor";
 import RedeemDiscountVoucherPage from "../pages/redeem-discount-voucher";
 import RedeemFreeVoucherPage from "../pages/redeem-free-voucher";
+import LanguageSettingsPage from "@pages/language";
 
 const Tabs: React.FC = () => {
   const { currentUser } = useAppStore();
@@ -63,6 +64,11 @@ const Tabs: React.FC = () => {
           <Route
             path="/tabs/transactions/:txHash"
             component={TransactionsDetailPage}
+            exact
+          />
+          <Route
+            path="/tabs/settings/language"
+            component={LanguageSettingsPage}
             exact
           />
           <Route

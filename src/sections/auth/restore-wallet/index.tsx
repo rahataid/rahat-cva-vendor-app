@@ -2,7 +2,6 @@ import {
   IonButton,
   IonCol,
   IonGrid,
-  IonLoading,
   IonProgressBar,
   IonRow,
   IonText,
@@ -13,8 +12,11 @@ import "./restore.scss";
 import useAppStore from "@store/app";
 import TextInputFieldMultiLine from "@components/input/form-text-input-multiline";
 import { handleError } from "@utils/errorHandler";
+import { useTranslation } from "react-i18next";
+import CustomLoader from "@components/loaders/customLoader";
 
 const RestoreWallet = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { handleRestore } = useAppStore();
   const handleCancel = () => {
@@ -52,7 +54,7 @@ const RestoreWallet = () => {
 
   return (
     <>
-      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />{" "}
+      <CustomLoader isOpen={isSubmitting} />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <IonGrid className="restore-container">
           <IonRow className="restore-form-container">

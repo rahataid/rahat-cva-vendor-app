@@ -3,6 +3,7 @@ import { IonCardContent, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 import { IAllTransactionItem } from "@types/transactions";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: IAllTransactionItem;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const TransactionDetails: FC<Props> = ({ data, voucherAddresses }) => {
+  const { t } = useTranslation();
   return (
     <TransparentCard>
       <IonCardContent>
@@ -30,34 +32,55 @@ const TransactionDetails: FC<Props> = ({ data, voucherAddresses }) => {
               {data.status}
             </IonText>
           </IonCol> */}
-            <IonCol size="6">Transaction Type</IonCol>
+            <IonCol size="6">
+              {t("TRANSACTION_DETAILS_PAGE.LABELS.TRANSACTION_TYPE")}
+            </IonCol>
             <IonCol size="6">{data?.eventType || "-"}</IonCol>
-            <IonCol size="6">Beneficiary Wallet Address</IonCol>
+            <IonCol size="6">
+              {t("TRANSACTION_DETAILS_PAGE.LABELS.WALLET_ADDRESS")}
+            </IonCol>
             <IonCol size="6">
               {data?.beneficiary ? cropString(data?.beneficiary) : "-"}
             </IonCol>
             {(data?.eventType == "Claim Processed" &&
               data?.token === voucherAddresses?.discountVoucherAddress && (
                 <>
-                  <IonCol size="6">Voucher Type</IonCol>
                   <IonCol size="6">
-                    <IonText color="success">Discount Voucher</IonText>
+                    {t("TRANSACTION_DETAILS_PAGE.LABELS.VOUCHER_TYPE")}
                   </IonCol>
-                  <IonCol size="6">Beneficiary Type</IonCol>
                   <IonCol size="6">
-                    <IonText color="success">Referred</IonText>
+                    <IonText color="success">
+                      {t("GLOBAL.TEXTS.VOUCHER_TYPE.DISCOUNT")}
+                    </IonText>
+                  </IonCol>
+                  <IonCol size="6">
+                    {t("TRANSACTION_DETAILS_PAGE.LABELS.BENEFICIARY_TYPE")}
+                  </IonCol>
+                  <IonCol size="6">
+                    <IonText color="success">
+                      {t("GLOBAL.TEXTS.BENEFICIARY_TYPE.REFERRED")}
+                    </IonText>
                   </IonCol>
                 </>
               )) ||
               (data?.token === voucherAddresses?.freeVoucherAddress && (
                 <>
-                  <IonCol size="6">Voucher Type</IonCol>
                   <IonCol size="6">
-                    <IonText color="warning">Free Voucher</IonText>
+                    {t("TRANSACTION_DETAILS_PAGE.LABELS.VOUCHER_TYPE")}
                   </IonCol>
-                  <IonCol size="6">Beneficiary Type</IonCol>
                   <IonCol size="6">
-                    <IonText color="warning">Enrolled</IonText>
+                    <IonText color="warning">
+                      {" "}
+                      {t("GLOBAL.TEXTS.VOUCHER_TYPE.FREE")}
+                    </IonText>
+                  </IonCol>
+                  <IonCol size="6">
+                    {t("TRANSACTION_DETAILS_PAGE.LABELS.BENEFICIARY_TYPE")}
+                  </IonCol>
+                  <IonCol size="6">
+                    <IonText color="warning">
+                      {t("GLOBAL.TEXTS.BENEFICIARY_TYPE.ENROLLED")}
+                    </IonText>
                   </IonCol>
                 </>
               ))}
@@ -65,11 +88,15 @@ const TransactionDetails: FC<Props> = ({ data, voucherAddresses }) => {
             {/* <IonCol size="6">Phone Number</IonCol>
           <IonCol size="6">{cropString(data?.beneficiary) || "-"}</IonCol> */}
 
-            <IonCol size="6">Transaction Hash</IonCol>
+            <IonCol size="6">
+              {t("TRANSACTION_DETAILS_PAGE.LABELS.TRANSACION_HASH")}
+            </IonCol>
             <IonCol size="6">
               {data?.transactionHash ? cropString(data?.transactionHash) : "-"}
             </IonCol>
-            <IonCol size="6">Date</IonCol>
+            <IonCol size="6">
+              {t("TRANSACTION_DETAILS_PAGE.LABELS.DATE")}
+            </IonCol>
             <IonCol size="6">
               {data?.blockTimestamp ? formatDate(data?.blockTimestamp) : "-"}
             </IonCol>

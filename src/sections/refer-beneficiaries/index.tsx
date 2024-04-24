@@ -4,7 +4,6 @@ import {
   IonCardContent,
   IonCol,
   IonIcon,
-  IonLoading,
   IonText,
 } from "@ionic/react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -19,10 +18,12 @@ import {
 import useTransactionStore from "@store/transaction";
 import CustomToast from "../../components/toast";
 import useCustomToast from "../../hooks/use-custom-toast";
-
+import { useTranslation } from "react-i18next";
 import CardComponent from "@sections/home/home-card";
 import { useMemo } from "react";
-const MAX_REFERALS = 3;
+import { handleError } from "@utils/errorHandler";
+import CustomLoader from "@components/loaders/customLoader";
+import { MAX_REFERALS } from "@constants/values";
 
 type Props = {
   data: {
@@ -35,6 +36,7 @@ type Props = {
 const ReferBeneficiaries = ({
   data: { beneficiaryVoucher, from, beneficiaryDetails },
 }: Props) => {
+  const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
 
@@ -107,13 +109,10 @@ const ReferBeneficiaries = ({
         data: { data: response, from, beneficiaryVoucher },
       });
     } catch (error) {
-      showToast(
-        error?.message || "Something went wrong! Try again later.",
-        "danger"
-      );
+      showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",
-        message: error?.message || "Something went wrong! Try again later.",
+        message: handleError(error),
       });
     }
   };
@@ -123,8 +122,7 @@ const ReferBeneficiaries = ({
   };
 
   const handleDisabledAddMore = (condition: boolean) => {
-    if (condition)
-      showToast("You can only refer up to 3 beneficiaries", "danger");
+    if (condition) showToast(t("GLOBAL.ERRORS.RESTRICT_REFER"), "danger");
   };
 
   return (
@@ -137,9 +135,9 @@ const ReferBeneficiaries = ({
         position="top"
         color={toastColor}
       />
-      <IonLoading mode="md" isOpen={isSubmitting} message={"Please wait..."} />
+      <CustomLoader isOpen={isSubmitting} />
       <CardComponent
-        subtitle="Total Available Referrals"
+        subtitle={t("REFER_BENEFICIARIES_PAGE.TOTAL_AVAILABLE_REFERRALS")}
         title={totalAvailableReferrals || 0}
         loading={false}
       />
@@ -182,7 +180,7 @@ const ReferBeneficiaries = ({
               disabled={isMaxReferralsReached}
             >
               <IonIcon icon={add} />
-              Add More
+              {t("REFER_BENEFICIARIES_PAGE.BUTTONS.ADD_MORE")}
             </IonButton>
           </div>
           <br />
@@ -191,7 +189,7 @@ const ReferBeneficiaries = ({
           <IonCol size="12" className="px-0">
             {errors?.beneficiaries?.length && isSubmitted && (
               <IonText color="danger">
-                Please fill in all required fields correctly.
+                {t("REFER_BENEFICIARIES_PAGE.ERRORS.INVALID_FORM")}
               </IonText>
             )}
             {errors?.root?.serverError?.message && (
@@ -206,7 +204,7 @@ const ReferBeneficiaries = ({
             type="submit"
             disabled={isLoading || isSubmitting || totalAvailableReferrals <= 0}
           >
-            Submit
+            {t("REFER_BENEFICIARIES_PAGE.BUTTONS.SUBMIT")}
           </IonButton>
         </IonCardContent>
       </TransparentCard>

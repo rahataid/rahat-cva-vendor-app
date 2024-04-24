@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
 import TransactionResult from "@sections/transaction-result";
@@ -8,6 +8,7 @@ import {
 } from "@types/beneficiaries";
 import { useLocation } from "react-router";
 import { MetaTxResponse } from "@types/transactions";
+import { useTranslation } from "react-i18next";
 
 interface LocationState {
   data: {
@@ -17,12 +18,13 @@ interface LocationState {
   };
 }
 
-const TransactionResultPage: React.FC = () => {
+const TransactionResultPage: FC = () => {
+  const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
   return (
     <IonPage>
-      <CustomHeader title="Transaction Result" />
+      <CustomHeader title={t("TRANSACTION_RESULT_PAGE.PAGE_TITLE")} />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">

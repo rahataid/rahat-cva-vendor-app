@@ -17,6 +17,8 @@ import {
   REFER_RESULT_BENEFICIARY_DETAILS,
 } from "../../types/beneficiaries";
 import ResultChip from "@components/chip/statusChip";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data: {
@@ -26,7 +28,8 @@ type Props = {
   };
 };
 
-const ReferResult = ({ data: { data, from, voucher } }: Props) => {
+const ReferResult: FC<Props> = ({ data: { data, from, voucher } }) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const handleRedirect = () => {
     if (from === "redeemVoucher") {
@@ -46,7 +49,7 @@ const ReferResult = ({ data: { data, from, voucher } }: Props) => {
                 <ResultChip status="SUCCESS" />
               </IonCol>
               <IonCol size="12">
-                <IonText>The referral has been registered successfully</IonText>
+                <IonText>{t("REFER_RESULT_PAGE.SUCCESS_MSG")}</IonText>
               </IonCol>
             </IonRow>
             <br />
@@ -55,7 +58,7 @@ const ReferResult = ({ data: { data, from, voucher } }: Props) => {
                 <ReferItem key={i} data={el} index={i} />
               ))
             ) : (
-              <h2>No Data Available...</h2>
+              <h2>{t("REFER_RESULT_PAGE.NO_DATA")}</h2>
             )}
           </IonGrid>
           {from === "redeemVoucher" ? (
@@ -64,12 +67,12 @@ const ReferResult = ({ data: { data, from, voucher } }: Props) => {
             // </IonButton>
             <IonButton onClick={() => handleRedirect()} expand="block">
               <IonIcon slot="start" icon={homeOutline} />
-              Go To Homepage
+              {t("REFER_RESULT_PAGE.BUTTONS.GO_HOME")}
             </IonButton>
           ) : (
             <IonButton onClick={() => handleRedirect()} expand="block">
               <IonIcon slot="start" icon={homeOutline} />
-              Go To Homepage
+              {t("REFER_RESULT_PAGE.BUTTONS.GO_HOME")}
             </IonButton>
           )}
         </IonCardContent>

@@ -93,3 +93,25 @@ export type IAllTransactionItem =
   | IProjectClaimProcesseds
   | IClaimCreateds
   | ITokenRedeems;
+
+export type UpdateStatusBeRes = {
+  beneficiariesReferred?: number;
+  createdAt?: string;
+  deletedAt?: string;
+  extras?: any;
+  eyeCheckUp?: boolean;
+  glassRequired?: boolean;
+  id?: number;
+  phoneNumber?: string | number;
+  referrerBeneficiary?: string;
+  referrerVendor?: string;
+  status?: number;
+  type?: BENEFICIARY_TYPE;
+  uuid?: string;
+  walletAddress?: string;
+};
+
+export type UpdateStatusContractRes = {
+  txHash?: string;
+};
+export type UpdateStatusRes = UpdateStatusBeRes & UpdateStatusContractRes;

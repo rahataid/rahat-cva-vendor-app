@@ -22,8 +22,11 @@ import { useVendorDetails } from "../api/vendors";
 import { useProjectSettings } from "../api/project-settings";
 import CustomRefresher from "@components/refresher/CustomRefresher";
 import { VOUCHER } from "@types/beneficiaries";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
-const HomePage: React.FC = () => {
+const HomePage: FC = () => {
+  const { t } = useTranslation();
   const { projectSettings, currentUser } = useAppStore();
   const { queryService } = useGraphService();
 
@@ -92,7 +95,7 @@ const HomePage: React.FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title="Home" />
+      <CustomHeader title={t("HOME_PAGE.PAGE_TITLE")} />
       <IonContent fullscreen>
         <CustomRefresher handleRefresh={handleRefresh} />
         {/* {isSettingsFetching && <IndeterminateLoader />} */}

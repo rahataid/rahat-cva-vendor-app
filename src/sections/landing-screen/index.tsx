@@ -4,19 +4,17 @@ import {
   IonContent,
   IonGrid,
   IonImg,
-  IonInput,
-  IonItem,
-  IonList,
   IonPage,
   IonRow,
   IonText,
-  IonTextarea,
 } from "@ionic/react";
 import Logo from "@assets/images/logo/rahat-logo-standard.png";
 import "./landing-screen.scss";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
-const LandingScreen = () => {
+const LandingScreen: FC = () => {
   const history = useHistory();
   const handleRegister = () => {
     history.push("/register");
@@ -24,6 +22,7 @@ const LandingScreen = () => {
   const handleRestore = () => {
     history.push("/restore-wallet");
   };
+  const { t } = useTranslation();
   return (
     <IonPage>
       <IonContent className="bg" scrollY={false}>
@@ -38,8 +37,7 @@ const LandingScreen = () => {
             >
               <IonImg src={Logo} />
               <IonText className="landing-text-container">
-                Supporting vulnerable communities with a simple and efficient
-                relief distribution platform
+                {t("LANDING_PAGE.TAGLINE")}
               </IonText>
             </IonCol>
           </IonRow>
@@ -53,7 +51,7 @@ const LandingScreen = () => {
                 expand="block"
                 onClick={handleRegister}
               >
-                Create Wallet
+                {t("LANDING_PAGE.BUTTONS.CREATE_WALLET")}
               </IonButton>
               <IonRow className="gap-5"></IonRow>
               <IonButton
@@ -63,7 +61,7 @@ const LandingScreen = () => {
                 expand="block"
                 onClick={handleRestore}
               >
-                Restore Wallet
+                {t("LANDING_PAGE.BUTTONS.RESTORE_WALLET")}
               </IonButton>
             </IonCol>
           </IonRow>
