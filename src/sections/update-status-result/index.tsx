@@ -115,15 +115,6 @@ const UpdateStatusResult: FC<Props> = ({
                 )}
               </IonCol>
               <IonCol size="6">
-                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.DATE")}
-              </IonCol>
-              <IonCol size="6">
-                {updateRes?.createdAt
-                  ? formatDate(new Date(updateRes?.createdAt) / 1000)
-                  : "-"}
-              </IonCol>
-
-              <IonCol size="6">
                 {t("UPDATE_STATUS_RESULT_PAGE.LABELS.TRANSACTION_HASH")}
               </IonCol>
               <IonCol size="6">
@@ -136,6 +127,14 @@ const UpdateStatusResult: FC<Props> = ({
               <IonCol size="6">
                 {beneficiaryDetails?.walletAddress
                   ? cropString(beneficiaryDetails?.walletAddress)
+                  : "-"}
+              </IonCol>
+              <IonCol size="6">
+                {t("UPDATE_STATUS_RESULT_PAGE.LABELS.DATE")}
+              </IonCol>
+              <IonCol size="6">
+                {updateRes?.createdAt
+                  ? formatDate(new Date(updateRes?.createdAt) / 1000)
                   : "-"}
               </IonCol>
               <br />

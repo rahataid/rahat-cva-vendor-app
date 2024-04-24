@@ -23,6 +23,10 @@ type PropTypes = {
   transactionsLoading?: boolean;
   currentUser?: any;
   isSettingsFetching?: boolean;
+  enrolledTransactions?: any;
+  isEnrolledFetching?: boolean;
+  referredTransactions?: any;
+  isReferredFetching?: boolean;
 };
 
 const Home = ({
@@ -35,6 +39,10 @@ const Home = ({
   transactionsLoading,
   currentUser,
   isSettingsFetching,
+  enrolledTransactions,
+  isEnrolledFetching,
+  referredTransactions,
+  isReferredFetching,
 }: PropTypes) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -126,6 +134,10 @@ const Home = ({
         <TransactionCard
           transactionsList={transactionsData}
           transactionsLoading={transactionsLoading}
+          enrolledTransactions={enrolledTransactions}
+          isEnrolledFetching={isEnrolledFetching}
+          referredTransactions={referredTransactions}
+          isReferredFetching={isReferredFetching}
         />
       </div>
     </>

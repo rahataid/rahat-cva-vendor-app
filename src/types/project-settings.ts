@@ -15,10 +15,10 @@ export type IProjectSettingsNetworkApiResponse = {
     symbol: string;
     decimals: 18 | number;
   };
-  rpcUrl: string;
+  networkId: number;
+  rpcurl: string;
   blockExplorerUrls?: string;
   iconUrls?: string[];
   chainWebSocket?: string;
-  networkId: number;
 };
 export type IProjectSettingsNetwork = IProjectSettingsNetworkApiResponse;

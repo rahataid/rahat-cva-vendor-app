@@ -32,8 +32,8 @@ const VoucherDetailsCard: FC<Props> = ({ data }) => {
             <CustomChip
               label={
                 data?.voucherType === "DISCOUNTVOUCHER"
-                  ? t("GLOBALS.TEXTS.VOUCHER_TYPE.DISCOUNT")
-                  : t("GLOBALS.TEXTS.VOUCHER_TYPE.DISCOUNT")
+                  ? t("GLOBAL.TEXTS.VOUCHER_TYPE.DISCOUNT")
+                  : t("GLOBAL.TEXTS.VOUCHER_TYPE.FREE")
               }
               color={
                 data?.voucherType === "DISCOUNTVOUCHER" ? "success" : "warning"

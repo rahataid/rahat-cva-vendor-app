@@ -110,7 +110,9 @@ export function useVendorVoucher(queryService: any): any {
     ["vendorVouchers", walletAddress],
     async () => {
       console.log("EXECUTE USE VOUCHER");
-      const res = await queryService.useVendorVoucher(walletAddress);
+      const res = await queryService.useVendorVoucher(
+        "0x145d35b26248e4354249014eaba05a0bba62183f"
+      );
       console.log("RES USE VOUCHER");
       return res;
     },
@@ -138,7 +140,9 @@ export function useVendorTransaction(queryService: any) {
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
-      const data = await queryService.useVendorTransaction(walletAddress);
+      const data = await queryService.useVendorTransaction(
+        "0x145d35b26248e4354249014eaba05a0bba62183f"
+      );
       if (!data?.data) return [];
 
       const {
@@ -214,16 +218,15 @@ export function useVendorFilteredTransaction(
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
-      console.log(" API call");
+      console.log(voucherType, "FILTERED TRANS API call");
       const data = await queryService.useVendorFilteredTransaction(
-        walletAddress,
-        voucherType === VOUCHER.FREE_VOUCHER
-          ? freeVoucherAddress
-          : discountVoucherAddress
+        "0x145d35b26248e4354249014eaba05a0bba62183f",
+        "0x5749ad5d0c16d005d7de8ea418fc1d54e2a32576"
       );
-      console.log("FILTERED VENDOR TRANSACTIONS", data);
-      return data;
+      console.log("FILTERED VENDOR TRANSACTIONS =====>", data);
+
       if (!data?.data) return [];
+      return data;
 
       const {
         beneficiaryReferreds,

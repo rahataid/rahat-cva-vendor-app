@@ -9,7 +9,11 @@ import {
 import { DEFAULT_PASSCODE, GRAPHQL_URL } from "../config";
 import { mockBeneficiaries } from "@utils/mockData";
 import countriesData from "../constants/countries.json";
-import { AppStoreType } from "@types/store/app";
+import {
+  AppStoreType,
+  StorageCurrentUser,
+  StorageProjectSettings,
+} from "@types/store/app";
 
 const useAppStore = createStore<AppStoreType>(
   (set, get) => ({
@@ -80,10 +84,6 @@ const useAppStore = createStore<AppStoreType>(
       return { wallet };
     },
 
-    setChainData: async (chainData: StorageChainData) => {
-      set({ chainData });
-    },
-
     setWallet: async (wallet: any) => {
       set({ wallet });
     },
@@ -114,6 +114,7 @@ const useAppStore = createStore<AppStoreType>(
     setMockData: (data: any) => {
       set({ mockData: data });
     },
+
     setCountries: (countries) => {
       set({ countries });
     },
@@ -124,7 +125,6 @@ const useAppStore = createStore<AppStoreType>(
       name: "AppStore",
       storage: localPersistStorage,
       partialize: (state) => ({
-        chainData: state.chainData,
         wallet: state.wallet,
         currentUser: state.currentUser,
         projectSettings: state.projectSettings,

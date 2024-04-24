@@ -12,7 +12,7 @@ import {
   BENEFICIARY_VOUCHER_DETAILS,
   VOUCHER,
 } from "@types/beneficiaries";
-import { MetaTxResponse } from "@types/transactions";
+import { MetaTxResponse, UpdateStatusRes } from "@types/transactions";
 import ResultChip from "@components/chip/statusChip";
 import { useHistory } from "react-router";
 import { cropString, formatDate } from "@utils/helperFunctions";
@@ -25,12 +25,12 @@ type Props = {
   data: {
     beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
     beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-    otpRes: MetaTxResponse;
+    redeemRes: UpdateStatusRes;
   };
 };
 
 const TransactionResult: FC<Props> = ({
-  data: { beneficiaryDetails, beneficiaryVoucher, otpRes },
+  data: { beneficiaryDetails, beneficiaryVoucher, redeemRes },
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -75,25 +75,52 @@ const TransactionResult: FC<Props> = ({
                 </IonText>
               </IonCol>
               <IonCol size="6">
-                {t("TRANSACTION_RESULT_PAGE.LABELS.DATE")}
+                {t("TRANSACTION_RESULT_PAGE.LABELS.CHECKUP_STATUS")}
               </IonCol>
               <IonCol size="6">
-                {formatDate(generateCurrentTimestamp()) || "-"}
+                {redeemRes?.eyeCheckUp
+                  ? t("GLOBAL.TEXTS.SELECT.CHECKUP_DONE")
+                  : t("GLOBAL.TEXTS.SELECT.CHECKUP_NOT_DONE")}
               </IonCol>
-
+              <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.GLASSES_STATUS")}
+              </IonCol>
+              <IonCol size="6">
+                {voucherType === VOUCHER.FREE_VOUCHER && (
+                  <IonText>
+                    {redeemRes?.glassRequired
+                      ? t("GLOBAL.TEXTS.SELECT.GLASSES_REQUIRED")
+                      : t("GLOBAL.TEXTS.SELECT.GLASSES_NOT_REQUIRED")}
+                  </IonText>
+                )}
+                {voucherType === VOUCHER.DISCOUNT_VOUCHER && (
+                  <IonText>
+                    {redeemRes?.glassRequired
+                      ? t("GLOBAL.TEXTS.SELECT.GLASSES_BOUGHT")
+                      : t("GLOBAL.TEXTS.SELECT.GLASSES_NOT_BOUGHT")}
+                  </IonText>
+                )}
+              </IonCol>{" "}
               <IonCol size="6">
                 {t("TRANSACTION_RESULT_PAGE.LABELS.TRANSACTION_HASH")}
               </IonCol>
               <IonCol size="6">
-                {otpRes?.txHash ? cropString(otpRes?.txHash) : "-"}
+                {redeemRes?.txHash ? cropString(redeemRes?.txHash) : "-"}
               </IonCol>
-
               <IonCol size="6">
                 {t("TRANSACTION_RESULT_PAGE.LABELS.WALLET_ADDRESS")}
               </IonCol>
               <IonCol size="6">
                 {beneficiaryDetails?.walletAddress
                   ? cropString(beneficiaryDetails?.walletAddress)
+                  : "-"}
+              </IonCol>
+              <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.DATE")}
+              </IonCol>
+              <IonCol size="6">
+                {redeemRes?.createdAt
+                  ? formatDate(new Date(redeemRes?.createdAt) / 1000)
                   : "-"}
               </IonCol>
               <br />
@@ -104,7 +131,6 @@ const TransactionResult: FC<Props> = ({
                   <p>{t("TRANSACTION_RESULT_PAGE.SUCCESS_MSG")}</p>
                 </IonText>
               </IonCol>
-
               {voucherType === "FREE_VOUCHER" && (
                 <>
                   <br />
@@ -119,7 +145,6 @@ const TransactionResult: FC<Props> = ({
                   </IonCol>
                 </>
               )}
-
               <IonRow className="gap-5"></IonRow>
               <IonCol size="12">
                 <IonButton color="primary" expand="block" onClick={handleDone}>

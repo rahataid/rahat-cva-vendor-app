@@ -14,7 +14,7 @@ interface LocationState {
   data: {
     beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
     beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-    otpRes: MetaTxResponse;
+    updateRes: MetaTxResponse;
   };
 }
 
