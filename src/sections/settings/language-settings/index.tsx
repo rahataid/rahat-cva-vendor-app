@@ -8,9 +8,10 @@ import "./languageSettings.scss";
 
 type Props = {
   customStyle?: any;
+  lines?: "full" | "none" | "inset";
 };
 
-const LanguageSettings: FC<Props> = ({ customStyle }) => {
+const LanguageSettings: FC<Props> = ({ customStyle, lines = "inset" }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const languageOptions = [
     {
@@ -35,7 +36,7 @@ const LanguageSettings: FC<Props> = ({ customStyle }) => {
   return (
     <>
       <TransparentCard styles={customStyle}>
-        <IonList>
+        <IonList lines={lines}>
           {languageOptions.map((option, index) => (
             <IonItem
               key={index}
