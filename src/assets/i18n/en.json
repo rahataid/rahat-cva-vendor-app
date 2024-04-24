@@ -56,7 +56,10 @@
   },
   "SELECT_LANGUAGE_PAGE": {
     "TAGLINE": "Supporting vulnerable communities with a simple and efficient relief distribution platform",
-    "MSG": "Choose your language to get started"
+    "MSG": "Choose your language to get started",
+    "BUTTONS": {
+      "PROCEED": "Proceed"
+    }
   },
   "LANDING_PAGE": {
     "TAGLINE": "Supporting vulnerable communities with a simple and efficient relief distribution platform",

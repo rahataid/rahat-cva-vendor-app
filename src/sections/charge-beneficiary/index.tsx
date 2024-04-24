@@ -153,7 +153,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
     if (data?.showWalletTab) setFilter("WALLET");
     else setFilter("PHONE");
     if (data?.error) {
-      showToast(`${t("ERRORS.INVALID_ETHEREUM_ADDRESS")}`, "danger");
+      showToast(`${t("GLOBAL.ERRORS.INVALID_ETHEREUM_ADDRESS")}`, "danger");
     }
     if (!isPlatformWeb) stopScan();
   }, []);
