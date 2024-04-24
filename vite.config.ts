@@ -5,13 +5,19 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), legacy()],
+  plugins: [
+    react(),
+    legacy({
+      renderLegacyChunks: false,
+    }),
+  ],
   build: { chunkSizeWarningLimit: 1600 },
   resolve: {
     alias: {
       "@api": path.resolve(__dirname, "src/api"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@components": path.resolve(__dirname, "src/components"),
+      "@constants": path.resolve(__dirname, "src/constants"),
       "@contexts": path.resolve(__dirname, "src/contexts"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@navigations": path.resolve(__dirname, "src/navigations"),
