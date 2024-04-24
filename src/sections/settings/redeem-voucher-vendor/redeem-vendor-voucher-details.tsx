@@ -27,8 +27,8 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
   const { transferVoucher } = useTransactionStore();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const { data, isRefetching } = useVendorVoucherRedemptionCount(voucherType);
   const {
+    reset,
     handleSubmit,
     setError,
     control,
@@ -42,16 +42,23 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
     },
   });
 
+  const { data, isRefetching, refetch } =
+    useVendorVoucherRedemptionCount(voucherType);
+
   const onSubmit = async (data: FormValues) => {
     try {
       await transferVoucher({
         voucherType,
         amount: data?.vouchers,
       });
+      await refetch();
+      reset({ vouchers: undefined });
       setSubmitSuccess(true);
       showToast(t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.SUCCESS_MSG"), "success");
     } catch (error) {
       console.log(error);
+      await refetch();
+      reset({ vouchers: undefined });
       setSubmitSuccess(false);
       showToast(handleError(error), "danger");
       setError("root.serverError", {
@@ -126,7 +133,7 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
             <br />
             {submitSuccess && (
               <IonText color="success">
-                {t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.SUCCESS")}
+                {t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.SUCCESS_MSG")}
               </IonText>
             )}
             {errors?.root?.serverError?.message && (
