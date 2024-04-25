@@ -48,7 +48,7 @@ const ReferredBeneficiaryDetails = ({ data }: Props) => {
             </IonCol>
             <IonCol size="6">
               {data?.createdAt
-                ? formatDate(new Date(data?.createdAt), DATE_SOURCE.BACKEND)
+                ? formatDate(data?.createdAt, DATE_SOURCE.BACKEND)
                 : "-"}
             </IonCol>
           </IonRow>

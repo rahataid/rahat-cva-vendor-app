@@ -10,6 +10,7 @@ import {
 import {
   BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
+  DATE_SOURCE,
   VOUCHER,
 } from "@types/beneficiaries";
 import { MetaTxResponse, UpdateStatusRes } from "@types/transactions";
@@ -120,7 +121,7 @@ const TransactionResult: FC<Props> = ({
               </IonCol>
               <IonCol size="6">
                 {redeemRes?.createdAt
-                  ? formatDate(new Date(redeemRes?.createdAt) / 1000)
+                  ? formatDate(redeemRes?.createdAt, DATE_SOURCE.BACKEND)
                   : "-"}
               </IonCol>
               <br />

@@ -102,7 +102,10 @@ export const validateTokenAmount = (
 //   return formattedDate;
 // };
 
-export const formatDate = (timestamp: string, source: DATE_SOURCE) => {
+export const formatDate = (
+  timestamp: string,
+  source: DATE_SOURCE = DATE_SOURCE.BLOCKCHAIN
+) => {
   let date;
   if (source === DATE_SOURCE.BACKEND) date = new Date(timestamp);
   else if (source === DATE_SOURCE.BLOCKCHAIN) date = new Date(timestamp * 1000);

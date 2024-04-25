@@ -81,10 +81,7 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                   <p>{beneficiary?.piiData?.phone}</p>
                   <p>
                     {beneficiary?.createdAt
-                      ? formatDate(
-                          new Date(beneficiary?.createdAt),
-                          DATE_SOURCE.BACKEND
-                        )
+                      ? formatDate(beneficiary?.createdAt, DATE_SOURCE.BACKEND)
                       : "-"}
                   </p>
                 </IonText>
