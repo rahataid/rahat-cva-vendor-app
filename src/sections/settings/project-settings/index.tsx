@@ -9,6 +9,8 @@ import {
   IonRow,
   IonCol,
 } from "@ionic/react";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isEditing: boolean;
@@ -18,13 +20,14 @@ type Props = {
   handleInputChange: any;
 };
 
-const ProjectSettings = ({
+const ProjectSettings: FC<Props> = ({
   isEditing,
   inputValue,
   handleEditClick,
   handleSaveClick,
   handleInputChange,
-}: Props) => {
+}) => {
+  const { t } = useTranslation();
   return (
     <>
       <TransparentCard>
@@ -36,7 +39,9 @@ const ProjectSettings = ({
                   {isEditing ? (
                     <IonInput
                       value={inputValue}
-                      placeholder="Enter value"
+                      placeholder={t(
+                        "SELECT_PROJECT_PAGE.PLACEHOLDERS.PROJECT"
+                      )}
                       onIonInput={handleInputChange}
                     ></IonInput>
                   ) : (
@@ -50,7 +55,7 @@ const ProjectSettings = ({
                       expand="full"
                       onClick={handleSaveClick}
                     >
-                      Save
+                      {t("SELECT_PROJECT_PAGE.BUTTONS.SAVE")}
                     </IonButton>
                   ) : (
                     <IonButton
@@ -58,7 +63,7 @@ const ProjectSettings = ({
                       expand="full"
                       onClick={handleEditClick}
                     >
-                      Edit
+                      {t("SELECT_PROJECT_PAGE.BUTTONS.EDIT")}
                     </IonButton>
                   )}
                 </IonCol>

@@ -15,15 +15,16 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import "./referred-beneficiary-card.scss";
 import { ellipsisHorizontal, eyeOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
-import { BENEFICIARY_DETAILS } from "@types/beneficiaries";
+import { BENEFICIARY_DETAILS, DATE_SOURCE } from "@types/beneficiaries";
 import { formatDate } from "@utils/helperFunctions";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   beneficiary: BENEFICIARY_DETAILS;
 };
 const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
+  const { t } = useTranslation();
   const history = useHistory();
-
   const [showAlert, setShowAlert] = useState(false);
   const handleViewDetails = () => {
     history.push(`/tabs/referred-beneficiaries/${beneficiary?.uuid}`, {
@@ -79,7 +80,12 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                   <h2>{beneficiary?.piiData?.name}</h2>
                   <p>{beneficiary?.piiData?.phone}</p>
                   <p>
-                    {formatDate(new Date(beneficiary?.createdAt) / 1000) || "-"}
+                    {beneficiary?.createdAt
+                      ? formatDate(
+                          new Date(beneficiary?.createdAt),
+                          DATE_SOURCE.BACKEND
+                        )
+                      : "-"}
                   </p>
                 </IonText>
               </IonCol>
@@ -110,13 +116,17 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
                         color="primary"
                         style={{ marginRight: "12px" }}
                       />
-                      <IonText color="primary">View</IonText>
+                      <IonText color="primary">
+                        {t("GLOBAL.POPOVERS.VIEW")}
+                      </IonText>
                     </IonItem>
                   </IonList>
                 </IonPopover>
 
                 <IonText color="success">
-                  <h2>REFERRED</h2>
+                  <h2>
+                    {t("GLOBAL.TEXTS.BENEFICIARY_TYPE.REFERRED").toUpperCase()}
+                  </h2>
                 </IonText>
               </IonCol>
             </IonRow>

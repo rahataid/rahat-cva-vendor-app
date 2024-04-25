@@ -61,6 +61,11 @@ export enum ESTIMATED_AGE {
   "86-10" = "86-10",
 }
 
+export enum DATE_SOURCE {
+  BACKEND = "BACKEND",
+  BLOCKCHAIN = "BLOCKCHAIN",
+}
+
 export type BENEFICIARY_VOUCHER_DETAILS = {
   FreeVoucherAddress?: string;
   FreeVoucherClaimStatus?: boolean;

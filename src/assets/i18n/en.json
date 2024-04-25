@@ -3,8 +3,17 @@
     "LOADERS": {
       "LOADING": "Please wait..."
     },
+    "MODALS": {
+      "COUNTRY_CODE": {
+        "TITLE": "Choose your country code",
+        "PLACEHOLDER": "Enter country code"
+      }
+    },
     "TOASTS": {
       "COPIED": "Copied to clipboard"
+    },
+    "POPOVERS": {
+      "VIEW": "View"
     },
     "ERRORS": {
       "DEFAULT": "Something went wrong! Please try again later",
@@ -26,7 +35,7 @@
         "FREE": "Free Voucher",
         "DISCOUNT": "Discount Voucher"
       },
-      "BENEFICARY_TYPE": {
+      "BENEFICIARY_TYPE": {
         "ENROLLED": "enrolled",
         "REFERRED": "referred"
       },
@@ -105,7 +114,8 @@
       "PNEUMONICS": "Please enter 12 words pneumonics"
     },
     "ERRORS": {
-      "PNEUMONICS": "Please enter 12 words pneumonics"
+      "PNEUMONICS": "Please enter 12 words pneumonics",
+      "INVALID_PNEUMONICS": "Invalid pneumonics"
     },
     "BUTTONS": {
       "SUBMIT": "Submit",
@@ -113,7 +123,20 @@
     }
   },
   "SELECT_PROJECT_PAGE": {
-    "PAGE_TITLE": "Select Project"
+    "PAGE_TITLE": "Select Project",
+    "LABELS": {
+      "PROJECT": "Project URL*"
+    },
+    "PLACEHOLDERS": {
+      "PROJECT": "Enter Value"
+    },
+    "ERRORS": {
+      "PROJECT": "Please enter the project URL"
+    },
+    "BUTTONS": {
+      "SUBMIT": "Submit",
+      "CANCEL": "Cancel"
+    }
   },
   "HOME_PAGE": {
     "PAGE_TITLE": "Home",
@@ -409,6 +432,16 @@
     "BUTTONS": {
       "REFER": "Refer",
       "DONE": "Done"
+    }
+  },
+  "TRANSACTION_DETAILS_PAGE": {
+    "LABELS": {
+      "TRANSACTION_TYPE": "Transaction Type",
+      "WALLET_ADDRESS": "Wallet Address",
+      "VOUCHER_TYPE": "Voucher Type",
+      "BENEFICIARY_TYPE": "Beneficiary Type",
+      "TRANSACION_HASH": "Transaction Hash",
+      "DATE": "Date"
     }
   }
 }

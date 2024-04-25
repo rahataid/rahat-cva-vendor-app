@@ -3,8 +3,17 @@
     "LOADERS": {
       "LOADING": "Mohon tunggu..."
     },
+    "MODALS": {
+      "COUNTRY_CODE": {
+        "TITLE": "Pilih kode negara Anda",
+        "PLACEHOLDER": "Masukkan kode negara"
+      }
+    },
     "TOASTS": {
       "COPIED": "Disalin ke clipboard"
+    },
+    "POPOVERS": {
+      "VIEW": "Lihat"
     },
     "ERRORS": {
       "DEFAULT": "Ada kesalahan! Silakan coba lagi nanti",
@@ -105,7 +114,8 @@
       "PNEUMONICS": "Silakan masukkan 12 kata pneumonik"
     },
     "ERRORS": {
-      "PNEUMONICS": "Silakan masukkan 12 kata pneumonik"
+      "PNEUMONICS": "Silakan masukkan 12 kata pneumonik",
+      "INVALID_PNEUMONICS": "Pneumonik tidak valid"
     },
     "BUTTONS": {
       "SUBMIT": "Kirim",
@@ -113,7 +123,20 @@
     }
   },
   "SELECT_PROJECT_PAGE": {
-    "PAGE_TITLE": "Pilih Proyek"
+    "PAGE_TITLE": "Pilih Proyek",
+    "LABELS": {
+      "PROJECT": "URL Proyek*"
+    },
+    "PLACEHOLDERS": {
+      "PROJECT": "Masukkan Nilai"
+    },
+    "ERRORS": {
+      "PROJECT": "Silakan masukkan URL proyek"
+    },
+    "BUTTONS": {
+      "SUBMIT": "Kirim",
+      "CANCEL": "Batal"
+    }
   },
   "HOME_PAGE": {
     "PAGE_TITLE": "Beranda",
@@ -409,6 +432,16 @@
     "BUTTONS": {
       "REFER": "Rujuk",
       "DONE": "Selesai"
+    }
+  },
+  "TRANSACTION_DETAILS_PAGE": {
+    "LABELS": {
+      "TRANSACTION_TYPE": "Jenis Transaksi",
+      "WALLET_ADDRESS": "Alamat Dompet",
+      "VOUCHER_TYPE": "Jenis Voucher",
+      "BENEFICIARY_TYPE": "Jenis Penerima Manfaat",
+      "TRANSACION_HASH": "Hash Transaksi",
+      "DATE": "Tanggal"
     }
   }
 }
