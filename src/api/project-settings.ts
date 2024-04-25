@@ -9,7 +9,14 @@ export function useProjectSettings(): any {
     projectSettings: storeProjectSettings,
     setProjectSettings,
   } = useAppStore.getState();
-
+  console.log(
+    "ENABLED",
+    currentUser?.projects?.length > 0 &&
+      (!storeProjectSettings?.contracts ||
+        !storeProjectSettings?.network ||
+        !storeProjectSettings?.subGraph ||
+        !storeProjectSettings?.admin)
+  );
   const {
     data: projectSettings,
     isLoading,
@@ -18,6 +25,8 @@ export function useProjectSettings(): any {
   } = useQuery(
     ["settings", currentUser],
     async () => {
+      console.log("FN CALL==============>");
+
       const res = await ProjectsService.actions(
         currentUser?.projects[0]?.uuid,
         {
@@ -34,8 +43,9 @@ export function useProjectSettings(): any {
           !storeProjectSettings?.network ||
           !storeProjectSettings?.subGraph ||
           !storeProjectSettings?.admin),
-      staleTime: 60000,
+      staleTime: 0,
       onSuccess: async (data: any) => {
+        console.log("==============>", data);
         const { value: blockChainSettings } = findArrayElementByName({
           arr: data?.data?.data,
           name: "BLOCKCHAIN",
@@ -44,10 +54,12 @@ export function useProjectSettings(): any {
           name: "CONTRACT",
           arr: data?.data?.data,
         });
-        // const { value: subgraphSettings } = findArrayElementByName({
-        //   name: "SUBGRAPH_URL",
-        //   arr: data?.data?.data,
-        // });
+        const {
+          value: { url: subgraphSettings },
+        } = findArrayElementByName({
+          name: "SUBGRAPH_URL",
+          arr: data?.data?.data,
+        });
         const { value: adminSettings } = findArrayElementByName({
           name: "ADMIN",
           arr: data?.data?.data,
@@ -56,10 +68,11 @@ export function useProjectSettings(): any {
           contracts: contractSettings,
           network: blockChainSettings,
           subGraph: {
-            url: "https://api.studio.thegraph.com/query/42205/el-dev-arbi/version/latest",
+            url: subgraphSettings,
           },
           admin: adminSettings,
         };
+        console.log("PROJECT SETTINGS======================", projectSettings);
         await setProjectSettings(projectSettings);
         return projectSettings;
       },
