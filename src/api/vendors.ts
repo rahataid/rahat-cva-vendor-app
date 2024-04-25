@@ -110,9 +110,7 @@ export function useVendorVoucher(queryService: any): any {
     ["vendorVouchers", walletAddress],
     async () => {
       console.log("EXECUTE USE VOUCHER");
-      const res = await queryService.useVendorVoucher(
-        "0x145d35b26248e4354249014eaba05a0bba62183f"
-      );
+      const res = await queryService.useVendorVoucher(walletAddress);
       console.log("RES USE VOUCHER");
       return res;
     },
@@ -140,9 +138,7 @@ export function useVendorTransaction(queryService: any) {
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
-      const data = await queryService.useVendorTransaction(
-        "0x145d35b26248e4354249014eaba05a0bba62183f"
-      );
+      const data = await queryService.useVendorTransaction(walletAddress);
       if (!data?.data) return [];
 
       const {
@@ -187,7 +183,6 @@ export function useVendorFilteredTransaction(
   queryService: any,
   voucherType: VOUCHER
 ) {
-  console.log("INSIDE filtered transaction", voucherType);
   const {
     currentUser,
     walletAddress,
@@ -208,22 +203,18 @@ export function useVendorFilteredTransaction(
   //   },
   // } = useAppStore;
 
-  console.log(
-    currentUser,
-    walletAddress,
-    freeVoucherAddress,
-    discountVoucherAddress
-  );
-
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorTransactions", walletAddress],
     async () => {
-      console.log(voucherType, "FILTERED TRANS API call");
+      // console.log(voucherType, "FILTERED TRANS API call");
       const data = await queryService.useVendorFilteredTransaction(
-        "0x145d35b26248e4354249014eaba05a0bba62183f",
-        "0x5749ad5d0c16d005d7de8ea418fc1d54e2a32576"
+        walletAddress,
+        voucherType === VOUCHER.FREE_VOUCHER
+          ? freeVoucherAddress
+          : discountVoucherAddress
       );
-      console.log("FILTERED VENDOR TRANSACTIONS =====>", data);
+      console.log("FILTERED DATA --=-=-=-=-=--=>", data);
+      // console.log("FILTERED VENDOR TRANSACTIONS =====>", data);
 
       if (!data?.data) return [];
       return data;
@@ -305,7 +296,7 @@ export function useVendorDetails({ forceRender }: any): any {
       enabled: !currentUser?.projects?.length || !projectId,
       staleTime: 0,
       onSuccess: (data: any) => {
-        console.log("VENDOR GET DETAILS RESPONSE", data?.data?.data);
+        // console.log("VENDOR GET DETAILS RESPONSE", data?.data?.data);
         if (data?.data?.data) {
           setCurrentUser(data?.data?.data);
           setProjectSettings({
@@ -332,7 +323,7 @@ export function useVendorDetails({ forceRender }: any): any {
 
 export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
   const { getVendorVoucherRedemptionCount } = useTransactionStore();
-  const { data, isLoading, error, isRefetching } = useQuery(
+  const { data, isLoading, error, isRefetching, refetch } = useQuery(
     ["vendorVoucherRedemptionCount"],
     async () => {
       const res = await getVendorVoucherRedemptionCount(voucherType);
@@ -348,6 +339,7 @@ export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
     isLoading,
     error,
     isRefetching,
+    refetch,
   };
 }
 
@@ -360,7 +352,7 @@ export function useVendorVoucherRedemptionList() {
       return res?.data?.data || [];
     },
     {
-      staleTime: 0,
+      staleTime: 60000,
     }
   );
 
