@@ -1,5 +1,10 @@
 import { BENEFICIARY_TYPE, VOUCHER } from "./beneficiaries";
 
+export enum EVENT_TYPE {
+  "BENEFICIARY_REFERRED" = "Beneficiary Referred",
+  "CLAIM_PROCESSED" = "Claim Processed",
+}
+
 export enum TRANSACTION_STATUS {
   SUCCESS = "SUCCESS",
   PENDING = "PENDING",

@@ -138,6 +138,22 @@
       "CANCEL": "Batal"
     }
   },
+  "SELECT_PROJECT_SETTINGS_PAGE": {
+    "PAGE_TITLE": "Pilih Proyek",
+    "LABELS": {
+      "PROJECT": "URL Proyek*"
+    },
+    "PLACEHOLDERS": {
+      "PROJECT": "Masukkan Nilai"
+    },
+    "ERRORS": {
+      "PROJECT": "Harap masukkan URL proyek"
+    },
+    "BUTTONS": {
+      "EDIT": "Edit",
+      "SAVE": "Simpan"
+    }
+  },
   "HOME_PAGE": {
     "PAGE_TITLE": "Beranda",
     "TITLES": {

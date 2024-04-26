@@ -40,7 +40,7 @@ const ProjectSettings: FC<Props> = ({
                     <IonInput
                       value={inputValue}
                       placeholder={t(
-                        "SELECT_PROJECT_PAGE.PLACEHOLDERS.PROJECT"
+                        "SELECT_PROJECT_SETTINGS_PAGE.PLACEHOLDERS.PROJECT"
                       )}
                       onIonInput={handleInputChange}
                     ></IonInput>
@@ -55,7 +55,7 @@ const ProjectSettings: FC<Props> = ({
                       expand="full"
                       onClick={handleSaveClick}
                     >
-                      {t("SELECT_PROJECT_PAGE.BUTTONS.SAVE")}
+                      {t("SELECT_PROJECT_SETTINGS_PAGE.BUTTONS.SAVE")}
                     </IonButton>
                   ) : (
                     <IonButton
@@ -63,7 +63,7 @@ const ProjectSettings: FC<Props> = ({
                       expand="full"
                       onClick={handleEditClick}
                     >
-                      {t("SELECT_PROJECT_PAGE.BUTTONS.EDIT")}
+                      {t("SELECT_PROJECT_SETTINGS_PAGE.BUTTONS.EDIT")}
                     </IonButton>
                   )}
                 </IonCol>

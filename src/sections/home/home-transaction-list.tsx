@@ -1,4 +1,3 @@
-import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 import ListSkeleton from "@components/loaders/skeleton/transactions-list";
 import {
   IonCol,
@@ -9,10 +8,13 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import { DATE_SOURCE } from "@types/beneficiaries";
-import { IAllTransactionItem } from "@types/transactions";
+import { EVENT_TYPE, IAllTransactionItem } from "@types/transactions";
 import { cropString, formatDate } from "@utils/helperFunctions";
-import { chevronForwardOutline, swapHorizontalOutline } from "ionicons/icons";
+import {
+  chevronForwardOutline,
+  personAddOutline,
+  swapHorizontalOutline,
+} from "ionicons/icons";
 import { FC } from "react";
 import { useHistory } from "react-router";
 
@@ -55,7 +57,11 @@ const HomeTransactionsList: FC<Props> = ({ transactionsList, isLoading }) => {
                           <IonCol size="3" className="home-tx-left-col">
                             <div className="icon-wrapper-round">
                               <IonIcon
-                                icon={swapHorizontalOutline}
+                                icon={
+                                  el?.eventType === EVENT_TYPE.CLAIM_PROCESSED
+                                    ? swapHorizontalOutline
+                                    : personAddOutline
+                                }
                                 // color={
                                 //   el?.beneficiaryType ===
                                 //   BENEFICIARY_TYPE.REFERRED
