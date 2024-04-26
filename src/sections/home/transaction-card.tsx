@@ -39,8 +39,6 @@ const TransactionCard: FC<Props> = ({
   const history = useHistory();
   const [selectedSegment, setSelectedSegment] = useState("ALL");
 
-  console.log(transactionsList, enrolledTransactions, referredTransactions);
-
   return (
     <TransparentCard>
       <IonCardHeader>

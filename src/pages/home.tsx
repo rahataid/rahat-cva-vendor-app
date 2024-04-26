@@ -60,13 +60,23 @@ const HomePage: FC = () => {
     data: referredTransactions,
     isLoading: referredLoading,
     isFetching: isReferredFetching,
-  } = useVendorFilteredTransaction(queryService, VOUCHER.DISCOUNT_VOUCHER);
+    refetch: refetchDiscountTransactions,
+  } = useVendorFilteredTransaction(
+    "vendorFilteredTransactionDiscount",
+    queryService,
+    VOUCHER.DISCOUNT_VOUCHER
+  );
 
   const {
     data: enrolledTransactions,
     isLoading: enrolledLoading,
     isFetching: isEnrolledFetching,
-  } = useVendorFilteredTransaction(queryService, VOUCHER.FREE_VOUCHER);
+    refetch: refetchFreeTransactions,
+  } = useVendorFilteredTransaction(
+    "vendorFilteredTransactionFree",
+    queryService,
+    VOUCHER.FREE_VOUCHER
+  );
 
   const {
     data: vendorDetails,
@@ -82,9 +92,13 @@ const HomePage: FC = () => {
   } = useProjectSettings();
 
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
-    await refetchVoucher();
-    await refetchTransactions();
-    event.detail.complete();
+    // await Promise.all([
+    await refetchVoucher(),
+      await refetchTransactions(),
+      await refetchDiscountTransactions(),
+      await refetchFreeTransactions(),
+      // ]);
+      event.detail.complete();
   };
 
   useEffect(() => {

@@ -109,9 +109,7 @@ export function useVendorVoucher(queryService: any): any {
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorVouchers", walletAddress],
     async () => {
-      console.log("EXECUTE USE VOUCHER");
       const res = await queryService.useVendorVoucher(walletAddress);
-      console.log("RES USE VOUCHER");
       return res;
     },
     {
@@ -180,52 +178,50 @@ export function useVendorTransaction(queryService: any) {
 }
 
 export function useVendorFilteredTransaction(
+  key: string,
   queryService: any,
   voucherType: VOUCHER
 ) {
+  // const {
+  //   currentUser,
+  //   walletAddress,
+  //   freeVoucherAddress,
+  //   discountVoucherAddress,
+  // } = useAppStore.getState((s) => {
+  //   return {
+  //     currentUser: s?.currentUser,
+  //     walletAddress: s?.wallet?.address,
+  //     freeVoucherAddress:
+  //       s?.projectSettings?.contracts?.eyevoucher?.freeVoucherAddress,
+  //     discountVoucherAddress:
+  //       s?.projectSettings?.contracts?.referralvoucher?.discountVoucherAddress,
+  //   };
+  // });
+
   const {
     currentUser,
-    walletAddress,
-    freeVoucherAddress,
-    discountVoucherAddress,
-  } = useAppStore.getState((s) => ({
-    current: s?.current,
-    walletAddress: s?.wallet?.address,
-    freeVoucherAddress:
-      s?.projectSettings?.contracts?.eyevoucher?.freeVoucherAddress,
-    discountVoucherAddress:
-      s?.projectSettings?.contracts?.referralvoucher?.discountVoucherAddress,
-  }));
-
-  // const {
-  //   projectSettings: {
-  //     eyevoucher: { freeVoucherAddress },
-  //   },
-  // } = useAppStore;
+    wallet: { address: walletAddress },
+    projectSettings: {
+      contracts: {
+        eyevoucher: { address: freeVoucherAddress },
+        referralvoucher: { address: discountVoucherAddress },
+      },
+    },
+  } = useAppStore.getState();
 
   const { data, isLoading, error, refetch, isFetching } = useQuery(
-    ["vendorTransactions", walletAddress],
+    [key, walletAddress],
     async () => {
-      // console.log(voucherType, "FILTERED TRANS API call");
       const data = await queryService.useVendorFilteredTransaction(
         walletAddress,
         voucherType === VOUCHER.FREE_VOUCHER
           ? freeVoucherAddress
           : discountVoucherAddress
       );
-      console.log("FILTERED DATA --=-=-=-=-=--=>", data);
-      // console.log("FILTERED VENDOR TRANSACTIONS =====>", data);
 
       if (!data?.data) return [];
-      return data;
 
-      const {
-        beneficiaryReferreds,
-        projectClaimProcesseds,
-        claimCreateds,
-        tokenRedeems,
-      } = data.data;
-
+      const { beneficiaryReferreds, projectClaimProcesseds } = data.data;
       const fixedBeneficiaryReferreds = beneficiaryReferreds.map(
         (el: IBeneficiaryReferreds) => ({
           ...el,
@@ -233,21 +229,19 @@ export function useVendorFilteredTransaction(
         })
       );
 
-      const allData: IAllTransactions = [
-        ...fixedBeneficiaryReferreds,
-        ...projectClaimProcesseds,
-        ...claimCreateds,
-        ...tokenRedeems,
-      ];
-
-      return allData;
+      let res;
+      if (voucherType === VOUCHER.FREE_VOUCHER)
+        res = [...projectClaimProcesseds];
+      else if (voucherType === VOUCHER.DISCOUNT_VOUCHER)
+        res = [...projectClaimProcesseds, ...fixedBeneficiaryReferreds];
+      return res;
     },
     {
       enabled:
-        currentUser?.projects?.length > 0 &&
-        freeVoucherAddress &&
-        discountVoucherAddress,
-      staleTime: 0,
+        !!currentUser?.projects?.length > 0 &&
+        !!freeVoucherAddress &&
+        !!discountVoucherAddress,
+      staleTime: 60000,
     }
   );
 
@@ -296,7 +290,6 @@ export function useVendorDetails({ forceRender }: any): any {
       enabled: !currentUser?.projects?.length || !projectId,
       staleTime: 0,
       onSuccess: (data: any) => {
-        // console.log("VENDOR GET DETAILS RESPONSE", data?.data?.data);
         if (data?.data?.data) {
           setCurrentUser(data?.data?.data);
           setProjectSettings({
