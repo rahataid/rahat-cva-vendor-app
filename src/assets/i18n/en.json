@@ -138,6 +138,22 @@
       "CANCEL": "Cancel"
     }
   },
+  "SELECT_PROJECT_SETTINGS_PAGE": {
+    "PAGE_TITLE": "Select Project",
+    "LABELS": {
+      "PROJECT": "Project URL*"
+    },
+    "PLACEHOLDERS": {
+      "PROJECT": "Enter Value"
+    },
+    "ERRORS": {
+      "PROJECT": "Please enter the project URL"
+    },
+    "BUTTONS": {
+      "EDIT": "Edit",
+      "SAVE": "Save"
+    }
+  },
   "HOME_PAGE": {
     "PAGE_TITLE": "Home",
     "TITLES": {
@@ -344,7 +360,7 @@
       "CODE": "Code",
       "PHONE": "Enter phone number",
       "GENDER": "Select gender",
-      "AGE": "Select estimated age",
+      "AGE": "Enter estimated age",
       "ADDRESS": "Enter address"
     },
     "SELECT": {
@@ -357,7 +373,7 @@
       "CODE": "Please enter country code",
       "PHONE": "Please enter phone number",
       "GENDER": "Please select gender",
-      "AGE": "Please select age",
+      "AGE": "Please enter age",
       "ADDRESS": "Please enter address",
       "INVALID_FORM": "Please fill in all the required fields correctly"
     },
