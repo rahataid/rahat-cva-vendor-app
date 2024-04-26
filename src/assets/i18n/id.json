@@ -15,6 +15,11 @@
     "POPOVERS": {
       "VIEW": "Lihat"
     },
+    "CHIPS": {
+      "SUCCESS": "Successful",
+      "PENDING": "Pending",
+      "FAILED": "Failed"
+    },
     "ERRORS": {
       "DEFAULT": "Ada kesalahan! Silakan coba lagi nanti",
       "INVALID_BENEFICIARY": "Penerima tidak valid",
@@ -231,6 +236,10 @@
     "LABELS": {
       "STATUS": "Status:",
       "AMOUNT": "Jumlah:"
+    },
+    "DATA": {
+      "REQUESTED": "Diminta",
+      "APPROVED": "Disetujui"
     }
   },
   "PROJECT_SETTINGS_PAGE": {

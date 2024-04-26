@@ -17,6 +17,7 @@ import {
 } from "ionicons/icons";
 import { FC } from "react";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   transactionsList: IAllTransactionItem[];
@@ -24,6 +25,7 @@ type Props = {
 };
 
 const HomeTransactionsList: FC<Props> = ({ transactionsList, isLoading }) => {
+  const { t } = useTranslation();
   const history = useHistory();
   return (
     <>
@@ -120,7 +122,7 @@ const HomeTransactionsList: FC<Props> = ({ transactionsList, isLoading }) => {
                 ))
             ) : (
               <IonText className="home-tx-no-data-text">
-                No data available...
+                {t("HOME_PAGE.NO_DATA")}
               </IonText>
             )}
           </>
