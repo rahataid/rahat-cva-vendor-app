@@ -24,7 +24,10 @@ const ReferBeneficiariesPage: FC = () => {
 
   return (
     <IonPage>
-      <CustomHeader title={t("")} showBackButton />
+      <CustomHeader
+        title={t("REFER_BENEFICIARIES_PAGE.PAGE_TITLE")}
+        showBackButton
+      />
       <IonContent>
         <IonGrid>
           <IonRow className="ion-justify-content-center">
