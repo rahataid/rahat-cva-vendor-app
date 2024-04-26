@@ -5,12 +5,21 @@ import VoucherDetailsCard from "./voucher-details-card";
 import { VendorVoucherRedemptionDetails } from "../../../types/vendors";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { VoucherCurrencyDescription } from "@types/transactions";
 
 type Props = {
   data: VendorVoucherRedemptionDetails[];
+  currencyDescription: VoucherCurrencyDescription;
+  isVoucherLoading: boolean;
+  isFetchingVoucher: boolean;
 };
 
-const VoucherRedemptionDetails: FC<Props> = ({ data }) => {
+const VoucherRedemptionDetails: FC<Props> = ({
+  data,
+  currencyDescription,
+  isVoucherLoading,
+  isFetchingVoucher,
+}) => {
   const { t } = useTranslation();
   return (
     <>
@@ -19,7 +28,13 @@ const VoucherRedemptionDetails: FC<Props> = ({ data }) => {
           {data?.length ? (
             <IonList>
               {data?.map((el: VendorVoucherRedemptionDetails, i: number) => (
-                <VoucherDetailsCard key={i} data={el} />
+                <VoucherDetailsCard
+                  key={i}
+                  data={el}
+                  currencyDescription={currencyDescription}
+                  isVoucherLoading={isVoucherLoading}
+                  isFetchingVoucher={isFetchingVoucher}
+                />
               ))}
             </IonList>
           ) : (

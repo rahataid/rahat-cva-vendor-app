@@ -15,6 +15,11 @@
     "POPOVERS": {
       "VIEW": "View"
     },
+    "CHIPS": {
+      "SUCCESS": "Successful",
+      "PENDING": "Pending",
+      "FAILED": "Failed"
+    },
     "ERRORS": {
       "DEFAULT": "Something went wrong! Please try again later",
       "INVALID_BENEFICIARY": "Invalid Beneficiary",
@@ -231,6 +236,10 @@
     "LABELS": {
       "STATUS": "Status:",
       "AMOUNT": "Amount:"
+    },
+    "DATA": {
+      "REQUESTED": "Requested",
+      "APPROVED": "Approved"
     }
   },
   "PROJECT_SETTINGS_PAGE": {

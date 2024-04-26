@@ -94,6 +94,7 @@ export type CreateBeneficiaryDto = {
   referrerVendor?: string; //UUID
   extras?: any;
   type?: BENEFICIARY_TYPE;
+  age?: number;
 };
 
 export type REFERRED_BENEFICIARY_DETAILS = {

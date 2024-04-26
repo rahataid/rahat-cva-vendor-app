@@ -223,7 +223,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
               // walletAddress: beneficiary.walletAddress,
               referrerBeneficiary: beneficiaryDetails?.uuid,
               referrerVendor: vendorId,
-              // age: beneficiary?.estimatedAge,
+              age: beneficiary?.estimatedAge,
               piiData: {
                 name: beneficiary?.name,
                 phone: beneficiary?.phone,
@@ -238,7 +238,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       }
 
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
-      console.log(backendResponse, "backendResponse");
+      console.log(backendResponse, "backendResponse=====>");
       if (!backendResponse) throw new Error("Backend response is empty");
       // contract call
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);

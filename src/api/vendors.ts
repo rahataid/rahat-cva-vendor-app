@@ -10,6 +10,7 @@ import {
   IBeneficiaryReferreds,
   TransactionDetail,
 } from "@types/transactions";
+import { categorizeVouchers } from "@utils/helperFunctions";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -111,6 +112,42 @@ export function useVendorVoucher(queryService: any): any {
     async () => {
       const res = await queryService.useVendorVoucher(walletAddress);
       return res;
+    },
+    {
+      enabled: currentUser?.projects?.length > 0,
+      staleTime: 60000,
+    }
+  );
+
+  return {
+    data,
+    isLoading,
+    error,
+    refetch,
+    isFetching,
+  };
+}
+useProjectVoucher;
+
+export function useProjectVoucher(queryService: any): any {
+  const {
+    currentUser,
+    projectSettings: {
+      contracts: {
+        elproject: { address },
+      },
+    },
+    projectId,
+  } = useAppStore.getState();
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
+    ["projectVoucher", projectId],
+    async () => {
+      const res = await queryService.useProjectVoucher(address);
+      console.log("res=======>", res.voucherDescriptiona);
+
+      const data = categorizeVouchers(res.voucherDescriptiona);
+      console.log("FINAL DATA", data);
+      return data;
     },
     {
       enabled: currentUser?.projects?.length > 0,

@@ -2,6 +2,7 @@ import {
   IAllTransactions,
   ITransactionItem,
   Status,
+  VoucherCurrencyDescription,
 } from "../types/transactions";
 import { ENV } from "../config";
 import { FormInputType, checkObjType } from "../types/chargeBeneficiary";
@@ -217,4 +218,30 @@ export const extractWalletAddressOnScan = (str: string) => {
 
 export const randomPercentage = () => {
   return `${Math.floor(Math.random() * 50) + 50}%`;
+};
+
+export const categorizeVouchers = (vouchers: VoucherCurrencyDescription[]) => {
+  // Initialize an empty object to store the result
+  const result = {};
+
+  // Iterate over the vouchers array
+  vouchers.forEach((voucher) => {
+    // Check the description to determine whether it's a free or discount voucher
+    if (voucher.description.includes("free")) {
+      // If it's a free voucher, add it to the result under the "free" key
+      result.freeVoucher = {
+        currency: voucher.currency,
+        price: voucher.price,
+      };
+    } else if (voucher.description.includes("discount")) {
+      // If it's a discount voucher, add it to the result under the "discount" key
+      result.discountVoucher = {
+        currency: voucher.currency,
+        price: voucher.price,
+      };
+    }
+  });
+
+  // Return the categorized vouchers
+  return result;
 };
