@@ -182,32 +182,20 @@ export function useVendorFilteredTransaction(
   queryService: any,
   voucherType: VOUCHER
 ) {
-  // const {
-  //   currentUser,
-  //   walletAddress,
-  //   freeVoucherAddress,
-  //   discountVoucherAddress,
-  // } = useAppStore.getState((s) => {
-  //   return {
-  //     currentUser: s?.currentUser,
-  //     walletAddress: s?.wallet?.address,
-  //     freeVoucherAddress:
-  //       s?.projectSettings?.contracts?.eyevoucher?.freeVoucherAddress,
-  //     discountVoucherAddress:
-  //       s?.projectSettings?.contracts?.referralvoucher?.discountVoucherAddress,
-  //   };
-  // });
-
   const {
     currentUser,
-    wallet: { address: walletAddress },
-    projectSettings: {
-      contracts: {
-        eyevoucher: { address: freeVoucherAddress },
-        referralvoucher: { address: discountVoucherAddress },
-      },
-    },
-  } = useAppStore.getState();
+    walletAddress,
+    freeVoucherAddress,
+    discountVoucherAddress,
+  } = useAppStore((s) => {
+    return {
+      currentUser: s?.currentUser,
+      walletAddress: s?.wallet?.address,
+      freeVoucherAddress: s?.projectSettings?.contracts?.eyevoucher?.address,
+      discountVoucherAddress:
+        s?.projectSettings?.contracts?.referralvoucher?.address,
+    };
+  });
 
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     [key, walletAddress],
