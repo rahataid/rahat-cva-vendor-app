@@ -91,7 +91,13 @@ const HomeTransactionsList: FC<Props> = ({ transactionsList, isLoading }) => {
                           </IonCol>
                           <IonCol size="9" className="home-tx-right-col">
                             <IonText>
-                              <h2>{el?.eventType}</h2>
+                              <h2>
+                                {el?.eventType === EVENT_TYPE.CLAIM_PROCESSED
+                                  ? t("GLOBAL.TEXTS.EVENT_TYPE.CLAIM_PROCESSED")
+                                  : t(
+                                      "GLOBAL.TEXTS.EVENT_TYPE.BENEFICIARY_REFERRED"
+                                    )}
+                              </h2>
                               <p>
                                 {el?.beneficiary
                                   ? cropString(el?.beneficiary)

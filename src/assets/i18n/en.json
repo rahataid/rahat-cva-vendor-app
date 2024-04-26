@@ -44,6 +44,10 @@
         "ENROLLED": "enrolled",
         "REFERRED": "referred"
       },
+      "EVENT_TYPE": {
+        "CLAIM_PROCESSED": "Claim Processed",
+        "BENEFICIARY_REFERRED": "Beneficiary Referred"
+      },
       "SELECT": {
         "CHECKUP_DONE": "Checkup done",
         "CHECKUP_NOT_DONE": "Checkup not done",
