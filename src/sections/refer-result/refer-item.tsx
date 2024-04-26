@@ -6,7 +6,10 @@ import {
   cropString,
   generateCurrentTimestamp,
 } from "../../utils/helperFunctions";
-import { REFER_RESULT_BENEFICIARY_DETAILS } from "@types/beneficiaries";
+import {
+  DATE_SOURCE,
+  REFER_RESULT_BENEFICIARY_DETAILS,
+} from "@types/beneficiaries";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -39,7 +42,7 @@ const ReferItem: FC<Props> = ({ data, index }) => {
         <IonCol size="6">{t("REFER_RESULT_PAGE.LABELS.CREATED_AT")}</IonCol>
         <IonCol size="6">
           {data?.createdAt
-            ? formatDate(data?.createdAt)
+            ? formatDate(data?.createdAt, DATE_SOURCE.BACKEND)
             : formatDate(generateCurrentTimestamp())}
         </IonCol>
 

@@ -5,7 +5,10 @@ import {
 } from "../types/transactions";
 import { ENV } from "../config";
 import { FormInputType, checkObjType } from "../types/chargeBeneficiary";
-import { BENEFICIARY_VOUCHER_DETAILS } from "../types/beneficiaries";
+import {
+  BENEFICIARY_VOUCHER_DETAILS,
+  DATE_SOURCE,
+} from "../types/beneficiaries";
 import { isAddress } from "ethers";
 
 export const isObjectInArray = (arr: any, obj: any, key: any) => {
@@ -99,8 +102,13 @@ export const validateTokenAmount = (
 //   return formattedDate;
 // };
 
-export const formatDate = (timestamp: string) => {
-  const date = new Date(timestamp * 1000);
+export const formatDate = (
+  timestamp: string,
+  source: DATE_SOURCE = DATE_SOURCE.BLOCKCHAIN
+) => {
+  let date;
+  if (source === DATE_SOURCE.BACKEND) date = new Date(timestamp);
+  else if (source === DATE_SOURCE.BLOCKCHAIN) date = new Date(timestamp * 1000);
 
   // Get the components of the date
   const day = date.getDate().toString().padStart(2, "0");

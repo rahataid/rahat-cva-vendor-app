@@ -1,6 +1,6 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { IonCardContent, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
-import { BENEFICIARY_DETAILS } from "@types/beneficiaries";
+import { BENEFICIARY_DETAILS, DATE_SOURCE } from "@types/beneficiaries";
 import { formatDate } from "@utils/helperFunctions";
 import { cropString } from "../../../../utils/helperFunctions";
 import { useTranslation } from "react-i18next";
@@ -40,12 +40,16 @@ const ReferredBeneficiaryDetails = ({ data }: Props) => {
             <IonCol size="6">
               {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.WALLET_ADDRESS")}
             </IonCol>
-            <IonCol size="6">{cropString(data?.walletAddress) || "-"}</IonCol>
+            <IonCol size="6">
+              {data?.walletAddress ? cropString(data?.walletAddress) : "-"}
+            </IonCol>
             <IonCol size="6">
               {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.DATE")}
             </IonCol>
             <IonCol size="6">
-              {formatDate(new Date(data?.createdAt) / 1000) || "-"}
+              {data?.createdAt
+                ? formatDate(data?.createdAt, DATE_SOURCE.BACKEND)
+                : "-"}
             </IonCol>
           </IonRow>
         </IonGrid>

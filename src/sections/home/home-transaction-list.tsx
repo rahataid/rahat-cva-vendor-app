@@ -9,6 +9,7 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
+import { DATE_SOURCE } from "@types/beneficiaries";
 import { IAllTransactionItem } from "@types/transactions";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import { chevronForwardOutline, swapHorizontalOutline } from "ionicons/icons";

@@ -39,7 +39,7 @@ const RestoreWallet = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const { wallet } = await handleRestore(data.pneumonics);
+      await handleRestore(data.pneumonics);
       await new Promise((resolve) => setTimeout(resolve, 0));
       history.push("/select-project", {
         data: { from: "restore" },
@@ -62,9 +62,11 @@ const RestoreWallet = () => {
               <Controller
                 render={({ field }) => (
                   <TextInputFieldMultiLine
-                    placeholder="Please enter 12 words pneumonics"
+                    placeholder={t(
+                      "RESTORE_WALLET_PAGE.PLACEHOLDERS.PNEUMONICS"
+                    )}
                     rows={5}
-                    label="Pneumonics*"
+                    label={t("RESTORE_WALLET_PAGE.LABELS.PNEUMONICS")}
                     labelPlacement="stacked"
                     errorText={errors.pneumonics?.message}
                     value={getValues("pneumonics")}
@@ -79,11 +81,11 @@ const RestoreWallet = () => {
                 rules={{
                   required: {
                     value: true,
-                    message: "Please enter 12 words pneumonics",
+                    message: t("RESTORE_WALLET_PAGE.ERRORS.PNEUMONICS"),
                   },
                   pattern: {
                     value: /^([a-z]+ ){11}[a-z]+$/i,
-                    message: "Invalid pneumonics",
+                    message: t("RESTORE_WALLET_PAGE.ERRORS.PNEUMONICS"),
                   },
                 }}
                 control={control}
@@ -95,10 +97,6 @@ const RestoreWallet = () => {
                   {errors?.root?.serverError.message}
                 </IonText>
               )}
-              {/* <IonTextarea
-                  label=""
-                  placeholder="Please enter 12 words pneumonics"
-                ></IonTextarea> */}
             </IonCol>
           </IonRow>
           <IonRow className="restore-button-container">
@@ -113,7 +111,7 @@ const RestoreWallet = () => {
                 {isSubmitting ? (
                   <IonProgressBar type="indeterminate"></IonProgressBar>
                 ) : (
-                  "Submit"
+                  t("RESTORE_WALLET_PAGE.BUTTONS.SUBMIT")
                 )}
               </IonButton>
               <IonRow className="gap-5"></IonRow>
@@ -125,7 +123,7 @@ const RestoreWallet = () => {
                 onClick={handleCancel}
                 disabled={isSubmitting}
               >
-                Cancel
+                {t("RESTORE_WALLET_PAGE.BUTTONS.CANCEL")}
               </IonButton>
             </IonCol>
           </IonRow>

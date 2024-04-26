@@ -10,6 +10,7 @@ import {
 import {
   BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
+  DATE_SOURCE,
   VOUCHER,
 } from "@types/beneficiaries";
 import { UpdateStatusRes } from "@types/transactions";
@@ -134,7 +135,7 @@ const UpdateStatusResult: FC<Props> = ({
               </IonCol>
               <IonCol size="6">
                 {updateRes?.createdAt
-                  ? formatDate(new Date(updateRes?.createdAt) / 1000)
+                  ? formatDate(updateRes?.createdAt, DATE_SOURCE.BACKEND)
                   : "-"}
               </IonCol>
               <br />

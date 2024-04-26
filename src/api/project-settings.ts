@@ -10,7 +10,7 @@ export function useProjectSettings(): any {
     setProjectSettings,
   } = useAppStore.getState();
   console.log(
-    "ENABLED",
+    "PROJECT SETTINGS FETCH ENABLED",
     currentUser?.projects?.length > 0 &&
       (!storeProjectSettings?.contracts ||
         !storeProjectSettings?.network ||
@@ -25,8 +25,6 @@ export function useProjectSettings(): any {
   } = useQuery(
     ["settings", currentUser],
     async () => {
-      console.log("FN CALL==============>");
-
       const res = await ProjectsService.actions(
         currentUser?.projects[0]?.uuid,
         {

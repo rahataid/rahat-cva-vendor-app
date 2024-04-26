@@ -10,6 +10,7 @@ import { fixProjectUrl } from "@utils/helperFunctions";
 import useTransactionStore from "@store/transaction";
 import { handleError } from "@utils/errorHandler";
 import CustomLoader from "@components/loaders/customLoader";
+import { useTranslation } from "react-i18next";
 
 enum From {
   register = "register",
@@ -20,6 +21,7 @@ type Props = {
 };
 
 const SelectProject = ({ from }: Props) => {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const {
@@ -203,9 +205,9 @@ const SelectProject = ({ from }: Props) => {
               <Controller
                 render={({ field }) => (
                   <TextInputField
-                    placeholder="Enter Project URL"
+                    placeholder={t("SELECT_PROJECT_PAGE.PLACEHOLDERS.PROJECT")}
                     type="text"
-                    label="Project URL*"
+                    label={t("SELECT_PROJECT_PAGE.LABELS.PROJECT")}
                     value={getValues("projectURL")}
                     errorText={errors?.projectURL?.message}
                     onInput={(e: any) => {
@@ -217,7 +219,7 @@ const SelectProject = ({ from }: Props) => {
                   />
                 )}
                 rules={{
-                  required: "Please enter the project URL",
+                  required: t("SELECT_PROJECT_PAGE.ERRORS.PROJECT"),
                 }}
                 control={control}
                 name="projectURL"
@@ -240,7 +242,7 @@ const SelectProject = ({ from }: Props) => {
                 // color="dark"
                 // disabled={isDirty || !isValid || isSubmitting}
               >
-                Submit
+                {t("SELECT_PROJECT_PAGE.BUTTONS.SUBMIT")}
                 {/* {isSubmitting ? (
                   <IonProgressBar type='indeterminate'></IonProgressBar>
                 ) : (
@@ -255,7 +257,7 @@ const SelectProject = ({ from }: Props) => {
                 onClick={handleCancel}
                 disabled={isSubmitting}
               >
-                Cancel
+                {t("SELECT_PROJECT_PAGE.BUTTONS.CANCEL")}
               </IonButton>
             </IonCol>
           </IonRow>

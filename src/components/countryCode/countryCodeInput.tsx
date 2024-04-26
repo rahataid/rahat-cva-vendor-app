@@ -13,6 +13,7 @@ import useAppStore from "@store/app";
 import { caretDownOutline, searchOutline, watch } from "ionicons/icons";
 import { FC, useEffect, useRef } from "react";
 import "./countryCodeInput.scss";
+import { useTranslation } from "react-i18next";
 
 type Props = any;
 
@@ -31,6 +32,7 @@ const CountryCodeInput: FC<Props> = ({
   onPhoneChange,
   combineInputs,
 }) => {
+  const { t } = useTranslation();
   const { countries } = useAppStore();
   const phoneCodeModal = useRef<HTMLIonModalElement>(null);
   const phoneCodeOptions: SelectOptionItem[] | undefined = countries?.map(
@@ -96,8 +98,8 @@ const CountryCodeInput: FC<Props> = ({
 
       <IonModal trigger={modalId} ref={phoneCodeModal} canDismiss={true}>
         <PhoneCodeSelector
-          title="Choose your country Code"
-          searchPlaceholder="Enter country code"
+          title={t("GLOBAL.MODALS.COUNTRY_CODE.TITLE")}
+          searchPlaceholder={t("GLOBAL.MODALS.COUNTRY_CODE.TITLE")}
           items={phoneCodeOptions || []}
           selectedItem={codeValue}
           onSelectionCancel={() => phoneCodeModal.current?.dismiss()}
