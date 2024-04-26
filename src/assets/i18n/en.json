@@ -435,6 +435,7 @@
     }
   },
   "TRANSACTION_DETAILS_PAGE": {
+    "PAGE_TITLE": "Transaction Details",
     "LABELS": {
       "TRANSACTION_TYPE": "Transaction Type",
       "WALLET_ADDRESS": "Wallet Address",

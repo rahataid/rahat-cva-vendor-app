@@ -435,6 +435,7 @@
     }
   },
   "TRANSACTION_DETAILS_PAGE": {
+    "PAGE_TITLE": "Rincian Transaksi",
     "LABELS": {
       "TRANSACTION_TYPE": "Jenis Transaksi",
       "WALLET_ADDRESS": "Alamat Dompet",
