@@ -7,7 +7,6 @@ import {
   IonSkeletonText,
   IonText,
 } from "@ionic/react";
-import { formatDate } from "@utils/helperFunctions";
 import { VendorVoucherRedemptionDetails } from "../../../types/vendors";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,16 +26,12 @@ const VoucherDetailsCard: FC<Props> = ({
   isFetchingVoucher,
 }) => {
   const { t } = useTranslation();
-  console.log(
-    data?.voucherNumber,
-    currencyDescription?.discountVoucher?.currency
-  );
-  console.log("xxxxxx", isFetchingVoucher, isVoucherLoading, "xxxxxx");
+
   return (
     <IonItem mode="md" button={false} lines="full">
       <IonGrid className="px-0">
         <IonRow>
-          <IonCol size="6" className="px-0">
+          <IonCol size="6" className="px-0 voucher-redemption-left-col">
             <IonRow>
               <IonText>
                 <p>
@@ -45,10 +40,13 @@ const VoucherDetailsCard: FC<Props> = ({
                     ? t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.DATA.REQUESTED")
                     : t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.DATA.APPROVED")}
                 </p>
-                <p>
+                <p className="amount-wrapper">
                   {t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.LABELS.AMOUNT")}{" "}
                   {isVoucherLoading ? (
-                    <IonSkeletonText animated={true} style={{ width: "25%" }} />
+                    <IonSkeletonText
+                      animated={true}
+                      style={{ width: "50%", marginLeft: 3 }}
+                    />
                   ) : (
                     <>
                       {data?.voucherType === "DISCOUNTVOUCHER"
