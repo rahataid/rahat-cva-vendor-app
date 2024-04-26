@@ -120,3 +120,21 @@ export type UpdateStatusContractRes = {
   txHash?: string;
 };
 export type UpdateStatusRes = UpdateStatusBeRes & UpdateStatusContractRes;
+
+export type VoucherCurrencyDescriptionRes = {
+  currency: string;
+  description: string;
+  id: string;
+  price: string;
+  __typename: string;
+};
+
+export type currencyDescription = {
+  currency: string;
+  price: string;
+};
+
+export type VoucherCurrencyDescription = {
+  discountVoucher: currencyDescription;
+  freeVoucher: currencyDescription;
+};
