@@ -37,7 +37,6 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
 
   const openPopover = (e: any) => {
     popover.current!.event = e;
-    console.log(e);
     setPopoverOpen(true);
   };
 

@@ -38,7 +38,6 @@ const ReferResult: FC<Props> = ({ data: { data, from, voucher } }) => {
       history.push("/tabs/home");
     }
   };
-  console.log(data, "xxx");
   return (
     <>
       <TransparentCard>

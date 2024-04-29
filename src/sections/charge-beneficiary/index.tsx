@@ -97,7 +97,6 @@ const ChargeBeneficiary = ({ data }: Props) => {
     // if (isVoucherClaimed(beneficiaryVoucher))
     //   throw new Error("Beneficiary has already claimed the Voucher");
     if (!isVoucherAssigned(beneficiaryVoucher)) {
-      console.log("HERE NOT ASSIGNED");
       throw new Error("Voucher not assigned to beneficiary");
     }
 

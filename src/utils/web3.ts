@@ -152,12 +152,12 @@ export async function createContractInstance(
   let abi;
   if (staticAbiName === "useRahatTokenAbi") {
     abi = RAHAT_TOKEN_ABI;
-    console.log("IF FREE OR DISCOUNT VOUCHER CONTRACT");
+    // console.log("IF FREE OR DISCOUNT VOUCHER CONTRACT");
   } else if (staticAbiName === "useElProjectAbi") {
     abi = EL_PROJECT_ABI;
-    console.log("IF useElProjectAbi");
+    // console.log("IF useElProjectAbi");
   } else {
-    console.log("ELSE OTHER VOUCHER CONTRACT");
+    // console.log("ELSE OTHER VOUCHER CONTRACT");
     abi = contract.abi;
   }
   //  Create an instance of the contract
@@ -269,7 +269,6 @@ export async function getMetaTxRequest(
   functionName: string,
   params: any[] | [] | null
 ) {
-  console.log("INSIDE GET META TX", params);
   return signMetaTxRequest(signer, forwarderContract, {
     from: signer.address,
     to: elContractInstance.target,

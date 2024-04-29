@@ -49,7 +49,6 @@ const Profile = ({ currentUser }: PropTypes) => {
   const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  console.log(currentUser);
   const handleCopyClick = (text: string) => {
     copyToClipboard(text);
     showToast(`${t("GLOBAL.TOASTS.COPIED")}`, "success");

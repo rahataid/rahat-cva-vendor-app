@@ -143,10 +143,7 @@ export function useProjectVoucher(queryService: any): any {
     ["projectVoucher", projectId],
     async () => {
       const res = await queryService.useProjectVoucher(address);
-      console.log("res=======>", res.voucherDescriptiona);
-
       const data = categorizeVouchers(res.voucherDescriptiona);
-      console.log("FINAL DATA", data);
       return data;
     },
     {

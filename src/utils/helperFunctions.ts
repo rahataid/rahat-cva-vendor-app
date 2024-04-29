@@ -190,7 +190,6 @@ export const randomDelay = (min, max) => {
 };
 
 export const findArrayElementByName = ({ arr, name }: any): any => {
-  console.log(arr, name);
   return arr.find((el: any) => el.name.toUpperCase() === name.toUpperCase());
 };
 

@@ -120,7 +120,6 @@ const ReferSection = ({
                 phoneValue={getValues(`beneficiaries.${index}.phone`)}
                 modalId={`select-phoneCode${index}`}
                 onModalSelectionChange={(el: any, phoneCodeModal: any) => {
-                  console.log("iso", el.iso);
                   setValue(`beneficiaries.${index}.code`, el.value, {
                     shouldValidate: true,
                   });
