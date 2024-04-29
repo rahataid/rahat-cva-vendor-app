@@ -20,6 +20,7 @@ import {
 } from "@types/store/transaction";
 import BeneficiariesService from "@services/beneficiaries";
 import { MS_ACTIONS } from "@rahataid/sdk";
+import { fixBeneficiaryVoucherResult } from "@utils/helperFunctions";
 
 const useTransactionStore = createStore<TransactionStoreType>(
   (set, get) => ({
@@ -30,6 +31,29 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
     triggerUpdate: () => {
       set({ triggerUpdateState: !get().triggerUpdateState });
+    },
+
+    fetchBeneficiaryVoucherDetails: async (walletAddress) => {
+      const { referredAppStoreState } = get();
+      const {
+        projectSettings: {
+          contracts: { elproject },
+          network: { rpcurl },
+        },
+      } = referredAppStoreState();
+
+      const ElProjectInstance = await createContractInstance(
+        rpcurl,
+        elproject,
+        "useElProjectAbi"
+      );
+      let res;
+
+      res = await ElProjectInstance.getBeneficiaryVoucherDetail.staticCall(
+        walletAddress
+      );
+      const beneficiaryVoucher = fixBeneficiaryVoucherResult(res);
+      return beneficiaryVoucher;
     },
 
     redeemVoucher: async ({

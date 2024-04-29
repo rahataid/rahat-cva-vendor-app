@@ -36,6 +36,7 @@ type Props = {
 
 const ChargeBeneficiary = ({ data }: Props) => {
   const { t } = useTranslation();
+  const { fetchBeneficiaryVoucherDetails } = useTransactionStore();
   const { queryService } = useGraphService();
   const { getBeneficiaryReferredDetailsByUuid } = useTransactionStore();
   const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
@@ -84,9 +85,14 @@ const ChargeBeneficiary = ({ data }: Props) => {
     );
 
     benWalletAddress = beneficiary?.data?.data?.walletAddress;
-    const beneficiaryVoucher = await queryService.useBeneficiaryVoucher(
+    const beneficiaryVoucher = await fetchBeneficiaryVoucherDetails(
       benWalletAddress
     );
+
+    // const beneficiaryVouchers = await queryService.useBeneficiaryVoucher(
+    //   benWalletAddress
+    // );
+
     // fix for release -> comment out the below line to go to the next page even if there is error
     // if (isVoucherClaimed(beneficiaryVoucher))
     //   throw new Error("Beneficiary has already claimed the Voucher");

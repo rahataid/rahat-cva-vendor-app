@@ -176,3 +176,21 @@ export interface BENEFICIARY_REFERRAL_DETAILS extends BENEFICIARY_DETAILS {
   BeneficiaryProject?: PROJECT_DETAILS[] | [];
   beneficiariesReferred?: number;
 }
+
+export type BENEFICIARY_VOUCHER_STATUS_GRAPH = {
+  FreeVoucherAddress: string | null;
+  ReferredVoucherAddress: string | null;
+  FreeVoucherClaimStatus: boolean | null;
+  ReferredVoucherClaimStatus: boolean | null;
+  beneficiaryAddress?: string;
+  error?: any;
+  id?: string;
+  __typename?: string;
+};
+
+export type BENEFICIARY_VOUCHER_STATUS_CONTRACT = {
+  0: string | null;
+  1: string | null;
+  2: boolean | null;
+  3: boolean | null;
+};

@@ -1,6 +1,7 @@
 import {
   BENEFICIARY_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
+  BENEFICIARY_VOUCHER_STATUS_GRAPH,
   CreateBeneficiaryDto,
   REFER_BENEFICIARY_DETAILS,
   VOUCHER,
@@ -53,6 +54,9 @@ export type TransferVoucher = {
 export type TransactionActionsType = {
   referredAppStoreState: () => AppStoreType;
   triggerUpdate: () => void;
+  fetchBeneficiaryVoucherDetails: (
+    walletAddress: string
+  ) => Promise<BENEFICIARY_VOUCHER_STATUS_GRAPH>;
   redeemVoucher: ({
     voucherType,
     voucher,
