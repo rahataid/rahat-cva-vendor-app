@@ -13,6 +13,7 @@ import {
   DATE_SOURCE,
 } from "../types/beneficiaries";
 import { isAddress } from "ethers";
+import { ProjectVoucherDetails, VoucherDescription } from "@types/graph";
 
 export const isObjectInArray = (arr: any, obj: any, key: any) => {
   return arr.find((el: any) => el[key] === obj[key]) !== undefined;
@@ -221,21 +222,26 @@ export const randomPercentage = () => {
   return `${Math.floor(Math.random() * 50) + 50}%`;
 };
 
-export const categorizeVouchers = (vouchers: VoucherCurrencyDescription[]) => {
-  // Initialize an empty object to store the result
-  const result = {};
+export const categorizeVouchers = ({
+  projectVoucher,
+  freeVoucherAddress,
+  discountVoucherAddress,
+}: {
+  projectVoucher: ProjectVoucherDetails;
+  freeVoucherAddress: string;
+  discountVoucherAddress: string;
+}) => {
+  const result: any = {};
 
-  // Iterate over the vouchers array
-  vouchers.forEach((voucher) => {
-    // Check the description to determine whether it's a free or discount voucher
-    if (voucher.description.includes("free")) {
-      // If it's a free voucher, add it to the result under the "free" key
+  projectVoucher.voucherDescriptiona.forEach((voucher) => {
+    if (voucher.id.toLowerCase() == freeVoucherAddress.toLowerCase()) {
       result.freeVoucher = {
         currency: voucher.currency,
         price: voucher.price,
       };
-    } else if (voucher.description.includes("discount")) {
-      // If it's a discount voucher, add it to the result under the "discount" key
+    } else if (
+      voucher.id.toLowerCase() == discountVoucherAddress.toLowerCase()
+    ) {
       result.discountVoucher = {
         currency: voucher.currency,
         price: voucher.price,
@@ -243,7 +249,6 @@ export const categorizeVouchers = (vouchers: VoucherCurrencyDescription[]) => {
     }
   });
 
-  // Return the categorized vouchers
   return result;
 };
 

@@ -135,15 +135,21 @@ export function useProjectVoucher(queryService: any): any {
     projectSettings: {
       contracts: {
         elproject: { address },
+        eyevoucher: { address: freeVoucherAddress },
+        referralvoucher: { address: discountVoucherAddress },
       },
+      projectId,
     },
-    projectId,
   } = useAppStore.getState();
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["projectVoucher", projectId],
     async () => {
-      const res = await queryService.useProjectVoucher(address);
-      const data = categorizeVouchers(res.voucherDescriptiona);
+      const projectVoucher = await queryService.useProjectVoucher(address);
+      const data = categorizeVouchers({
+        projectVoucher,
+        freeVoucherAddress,
+        discountVoucherAddress,
+      });
       return data;
     },
     {
