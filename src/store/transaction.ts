@@ -240,7 +240,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
               // walletAddress: beneficiary.walletAddress,
               referrerBeneficiary: beneficiaryDetails?.uuid,
               referrerVendor: vendorId,
-              age: beneficiary?.estimatedAge,
+              age: +beneficiary?.estimatedAge,
               piiData: {
                 name: beneficiary?.name,
                 phone: beneficiary?.phone,
