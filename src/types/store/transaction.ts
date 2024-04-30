@@ -84,6 +84,6 @@ export type TransactionActionsType = {
   getBeneficiaryReferredDetailsByUuid: (uuid: string) => Promise<any>;
   getBeneficiaryDetailsByUuid: (uuid: string) => Promise<any>;
   getBeneficiaryDetailsByWallet: (walletAddress: string) => Promise<any>;
-
+  checkIsVendorApproved: () => Promise<boolean>;
   logoutTransactions: () => void;
 };

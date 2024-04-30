@@ -55,7 +55,7 @@ const Home = ({
     );
   }
 
-  if (!currentUser?.projects?.length > 0) {
+  if (!currentUser?.projects?.length > 0 || !currentUser?.isApproved) {
     return (
       <>
         <DismissibleAlert

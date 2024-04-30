@@ -1,4 +1,5 @@
 import {
+  useIsVendorApproved,
   useVendorFilteredTransaction,
   useVendorTransaction,
   useVendorVoucher,
@@ -83,6 +84,8 @@ const HomePage: FC = () => {
     isLoading: vendorDetailsLoading,
     error: vendorDetailsError,
   } = useVendorDetails({ forceRender });
+
+  const { data: isVendorApproved } = useIsVendorApproved();
 
   const {
     data: projectSettingsData,
