@@ -381,7 +381,7 @@ export function useVendorVoucherRedemptionList() {
   };
 }
 
-export function useIsVendorApproved() {
+export function useIsVendorApproved({ forceRender }: { forceRender: boolean }) {
   const { checkIsVendorApproved } = useTransactionStore();
   const { setCurrentUser, walletAddress, currentUser, projectId, elProject } =
     useAppStore((s) => {
@@ -394,7 +394,7 @@ export function useIsVendorApproved() {
       };
     });
   const { data, isLoading, error, refetch, isFetching } = useQuery(
-    ["isVendorApproved", walletAddress],
+    ["isVendorApproved", walletAddress, forceRender],
     async () => {
       const isApproved = await checkIsVendorApproved();
       setCurrentUser({ isApproved });
