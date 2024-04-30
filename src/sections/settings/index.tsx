@@ -105,7 +105,7 @@ function Settings() {
     },
   ];
 
-  if (currentUser?.projects?.length > 0) {
+  if (currentUser?.projects?.length > 0 && currentUser?.isApproved) {
     settingsOptions.splice(
       1,
       0,

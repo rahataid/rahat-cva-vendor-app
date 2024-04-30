@@ -30,6 +30,7 @@ export function useProjectSettings(): any {
     {
       enabled:
         currentUser?.projects?.length > 0 &&
+        // currentUser?.isApproved &&
         (!storeProjectSettings?.contracts ||
           !storeProjectSettings?.network ||
           !storeProjectSettings?.subGraph ||

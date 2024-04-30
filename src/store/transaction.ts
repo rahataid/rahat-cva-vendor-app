@@ -493,6 +493,24 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return voucherCount;
     },
 
+    checkIsVendorApproved: async () => {
+      const { referredAppStoreState } = get();
+      const {
+        wallet,
+        projectSettings: {
+          contracts: { elproject },
+          network: { rpcurl },
+        },
+      } = referredAppStoreState();
+
+      const ElProjectInstance = await createContractInstance(rpcurl, elproject);
+
+      const isApproved = await ElProjectInstance.checkVendorStatus.staticCall(
+        wallet?.address
+      );
+      return isApproved;
+    },
+
     getVendorRedemptionList: async () => {
       const { referredAppStoreState } = get();
       const {

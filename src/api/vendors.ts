@@ -114,7 +114,7 @@ export function useVendorVoucher(queryService: any): any {
       return res;
     },
     {
-      enabled: currentUser?.projects?.length > 0,
+      enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
       staleTime: 60000,
     }
   );
@@ -135,19 +135,25 @@ export function useProjectVoucher(queryService: any): any {
     projectSettings: {
       contracts: {
         elproject: { address },
+        eyevoucher: { address: freeVoucherAddress },
+        referralvoucher: { address: discountVoucherAddress },
       },
+      projectId,
     },
-    projectId,
   } = useAppStore.getState();
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["projectVoucher", projectId],
     async () => {
-      const res = await queryService.useProjectVoucher(address);
-      const data = categorizeVouchers(res.voucherDescriptiona);
+      const projectVoucher = await queryService.useProjectVoucher(address);
+      const data = categorizeVouchers({
+        projectVoucher,
+        freeVoucherAddress,
+        discountVoucherAddress,
+      });
       return data;
     },
     {
-      enabled: currentUser?.projects?.length > 0,
+      enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
       staleTime: 60000,
     }
   );
@@ -197,7 +203,7 @@ export function useVendorTransaction(queryService: any) {
       return allData;
     },
     {
-      enabled: currentUser?.projects?.length > 0,
+      enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
       staleTime: 60000,
     }
   );
@@ -261,6 +267,7 @@ export function useVendorFilteredTransaction(
     {
       enabled:
         !!currentUser?.projects?.length > 0 &&
+        currentUser?.isApproved &&
         !!freeVoucherAddress &&
         !!discountVoucherAddress,
       staleTime: 60000,
@@ -368,6 +375,44 @@ export function useVendorVoucherRedemptionList() {
     },
     {
       staleTime: 60000,
+    }
+  );
+
+  return {
+    data,
+    isLoading,
+    error,
+    refetch,
+    isFetching,
+  };
+}
+
+export function useIsVendorApproved({ forceRender }: { forceRender: boolean }) {
+  const { checkIsVendorApproved } = useTransactionStore();
+  const { setCurrentUser, walletAddress, currentUser, projectId, elProject } =
+    useAppStore((s) => {
+      return {
+        currentUser: s?.currentUser,
+        walletAddress: s?.wallet?.address,
+        setCurrentUser: s?.setCurrentUser,
+        projectId: s?.projectSettings?.projectId,
+        elProject: s?.projectSettings?.contracts?.elproject,
+      };
+    });
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
+    ["isVendorApproved", walletAddress, forceRender],
+    async () => {
+      const isApproved = await checkIsVendorApproved();
+      setCurrentUser({ isApproved });
+      return isApproved;
+    },
+    {
+      enabled:
+        !!elProject &&
+        currentUser?.projects?.length &&
+        projectId &&
+        !currentUser?.isApproved,
+      staleTime: 0,
     }
   );
 

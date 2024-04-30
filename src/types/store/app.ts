@@ -7,10 +7,10 @@ import { IAddVendorPayload } from "@types/vendors";
 import { HDNodeWallet, Wallet } from "ethers";
 
 export type StorageCurrentUser = {
-  name: string;
-  phone: string;
+  name?: string;
+  phone?: string;
   address?: any;
-  walletAddress: string;
+  walletAddress?: string;
   createdAt?: string;
   createdBy?: string;
   deletedAt?: string;
@@ -23,6 +23,7 @@ export type StorageCurrentUser = {
   updatedBy?: null;
   uuid?: string;
   wallet?: string;
+  isApproved?: boolean;
 };
 
 export type StorageProjectSettings = {

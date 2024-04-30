@@ -88,8 +88,10 @@ const useAppStore = createStore<AppStoreType>(
       set({ wallet });
     },
 
-    setCurrentUser: async (currentUser: StorageCurrentUser) => {
-      set({ currentUser });
+    setCurrentUser: async (data: StorageCurrentUser) => {
+      set((state) => ({
+        currentUser: { ...state.currentUser, ...data },
+      }));
     },
 
     setProjectSettings: async (data: StorageProjectSettings) => {

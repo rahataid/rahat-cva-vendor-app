@@ -106,19 +106,19 @@ const Tabs: React.FC = () => {
           <IonIcon icon={homeOutline} />
           {/* <IonLabel>Home</IonLabel> */}
         </IonTabButton>
-        {currentUser?.projects?.length > 0 && (
+        {currentUser?.projects?.length > 0 && currentUser?.isApproved && (
           <IonTabButton tab="transactions" href="/tabs/transactions">
             <IonIcon icon={swapHorizontalOutline} />
             {/* <IonLabel>Home</IonLabel> */}
           </IonTabButton>
         )}
-        {currentUser?.projects?.length > 0 && (
+        {currentUser?.projects?.length > 0 && currentUser?.isApproved && (
           <IonTabButton tab="chargeBeneficiary" href="/tabs/charge-beneficiary">
             <IonIcon icon={qrCodeOutline} />
             {/* <IonLabel>Charge Beneficiary</IonLabel> */}
           </IonTabButton>
         )}
-        {currentUser?.projects?.length > 0 && (
+        {currentUser?.projects?.length > 0 && currentUser?.isApproved && (
           <IonTabButton
             tab="referred-beneficiaries"
             href="/tabs/referred-beneficiaries"

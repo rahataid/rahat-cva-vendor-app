@@ -1,4 +1,5 @@
 import {
+  useIsVendorApproved,
   useVendorFilteredTransaction,
   useVendorTransaction,
   useVendorVoucher,
@@ -78,11 +79,9 @@ const HomePage: FC = () => {
     VOUCHER.FREE_VOUCHER
   );
 
-  const {
-    data: vendorDetails,
-    isLoading: vendorDetailsLoading,
-    error: vendorDetailsError,
-  } = useVendorDetails({ forceRender });
+  useVendorDetails({ forceRender });
+
+  useIsVendorApproved({ forceRender });
 
   const {
     data: projectSettingsData,
