@@ -8,7 +8,8 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import Logo from "@assets/images/logo/rahat-logo-standard.png";
+import rahatLogo from "@assets/images/logo/rahat-logo-standard.png";
+import luxotticaLogo from "@assets/images/logo/luxottica-light.png";
 import "./select-language.scss";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -30,13 +31,29 @@ const SelectLanguage = () => {
               sizeXl="4"
               className="landing-logo-container"
             >
-              <IonImg src={Logo} />
-              <IonText className="landing-text-container">
-                {t("SELECT_LANGUAGE_PAGE.TAGLINE")}
-              </IonText>
+              {/* <IonRow className="ion-no-padding">
+                <IonCol className="left-logo">
+                  <IonImg src={luxotticaLogo} />
+                </IonCol>
+                <IonCol className="right-logo">
+                  <IonImg src={rahatLogo} />
+                </IonCol>
+              </IonRow> */}
+              <IonRow className="top-logo">
+                <div className="image-container">
+                  <IonImg src={luxotticaLogo} />
+                </div>
+              </IonRow>
+              <IonRow className="bottom-logo">
+                <div className="image-container">
+                  <IonImg src={rahatLogo} />
+                </div>
+                <IonText className="landing-text-container">
+                  <p>{t("SELECT_LANGUAGE_PAGE.TAGLINE")}</p>
+                </IonText>
+              </IonRow>
             </IonCol>
           </IonRow>
-
           <IonRow className="landing-button-container">
             <IonCol size="11" sizeMd="8" sizeLg="6" sizeXl="4">
               <IonText>
