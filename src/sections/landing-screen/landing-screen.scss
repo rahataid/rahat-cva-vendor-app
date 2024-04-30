@@ -35,3 +35,47 @@
 .gap-5 {
   height: 5px;
 }
+
+.left-logo {
+  display: flex;
+  align-items: center;
+}
+
+.right-logo {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+  }
+}
+
+.top-logo {
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .image-container {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 65% !important;
+  }
+}
+
+.bottom-logo {
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .image-container {
+    width: 90% !important;
+  }
+}

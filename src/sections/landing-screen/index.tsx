@@ -13,6 +13,8 @@ import "./landing-screen.scss";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import { FC } from "react";
+import rahatLogo from "@assets/images/logo/rahat-logo-standard.png";
+import luxotticaLogo from "@assets/images/logo/luxottica-light.png";
 
 const LandingScreen: FC = () => {
   const history = useHistory();
@@ -35,10 +37,27 @@ const LandingScreen: FC = () => {
               sizeXl="4"
               className="landing-logo-container"
             >
-              <IonImg src={Logo} />
-              <IonText className="landing-text-container">
-                {t("LANDING_PAGE.TAGLINE")}
-              </IonText>
+              {/* <IonRow className="ion-no-padding">
+                <IonCol className="left-logo">
+                  <IonImg src={luxotticaLogo} />
+                </IonCol>
+                <IonCol className="right-logo">
+                  <IonImg src={rahatLogo} />
+                </IonCol>
+              </IonRow> */}
+              <IonRow className="top-logo">
+                <div className="image-container">
+                  <IonImg src={luxotticaLogo} />
+                </div>
+              </IonRow>
+              <IonRow className="bottom-logo">
+                <div className="image-container">
+                  <IonImg src={rahatLogo} />
+                </div>
+                <IonText className="landing-text-container">
+                  <p>{t("SELECT_LANGUAGE_PAGE.TAGLINE")}</p>
+                </IonText>
+              </IonRow>
             </IonCol>
           </IonRow>
 
