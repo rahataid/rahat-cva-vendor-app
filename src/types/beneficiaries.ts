@@ -88,13 +88,16 @@ export type REFER_BENEFICIARY_DETAILS = {
 };
 
 export type CreateBeneficiaryDto = {
-  uuid: string; //UUID
   walletAddress?: string;
   referrerBeneficiary?: string; //UUID
   referrerVendor?: string; //UUID
   extras?: any;
   type?: BENEFICIARY_TYPE;
-  age?: number;
+  age?: number | string;
+  piiData: {
+    name: string;
+    phone: string;
+  };
 };
 
 export type REFERRED_BENEFICIARY_DETAILS = {

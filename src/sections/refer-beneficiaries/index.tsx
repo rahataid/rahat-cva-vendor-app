@@ -107,6 +107,7 @@ const ReferBeneficiaries = ({
         data: { data: response, from, beneficiaryVoucher },
       });
     } catch (error) {
+      console.log(error);
       showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",

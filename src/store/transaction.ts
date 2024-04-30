@@ -252,9 +252,9 @@ const useTransactionStore = createStore<TransactionStoreType>(
         });
         return await Promise.all(promises);
       }
-
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
       if (!backendResponse) throw new Error("Backend response is empty");
+
       // contract call
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
