@@ -14,7 +14,11 @@ import {
 } from "ethers";
 import { DEFAULT_PASSCODE } from "../config";
 import { types } from "./eip712Types";
-import { RAHAT_TOKEN_ABI, VOUCHER_ADDRESSES } from "../constants/abi";
+import {
+  RAHAT_TOKEN_ABI,
+  EL_PROJECT_ABI,
+  VOUCHER_ADDRESSES,
+} from "../constants/abi";
 
 type BuiltRequest = {
   from: any;
@@ -140,17 +144,20 @@ export const signMessage = async ({ wallet, message }: any) => {
 export async function createContractInstance(
   rpcUrl: string,
   contract: any,
-  useRahatTokenAbi?: string
+  staticAbiName?: string
 ) {
   //  Create Provider
   const provider = new JsonRpcProvider(rpcUrl);
   // const abi = contract.abi.map(convertToLowerCase);
   let abi;
-  if (useRahatTokenAbi === "useRahatTokenAbi") {
+  if (staticAbiName === "useRahatTokenAbi") {
     abi = RAHAT_TOKEN_ABI;
-    console.log("IF FREE OR DISCOUNT VOUCHER CONTRACT");
+    // console.log("IF FREE OR DISCOUNT VOUCHER CONTRACT");
+  } else if (staticAbiName === "useElProjectAbi") {
+    abi = EL_PROJECT_ABI;
+    // console.log("IF useElProjectAbi");
   } else {
-    console.log("ELSE OTHER VOUCHER CONTRACT");
+    // console.log("ELSE OTHER VOUCHER CONTRACT");
     abi = contract.abi;
   }
   //  Create an instance of the contract
@@ -262,7 +269,6 @@ export async function getMetaTxRequest(
   functionName: string,
   params: any[] | [] | null
 ) {
-  console.log("INSIDE GET META TX", params);
   return signMetaTxRequest(signer, forwarderContract, {
     from: signer.address,
     to: elContractInstance.target,

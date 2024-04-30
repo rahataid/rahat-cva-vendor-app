@@ -8,6 +8,8 @@ import { ENV } from "../config";
 import { FormInputType, checkObjType } from "../types/chargeBeneficiary";
 import {
   BENEFICIARY_VOUCHER_DETAILS,
+  BENEFICIARY_VOUCHER_STATUS_CONTRACT,
+  BENEFICIARY_VOUCHER_STATUS_GRAPH,
   DATE_SOURCE,
 } from "../types/beneficiaries";
 import { isAddress } from "ethers";
@@ -188,7 +190,6 @@ export const randomDelay = (min, max) => {
 };
 
 export const findArrayElementByName = ({ arr, name }: any): any => {
-  console.log(arr, name);
   return arr.find((el: any) => el.name.toUpperCase() === name.toUpperCase());
 };
 
@@ -244,4 +245,37 @@ export const categorizeVouchers = (vouchers: VoucherCurrencyDescription[]) => {
 
   // Return the categorized vouchers
   return result;
+};
+
+export const fixBeneficiaryVoucherResult = (
+  contractResponse: BENEFICIARY_VOUCHER_STATUS_CONTRACT
+): BENEFICIARY_VOUCHER_STATUS_GRAPH => {
+  const beneficiaryVoucher = {
+    FreeVoucherAddress: contractResponse["0"],
+    ReferredVoucherAddress: contractResponse["1"],
+    FreeVoucherClaimStatus: contractResponse["2"],
+    ReferredVoucherClaimStatus: contractResponse["3"],
+  };
+  if (
+    beneficiaryVoucher.FreeVoucherAddress ===
+    "0x0000000000000000000000000000000000000000"
+  ) {
+    beneficiaryVoucher.FreeVoucherAddress = null;
+    beneficiaryVoucher.FreeVoucherClaimStatus = null;
+  } else if (
+    beneficiaryVoucher.ReferredVoucherAddress ===
+    "0x0000000000000000000000000000000000000000"
+  ) {
+    beneficiaryVoucher.ReferredVoucherAddress = null;
+    beneficiaryVoucher.ReferredVoucherClaimStatus = null;
+  } else if (
+    beneficiaryVoucher.ReferredVoucherAddress !==
+      "0x0000000000000000000000000000000000000000" ||
+    beneficiaryVoucher.FreeVoucherAddress !==
+      "0x0000000000000000000000000000000000000000"
+  ) {
+    beneficiaryVoucher.FreeVoucherAddress = null;
+    beneficiaryVoucher.FreeVoucherClaimStatus = null;
+  }
+  return beneficiaryVoucher;
 };

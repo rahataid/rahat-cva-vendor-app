@@ -1,6 +1,6 @@
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { IonCardContent, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
-import { IAllTransactionItem } from "@types/transactions";
+import { EVENT_TYPE, IAllTransactionItem } from "@types/transactions";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
@@ -35,7 +35,11 @@ const TransactionDetails: FC<Props> = ({ data, voucherAddresses }) => {
             <IonCol size="6">
               {t("TRANSACTION_DETAILS_PAGE.LABELS.TRANSACTION_TYPE")}
             </IonCol>
-            <IonCol size="6">{data?.eventType || "-"}</IonCol>
+            <IonCol size="6">
+              {data?.eventType === EVENT_TYPE.CLAIM_PROCESSED
+                ? t("GLOBAL.TEXTS.EVENT_TYPE.CLAIM_PROCESSED")
+                : t("GLOBAL.TEXTS.EVENT_TYPE.BENEFICIARY_REFERRED")}
+            </IonCol>
             <IonCol size="6">
               {t("TRANSACTION_DETAILS_PAGE.LABELS.WALLET_ADDRESS")}
             </IonCol>

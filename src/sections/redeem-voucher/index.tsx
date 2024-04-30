@@ -41,11 +41,6 @@ const RedeemVoucher: FC<Props> = ({
   beneficiaryVoucher,
   beneficiaryDetails,
 }) => {
-  console.log(
-    "COUNT",
-    beneficiaryDetails?.beneficiariesReferred,
-    +beneficiaryDetails?.beneficiariesReferred >= 3
-  );
   const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -101,7 +96,6 @@ const RedeemVoucher: FC<Props> = ({
           glassStatus,
         });
       }
-      console.log("RES============", updateRes);
       // showToast("Status Updated Successfully", "success");
       setSubmitSuccess(true);
       setError("root.serverError", {
@@ -157,7 +151,6 @@ const RedeemVoucher: FC<Props> = ({
         message: "",
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
-      console.log(redeemRes, "REDEEM ERS");
       history.push("/otp", {
         data: {
           beneficiaryVoucher,

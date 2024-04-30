@@ -20,6 +20,7 @@ import {
 } from "@types/store/transaction";
 import BeneficiariesService from "@services/beneficiaries";
 import { MS_ACTIONS } from "@rahataid/sdk";
+import { fixBeneficiaryVoucherResult } from "@utils/helperFunctions";
 
 const useTransactionStore = createStore<TransactionStoreType>(
   (set, get) => ({
@@ -30,6 +31,29 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
     triggerUpdate: () => {
       set({ triggerUpdateState: !get().triggerUpdateState });
+    },
+
+    fetchBeneficiaryVoucherDetails: async (walletAddress) => {
+      const { referredAppStoreState } = get();
+      const {
+        projectSettings: {
+          contracts: { elproject },
+          network: { rpcurl },
+        },
+      } = referredAppStoreState();
+
+      const ElProjectInstance = await createContractInstance(
+        rpcurl,
+        elproject,
+        "useElProjectAbi"
+      );
+      let res;
+
+      res = await ElProjectInstance.getBeneficiaryVoucherDetail.staticCall(
+        walletAddress
+      );
+      const beneficiaryVoucher = fixBeneficiaryVoucherResult(res);
+      return beneficiaryVoucher;
     },
 
     redeemVoucher: async ({
@@ -68,13 +92,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       // let res;
       let metaTxRequest;
-      console.log(
-        walletInstance,
-        ForwarderContractInstance,
-        ElProjectInstance,
-        "requestTokenFromBeneficiary(address)",
-        beneficiary?.walletAddress
-      );
+
       if (voucherType === VOUCHER.FREE_VOUCHER) {
         metaTxRequest = await getMetaTxRequest(
           walletInstance,
@@ -180,7 +198,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
       const metaRes = await ProjectsService.actions(projectId, payload);
-      console.log(metaRes, "metaRes");
+
       let beRes;
       if (metaRes?.data?.data?.status === 1) {
         const payload2 = {
@@ -212,7 +230,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
         currentUser: { uuid: vendorId },
       } = referredAppStoreState();
-      console.log("beneficiaryDetails", beneficiaryDetails);
       async function processBeneficiaries(
         referredBeneficiaries: REFER_BENEFICIARY_DETAILS[]
       ) {
@@ -223,7 +240,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
               // walletAddress: beneficiary.walletAddress,
               referrerBeneficiary: beneficiaryDetails?.uuid,
               referrerVendor: vendorId,
-              age: beneficiary?.estimatedAge,
+              age: +beneficiary?.estimatedAge,
               piiData: {
                 name: beneficiary?.name,
                 phone: beneficiary?.phone,
@@ -231,15 +248,13 @@ const useTransactionStore = createStore<TransactionStoreType>(
               type: BENEFICIARY_TYPE.REFERRED,
             },
           };
-          console.log("payload", payload);
           return ProjectsService.actions(projectId, payload);
         });
         return await Promise.all(promises);
       }
-
       const backendResponse = await processBeneficiaries(referredBeneficiaries);
-      console.log(backendResponse, "backendResponse=====>");
       if (!backendResponse) throw new Error("Backend response is empty");
+
       // contract call
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
@@ -259,15 +274,11 @@ const useTransactionStore = createStore<TransactionStoreType>(
         ];
       });
 
-      console.log(multiCallInfo, "multiCallInfo");
-
       const multiCallData = generateMultiCallData(
         ElProjectInstance,
         "assignRefereedClaims",
         multiCallInfo
       );
-
-      console.log(multiCallData, "multiCallData");
 
       const metaTxRequest = await getMetaTxRequest(
         walletInstance,
@@ -288,7 +299,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
           },
         },
       });
-      console.log(response);
 
       const payload = referredBeneficiaries.map((el) => ({
         ...el,
@@ -346,7 +356,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
       //   beneficiaryAddress,
       //   otp
       // );
-      // console.log("RES", res);
       // return res;
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
@@ -452,7 +461,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
           },
         };
         const beRes = await ProjectsService.actions(projectId, payload2);
-        console.log(beRes, "beRes");
       }
       return metaRes?.data?.data;
     },
@@ -527,7 +535,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
           benId,
         },
       };
-      console.log(payload, "GET DETAILS");
       return ProjectsService.actions(projectId, payload);
     },
 

@@ -90,11 +90,11 @@ const ChargeQr = ({ getValues, errors, setValue, control }: any) => {
                   />
                 )}
                 rules={{
-                  required: t("GLOBAL.ERRORS.IVALID_WALLET_ADDRESS"),
+                  required: t("GLOBAL.ERRORS.INVALID_WALLET_ADDRESS"),
                   validate: {
                     validateInput: (value) =>
                       (validateWalletAddress(value) && value.length === 42) ||
-                      t("GLOBAL.ERRORS.IVALID_WALLET_ADDRESS"),
+                      t("GLOBAL.ERRORS.INVALID_WALLET_ADDRESS"),
                   },
                 }}
                 control={control}

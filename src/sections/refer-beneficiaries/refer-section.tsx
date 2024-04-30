@@ -5,21 +5,13 @@ import {
   IonButton,
   IonCol,
   IonIcon,
-  IonImg,
-  IonLabel,
-  IonModal,
   IonRow,
   IonSelectOption,
-  IonText,
 } from "@ionic/react";
-import { caretDownOutline, removeCircleOutline } from "ionicons/icons";
-import { Controller, useFormState } from "react-hook-form";
+import { removeCircleOutline } from "ionicons/icons";
+import { Controller } from "react-hook-form";
 import "./refer-beneficiaries.scss";
 import FormInputSelect from "@components/input/form-select-input";
-import PhoneCodeSelector from "@components/modals/phoneCodeSelector";
-import { SelectOptionItem } from "@sections/auth/registration";
-import { useRef } from "react";
-import useAppStore from "@store/app";
 import CountryCodeInput from "@components/countryCode/countryCodeInput";
 import { useTranslation } from "react-i18next";
 
@@ -128,7 +120,6 @@ const ReferSection = ({
                 phoneValue={getValues(`beneficiaries.${index}.phone`)}
                 modalId={`select-phoneCode${index}`}
                 onModalSelectionChange={(el: any, phoneCodeModal: any) => {
-                  console.log("iso", el.iso);
                   setValue(`beneficiaries.${index}.code`, el.value, {
                     shouldValidate: true,
                   });

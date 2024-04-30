@@ -1,31 +1,16 @@
-import {
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCol,
-  IonGrid,
-  IonIcon,
-  IonItem,
-  IonList,
-  IonPopover,
-  IonRow,
-  IonText,
-} from "@ionic/react";
-import { ITransactionItem } from "../../../../types/transactions";
-import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { ellipsisHorizontal, swapHorizontalOutline } from "ionicons/icons";
-import { useRef, useState } from "react";
+import { IonCol, IonGrid, IonIcon, IonRow, IonText } from "@ionic/react";
+import { EVENT_TYPE, ITransactionItem } from "../../../../types/transactions";
+import { swapHorizontalOutline } from "ionicons/icons";
 import "./transactions-card.scss";
-import { useHistory } from "react-router";
-import { BENEFICIARY_TYPE, IBeneficiary } from "@types/beneficiaries";
 import { cropString, formatDate } from "@utils/helperFunctions";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
 type Props = {
   data: ITransactionItem;
 };
-const TransactionCard = ({ data }: Props) => {
+const TransactionCard: FC<Props> = ({ data }) => {
+  const { t } = useTranslation();
   return (
     <IonGrid className="px-0">
       <IonRow>
@@ -53,7 +38,11 @@ const TransactionCard = ({ data }: Props) => {
         </IonCol>
         <IonCol size="9" className="home-tx-right-col">
           <IonText>
-            <h2>{data?.eventType || "-"}</h2>
+            <h2>
+              {data?.eventType === EVENT_TYPE.CLAIM_PROCESSED
+                ? t("GLOBAL.TEXTS.EVENT_TYPE.CLAIM_PROCESSED")
+                : t("GLOBAL.TEXTS.EVENT_TYPE.BENEFICIARY_REFERRED")}
+            </h2>
             <p>{data?.beneficiary ? cropString(data?.beneficiary) : "-"}</p>
             <p>
               {data?.transactionHash ? cropString(data?.transactionHash) : "-"}

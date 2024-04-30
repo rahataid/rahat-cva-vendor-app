@@ -11,6 +11,7 @@ const errorMessages: { [key: string]: string } = {
   "Voucher not assigned to beneficiary": i18n.t(
     "GLOBAL.ERRORS.VOUCHER_NOT_ASSIGNED"
   ),
+  "Phone number should be unique": i18n.t("GLOBAL.ERRORS.PHONE_EXISTS"),
 };
 
 export const handleError = (error: any) => {

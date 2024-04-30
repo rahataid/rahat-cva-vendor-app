@@ -9,14 +9,7 @@ export function useProjectSettings(): any {
     projectSettings: storeProjectSettings,
     setProjectSettings,
   } = useAppStore.getState();
-  console.log(
-    "PROJECT SETTINGS FETCH ENABLED",
-    currentUser?.projects?.length > 0 &&
-      (!storeProjectSettings?.contracts ||
-        !storeProjectSettings?.network ||
-        !storeProjectSettings?.subGraph ||
-        !storeProjectSettings?.admin)
-  );
+
   const {
     data: projectSettings,
     isLoading,
@@ -43,7 +36,6 @@ export function useProjectSettings(): any {
           !storeProjectSettings?.admin),
       staleTime: 0,
       onSuccess: async (data: any) => {
-        console.log("==============>", data);
         const { value: blockChainSettings } = findArrayElementByName({
           arr: data?.data?.data,
           name: "BLOCKCHAIN",
@@ -70,7 +62,6 @@ export function useProjectSettings(): any {
           },
           admin: adminSettings,
         };
-        console.log("PROJECT SETTINGS======================", projectSettings);
         await setProjectSettings(projectSettings);
         return projectSettings;
       },

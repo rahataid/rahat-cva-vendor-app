@@ -87,7 +87,6 @@ const ReferBeneficiaries = ({
 
   const onSubmit = async (data: any) => {
     try {
-      console.log("REFER SUBMIT DATA", data);
       const { beneficiaries } = data;
       const referredBeneficiaries = beneficiaries.map(
         (el: REFER_BENEFICIARY_DETAILS) => {
@@ -97,7 +96,6 @@ const ReferBeneficiaries = ({
           };
         }
       );
-      console.log("Referred beneficiares", referredBeneficiaries);
 
       const response = await referBeneficiaries({
         referredBeneficiaries,
@@ -109,6 +107,7 @@ const ReferBeneficiaries = ({
         data: { data: response, from, beneficiaryVoucher },
       });
     } catch (error) {
+      console.log(error);
       showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",

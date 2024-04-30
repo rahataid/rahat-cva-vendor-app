@@ -67,7 +67,6 @@ const SelectProject = ({ from }: Props) => {
 
       //   history.push("/home");
       // }
-      console.log("CURRENT USER", currentUser);
       const addPayload = {
         service: "WALLET",
         name: currentUser?.name,
@@ -79,14 +78,12 @@ const SelectProject = ({ from }: Props) => {
       };
 
       const projectUrl = fixProjectUrl(data?.projectURL);
-      console.log("FIXED PROJECT URL", projectUrl);
       if (from === "register") {
         const vendor = await axios.post(
           `${projectUrl}${endpoints.vendors.add}`,
           addPayload
         );
 
-        console.log("VENDOR RESPONSE", vendor?.data?.data);
         setCurrentUser(vendor?.data?.data);
         setProjectSettings({ baseUrl: data?.projectURL });
         await initialize();
@@ -111,14 +108,12 @@ const SelectProject = ({ from }: Props) => {
         triggerUpdate();
         history.push("/tabs/home");
       } else if (from === "restore") {
-        console.log("ELSE IF INSIDE");
         const vendor = await axios.get(
           `${projectUrl}${endpoints.vendors.getByUuid(wallet?.address)}`
         );
         const vendorDetails = vendor?.data?.data;
         setCurrentUser(vendor?.data?.data);
         setProjectSettings({ baseUrl: data?.projectURL });
-        console.log(vendorDetails, "VENDOR RES");
         if (!vendorDetails?.name) throw new Error("Vendor not found");
         await initialize();
         history.push("/tabs/home");

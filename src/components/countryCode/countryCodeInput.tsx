@@ -85,7 +85,6 @@ const CountryCodeInput: FC<Props> = ({
             type="number"
             value={phoneValue}
             onInput={(e: any) => {
-              console.log(e.target.value);
               onPhoneChange(e);
             }}
             onBlur={() => {

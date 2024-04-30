@@ -22,7 +22,6 @@ const ReferResultPage: FC = () => {
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
 
-  console.log("refer result", data);
   return (
     <IonPage>
       <CustomHeader title={t("REFER_RESULT_PAGE.PAGE_TITLE")} />
