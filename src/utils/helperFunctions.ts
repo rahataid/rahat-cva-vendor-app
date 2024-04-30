@@ -263,24 +263,35 @@ export const fixBeneficiaryVoucherResult = (
   };
   if (
     beneficiaryVoucher.FreeVoucherAddress ===
-    "0x0000000000000000000000000000000000000000"
-  ) {
-    beneficiaryVoucher.FreeVoucherAddress = null;
-    beneficiaryVoucher.FreeVoucherClaimStatus = null;
-  } else if (
+      "0x0000000000000000000000000000000000000000" &&
     beneficiaryVoucher.ReferredVoucherAddress ===
-    "0x0000000000000000000000000000000000000000"
+      "0x0000000000000000000000000000000000000000"
   ) {
-    beneficiaryVoucher.ReferredVoucherAddress = null;
-    beneficiaryVoucher.ReferredVoucherClaimStatus = null;
+    throw new Error("Voucher not assigned to beneficiary");
   } else if (
     beneficiaryVoucher.ReferredVoucherAddress !==
-      "0x0000000000000000000000000000000000000000" ||
+      "0x0000000000000000000000000000000000000000" &&
     beneficiaryVoucher.FreeVoucherAddress !==
       "0x0000000000000000000000000000000000000000"
   ) {
     beneficiaryVoucher.FreeVoucherAddress = null;
     beneficiaryVoucher.FreeVoucherClaimStatus = null;
+  } else if (
+    beneficiaryVoucher.FreeVoucherAddress ===
+      "0x0000000000000000000000000000000000000000" &&
+    beneficiaryVoucher.ReferredVoucherAddress !==
+      "0x0000000000000000000000000000000000000000"
+  ) {
+    beneficiaryVoucher.FreeVoucherAddress = null;
+    beneficiaryVoucher.FreeVoucherClaimStatus = null;
+  } else if (
+    beneficiaryVoucher.ReferredVoucherAddress ===
+      "0x0000000000000000000000000000000000000000" &&
+    beneficiaryVoucher.FreeVoucherAddress !==
+      "0x0000000000000000000000000000000000000000"
+  ) {
+    beneficiaryVoucher.ReferredVoucherAddress = null;
+    beneficiaryVoucher.ReferredVoucherClaimStatus = null;
   }
   return beneficiaryVoucher;
 };

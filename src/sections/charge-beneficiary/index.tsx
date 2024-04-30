@@ -107,7 +107,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
   };
 
   const onSubmit = async (data: any) => {
-    // setLoadingVisible(true);
+    setLoadingVisible(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     try {
       const { beneficiaryDetails, beneficiaryVoucher } =
