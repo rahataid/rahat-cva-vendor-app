@@ -255,32 +255,34 @@ const RedeemVoucher: FC<Props> = ({
               </IonCardContent>
             </TransparentCard>
             {isVoucherClaimed ? (
-              <TransparentCard>
-                <IonCardContent>
-                  <IonRow>
-                    <IonCol size="12" className="px-0">
-                      <IonText color="danger">
-                        {isMaxReferred &&
-                          t("GLOBAL.ERRORS.REFER_LIMIT_REACHED")}
-                      </IonText>
-                      <div
-                        onClick={handleDisabledRefer}
-                        className="button-full-width"
-                      >
-                        <IonButton
-                          mode="md"
-                          expand="block"
-                          color="warning"
-                          onClick={handleRefer}
-                          disabled={isMaxReferred}
+              voucherType === VOUCHER.FREE_VOUCHER && (
+                <TransparentCard>
+                  <IonCardContent>
+                    <IonRow>
+                      <IonCol size="12" className="px-0">
+                        <IonText color="danger">
+                          {isMaxReferred &&
+                            t("GLOBAL.ERRORS.REFER_LIMIT_REACHED")}
+                        </IonText>
+                        <div
+                          onClick={handleDisabledRefer}
+                          className="button-full-width"
                         >
-                          {t("REDEEM_VOUCHER_PAGE.BUTTONS.REFER")}
-                        </IonButton>
-                      </div>
-                    </IonCol>
-                  </IonRow>
-                </IonCardContent>
-              </TransparentCard>
+                          <IonButton
+                            mode="md"
+                            expand="block"
+                            color="warning"
+                            onClick={handleRefer}
+                            disabled={isMaxReferred}
+                          >
+                            {t("REDEEM_VOUCHER_PAGE.BUTTONS.REFER")}
+                          </IonButton>
+                        </div>
+                      </IonCol>
+                    </IonRow>
+                  </IonCardContent>
+                </TransparentCard>
+              )
             ) : (
               <TransparentCard>
                 <IonCardContent>
