@@ -42,11 +42,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       } = referredAppStoreState();
 
-      const ElProjectInstance = await createContractInstance(
-        rpcurl,
-        elproject,
-        "useElProjectAbi"
-      );
+      const ElProjectInstance = await createContractInstance(rpcurl, elproject);
       let res;
 
       res = await ElProjectInstance.getBeneficiaryVoucherDetail.staticCall(
