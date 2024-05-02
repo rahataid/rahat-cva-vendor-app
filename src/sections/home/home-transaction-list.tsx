@@ -59,6 +59,7 @@ const HomeTransactionsList: FC<Props> = ({ transactionsList, isLoading }) => {
                           <IonCol size="3" className="home-tx-left-col">
                             <div className="icon-wrapper-round">
                               <IonIcon
+                                color="primary"
                                 icon={
                                   el?.eventType === EVENT_TYPE.CLAIM_PROCESSED
                                     ? swapHorizontalOutline

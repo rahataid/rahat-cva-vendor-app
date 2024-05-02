@@ -1,6 +1,6 @@
 import { IonCol, IonGrid, IonIcon, IonRow, IonText } from "@ionic/react";
 import { EVENT_TYPE, ITransactionItem } from "../../../../types/transactions";
-import { swapHorizontalOutline } from "ionicons/icons";
+import { personAddOutline, swapHorizontalOutline } from "ionicons/icons";
 import "./transactions-card.scss";
 import { cropString, formatDate } from "@utils/helperFunctions";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,12 @@ const TransactionCard: FC<Props> = ({ data }) => {
         <IonCol size="3" className="home-tx-left-col">
           <div className="icon-wrapper-round">
             <IonIcon
-              icon={swapHorizontalOutline}
+              color="primary"
+              icon={
+                data?.eventType === EVENT_TYPE.CLAIM_PROCESSED
+                  ? swapHorizontalOutline
+                  : personAddOutline
+              }
               // color={
               //   el?.beneficiaryType ===
               //   BENEFICIARY_TYPE.REFERRED
