@@ -169,7 +169,7 @@ const ReferBeneficiaries = ({
                   name: "",
                   phone: "",
                   gender: "",
-                  estimatedAge: "",
+                  estimatedAge: null,
                   address: "",
                   code: "",
                   iso: "",

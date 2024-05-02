@@ -57,9 +57,11 @@ const FormInputSelect: React.FC<any> = forwardRef(
           //   className={
           //     props.errorText ? "ion-select-invalid" : "ion-select-valid"
           //   }
-          className={`${(isTouched || isSubmitted) && "ion-touched"}  ${
-            props.errorText ? "ion-select-invalid" : "ion-select-valid"
-          } ${disabled && "text-input-disabled"}`}
+          className={`select-input ${
+            (isTouched || isSubmitted) && "ion-touched"
+          }  ${props.errorText ? "ion-select-invalid" : "ion-select-valid"} ${
+            disabled && "text-input-disabled"
+          }`}
           onIonChange={props.onChange}
           onBlur={() => {
             markTouched();

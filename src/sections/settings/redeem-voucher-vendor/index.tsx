@@ -25,16 +25,6 @@ const RedeemVoucherVendor = () => {
   };
   return (
     <TransparentCard>
-      {/* <IonGrid>
-        <IonRow>
-          <IonCol sizeMd="12" sizeLg="12" size="12">
-            <FreeVoucherCard />
-          </IonCol>
-          <IonCol sizeMd="12" sizeLg="12" size="12">
-            <DiscountVoucherCard />
-          </IonCol>
-        </IonRow>
-      </IonGrid> */}
       <IonList mode="md">
         <IonItem button={true} onClick={onFreeVoucherCardClick}>
           <IonIcon icon={pricetagOutline} slot="start" color="warning" />

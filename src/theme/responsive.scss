@@ -30,6 +30,13 @@
       height: 66px;
     }
   }
+
+  //inputs
+  .small-placeholder {
+    ::placeholder {
+      font-size: 13px;
+    }
+  }
 }
 
 @media (min-width: 600px) {

@@ -102,6 +102,7 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
                     });
                   }}
                   onBlur={field.onBlur}
+                  additionalClass="small-placeholder"
                 />
               )}
               rules={{

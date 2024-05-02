@@ -19,6 +19,23 @@
   --highlight-color-valid: #{$r-input-focused};
   margin-top: 2px;
   color: #343434;
+
+  ::placeholder {
+    color: var(--ion-text-color) !important;
+    opacity: 0.4 !important;
+  }
+}
+
+.select-input {
+  color: #343434 !important;
+  --background: none;
+  --border-radius: #{$r-input-border-radius} !important;
+  --border-width: #{$r-input-border-width};
+  --highlight-color-focoused: #{$r-input-focused};
+  --highlight-color-valid: #{$r-input-focused};
+
+  --placeholder-color: var(--ion-text-color) !important;
+  --placeholder-opacity: 0.4 !important;
 }
 
 body.dark {
@@ -34,7 +51,8 @@ body.dark {
     color: #ffffff;
 
     ::placeholder {
-      color: #999999 !important;
+      color: var(--ion-text-color) !important;
+      opacity: 0.4 !important;
     }
   }
 
