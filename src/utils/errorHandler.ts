@@ -12,6 +12,7 @@ const errorMessages: { [key: string]: string } = {
     "GLOBAL.ERRORS.VOUCHER_NOT_ASSIGNED"
   ),
   "Phone number should be unique": i18n.t("GLOBAL.ERRORS.PHONE_EXISTS"),
+  "Invalid Beneficiary": i18n.t("GLOBAL.ERRORS.INVALID_BENEFICIARY"),
 };
 
 export const handleError = (error: any) => {
