@@ -13,6 +13,7 @@ const errorMessages: { [key: string]: string } = {
   ),
   "Phone number should be unique": i18n.t("GLOBAL.ERRORS.PHONE_EXISTS"),
   "Invalid Beneficiary": i18n.t("GLOBAL.ERRORS.INVALID_BENEFICIARY"),
+  "invalid mnemonic word at index": i18n.t("GLOBAL.ERRORS.INVALID_MNEMONICS"),
 };
 
 export const handleError = (error: any) => {
@@ -20,8 +21,12 @@ export const handleError = (error: any) => {
   const errorFromMessage = error?.message;
   const errorFromResponse = error?.response?.data?.message;
 
-  if (errorFromMessage && errorMessages.hasOwnProperty(errorFromMessage)) {
-    return errorMessages[errorFromMessage];
+  if (errorFromMessage) {
+    for (const key in errorMessages) {
+      if (errorFromMessage.startsWith(key)) {
+        return errorMessages[key];
+      }
+    }
   }
 
   if (errorFromResponse && errorMessages.hasOwnProperty(errorFromResponse)) {

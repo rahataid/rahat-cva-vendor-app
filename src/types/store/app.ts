@@ -27,12 +27,12 @@ export type StorageCurrentUser = {
 };
 
 export type StorageProjectSettings = {
-  admin: { url: "string" };
+  admin?: { url: string };
   baseUrl?: string;
   contracts?: IProjectSettingsContractsApiResponse;
   network?: IProjectSettingsNetwork;
   projectId?: string;
-  subGraph: { url: "string" };
+  subGraph?: { url: string };
 } | null;
 
 export type AppStateType = {
