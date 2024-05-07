@@ -266,7 +266,7 @@ export function useVendorFilteredTransaction(
     },
     {
       enabled:
-        !!currentUser?.projects?.length > 0 &&
+        currentUser?.projects?.length > 0 &&
         currentUser?.isApproved &&
         !!freeVoucherAddress &&
         !!discountVoucherAddress,
@@ -409,8 +409,8 @@ export function useIsVendorApproved({ forceRender }: { forceRender: boolean }) {
     {
       enabled:
         !!elProject &&
-        currentUser?.projects?.length &&
-        projectId &&
+        !!currentUser?.projects?.length &&
+        !!projectId &&
         !currentUser?.isApproved,
       staleTime: 0,
     }
