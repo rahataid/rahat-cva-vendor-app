@@ -226,30 +226,31 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
         currentUser: { uuid: vendorId },
       } = referredAppStoreState();
-      async function processBeneficiaries(
-        referredBeneficiaries: REFER_BENEFICIARY_DETAILS[]
-      ) {
-        const promises = referredBeneficiaries.map(async (beneficiary) => {
-          const payload: addToProjectPayload = {
-            action: MS_ACTIONS.BENEFICIARY.ADD_TO_PROJECT,
-            payload: {
-              // walletAddress: beneficiary.walletAddress,
-              referrerBeneficiary: beneficiaryDetails?.uuid,
-              referrerVendor: vendorId,
-              age: +beneficiary?.estimatedAge,
-              piiData: {
-                name: beneficiary?.name,
-                phone: beneficiary?.phone,
-              },
-              type: BENEFICIARY_TYPE.REFERRED,
+      const formattedBeneficiaries = referredBeneficiaries.map(
+        (beneficiary) => {
+          return {
+            // walletAddress: beneficiary.walletAddress,
+            referrerBeneficiary: beneficiaryDetails?.uuid,
+            referrerVendor: vendorId,
+            age: +beneficiary?.estimatedAge,
+            piiData: {
+              name: beneficiary?.name,
+              phone: beneficiary?.phone,
             },
+            type: BENEFICIARY_TYPE.REFERRED,
           };
-          return ProjectsService.actions(projectId, payload);
-        });
-        return await Promise.all(promises);
-      }
-      const backendResponse = await processBeneficiaries(referredBeneficiaries);
-      if (!backendResponse) throw new Error("Backend response is empty");
+        }
+      );
+      const bePayload = {
+        action: "beneficiary.bulk_add_to_project",
+        // action: MS_ACTIONS.BENEFICIARY.BULK_ADD_TO_PROJECT,
+        payload: { formattedBeneficiaries },
+      };
+      console.log(bePayload, "BE PAYLOAD");
+      const beRes = await ProjectsService.actions(projectId, bePayload);
+      console.log(beRes, "BE RES");
+
+      if (!beRes) throw new Error("Backend response is empty");
 
       // contract call
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
@@ -261,7 +262,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         erc2771forwarder
       );
 
-      let multiCallInfo = backendResponse?.map((response) => {
+      let multiCallInfo = beRes?.map((response) => {
         return [
           response?.data?.data?.walletAddress,
           beneficiaryAddress,

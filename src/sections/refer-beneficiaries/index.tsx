@@ -103,6 +103,7 @@ const ReferBeneficiaries = ({
         beneficiaryAddress: beneficiaryDetails?.walletAddress,
         beneficiaryDetails,
       });
+      await new Promise((resolve) => setTimeout(resolve, 0));
       history.push("/refer-result", {
         data: { data: response, from, beneficiaryVoucher },
       });

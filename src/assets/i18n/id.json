@@ -326,6 +326,7 @@
       "EYE_CHECKUP_STATUS": "Status Pemeriksaan Mata",
       "GLASSES_STATUS": "Status Kacamata",
       "BENEFICIARY_ADDRESS": "Alamat Penerima",
+      "BENEFICIARY_NAME": "Nama Penerima Manfaat",
       "VOUCHER_TYPE": "Tipe Voucher",
       "VOUCHER_STATUS": "Status Voucher"
     },

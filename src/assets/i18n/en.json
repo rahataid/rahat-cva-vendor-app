@@ -326,6 +326,7 @@
       "EYE_CHECKUP_STATUS": "Eye Checkup Status",
       "GLASSES_STATUS": "Glasses Status",
       "BENEFICIARY_ADDRESS": "Beneficiary Address",
+      "BENEFICIARY_NAME": "Beneficiary Name",
       "VOUCHER_TYPE": "Voucher Type",
       "VOUCHER_STATUS": "Voucher Status"
     },
