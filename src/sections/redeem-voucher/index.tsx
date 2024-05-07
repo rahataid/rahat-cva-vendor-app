@@ -41,6 +41,10 @@ const RedeemVoucher: FC<Props> = ({
   beneficiaryVoucher,
   beneficiaryDetails,
 }) => {
+  console.log("===", {
+    beneficiaryVoucher,
+    beneficiaryDetails,
+  });
   const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -218,10 +222,10 @@ const RedeemVoucher: FC<Props> = ({
                 <IonGrid className="p-0">
                   <IonRow>
                     <IonCol size="6" className="pl-0">
-                      {t("REDEEM_VOUCHER_PAGE.LABELS.BENEFICIARY_ADDRESS")}
+                      {t("REDEEM_VOUCHER_PAGE.LABELS.BENEFICIARY_NAME")}
                     </IonCol>
                     <IonCol size="6" className="pr-0">
-                      {cropString(beneficiaryDetails?.walletAddress) || "-"}
+                      {beneficiaryDetails?.piiData?.name || "-"}
                     </IonCol>
                     <IonCol size="6" className="pl-0">
                       {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_TYPE")}
