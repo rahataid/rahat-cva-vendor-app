@@ -170,6 +170,17 @@ export const isVoucherClaimed = (
   return false;
 };
 
+export const isVoucherUpdated = (
+  beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS
+): boolean => {
+  if (
+    beneficiaryVoucher?.FreeVoucherRevertStatus === true ||
+    beneficiaryVoucher?.ReferredVoucherRevertStatus === true
+  )
+    return true;
+  return false;
+};
+
 export const isVoucherAssigned = (
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS
 ): boolean => {
@@ -260,6 +271,8 @@ export const fixBeneficiaryVoucherResult = (
     ReferredVoucherAddress: contractResponse["1"],
     FreeVoucherClaimStatus: contractResponse["2"],
     ReferredVoucherClaimStatus: contractResponse["3"],
+    FreeVoucherRevertStatus: contractResponse["4"],
+    DiscountVoucherRevertStatus: contractResponse["5"],
   };
   if (
     beneficiaryVoucher.FreeVoucherAddress ===
