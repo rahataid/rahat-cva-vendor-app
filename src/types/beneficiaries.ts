@@ -71,6 +71,8 @@ export type BENEFICIARY_VOUCHER_DETAILS = {
   FreeVoucherClaimStatus?: boolean;
   ReferredVoucherAddress?: string;
   ReferredVoucherClaimStatus?: boolean;
+  FreeVoucherRevertStatus?: boolean;
+  ReferredVoucherRevertStatus?: boolean;
   beneficiaryAddress: string;
   id: string;
   __typename: string;
@@ -185,6 +187,8 @@ export type BENEFICIARY_VOUCHER_STATUS_GRAPH = {
   ReferredVoucherAddress: string | null;
   FreeVoucherClaimStatus: boolean | null;
   ReferredVoucherClaimStatus: boolean | null;
+  FreeVoucherRevertStatus?: boolean | null;
+  ReferredVoucherRevertStatus?: boolean | null;
   beneficiaryAddress?: string;
   error?: any;
   id?: string;
@@ -196,4 +200,6 @@ export type BENEFICIARY_VOUCHER_STATUS_CONTRACT = {
   1: string | null;
   2: boolean | null;
   3: boolean | null;
+  4: boolean | null;
+  5: boolean | null;
 };

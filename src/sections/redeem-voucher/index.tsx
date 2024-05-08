@@ -52,7 +52,8 @@ const RedeemVoucher: FC<Props> = ({
     redeemVoucher: state.redeemVoucher,
     updateStatus: state.updateStatus,
   }));
-  const { voucherType, isVoucherClaimed } = useVoucherType(beneficiaryVoucher);
+  const { voucherType, isVoucherClaimed, isVoucherUpdated } =
+    useVoucherType(beneficiaryVoucher);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const history = useHistory();
@@ -246,7 +247,31 @@ const RedeemVoucher: FC<Props> = ({
                       {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_STATUS")}
                     </IonCol>
                     <IonCol size="6" className="pr-0">
-                      {isVoucherClaimed ? (
+                      {isVoucherClaimed || isVoucherUpdated ? (
+                        <IonText>{t("REDEEM_VOUCHER_PAGE.REDEEMED")}</IonText>
+                      ) : (
+                        <IonText>
+                          {t("REDEEM_VOUCHER_PAGE.NOT_REDEEMED")}
+                        </IonText>
+                      )}
+                    </IonCol>
+                    <IonCol size="6" className="pl-0">
+                      {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_STATUS")}
+                    </IonCol>
+                    <IonCol size="6" className="pr-0">
+                      {isVoucherClaimed || isVoucherUpdated ? (
+                        <IonText>{t("REDEEM_VOUCHER_PAGE.REDEEMED")}</IonText>
+                      ) : (
+                        <IonText>
+                          {t("REDEEM_VOUCHER_PAGE.NOT_REDEEMED")}
+                        </IonText>
+                      )}
+                    </IonCol>
+                    <IonCol size="6" className="pl-0">
+                      {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_STATUS")}
+                    </IonCol>
+                    <IonCol size="6" className="pr-0">
+                      {isVoucherClaimed || isVoucherUpdated ? (
                         <IonText>{t("REDEEM_VOUCHER_PAGE.REDEEMED")}</IonText>
                       ) : (
                         <IonText>
@@ -258,7 +283,7 @@ const RedeemVoucher: FC<Props> = ({
                 </IonGrid>
               </IonCardContent>
             </TransparentCard>
-            {isVoucherClaimed ? (
+            {isVoucherClaimed || isVoucherUpdated ? (
               voucherType === VOUCHER.FREE_VOUCHER && (
                 <TransparentCard>
                   <IonCardContent>
