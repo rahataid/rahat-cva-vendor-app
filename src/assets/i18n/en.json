@@ -184,8 +184,8 @@
   "SETTINGS_PAGE": {
     "PAGE_TITLE": "Settings",
     "PROFILE": "Profile",
-    "REDEEM_VOUCHER": "Redeem Voucher",
-    "VOUCHER_REDEMPTION_DETAILS": "Voucher Redemption Details",
+    "REDEEM_VOUCHER": "Claim Voucher",
+    "VOUCHER_REDEMPTION_DETAILS": "Claimed Voucher Details",
     "LANGUAGE": "Language",
     "PROJECTS": "Projects",
     "LOGOUT": "Logout",
@@ -205,21 +205,21 @@
     "PAGE_TITLE": "Profile"
   },
   "REDEEM_VENDOR_VOUCHER_PAGE": {
-    "PAGE_TITLE": "Redeem Vendor Voucher",
+    "PAGE_TITLE": "Claim Voucher",
     "FREE_VOUCHER": "Free Voucher",
     "DISCOUNT_VOUCHER": "Discount Voucher"
   },
   "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE": {
     "PAGE_TITLE": {
-      "FREE_VOUCHER": "Redeem Free Voucher",
-      "DISCOUNT_VOUCHER": "Redeem Discount Voucher"
+      "FREE_VOUCHER": "Claim Free Voucher",
+      "DISCOUNT_VOUCHER": "Claim Discount Voucher"
     },
-    "CARD_TITLE": "Total Available Vouchers For Redemption",
+    "CARD_TITLE": "Total Vouchers Available To Claim",
     "LABELS": {
       "VOUCHER": "Number of vouchers*"
     },
     "PLACEHOLDERS": {
-      "VOUCHER": "Enter number of vouchers to redeem"
+      "VOUCHER": "Enter number of vouchers to claim"
     },
     "ERRORS": {
       "VOUCHER": {
@@ -229,13 +229,13 @@
         "MAX": "Value cannot be greater than available vouchers"
       }
     },
-    "SUCCESS_MSG": "Voucher redeemed successfully",
+    "SUCCESS_MSG": "Voucher claimed successfully",
     "BUTTONS": {
       "SUBMIT": "Submit"
     }
   },
   "REDEEM_VENDOR_VOUCHER_LIST_PAGE": {
-    "PAGE_TITLE": "Voucher Redemption Details",
+    "PAGE_TITLE": "Claimed Voucher Details",
     "NO_DATA": "No data available...",
     "LABELS": {
       "STATUS": "Status:",

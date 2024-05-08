@@ -1,6 +1,6 @@
 import CustomHeader from "@components/header/customHeader";
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
-import RedeemVendorVoucherDetails from "../sections/settings/redeem-voucher-vendor/redeem-vendor-voucher-details";
+import RedeemVendorVoucherDetails from "../sections/settings/redeem-vendor-voucher/redeem-vendor-voucher-details";
 import { useTranslation } from "react-i18next";
 import { VOUCHER } from "@types/beneficiaries";
 import { FC } from "react";
