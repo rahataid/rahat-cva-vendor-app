@@ -264,9 +264,9 @@ const useTransactionStore = createStore<TransactionStoreType>(
         erc2771forwarder
       );
 
-      let multiCallInfo = beRes?.map((response) => {
+      let multiCallInfo = beRes?.data?.data.map((response) => {
         return [
-          response?.data?.data?.walletAddress,
+          response?.walletAddress,
           beneficiaryAddress,
           walletInstance?.address,
           referralvoucher?.address,
