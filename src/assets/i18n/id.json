@@ -358,7 +358,13 @@
       "GO_HOME": "Pergi ke Beranda"
     },
     "REDEEMED": "Terserah",
-    "NOT_REDEEMED": "Belum Terserah"
+    "NOT_REDEEMED": "Belum Terserah",
+    "CHECKUP_DONE": "Pemeriksaan Selesai",
+    "CHECKUP_NOT_DONE": "Pemeriksaan Belum Dilakukan",
+    "GLASSES_REQUIRED": "Kacamata Diperlukan",
+    "GLASSES_NOT_REQUIRED": "Kacamata Tidak Diperlukan",
+    "GLASSES_BOUGHT": "Kacamata Dibeli",
+    "GLASSES_NOT_BOUGHT": "Kacamata Tidak Dibeli"
   },
   "REFER_BENEFICIARIES_PAGE": {
     "PAGE_TITLE": "Rujuk Penerima",

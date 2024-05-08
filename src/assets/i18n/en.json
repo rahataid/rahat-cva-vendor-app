@@ -358,7 +358,13 @@
       "GO_HOME": "Go To Homepage"
     },
     "REDEEMED": "Redeemed",
-    "NOT_REDEEMED": "Not Redeemed"
+    "NOT_REDEEMED": "Not Redeemed",
+    "CHECKUP_DONE": "Checkup Done",
+    "CHECKUP_NOT_DONE": "Checkup Not Done",
+    "GLASSES_REQUIRED": "Glasses Required",
+    "GLASSES_NOT_REQUIRED": "Glasses Not Required",
+    "GLASSES_BOUGHT": "Glasses Bought",
+    "GLASSES_NOT_BOUGHT": "Glasses Not Bought"
   },
   "REFER_BENEFICIARIES_PAGE": {
     "PAGE_TITLE": "Refer Beneficiaries",
