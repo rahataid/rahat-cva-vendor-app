@@ -41,10 +41,6 @@ const RedeemVoucher: FC<Props> = ({
   beneficiaryVoucher,
   beneficiaryDetails,
 }) => {
-  console.log("===", {
-    beneficiaryVoucher,
-    beneficiaryDetails,
-  });
   const { t } = useTranslation();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -247,7 +243,7 @@ const RedeemVoucher: FC<Props> = ({
                       {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_STATUS")}
                     </IonCol>
                     <IonCol size="6" className="pr-0">
-                      {isVoucherClaimed || isVoucherUpdated ? (
+                      {isVoucherClaimed ? (
                         <IonText>{t("REDEEM_VOUCHER_PAGE.REDEEMED")}</IonText>
                       ) : (
                         <IonText>
@@ -255,30 +251,56 @@ const RedeemVoucher: FC<Props> = ({
                         </IonText>
                       )}
                     </IonCol>
-                    <IonCol size="6" className="pl-0">
-                      {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_STATUS")}
-                    </IonCol>
-                    <IonCol size="6" className="pr-0">
-                      {isVoucherClaimed || isVoucherUpdated ? (
-                        <IonText>{t("REDEEM_VOUCHER_PAGE.REDEEMED")}</IonText>
-                      ) : (
-                        <IonText>
-                          {t("REDEEM_VOUCHER_PAGE.NOT_REDEEMED")}
-                        </IonText>
-                      )}
-                    </IonCol>
-                    <IonCol size="6" className="pl-0">
-                      {t("REDEEM_VOUCHER_PAGE.LABELS.VOUCHER_STATUS")}
-                    </IonCol>
-                    <IonCol size="6" className="pr-0">
-                      {isVoucherClaimed || isVoucherUpdated ? (
-                        <IonText>{t("REDEEM_VOUCHER_PAGE.REDEEMED")}</IonText>
-                      ) : (
-                        <IonText>
-                          {t("REDEEM_VOUCHER_PAGE.NOT_REDEEMED")}
-                        </IonText>
-                      )}
-                    </IonCol>
+                    {(isVoucherClaimed || isVoucherUpdated) && (
+                      <>
+                        <IonCol size="6" className="pl-0">
+                          <IonText>
+                            {t("REDEEM_VOUCHER_PAGE.LABELS.EYE_CHECKUP_STATUS")}
+                          </IonText>
+                        </IonCol>
+                        <IonCol size="6" className="pr-0">
+                          {beneficiaryDetails?.eyeCheckUp ? (
+                            <IonText>
+                              {t("REDEEM_VOUCHER_PAGE.CHECKUP_DONE")}
+                            </IonText>
+                          ) : (
+                            <IonText>
+                              {t("REDEEM_VOUCHER_PAGE.CHECKUP_NOT_DONE")}
+                            </IonText>
+                          )}
+                        </IonCol>
+                        <IonCol size="6" className="pl-0">
+                          <IonText>
+                            {t("REDEEM_VOUCHER_PAGE.LABELS.GLASSES_STATUS")}
+                          </IonText>
+                        </IonCol>
+                        <IonCol size="6" className="pr-0">
+                          {beneficiaryDetails?.glassRequired ? (
+                            <IonText>
+                              {voucherType === VOUCHER.FREE_VOUCHER ? (
+                                <>{t("REDEEM_VOUCHER_PAGE.GLASSES_REQUIRED")}</>
+                              ) : (
+                                <>{t("REDEEM_VOUCHER_PAGE.GLASSES_BOUGHT")}</>
+                              )}
+                            </IonText>
+                          ) : (
+                            <IonText>
+                              {voucherType === VOUCHER.FREE_VOUCHER ? (
+                                <>
+                                  {t(
+                                    "REDEEM_VOUCHER_PAGE.GLASSES_NOT_REQUIRED"
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  {t("REDEEM_VOUCHER_PAGE.GLASSES_NOT_BOUGHT")}
+                                </>
+                              )}
+                            </IonText>
+                          )}
+                        </IonCol>
+                      </>
+                    )}
                   </IonRow>
                 </IonGrid>
               </IonCardContent>

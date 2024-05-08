@@ -134,6 +134,8 @@ export interface BENEFICIARY_DETAILS {
   updatedAt?: string;
   deletedAt?: string;
   isVerified?: boolean;
+  eyeCheckUp?: boolean;
+  glassRequired?: boolean;
   piiData?: {
     beneficiaryId?: number;
     name?: string;
