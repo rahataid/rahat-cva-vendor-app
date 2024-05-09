@@ -229,22 +229,24 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const formattedBeneficiaries = referredBeneficiaries.map(
         (beneficiary) => {
           return {
-            // walletAddress: beneficiary.walletAddress,
-            referrerBeneficiary: beneficiaryDetails?.uuid,
-            referrerVendor: vendorId,
             age: +beneficiary?.estimatedAge,
             piiData: {
               name: beneficiary?.name,
               phone: beneficiary?.phone,
             },
-            type: BENEFICIARY_TYPE.REFERRED,
           };
         }
       );
       const bePayload = {
         action: "beneficiary.bulk_add_to_project",
         // action: MS_ACTIONS.BENEFICIARY.BULK_ADD_TO_PROJECT,
-        payload: { formattedBeneficiaries },
+        payload: {
+          beneficiaries: formattedBeneficiaries,
+          referrerBeneficiary: beneficiaryDetails?.uuid,
+          referrerVendor: vendorId,
+          projectUuid: projectId,
+          type: BENEFICIARY_TYPE.REFERRED,
+        },
       };
       console.log(bePayload, "BE PAYLOAD");
       const beRes = await ProjectsService.actions(projectId, bePayload);
@@ -262,9 +264,9 @@ const useTransactionStore = createStore<TransactionStoreType>(
         erc2771forwarder
       );
 
-      let multiCallInfo = beRes?.map((response) => {
+      let multiCallInfo = beRes?.data?.data.map((response) => {
         return [
-          response?.data?.data?.walletAddress,
+          response?.walletAddress,
           beneficiaryAddress,
           walletInstance?.address,
           referralvoucher?.address,

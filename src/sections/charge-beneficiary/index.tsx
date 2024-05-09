@@ -119,6 +119,7 @@ const ChargeBeneficiary = ({ data }: Props) => {
         },
       });
     } catch (error: any) {
+      console.log(error);
       // const validErrors = [
       //   "Invalid beneficiary",
       //   "Invalid Beneficiary Address",
