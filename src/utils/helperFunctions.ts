@@ -308,3 +308,9 @@ export const fixBeneficiaryVoucherResult = (
   }
   return beneficiaryVoucher;
 };
+
+export function extractNumbersFromString(inputString: string) {
+  const numbersArray = inputString.match(/\+\d+/g);
+  const text = inputString.replace(/\+\d+/g, "").trim();
+  return { numbers: numbersArray ? numbersArray : [], text };
+}

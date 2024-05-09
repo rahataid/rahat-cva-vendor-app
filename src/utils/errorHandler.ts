@@ -1,4 +1,5 @@
 import i18n from "@utils/translation-service";
+import { extractNumbersFromString } from "./helperFunctions";
 
 const errorMessages: { [key: string]: string } = {
   "Network Error": i18n.t("GLOBAL.ERRORS.NETWORK_ERROR"),
@@ -25,6 +26,12 @@ export const handleError = (error: any) => {
     for (const key in errorMessages) {
       if (errorFromMessage.startsWith(key)) {
         return errorMessages[key];
+      }
+      if (errorFromMessage.includes(key)) {
+        if (key === "Phone number should be unique") {
+          const { numbers, text } = extractNumbersFromString(errorFromMessage);
+          return `${numbers.join(", ")} ${errorMessages[key]}`;
+        }
       }
     }
   }
