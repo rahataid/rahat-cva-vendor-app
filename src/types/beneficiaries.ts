@@ -72,7 +72,7 @@ export type BENEFICIARY_VOUCHER_DETAILS = {
   ReferredVoucherAddress?: string;
   ReferredVoucherClaimStatus?: boolean;
   FreeVoucherRevertStatus?: boolean;
-  ReferredVoucherRevertStatus?: boolean;
+  DiscountVoucherRevertStatus?: boolean;
   beneficiaryAddress: string;
   id: string;
   __typename: string;

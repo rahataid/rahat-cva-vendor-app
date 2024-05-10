@@ -175,7 +175,7 @@ export const isVoucherUpdated = (
 ): boolean => {
   if (
     beneficiaryVoucher?.FreeVoucherRevertStatus === true ||
-    beneficiaryVoucher?.ReferredVoucherRevertStatus === true
+    beneficiaryVoucher?.DiscountVoucherRevertStatus === true
   )
     return true;
   return false;
@@ -186,7 +186,7 @@ export const isVoucherAssigned = (
 ): boolean => {
   if (
     !beneficiaryVoucher?.FreeVoucherAddress &&
-    !beneficiaryVoucher?.ReferredVoucherAddress
+    !beneficiaryVoucher?.DiscountVoucherRevertStatus
   )
     return false;
   return true;
