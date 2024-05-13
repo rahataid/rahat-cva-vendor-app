@@ -21,7 +21,7 @@ import useCustomToast from "../../hooks/use-custom-toast";
 import BeneficiariesService from "../../services/beneficiaries";
 import ChargeQr from "./charge-qr";
 import useTransactionStore from "@store/transaction";
-import { isVoucherAssigned, isVoucherClaimed } from "@utils/helperFunctions";
+import { isVoucherAssigned } from "@utils/helperFunctions";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";

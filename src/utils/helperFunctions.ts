@@ -182,11 +182,11 @@ export const isVoucherUpdated = (
 };
 
 export const isVoucherAssigned = (
-  beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS
+  beneficiaryVoucher: BENEFICIARY_VOUCHER_STATUS_GRAPH
 ): boolean => {
   if (
     !beneficiaryVoucher?.FreeVoucherAddress &&
-    !beneficiaryVoucher?.DiscountVoucherRevertStatus
+    !beneficiaryVoucher?.ReferredVoucherAddress
   )
     return false;
   return true;
