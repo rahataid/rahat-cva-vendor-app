@@ -42,7 +42,7 @@ const HomePage: FC = () => {
     error: voucherError,
     refetch: refetchVoucher,
     isFetching: isFetchingVoucher,
-  } = useVendorVoucher(queryService);
+  } = useVendorVoucher();
 
   const {
     data: transactionsData,

@@ -121,12 +121,12 @@ const Home = ({
       >
         <CardComponent
           subtitle={t("HOME_PAGE.TITLES.FREE_VOUCHER")}
-          title={voucherData?.freeVoucherRedeemed}
+          title={voucherData?.freeVoucherCount}
           loading={loading}
         />
         <CardComponent
           subtitle={t("HOME_PAGE.TITLES.DISCOUNT_VOUCHER")}
-          title={voucherData?.referredVoucherRedeemed}
+          title={voucherData?.discountVoucherCount}
           loading={loading}
         />
       </div>

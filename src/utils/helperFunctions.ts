@@ -2,7 +2,7 @@ import {
   IAllTransactions,
   ITransactionItem,
   Status,
-  VoucherCurrencyDescription,
+  VendorVoucherCount,
 } from "../types/transactions";
 import { ENV } from "../config";
 import { FormInputType, checkObjType } from "../types/chargeBeneficiary";
@@ -313,4 +313,12 @@ export function extractNumbersFromString(inputString: string) {
   const numbersArray = inputString.match(/\+\d+/g);
   const text = inputString.replace(/\+\d+/g, "").trim();
   return { numbers: numbersArray ? numbersArray : [], text };
+}
+
+export function fixVoucherCount(contractResponse: VendorVoucherCount) {
+  return {
+    freeVoucherCount: Number(contractResponse["0"]) | 0,
+    discountVoucherCount: Number(contractResponse["1"]) | 0,
+    beneficiaryReferredCount: Number(contractResponse["1"]) | 0,
+  };
 }
