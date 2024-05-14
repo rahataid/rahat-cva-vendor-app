@@ -138,3 +138,9 @@ export type VoucherCurrencyDescription = {
   discountVoucher: currencyDescription;
   freeVoucher: currencyDescription;
 };
+
+export type VendorVoucherCount = {
+  0: bigint;
+  1: bigint;
+  2: bigint;
+};

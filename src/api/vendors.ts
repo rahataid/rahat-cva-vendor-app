@@ -102,20 +102,21 @@ export function useVendorChainData(
   };
 }
 
-export function useVendorVoucher(queryService: any): any {
+export function useVendorVoucher(): any {
   const {
     currentUser,
     wallet: { address: walletAddress },
   } = useAppStore.getState();
+  const { getVendorVoucherDetails } = useTransactionStore();
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["vendorVouchers", walletAddress],
     async () => {
-      const res = await queryService.useVendorVoucher(walletAddress);
+      const res = await getVendorVoucherDetails(walletAddress);
       return res;
     },
     {
       enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
-      staleTime: 60000,
+      staleTime: 30000,
     }
   );
 
