@@ -248,9 +248,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
           type: BENEFICIARY_TYPE.REFERRED,
         },
       };
-      console.log(bePayload, "BE PAYLOAD");
       const beRes = await ProjectsService.actions(projectId, bePayload);
-      console.log(beRes, "BE RES");
 
       if (!beRes) throw new Error("Backend response is empty");
 
@@ -264,7 +262,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         erc2771forwarder
       );
 
-      let multiCallInfo = beRes?.data?.data.map((response) => {
+      let multiCallInfo = beRes?.data?.data?.insertedData?.map((response) => {
         return [
           response?.walletAddress,
           beneficiaryAddress,
