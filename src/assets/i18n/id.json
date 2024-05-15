@@ -21,18 +21,18 @@
       "FAILED": "Failed"
     },
     "ERRORS": {
-      "DEFAULT": "Ada kesalahan! Silakan coba lagi nanti",
-      "INVALID_BENEFICIARY": "Penerima tidak valid",
+      "DEFAULT": "Terjadi Kesalahan pada sistem! Silahkan coba beberapa saat lagi",
+      "INVALID_BENEFICIARY": "Penerima Tidak Sah",
       "INVALID_ETHEREUM_ADDRESS": "Alamat dompet Ethereum tidak valid",
-      "INVALID_MNEMONICS": "Mnemonik tidak valid",
-      "INVALID_WALLET_ADDRESS": "Harap masukkan alamat dompet yang valid",
-      "VOUCHER_NOT_ASSIGNED": "Voucher tidak ditugaskan kepada penerima",
+      "INVALID_MNEMONICS": "Kata Unik Tidak Sah",
+      "INVALID_WALLET_ADDRESS": "Harap masukkan alamat dompet yang Sah",
+      "VOUCHER_NOT_ASSIGNED": "Voucher tidak Berikan kepada penerima",
       "NETWORK_ERROR": "URL proyek tidak valid",
-      "PHONE_EXISTS": "Nomor telepon sudah ada",
+      "PHONE_EXISTS": "Nomor Telepon sudah digunakan",
       "NOT_APPROVED": "Anda belum disetujui. Silakan hubungi admin",
-      "VOUCHER_CLAIMED": "Penerima sudah mengklaim voucher",
+      "VOUCHER_CLAIMED": "Penerima sudah menggunakan voucher",
       "REFER_LIMIT_REACHED": "Anda sudah merujuk 3 orang",
-      "RESTRICT_REFER": "Tidak dapat merujuk lebih dari 3 penerima manfaat"
+      "RESTRICT_REFER": "Tidak dapat merujuk lebih dari 3 penerima"
     },
     "TEXTS": {
       "NO_DATA": "Tidak ada data yang tersedia...",
@@ -103,7 +103,7 @@
       "CODE": "Silakan masukkan kode negara"
     },
     "MNEMONICS": {
-      "TITLE": "Tulis mnemonik dengan aman",
+      "TITLE": "Harap Simpan Kata Unik ini",
       "BUTTONS": {
         "COPY": "Salin",
         "NEXT": "Selanjutnya"
@@ -117,14 +117,13 @@
   "RESTORE_WALLET_PAGE": {
     "PAGE_TITLE": "Pulihkan Dompet",
     "LABELS": {
-      "PNEUMONICS": "Pneumonik*"
+      "PNEUMONICS": "Kata Unik"
     },
     "PLACEHOLDERS": {
-      "PNEUMONICS": "Silakan masukkan 12 kata pneumonik"
+      "PNEUMONICS": "Silakan masukkan 12 kata Unik"
     },
     "ERRORS": {
-      "PNEUMONICS": "Silakan masukkan 12 kata pneumonik",
-      "INVALID_PNEUMONICS": "Pneumonik tidak valid"
+      "PNEUMONICS": "Silakan masukkan 12 kata Unik"
     },
     "BUTTONS": {
       "SUBMIT": "Kirim",
@@ -167,8 +166,8 @@
     "PAGE_TITLE": "Beranda",
     "TITLES": {
       "NOT_APPROVED": "Belum Disetujui",
-      "FREE_VOUCHER": "Voucher Gratis Ditebus",
-      "DISCOUNT_VOUCHER": "Voucher Diskon Ditebus",
+      "FREE_VOUCHER": "Voucher Gratis digunakan",
+      "DISCOUNT_VOUCHER": "Voucher Diskon digunakan",
       "TRANSACTIONS": "Transaksi"
     },
     "SEGMENTS": {
@@ -184,8 +183,8 @@
   "SETTINGS_PAGE": {
     "PAGE_TITLE": "Pengaturan",
     "PROFILE": "Profil",
-    "REDEEM_VOUCHER": "Tebus Voucher",
-    "VOUCHER_REDEMPTION_DETAILS": "Detail Penebusan Voucher",
+    "REDEEM_VOUCHER": "Tukarkan Voucher",
+    "VOUCHER_REDEMPTION_DETAILS": "Rincian Penukaran Voucher",
     "LANGUAGE": "Bahasa",
     "PROJECTS": "Proyek",
     "LOGOUT": "Keluar",
@@ -205,21 +204,21 @@
     "PAGE_TITLE": "Profil"
   },
   "REDEEM_VENDOR_VOUCHER_PAGE": {
-    "PAGE_TITLE": "Tebus Voucher Vendor",
+    "PAGE_TITLE": "Tukarkan Voucher Vendor",
     "FREE_VOUCHER": "Voucher Gratis",
     "DISCOUNT_VOUCHER": "Voucher Diskon"
   },
   "REDEEM_VENDOR_VOUCHER_DETAILS_PAGE": {
     "PAGE_TITLE": {
-      "FREE_VOUCHER": "Tebus Voucher Gratis",
-      "DISCOUNT_VOUCHER": "Tebus Voucher Diskon"
+      "FREE_VOUCHER": "Tukarkan Voucher Gratis",
+      "DISCOUNT_VOUCHER": "Tukarkan Voucher Diskon"
     },
-    "CARD_TITLE": "Total Voucher Tersedia Untuk Penebusan",
+    "CARD_TITLE": "Total Voucher yang Tersedia Untuk Penukaran",
     "LABELS": {
       "VOUCHER": "Jumlah voucher*"
     },
     "PLACEHOLDERS": {
-      "VOUCHER": "Masukkan jumlah voucher yang ingin ditebus"
+      "VOUCHER": "Masukkan jumlah voucher yang akan ditukarkan"
     },
     "ERRORS": {
       "VOUCHER": {
@@ -229,7 +228,7 @@
         "MAX": "Nilai tidak boleh lebih besar dari voucher yang tersedia"
       }
     },
-    "SUCCESS_MSG": "Voucher berhasil ditebus",
+    "SUCCESS_MSG": "Voucher berhasil digunakan",
     "BUTTONS": {
       "SUBMIT": "Kirim"
     }
@@ -321,7 +320,7 @@
     }
   },
   "REDEEM_VOUCHER_PAGE": {
-    "PAGE_TITLE": "Tebus Voucher",
+    "PAGE_TITLE": "Tukarkan Voucher",
     "LABELS": {
       "EYE_CHECKUP_STATUS": "Status Pemeriksaan Mata",
       "GLASSES_STATUS": "Status Kacamata",
@@ -352,13 +351,13 @@
       "GLASSES": "Status berhasil disimpan!"
     },
     "BUTTONS": {
-      "REDEEM": "Tebus Voucher",
+      "REDEEM": "Tukarkan Voucher",
       "REFER": "Rujuk",
       "UPDATE_STATUS": "Perbarui Status",
       "GO_HOME": "Pergi ke Beranda"
     },
-    "REDEEMED": "Terserah",
-    "NOT_REDEEMED": "Belum Terserah",
+    "REDEEMED": "Ditukarkan",
+    "NOT_REDEEMED": "Belum Ditukarkan",
     "CHECKUP_DONE": "Pemeriksaan Selesai",
     "CHECKUP_NOT_DONE": "Pemeriksaan Belum Dilakukan",
     "GLASSES_REQUIRED": "Kacamata Diperlukan",
