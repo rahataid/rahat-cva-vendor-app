@@ -116,7 +116,7 @@ export function useVendorVoucher(): any {
     },
     {
       enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
-      staleTime: 30000,
+      staleTime: 0,
     }
   );
 
@@ -128,7 +128,6 @@ export function useVendorVoucher(): any {
     isFetching,
   };
 }
-useProjectVoucher;
 
 export function useProjectVoucher(queryService: any): any {
   const {
