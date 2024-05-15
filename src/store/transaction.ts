@@ -126,7 +126,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       let beRes;
       if (metaRes?.data?.data?.status === 1) {
         const payload2 = {
-          action: "elProject.updateStatus",
+          action: MS_ACTIONS.ELPROJECT.UPDATE_STATUS,
           payload: {
             eyeCheckUp,
             glassStatus,
@@ -201,7 +201,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       let beRes;
       if (metaRes?.data?.data?.status === 1) {
         const payload2 = {
-          action: "elProject.updateStatus",
+          action: MS_ACTIONS.ELPROJECT.UPDATE_STATUS,
           payload: {
             eyeCheckUp,
             glassStatus,
@@ -449,7 +449,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const metaRes = await ProjectsService.actions(projectId, payload);
       if (metaRes?.data?.data?.status === 1) {
         const payload2 = {
-          action: "elProject.requestRedemption_be",
+          action: MS_ACTIONS.ELPROJECT.REQUEST_REDEMPTION_BE,
           payload: {
             vendorId,
             adminAddress,
