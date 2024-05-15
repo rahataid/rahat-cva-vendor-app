@@ -81,7 +81,9 @@ const HomePage: FC = () => {
 
   useVendorDetails({ forceRender });
 
-  useIsVendorApproved({ forceRender });
+  const { isFetching: isVendorApprovedFetching } = useIsVendorApproved({
+    forceRender,
+  });
 
   const {
     data: projectSettingsData,
@@ -111,7 +113,7 @@ const HomePage: FC = () => {
       <CustomHeader title={t("HOME_PAGE.PAGE_TITLE")} />
       <IonContent fullscreen>
         <CustomRefresher handleRefresh={handleRefresh} />
-        {/* {isSettingsFetching && <IndeterminateLoader />} */}
+        {isVendorApprovedFetching && <IndeterminateLoader />}
         <IonGrid>
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
