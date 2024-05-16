@@ -13,12 +13,12 @@
       "COPIED": "Disalin ke clipboard"
     },
     "POPOVERS": {
-      "VIEW": "Lihat"
+      "VIEW": "Melihat"
     },
     "CHIPS": {
-      "SUCCESS": "Successful",
-      "PENDING": "Pending",
-      "FAILED": "Failed"
+      "SUCCESS": "Berhasil",
+      "PENDING": "Tertunda",
+      "FAILED": "Gagal"
     },
     "ERRORS": {
       "DEFAULT": "Terjadi Kesalahan pada sistem! Silahkan coba beberapa saat lagi",
@@ -46,7 +46,7 @@
       },
       "EVENT_TYPE": {
         "CLAIM_PROCESSED": "Klaim Diproses",
-        "BENEFICIARY_REFERRED": "Penerima Dirujuk"
+        "BENEFICIARY_REFERRED": "Penerima Yang Dirujuk"
       },
       "SELECT": {
         "CHECKUP_DONE": "Pemeriksaan selesai",
@@ -123,7 +123,7 @@
       "PNEUMONICS": "Silakan masukkan 12 kata Unik"
     },
     "ERRORS": {
-      "PNEUMONICS": "Silakan masukkan 12 kata Unik"
+      "PNEUMONICS": "Kata Unik tidak cocok"
     },
     "BUTTONS": {
       "SUBMIT": "Kirim",
@@ -143,7 +143,7 @@
     },
     "BUTTONS": {
       "SUBMIT": "Kirim",
-      "CANCEL": "Batal"
+      "CANCEL": "Membatalkan"
     }
   },
   "SELECT_PROJECT_SETTINGS_PAGE": {
@@ -155,11 +155,11 @@
       "PROJECT": "Masukkan Nilai"
     },
     "ERRORS": {
-      "PROJECT": "Harap masukkan URL proyek"
+      "PROJECT": "Silakan masukkan URL proyek"
     },
     "BUTTONS": {
       "EDIT": "Sunting",
-      "SAVE": "Simpan"
+      "SAVE": "Menyimpan"
     }
   },
   "HOME_PAGE": {
@@ -326,7 +326,7 @@
       "EYE_CHECKUP_STATUS": "Status Pemeriksaan Mata",
       "GLASSES_STATUS": "Status Kacamata",
       "BENEFICIARY_ADDRESS": "Alamat Penerima",
-      "BENEFICIARY_NAME": "Nama Penerima Manfaat",
+      "BENEFICIARY_NAME": "Nama Penerima",
       "VOUCHER_TYPE": "Tipe Voucher",
       "VOUCHER_STATUS": "Status Voucher"
     },
@@ -335,12 +335,12 @@
       "GLASSES_STATUS": "Pilih status"
     },
     "SELECT": {
-      "CHECKUP_DONE": "Pemeriksaan selesai",
-      "CHECKUP_NOT_DONE": "Pemeriksaan belum dilakukan",
-      "GLASSES_REQUIRED": "Butuh kacamata",
-      "GLASSES_NOT_REQUIRED": "Tidak butuh kacamata",
-      "GLASSES_BOUGHT": "Kacamata sudah dibeli",
-      "GLASSES_NOT_BOUGHT": "Kacamata belum dibeli"
+      "CHECKUP_DONE": "Pemeriksaan Selesai",
+      "CHECKUP_NOT_DONE": "Pemeriksaan Belum Selesai",
+      "GLASSES_REQUIRED": "Kacamata Diperlukan",
+      "GLASSES_NOT_REQUIRED": "Kacamata Tidak Diperlukan",
+      "GLASSES_BOUGHT": "Kacamata Dibeli",
+      "GLASSES_NOT_BOUGHT": "Kacamata Tidak Dibeli"
     },
     "ERRORS": {
       "PHONE": "Silakan pilih status",
@@ -473,10 +473,10 @@
   "TRANSACTION_DETAILS_PAGE": {
     "PAGE_TITLE": "Rincian Transaksi",
     "LABELS": {
-      "TRANSACTION_TYPE": "Jenis Transaksi",
+      "TRANSACTION_TYPE": "Tipe Transaksi",
       "WALLET_ADDRESS": "Alamat Dompet",
       "VOUCHER_TYPE": "Jenis Voucher",
-      "BENEFICIARY_TYPE": "Jenis Penerima Manfaat",
+      "BENEFICIARY_TYPE": "Tipe Penerima",
       "TRANSACION_HASH": "Hash Transaksi",
       "DATE": "Tanggal"
     }
