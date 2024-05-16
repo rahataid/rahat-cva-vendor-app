@@ -233,6 +233,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         (beneficiary) => {
           return {
             age: +beneficiary?.estimatedAge,
+            gender: beneficiary?.gender,
             piiData: {
               name: beneficiary?.name,
               phone: beneficiary?.phone,
