@@ -61,7 +61,7 @@ const Home = ({
         <DismissibleAlert
           title={t("HOME_PAGE.TITLES.NOT_APPROVED")}
           color="warning"
-          dismissText="Reload"
+          dismissText={t("HOME_PAGE.BUTTONS.RELOAD")}
           description={t("GLOBAL.ERRORS.NOT_APPROVED")}
           onButtonClick={handleReload}
           visible={!isVendor}

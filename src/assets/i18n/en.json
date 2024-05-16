@@ -178,7 +178,8 @@
     },
     "NO_DATA": "No data available...",
     "BUTTONS": {
-      "VIEW_ALL": "View All"
+      "VIEW_ALL": "View All",
+      "RELOAD": "Reload"
     }
   },
   "SETTINGS_PAGE": {
