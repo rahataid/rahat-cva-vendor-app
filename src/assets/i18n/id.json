@@ -123,7 +123,8 @@
       "PNEUMONICS": "Silakan masukkan 12 kata Unik"
     },
     "ERRORS": {
-      "PNEUMONICS": "Kata Unik tidak cocok"
+      "PNEUMONICS": "Silakan masukkan 12 kata Unik",
+      "INVALID_PNEUMONICS": "Kata Unik tidak cocok"
     },
     "BUTTONS": {
       "SUBMIT": "Kirim",
