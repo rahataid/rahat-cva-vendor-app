@@ -242,8 +242,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         }
       );
       const bePayload = {
-        action: "beneficiary.bulk_add_to_project",
-        // action: MS_ACTIONS.BENEFICIARY.BULK_ADD_TO_PROJECT,
+        action: MS_ACTIONS.BENEFICIARY.BULK_ADD_TO_PROJECT,
         payload: {
           beneficiaries: formattedBeneficiaries,
           referrerBeneficiary: beneficiaryDetails?.uuid,
@@ -549,7 +548,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         projectSettings: { projectId },
       } = referredAppStoreState();
       const payload = {
-        action: "beneficiary.project_specific",
+        action: MS_ACTIONS.BENEFICIARY.GET_PROJECT_SPECIFIC,
         payload: {
           benId,
         },
