@@ -246,23 +246,9 @@ export function useVendorFilteredTransaction(
           ? freeVoucherAddress
           : discountVoucherAddress
       );
-
       if (!data?.data) return [];
-
-      const { beneficiaryReferreds, projectClaimProcesseds } = data.data;
-      const fixedBeneficiaryReferreds = beneficiaryReferreds.map(
-        (el: IBeneficiaryReferreds) => ({
-          ...el,
-          beneficiary: el.beneficiaryAddress,
-        })
-      );
-
-      let res;
-      if (voucherType === VOUCHER.FREE_VOUCHER)
-        res = [...projectClaimProcesseds];
-      else if (voucherType === VOUCHER.DISCOUNT_VOUCHER)
-        res = [...projectClaimProcesseds, ...fixedBeneficiaryReferreds];
-      return res;
+      const { projectClaimProcesseds } = data.data;
+      return projectClaimProcesseds;
     },
     {
       enabled:
