@@ -134,9 +134,7 @@ const UpdateStatusResult: FC<Props> = ({
                 {t("UPDATE_STATUS_RESULT_PAGE.LABELS.DATE")}
               </IonCol>
               <IonCol size="6">
-                {updateRes?.createdAt
-                  ? formatDate(updateRes?.createdAt, DATE_SOURCE.BACKEND)
-                  : "-"}
+                {formatDate(`${new Date()}`, DATE_SOURCE.BACKEND) || "-"}
               </IonCol>
               <br />
               <br />
