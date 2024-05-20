@@ -120,9 +120,7 @@ const TransactionResult: FC<Props> = ({
                 {t("TRANSACTION_RESULT_PAGE.LABELS.DATE")}
               </IonCol>
               <IonCol size="6">
-                {redeemRes?.createdAt
-                  ? formatDate(redeemRes?.createdAt, DATE_SOURCE.BACKEND)
-                  : "-"}
+                {formatDate(`${new Date()}`, DATE_SOURCE.BACKEND) || "-"}
               </IonCol>
               <br />
               <br />
