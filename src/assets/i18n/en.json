@@ -32,7 +32,8 @@
       "NOT_APPROVED": "You have not been approved. Please Contact admin",
       "VOUCHER_CLAIMED": "Beneficiary has already claimed the voucher",
       "REFER_LIMIT_REACHED": "You have already referred 3 beneficiaries",
-      "RESTRICT_REFER": "Cannot refer more than 3 beneficiaries"
+      "RESTRICT_REFER": "Cannot refer more than 3 beneficiaries",
+      "VENDOR_DOESNT_EXIST": "Vendor doesn't exist"
     },
     "TEXTS": {
       "NO_DATA": "No data available...",
@@ -348,7 +349,8 @@
       "PHONE": "Please select the status",
       "CODE": "Please select the status",
       "EYE_CHECKUP_STATUS": "Please select the status",
-      "GLASSES_STATUS": "Please select the status"
+      "GLASSES_STATUS": "Please select the status",
+      "UPDATE_STATUS": "You have already updated the status of this voucher. Now you can only redeem it"
     },
     "SUCCESS": {
       "GLASSES": "Status saved successfully!"

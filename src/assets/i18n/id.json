@@ -32,7 +32,8 @@
       "NOT_APPROVED": "Anda belum disetujui. Silakan hubungi admin",
       "VOUCHER_CLAIMED": "Penerima sudah menggunakan voucher",
       "REFER_LIMIT_REACHED": "Anda sudah merujuk 3 orang",
-      "RESTRICT_REFER": "Tidak dapat merujuk lebih dari 3 penerima"
+      "RESTRICT_REFER": "Tidak dapat merujuk lebih dari 3 penerima",
+      "VENDOR_DOESNT_EXIST": "Vendor tidak ada"
     },
     "TEXTS": {
       "NO_DATA": "Tidak ada data yang tersedia...",
@@ -348,7 +349,8 @@
       "PHONE": "Silakan pilih status",
       "CODE": "Silakan pilih status",
       "EYE_CHECKUP_STATUS": "Silakan pilih status",
-      "GLASSES_STATUS": "Silakan pilih status"
+      "GLASSES_STATUS": "Silakan pilih status",
+      "UPDATE_STATUS": "Anda telah memperbarui status voucher ini. Sekarang Anda hanya bisa menukarnya"
     },
     "SUCCESS": {
       "GLASSES": "Status berhasil disimpan!"
