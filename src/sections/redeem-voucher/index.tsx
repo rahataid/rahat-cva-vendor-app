@@ -21,7 +21,7 @@ import {
 import { homeOutline } from "ionicons/icons";
 import CustomDivider from "@components/divider";
 import FormInputSelect from "@components/input/form-select-input";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import useTransactionStore from "@store/transaction";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
@@ -65,8 +65,8 @@ const RedeemVoucher: FC<Props> = ({
   } = useForm({
     mode: "all",
     defaultValues: {
-      glassesStatus: beneficiaryDetails?.glassesStatus || "",
-      eyeCheckupStatus: beneficiaryDetails?.eyeCheckupStatus || "",
+      glassesStatus: beneficiaryDetails?.glassRequired || "",
+      eyeCheckupStatus: beneficiaryDetails?.eyeCheckUp || "",
     },
   });
 
@@ -190,7 +190,13 @@ const RedeemVoucher: FC<Props> = ({
   };
 
   const handleDisabledRefer = () => {
-    showToast(t("GLOBAL.ERRORS.REFER_LIMIT_REACHED"), "danger");
+    if (isMaxReferred)
+      showToast(t("GLOBAL.ERRORS.REFER_LIMIT_REACHED"), "danger");
+  };
+
+  const handleDisabledUpdateStatusButton = () => {
+    if (isVoucherClaimed)
+      showToast(t("REDEEM_VOUCHER_PAGE.ERRORS.UPDATE_STATUS"), "danger");
   };
 
   const handleGoHome = () => {
@@ -200,6 +206,37 @@ const RedeemVoucher: FC<Props> = ({
   const handleInputChange = () => {
     setSubmitSuccess(false);
   };
+
+  useEffect(() => {
+    if (isVoucherUpdated && !!voucherType && !!beneficiaryDetails) {
+      setError("manual", {
+        type: "manual",
+        message: t("REDEEM_VOUCHER_PAGE.ERRORS.UPDATE_STATUS"),
+      });
+
+      setValue(
+        "eyeCheckupStatus",
+        beneficiaryDetails?.eyeCheckUp
+          ? "EYE_CHECKUP_DONE"
+          : "EYE_CHECKUP_NOT_DONE"
+      );
+      if (voucherType === VOUCHER.FREE_VOUCHER) {
+        setValue(
+          "glassesStatus",
+          beneficiaryDetails?.glassRequired
+            ? "GLASSES_REQUIRED"
+            : "GLASSES_NOT_REQUIRED"
+        );
+      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
+        setValue(
+          "glassesStatus",
+          beneficiaryDetails?.glassRequired
+            ? "GLASSES_BOUGHT"
+            : "GLASSES_NOT_BOUGHT"
+        );
+      }
+    }
+  }, [voucherType, isVoucherUpdated, setValue, beneficiaryDetails]);
 
   return (
     <form>
@@ -251,7 +288,7 @@ const RedeemVoucher: FC<Props> = ({
                         </IonText>
                       )}
                     </IonCol>
-                    {(isVoucherClaimed || isVoucherUpdated) && (
+                    {isVoucherClaimed && (
                       <>
                         <IonCol size="6" className="pl-0">
                           <IonText>
@@ -305,7 +342,7 @@ const RedeemVoucher: FC<Props> = ({
                 </IonGrid>
               </IonCardContent>
             </TransparentCard>
-            {isVoucherClaimed || isVoucherUpdated ? (
+            {isVoucherClaimed ? (
               voucherType === VOUCHER.FREE_VOUCHER && (
                 <TransparentCard>
                   <IonCardContent>
@@ -443,24 +480,10 @@ const RedeemVoucher: FC<Props> = ({
                       {errors?.root?.serverError?.message && (
                         <IonText color="danger">
                           {errors?.root?.serverError.message}
+                          <br />
                         </IonText>
                       )}
                     </IonCol>
-                    {/* <IonCol
-                    size="12"
-                    className="px-0"
-                    style={{ marginTop: "10px" }}
-                  >
-                    <IonButton
-                      type="submit"
-                      mode="md"
-                      expand="block"
-                      color="primary"
-                      disabled={!isValid || isSubmitting}
-                    >
-                      Save Status
-                    </IonButton>
-                  </IonCol> */}
                     <br />
                     <CustomDivider />
                     <br />
@@ -472,19 +495,35 @@ const RedeemVoucher: FC<Props> = ({
                               "GLASSES_NOT_REQUIRED" ||
                             getValues("glassesStatus") ===
                               "GLASSES_NOT_BOUGHT" ? (
-                              <IonButton
-                                mode="md"
-                                expand="block"
-                                color="primary"
-                                disabled={
-                                  isSubmitting ||
-                                  !getValues("glassesStatus") ||
-                                  !getValues("eyeCheckupStatus")
-                                }
-                                onClick={handleUpdateStatus}
-                              >
-                                {t("REDEEM_VOUCHER_PAGE.BUTTONS.UPDATE_STATUS")}
-                              </IonButton>
+                              <>
+                                {errors?.manual?.message &&
+                                  (getValues("glassesStatus") ===
+                                    "GLASSES_NOT_REQUIRED" ||
+                                    (getValues("glassesStatus") ===
+                                      "GLASSES_NOT_BOUGHT" && (
+                                      <IonText color="danger">
+                                        {errors?.manual?.message}
+                                      </IonText>
+                                    )))}
+                                <div onClick={handleDisabledUpdateStatusButton}>
+                                  <IonButton
+                                    mode="md"
+                                    expand="block"
+                                    color="primary"
+                                    disabled={
+                                      isSubmitting ||
+                                      !getValues("glassesStatus") ||
+                                      !getValues("eyeCheckupStatus") ||
+                                      isVoucherUpdated
+                                    }
+                                    onClick={handleUpdateStatus}
+                                  >
+                                    {t(
+                                      "REDEEM_VOUCHER_PAGE.BUTTONS.UPDATE_STATUS"
+                                    )}
+                                  </IonButton>
+                                </div>
+                              </>
                             ) : (
                               <IonButton
                                 mode="md"
@@ -523,19 +562,35 @@ const RedeemVoucher: FC<Props> = ({
                               "GLASSES_NOT_REQUIRED" ||
                             getValues("glassesStatus") ===
                               "GLASSES_NOT_BOUGHT" ? (
-                              <IonButton
-                                mode="md"
-                                expand="block"
-                                color="primary"
-                                disabled={
-                                  isSubmitting ||
-                                  !getValues("glassesStatus") ||
-                                  !getValues("eyeCheckupStatus")
-                                }
-                                onClick={handleUpdateStatus}
-                              >
-                                {t("REDEEM_VOUCHER_PAGE.BUTTONS.UPDATE_STATUS")}
-                              </IonButton>
+                              <>
+                                {errors?.manual?.message &&
+                                  (getValues("glassesStatus") ===
+                                    "GLASSES_NOT_REQUIRED" ||
+                                    getValues("glassesStatus") ===
+                                      "GLASSES_NOT_BOUGHT") && (
+                                    <IonText color="danger">
+                                      {errors?.manual?.message}
+                                    </IonText>
+                                  )}
+                                <div onClick={handleDisabledUpdateStatusButton}>
+                                  <IonButton
+                                    mode="md"
+                                    expand="block"
+                                    color="primary"
+                                    disabled={
+                                      isSubmitting ||
+                                      !getValues("glassesStatus") ||
+                                      !getValues("eyeCheckupStatus") ||
+                                      isVoucherUpdated
+                                    }
+                                    onClick={handleUpdateStatus}
+                                  >
+                                    {t(
+                                      "REDEEM_VOUCHER_PAGE.BUTTONS.UPDATE_STATUS"
+                                    )}
+                                  </IonButton>
+                                </div>
+                              </>
                             ) : (
                               <IonButton
                                 mode="md"

@@ -4,7 +4,7 @@ import { extractNumbersFromString } from "./helperFunctions";
 const getErrorMessages = (): { [key: string]: string } => ({
   "Network Error": i18n.t("GLOBAL.ERRORS.NETWORK_ERROR"),
   "Cannot read properties of null (reading 'uuid')": i18n.t(
-    "GLOBAL.ERRORS.INVALID_MNEMONICS"
+    "GLOBAL.ERRORS.VENDOR_DOESNT_EXIST"
   ),
   "Duplicate entry in [phone] is not allowed.": i18n.t(
     "GLOBAL.ERRORS.PHONE_EXISTS"
