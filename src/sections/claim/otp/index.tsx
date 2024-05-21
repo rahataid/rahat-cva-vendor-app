@@ -61,7 +61,7 @@ const OTP: FC<Props> = ({
       });
     } catch (error) {
       console.log(error);
-      showToast(handleError(error));
+      showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",
         message: handleError(error),
