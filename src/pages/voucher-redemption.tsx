@@ -9,27 +9,18 @@ import {
 import CustomHeader from "@components/header/customHeader";
 import VoucherRedemptionDetails from "@sections/settings/voucher-redemption-details";
 import CustomRefresher from "@components/refresher/CustomRefresher";
-import {
-  useProjectVoucher,
-  useVendorVoucherRedemptionList,
-} from "@api/vendors";
+import { useVendorVoucherRedemptionList } from "@api/vendors";
 import { FC } from "react";
 import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 import { useTranslation } from "react-i18next";
-import { useGraphService } from "@contexts/graph-query";
+import useAppStore from "@store/app";
 
 const VoucherRedemptionDetailsPage: FC = () => {
   const { t } = useTranslation();
-  const { queryService } = useGraphService();
   const { data, isLoading, error, refetch, isFetching } =
     useVendorVoucherRedemptionList();
-  const {
-    data: currencyDescription,
-    isLoading: isVoucherLoading,
-    error: voucherError,
-    refetch: refetchVoucher,
-    isFetching: isFetchingVoucher,
-  } = useProjectVoucher(queryService);
+  const currencyDescription = useAppStore((s) => s?.currencyDescription);
+
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
     await refetch();
     event.detail.complete();
@@ -51,8 +42,6 @@ const VoucherRedemptionDetailsPage: FC = () => {
                 <VoucherRedemptionDetails
                   data={data}
                   currencyDescription={currencyDescription}
-                  isVoucherLoading={isVoucherLoading}
-                  isFetchingVoucher={isFetchingVoucher}
                 />
               )}
             </IonCol>

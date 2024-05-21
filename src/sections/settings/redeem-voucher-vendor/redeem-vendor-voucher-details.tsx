@@ -7,15 +7,12 @@ import TextInputField from "../../../components/input/form-text-input";
 import { VOUCHER } from "../../../types/beneficiaries";
 import CustomToast from "../../../components/toast";
 import { FC, useState } from "react";
-import {
-  useProjectVoucher,
-  useVendorVoucherRedemptionCount,
-} from "../../../api/vendors";
+import { useVendorVoucherRedemptionCount } from "../../../api/vendors";
 import CardComponent from "@sections/home/home-card";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";
-import { useGraphService } from "@contexts/graph-query";
+import useAppStore from "../../../store/app";
 
 type FormValues = {
   vouchers: number;
@@ -29,8 +26,8 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
   const { t } = useTranslation();
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [amountText, setAmountText] = useState("");
-  const { queryService } = useGraphService();
   const { transferVoucher } = useTransactionStore();
+  const currencyDescription = useAppStore((s) => s?.currencyDescription);
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
   const {
@@ -50,8 +47,6 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
 
   const { data, isRefetching, refetch, isLoading } =
     useVendorVoucherRedemptionCount(voucherType);
-
-  const { data: currencyDescription } = useProjectVoucher(queryService);
 
   const handleSetAmountText = (voucherInput: string) => {
     let value = Number(voucherInput);
