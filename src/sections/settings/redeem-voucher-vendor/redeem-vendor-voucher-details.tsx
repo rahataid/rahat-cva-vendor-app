@@ -7,11 +7,15 @@ import TextInputField from "../../../components/input/form-text-input";
 import { VOUCHER } from "../../../types/beneficiaries";
 import CustomToast from "../../../components/toast";
 import { FC, useState } from "react";
-import { useVendorVoucherRedemptionCount } from "../../../api/vendors";
+import {
+  useProjectVoucher,
+  useVendorVoucherRedemptionCount,
+} from "../../../api/vendors";
 import CardComponent from "@sections/home/home-card";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";
+import { useGraphService } from "@contexts/graph-query";
 
 type FormValues = {
   vouchers: number;
@@ -24,6 +28,8 @@ type Props = {
 const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
   const { t } = useTranslation();
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [amountText, setAmountText] = useState("");
+  const { queryService } = useGraphService();
   const { transferVoucher } = useTransactionStore();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
@@ -42,8 +48,27 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
     },
   });
 
-  const { data, isRefetching, refetch } =
+  const { data, isRefetching, refetch, isLoading } =
     useVendorVoucherRedemptionCount(voucherType);
+
+  const { data: currencyDescription } = useProjectVoucher(queryService);
+
+  const handleSetAmountText = (voucherInput: string) => {
+    let value = Number(voucherInput);
+    if (!errors?.vouchers?.message && !!currencyDescription) {
+      let finalValue;
+      if (voucherType === VOUCHER.FREE_VOUCHER)
+        finalValue = Number(currencyDescription?.freeVoucher?.price) * value;
+      else if (voucherType === VOUCHER.DISCOUNT_VOUCHER)
+        finalValue =
+          Number(currencyDescription?.discountVoucher?.price) * value;
+      setAmountText(
+        t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.AMOUNT_TEXT", {
+          amount: finalValue,
+        })
+      );
+    }
+  };
 
   const onSubmit = async (data: FormValues) => {
     try {
@@ -80,7 +105,7 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
       <CardComponent
         subtitle={t("REDEEM_VENDOR_VOUCHER_DETAILS_PAGE.CARD_TITLE")}
         title={data}
-        loading={isRefetching}
+        loading={isLoading || isRefetching}
       />
       <TransparentCard>
         <IonCardContent>
@@ -100,7 +125,9 @@ const RedeemVendorVoucherDetails: FC<Props> = ({ voucherType }) => {
                     setValue("vouchers", e.target.value, {
                       shouldValidate: true,
                     });
+                    handleSetAmountText(e.target.value);
                   }}
+                  helperText={amountText}
                   onBlur={field.onBlur}
                   additionalClass="small-placeholder"
                 />

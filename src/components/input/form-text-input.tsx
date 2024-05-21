@@ -89,7 +89,8 @@ const TextInputField: React.FC<TextInputFieldProps> = forwardRef(
           // onIonInput={(e) => validate(e)}
           style={props.inputStyle}
           className={`text-input ${
-            (isTouched || isSubmitted) && "ion-touched"
+            // (isTouched || isSubmitted) &&
+            "ion-touched"
           } ${props.errorText ? "ion-invalid" : "ion-valid"} ${
             disabled && "text-input-disabled"
           } ${props.hasCountryFlag && "text-input-country-flag"} `}
