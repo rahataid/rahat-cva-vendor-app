@@ -15,16 +15,9 @@ import { VoucherCurrencyDescription } from "@types/transactions";
 type Props = {
   data: VendorVoucherRedemptionDetails;
   currencyDescription: VoucherCurrencyDescription;
-  isVoucherLoading: boolean;
-  isFetchingVoucher: boolean;
 };
 
-const VoucherDetailsCard: FC<Props> = ({
-  data,
-  currencyDescription,
-  isVoucherLoading,
-  isFetchingVoucher,
-}) => {
+const VoucherDetailsCard: FC<Props> = ({ data, currencyDescription }) => {
   const { t } = useTranslation();
 
   return (
@@ -42,24 +35,17 @@ const VoucherDetailsCard: FC<Props> = ({
                 </p>
                 <p className="amount-wrapper">
                   {t("REDEEM_VENDOR_VOUCHER_LIST_PAGE.LABELS.AMOUNT")}{" "}
-                  {isVoucherLoading ? (
-                    <IonSkeletonText
-                      animated={true}
-                      style={{ width: "50%", marginLeft: 3 }}
-                    />
-                  ) : (
-                    <>
-                      {data?.voucherType === "DISCOUNTVOUCHER"
-                        ? `${currencyDescription?.discountVoucher?.currency} ${
-                            +data?.voucherNumber *
-                            +currencyDescription?.discountVoucher?.price
-                          }`
-                        : `${currencyDescription?.discountVoucher?.currency} ${
-                            +data?.voucherNumber *
-                            +currencyDescription?.freeVoucher?.price
-                          }`}
-                    </>
-                  )}
+                  <>
+                    {data?.voucherType === "DISCOUNTVOUCHER"
+                      ? `${currencyDescription?.discountVoucher?.currency} ${
+                          +data?.voucherNumber *
+                          +currencyDescription?.discountVoucher?.price
+                        }`
+                      : `${currencyDescription?.discountVoucher?.currency} ${
+                          +data?.voucherNumber *
+                          +currencyDescription?.freeVoucher?.price
+                        }`}
+                  </>
                 </p>
                 {/* <p>{formatDate(data?.createdAt) || "-"}</p> */}
               </IonText>

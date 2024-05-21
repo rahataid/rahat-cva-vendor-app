@@ -140,6 +140,8 @@ export function useProjectVoucher(queryService: any): any {
       },
       projectId,
     },
+    currencyDescription,
+    setCurrencyDescription,
   } = useAppStore.getState();
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["projectVoucher", projectId],
@@ -150,10 +152,14 @@ export function useProjectVoucher(queryService: any): any {
         freeVoucherAddress,
         discountVoucherAddress,
       });
+      setCurrencyDescription(data);
       return data;
     },
     {
-      enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
+      enabled:
+        currentUser?.projects?.length > 0 &&
+        currentUser?.isApproved &&
+        !currencyDescription,
       staleTime: 60000,
     }
   );

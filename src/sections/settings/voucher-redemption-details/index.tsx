@@ -10,16 +10,9 @@ import { VoucherCurrencyDescription } from "@types/transactions";
 type Props = {
   data: VendorVoucherRedemptionDetails[];
   currencyDescription: VoucherCurrencyDescription;
-  isVoucherLoading: boolean;
-  isFetchingVoucher: boolean;
 };
 
-const VoucherRedemptionDetails: FC<Props> = ({
-  data,
-  currencyDescription,
-  isVoucherLoading,
-  isFetchingVoucher,
-}) => {
+const VoucherRedemptionDetails: FC<Props> = ({ data, currencyDescription }) => {
   const { t } = useTranslation();
   return (
     <>
@@ -32,8 +25,6 @@ const VoucherRedemptionDetails: FC<Props> = ({
                   key={i}
                   data={el}
                   currencyDescription={currencyDescription}
-                  isVoucherLoading={isVoucherLoading}
-                  isFetchingVoucher={isFetchingVoucher}
                 />
               ))}
             </IonList>

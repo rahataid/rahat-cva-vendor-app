@@ -3,6 +3,7 @@ import {
   IProjectSettingsContractsApiResponse,
   IProjectSettingsNetwork,
 } from "@types/project-settings";
+import { CurrencyDescription } from "@types/transactions";
 import { IAddVendorPayload } from "@types/vendors";
 import { HDNodeWallet, Wallet } from "ethers";
 
@@ -43,6 +44,7 @@ export type AppStateType = {
   isInitialized: boolean;
   mockData: any[];
   countries: Array<any>;
+  currencyDescription: CurrencyDescription | undefined;
 };
 
 export type AppActionsType = {
@@ -57,6 +59,7 @@ export type AppActionsType = {
   logout: () => void;
   setMockData: (data: any) => void;
   setCountries: (countries: Array<any>) => void;
+  setCurrencyDescription: (data: CurrencyDescription) => void;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;

@@ -1,5 +1,6 @@
 import {
   useIsVendorApproved,
+  useProjectVoucher,
   useVendorFilteredTransaction,
   useVendorTransaction,
   useVendorVoucher,
@@ -101,6 +102,8 @@ const HomePage: FC = () => {
       // ]);
       event.detail.complete();
   };
+
+  useProjectVoucher(queryService);
 
   useEffect(() => {
     if (projectSettingsData && projectSettings?.subGraph?.url) {

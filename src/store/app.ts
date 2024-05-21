@@ -14,6 +14,7 @@ import {
   StorageCurrentUser,
   StorageProjectSettings,
 } from "@types/store/app";
+import { CurrencyDescription } from "@types/transactions";
 
 const useAppStore = createStore<AppStoreType>(
   (set, get) => ({
@@ -25,6 +26,7 @@ const useAppStore = createStore<AppStoreType>(
     chainData: undefined,
     mockData: [],
     countries: [],
+    currencyDescription: undefined,
 
     initialize: async () => {
       const {
@@ -120,6 +122,10 @@ const useAppStore = createStore<AppStoreType>(
     setCountries: (countries) => {
       set({ countries });
     },
+
+    setCurrencyDescription: (currencyDescription: CurrencyDescription) => {
+      set({ currencyDescription });
+    },
   }),
   {
     devtoolsEnabled: true,
@@ -131,6 +137,7 @@ const useAppStore = createStore<AppStoreType>(
         currentUser: state.currentUser,
         projectSettings: state.projectSettings,
         data: { countries: state.countries },
+        currencyDescription: state.currencyDescription,
       }),
     },
   }
