@@ -231,6 +231,7 @@
       }
     },
     "SUCCESS_MSG": "Voucher berhasil digunakan",
+    "AMOUNT_TEXT": "Anda sedang mengklaim token senilai Rp {{amount}}",
     "BUTTONS": {
       "SUBMIT": "Kirim"
     }

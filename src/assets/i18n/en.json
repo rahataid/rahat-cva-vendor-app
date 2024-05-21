@@ -231,6 +231,7 @@
       }
     },
     "SUCCESS_MSG": "Voucher claimed successfully",
+    "AMOUNT_TEXT": "You are claiming tokens worth Rp {{amount}}",
     "BUTTONS": {
       "SUBMIT": "Submit"
     }
