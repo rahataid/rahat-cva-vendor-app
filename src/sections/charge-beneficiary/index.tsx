@@ -12,9 +12,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import "./charge-beneficiary.scss";
 import ChargePhone from "./charge-phone";
-import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import { useGraphService } from "@contexts/graph-query";
 
 import CustomToast from "../../components/toast";
 import useCustomToast from "../../hooks/use-custom-toast";
@@ -25,6 +23,7 @@ import { isVoucherAssigned } from "@utils/helperFunctions";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";
+import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 
 type Props = {
   data: {
@@ -37,14 +36,13 @@ type Props = {
 const ChargeBeneficiary = ({ data }: Props) => {
   const { t } = useTranslation();
   const { fetchBeneficiaryVoucherDetails } = useTransactionStore();
-  const { queryService } = useGraphService();
   const { getBeneficiaryReferredDetailsByUuid } = useTransactionStore();
   const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState("PHONE");
 
   const {
     trigger,

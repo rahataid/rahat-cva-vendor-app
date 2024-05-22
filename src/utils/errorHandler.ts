@@ -15,6 +15,9 @@ const getErrorMessages = (): { [key: string]: string } => ({
   "Phone number should be unique": i18n.t("GLOBAL.ERRORS.PHONE_EXISTS"),
   "Invalid Beneficiary": i18n.t("GLOBAL.ERRORS.INVALID_BENEFICIARY"),
   "invalid mnemonic word at index": i18n.t("GLOBAL.ERRORS.INVALID_MNEMONICS"),
+  "Invalid ethereum wallet address": i18n.t(
+    "GLOBAL.ERRORS.INVALID_ETHEREUM_ADDRESS"
+  ),
 });
 
 export const handleError = (error: any) => {

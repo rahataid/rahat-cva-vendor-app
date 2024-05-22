@@ -4,13 +4,21 @@ import Scanner from "@sections/plugins/scanner";
 import CustomHeader from "@components/header/customHeader";
 import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import { useHistory, useLocation } from "react-router";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
 import {
   extractWalletAddressOnScan,
   isValidEthereumAddressOnScan,
+  isVoucherAssigned,
 } from "../utils/helperFunctions";
 import { useTranslation } from "react-i18next";
+import BeneficiariesService from "@services/beneficiaries";
+import useTransactionStore from "@store/transaction";
+import CustomLoader from "@components/loaders/customLoader";
+import "../sections/plugins/scanner/scanner.scss";
+import CustomToast from "@components/toast";
+import useCustomToast from "@hooks/use-custom-toast";
+import { handleError } from "@utils/errorHandler";
 
 type LocationState = {
   data: {
@@ -25,46 +33,77 @@ const ScannerPage: FC = () => {
     data: { redirectTo },
   } = location.state || { data: null };
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    fetchBeneficiaryVoucherDetails,
+    getBeneficiaryReferredDetailsByUuid,
+  } = useTransactionStore();
+  const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
+    useCustomToast();
 
-  const stopScan = async () => {
+  const fetchBeneficiaryVoucher = async (walletAddress: string) => {
+    let beneficiary = await BeneficiariesService.getByWallet(walletAddress);
+    if (!beneficiary?.data?.data) throw new Error("Invalid Beneficiary");
+    beneficiary = await getBeneficiaryReferredDetailsByUuid(
+      beneficiary?.data?.data?.uuid
+    );
+
+    const benWalletAddress = beneficiary?.data?.data?.walletAddress;
+    const beneficiaryVoucher = await fetchBeneficiaryVoucherDetails(
+      benWalletAddress
+    );
+    if (!isVoucherAssigned(beneficiaryVoucher)) {
+      throw new Error("Voucher not assigned to beneficiary");
+    }
+
+    return {
+      beneficiaryDetails: beneficiary?.data?.data,
+      beneficiaryVoucher,
+    };
+  };
+
+  const barcodeScanned = async (result: any) => {
+    try {
+      await BarcodeScanner.stopScan();
+      setIsLoading(true);
+      await hapticsImpactHeavy();
+      if (!isValidEthereumAddressOnScan(result?.barcode?.displayValue))
+        throw new Error("Invalid ethereum wallet address");
+      const { beneficiaryDetails, beneficiaryVoucher } =
+        await fetchBeneficiaryVoucher(
+          extractWalletAddressOnScan(result.barcode.displayValue)
+        );
+      await deinitializeScanner();
+      setIsLoading(false);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      history.push("/redeem-voucher", {
+        data: {
+          beneficiaryDetails,
+          beneficiaryVoucher,
+        },
+      });
+    } catch (error) {
+      await BarcodeScanner.startScan();
+      setIsLoading(false);
+      console.error("Error fetching beneficiary voucher:", error);
+      showToast(handleError(error), "danger");
+    }
+  };
+
+  const deinitializeScanner = async () => {
     document.querySelector("body")?.classList.remove("barcode-scanner-active");
     toggleWrapper(false);
-
     await BarcodeScanner.removeAllListeners();
-
     await BarcodeScanner.stopScan();
   };
 
-  const startScan = async () => {
+  const initializeScanner = async () => {
     document.querySelector("body")?.classList.add("barcode-scanner-active");
     toggleWrapper(true);
-
     const listener = await BarcodeScanner.addListener(
       "barcodeScanned",
-      async (result) => {
-        if (!isValidEthereumAddressOnScan(result?.barcode?.displayValue)) {
-          await hapticsImpactHeavy();
-          stopScan();
-          history.push(redirectTo, {
-            data: {
-              error: true,
-              showWalletTab: true,
-            },
-          });
-        }
-        await hapticsImpactHeavy();
-        stopScan();
-        history.push(redirectTo, {
-          data: {
-            scannerValue: extractWalletAddressOnScan(
-              result.barcode.displayValue
-            ),
-            showWalletTab: true,
-          },
-        });
-      }
+      barcodeScanned
     );
-
     await BarcodeScanner.startScan();
   };
 
@@ -99,13 +138,25 @@ const ScannerPage: FC = () => {
   };
 
   useEffect(() => {
-    startScan();
+    initializeScanner();
   }, []);
 
   return (
     <IonPage>
       <CustomHeader title={t("SCANNER_PAGE.PAGE_TITLE")} showBackButton />
       <IonContent fullscreen scrollY={false}>
+        <CustomToast
+          isOpen={toastVisible}
+          onDidDismiss={hideToast}
+          message={toastMessage}
+          duration={2000}
+          color={toastColor}
+          className="scanner-visible-component"
+        />
+        <CustomLoader
+          isOpen={isLoading}
+          className="scanner-visible-component"
+        />
         <Scanner toggleTorch={toggleTorch} setZoomRatio={setZoomRatio} />
       </IonContent>
     </IonPage>
