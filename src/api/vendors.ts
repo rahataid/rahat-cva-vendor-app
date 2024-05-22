@@ -132,17 +132,24 @@ export function useVendorVoucher(): any {
 export function useProjectVoucher(queryService: any): any {
   const {
     currentUser,
-    projectSettings: {
-      contracts: {
-        elproject: { address },
-        eyevoucher: { address: freeVoucherAddress },
-        referralvoucher: { address: discountVoucherAddress },
-      },
-      projectId,
-    },
+    projectId,
+    address,
+    freeVoucherAddress,
+    discountVoucherAddress,
     currencyDescription,
     setCurrencyDescription,
-  } = useAppStore.getState();
+  } = useAppStore((s) => {
+    return {
+      currentUser: s?.currentUser,
+      projectId: s?.projectSettings?.projectId,
+      address: s?.projectSettings?.contracts?.elproject?.address,
+      freeVoucherAddress: s?.projectSettings?.contracts?.eyevoucher?.address,
+      discountVoucherAddress:
+        s?.projectSettings?.contracts?.referralvoucher?.address,
+      currencyDescription: s?.currencyDescription,
+      setCurrencyDescription: s?.setCurrencyDescription,
+    };
+  });
   const { data, isLoading, error, refetch, isFetching } = useQuery(
     ["projectVoucher", projectId],
     async () => {
@@ -159,6 +166,9 @@ export function useProjectVoucher(queryService: any): any {
       enabled:
         currentUser?.projects?.length > 0 &&
         currentUser?.isApproved &&
+        !!address &&
+        !!freeVoucherAddress &&
+        !!discountVoucherAddress &&
         !currencyDescription,
       staleTime: 60000,
     }
