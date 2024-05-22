@@ -195,7 +195,7 @@ const RedeemVoucher: FC<Props> = ({
   };
 
   const handleDisabledUpdateStatusButton = () => {
-    if (isVoucherClaimed)
+    if (isVoucherUpdated)
       showToast(t("REDEEM_VOUCHER_PAGE.ERRORS.UPDATE_STATUS"), "danger");
   };
 
