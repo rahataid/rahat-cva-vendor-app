@@ -1,5 +1,5 @@
 import CustomHeader from "@components/header/customHeader";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent, IonPage, isPlatform } from "@ionic/react";
 import RedeemVoucher from "@sections/redeem-voucher";
 import {
   BENEFICIARY_REFERRAL_DETAILS,
@@ -7,7 +7,8 @@ import {
 } from "@types/beneficiaries";
 import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 
 type Props = {
   beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
@@ -23,6 +24,27 @@ const RedeemVoucherPage: FC = () => {
     data: { beneficiaryDetails, beneficiaryVoucher },
   } = location.state || { data: null };
   const { t } = useTranslation();
+  const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
+
+  const toggleWrapper = (data: boolean) => {
+    const wrapper = document.getElementById("wrapper");
+    if (!wrapper) return;
+    if (data) {
+      wrapper.style.display = "block";
+    } else wrapper.style.display = "none";
+  };
+
+  const stopScan = async () => {
+    document.querySelector("body")?.classList.remove("barcode-scanner-active");
+    toggleWrapper(false);
+    await BarcodeScanner.removeAllListeners();
+    await BarcodeScanner.stopScan();
+  };
+
+  useEffect(() => {
+    if (!isPlatformWeb) stopScan();
+  }, []);
+
   return (
     <IonPage>
       <CustomHeader
