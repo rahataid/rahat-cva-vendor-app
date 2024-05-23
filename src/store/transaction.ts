@@ -55,18 +55,12 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return beneficiaryVoucher;
     },
 
-    redeemVoucher: async ({
-      beneficiary,
-      voucherType,
-      voucher,
-      eyeCheckUp,
-      glassStatus,
-    }) => {
+    chargeBeneficiary: async (beneficiary) => {
       const { referredAppStoreState } = get();
       const {
         wallet,
         projectSettings: {
-          contracts: { elproject, erc2771forwarder },
+          contracts: { cvaproject, erc2771forwarder },
           network: { rpcurl },
           projectId,
         },
@@ -82,33 +76,24 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-      const ElProjectInstance = await createContractInstance(rpcurl, elproject);
+      const CvaProjectInstance = await createContractInstance(
+        rpcurl,
+        cvaproject
+      );
 
       const ForwarderContractInstance = await createContractInstance(
         rpcurl,
         erc2771forwarder
       );
 
-      // let res;
-      let metaTxRequest;
-
-      if (voucherType === VOUCHER.FREE_VOUCHER) {
-        metaTxRequest = await getMetaTxRequest(
-          walletInstance,
-          ForwarderContractInstance,
-          ElProjectInstance,
-          "requestTokenFromBeneficiary(address)",
-          [beneficiary?.walletAddress]
-        );
-      } else if (voucherType === VOUCHER.DISCOUNT_VOUCHER) {
-        metaTxRequest = await getMetaTxRequest(
-          walletInstance,
-          ForwarderContractInstance,
-          ElProjectInstance,
-          "requestReferredTokenFromBeneficiary",
-          [beneficiary?.walletAddress, voucher?.ReferredVoucherAddress]
-        );
-      }
+      const metaTxRequest = await getMetaTxRequest(
+        walletInstance,
+        ForwarderContractInstance,
+        CvaProjectInstance,
+        "requestTokenFromBeneficiary(address,uint256)",
+        // [beneficiary?.walletAddress]
+        ["0x7597950bF1bC79C40247A1C21c367DB345234164", 1]
+      );
 
       const payload = {
         action: MS_ACTIONS.ELPROJECT.REDEEM_VOUCHER,
@@ -128,9 +113,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
         const payload2 = {
           action: MS_ACTIONS.ELPROJECT.UPDATE_STATUS,
           payload: {
-            eyeCheckUp,
-            glassStatus,
-            uuid: beneficiary?.uuid,
+            uuid: "d677fde2-850c-4225-8472-f892b6f2f52b",
           },
         };
         beRes = await ProjectsService.actions(projectId, payload2);

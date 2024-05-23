@@ -35,7 +35,7 @@ type Props = {
 
 const ChargeBeneficiary = ({ data }: Props) => {
   const { t } = useTranslation();
-  const { fetchBeneficiaryVoucherDetails } = useTransactionStore();
+  const { chargeBeneficiary } = useTransactionStore();
   const { getBeneficiaryReferredDetailsByUuid } = useTransactionStore();
   const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
   const history = useHistory();
@@ -67,6 +67,8 @@ const ChargeBeneficiary = ({ data }: Props) => {
     setLoadingVisible(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     try {
+      const res = await chargeBeneficiary();
+      console.log("RES", res);
       history.push("/otp", {});
     } catch (error: any) {
       console.log(error);
