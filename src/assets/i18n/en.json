@@ -168,8 +168,8 @@
     "PAGE_TITLE": "Home",
     "TITLES": {
       "NOT_APPROVED": "Not Approved",
-      "FREE_VOUCHER": "Free Vouchers Redeemed",
-      "DISCOUNT_VOUCHER": "Discount Vouchers Redeemed",
+      "BALANCE": "Total Balance",
+      "BENEFICIARY_ASSIGNED": "Beneficiaries Assigned",
       "TRANSACTIONS": "Transactions"
     },
     "SEGMENTS": {

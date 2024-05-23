@@ -120,12 +120,12 @@ const Home = ({
         }}
       >
         <CardComponent
-          subtitle={t("HOME_PAGE.TITLES.FREE_VOUCHER")}
+          subtitle={t("HOME_PAGE.TITLES.BALANCE")}
           title={voucherData?.freeVoucherCount}
           loading={loading}
         />
         <CardComponent
-          subtitle={t("HOME_PAGE.TITLES.DISCOUNT_VOUCHER")}
+          subtitle={t("HOME_PAGE.TITLES.BENEFICIARY_ASSIGNED")}
           title={voucherData?.discountVoucherCount}
           loading={loading}
         />
