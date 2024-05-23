@@ -37,19 +37,6 @@ const LandingScreen: FC = () => {
               sizeXl="4"
               className="landing-logo-container"
             >
-              {/* <IonRow className="ion-no-padding">
-                <IonCol className="left-logo">
-                  <IonImg src={luxotticaLogo} />
-                </IonCol>
-                <IonCol className="right-logo">
-                  <IonImg src={rahatLogo} />
-                </IonCol>
-              </IonRow> */}
-              <IonRow className="top-logo">
-                <div className="image-container">
-                  <IonImg src={luxotticaLogo} />
-                </div>
-              </IonRow>
               <IonRow className="bottom-logo">
                 <div className="image-container">
                   <IonImg src={rahatLogo} />
