@@ -252,12 +252,12 @@
   "PROJECT_SETTINGS_PAGE": {
     "PAGE_TITLE": "Pilih Proyek"
   },
-  "REFERRED_BENEFICIARIES_PAGE": {
+  "BENEFICIARIES_PAGE": {
     "PAGE_TITLE": "Daftar Penerima Rujukan",
     "CARD_TITLE": "Total Penerima Dirujuk",
     "NO_DATA": "Tidak ada data yang tersedia..."
   },
-  "REFERRED_BENEFICIARY_DETAILS_PAGE": {
+  "BENEFICIARIES_DETAILS_PAGE": {
     "PAGE_TITLE": "Detail Penerima Rujukan",
     "LABELS": {
       "NAME": "Nama Penerima",

@@ -12,7 +12,7 @@ import {
   IonItem,
 } from "@ionic/react";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
-import "./referred-beneficiary-card.scss";
+import "./beneficiary-card.scss";
 import { ellipsisHorizontal, eyeOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 import { BENEFICIARY_DETAILS, DATE_SOURCE } from "@types/beneficiaries";
@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 type Props = {
   beneficiary: BENEFICIARY_DETAILS;
 };
-const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
+const BeneficiaryCard = ({ beneficiary }: Props) => {
   const { t } = useTranslation();
   const history = useHistory();
   const [showAlert, setShowAlert] = useState(false);
@@ -133,4 +133,4 @@ const ReferredBeneficiaryCard = ({ beneficiary }: Props) => {
   );
 };
 
-export default ReferredBeneficiaryCard;
+export default BeneficiaryCard;

@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
-import ReferredBeneficiaryDetails from "@sections/settings/referred-beneficiary-settings/referred-beneficiary-details";
 import { useLocation, useParams } from "react-router";
 import { REFERRED_BENEFICIARY_DETAILS } from "../types/beneficiaries";
 import { useReferredBeneficiariesDetails } from "@api/beneficiaries";
 import DetailsSkeletonCard from "@components/loaders/skeleton/card/details";
 import { useTranslation } from "react-i18next";
+import BeneficiaryDetails from "@sections/beneficiaries/beneficiary-details";
 
 type LocationState = {
   data: {
@@ -32,7 +32,7 @@ const BeneficiariesDetailsPage: FC = () => {
   return (
     <IonPage>
       <CustomHeader
-        title={t("REFERRED_BENEFICIARY_DETAILS_PAGE.PAGE_TITLE")}
+        title={t("BENEFICIARIES_DETAILS_PAGE.PAGE_TITLE")}
         showBackButton
       />
       <IonContent>
@@ -43,7 +43,7 @@ const BeneficiariesDetailsPage: FC = () => {
                 <DetailsSkeletonCard length={10} />
               ) : (
                 <>
-                  <ReferredBeneficiaryDetails
+                  <BeneficiaryDetails
                     data={
                       data?.beneficiary ? data?.beneficiary : beneficiaryDetails
                     }

@@ -252,13 +252,13 @@
   "PROJECT_SETTINGS_PAGE": {
     "PAGE_TITLE": "Select Project"
   },
-  "REFERRED_BENEFICIARIES_PAGE": {
+  "BENEFICIARIES_PAGE": {
     "PAGE_TITLE": "Beneficiaries List",
     "CARD_TITLE": "Total Beneficiaries",
     "NO_DATA": "No data available..."
   },
-  "REFERRED_BENEFICIARY_DETAILS_PAGE": {
-    "PAGE_TITLE": "Referred Beneficiary Details",
+  "BENEFICIARIES_DETAILS_PAGE": {
+    "PAGE_TITLE": "Beneficiary Details",
     "LABELS": {
       "NAME": "Beneficiary Name",
       "PHONE": "Phone Number",

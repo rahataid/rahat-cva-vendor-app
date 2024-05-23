@@ -2,14 +2,14 @@ import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { IonCardContent, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 import { BENEFICIARY_DETAILS, DATE_SOURCE } from "@types/beneficiaries";
 import { formatDate } from "@utils/helperFunctions";
-import { cropString } from "../../../../utils/helperFunctions";
+import { cropString } from "../../../utils/helperFunctions";
 import { useTranslation } from "react-i18next";
 
 type Props = {
   data: BENEFICIARY_DETAILS;
 };
 
-const ReferredBeneficiaryDetails = ({ data }: Props) => {
+const BeneficiaryDetails = ({ data }: Props) => {
   const { t } = useTranslation();
   return (
     <TransparentCard>
@@ -17,34 +17,34 @@ const ReferredBeneficiaryDetails = ({ data }: Props) => {
         <IonGrid>
           <IonRow>
             <IonCol size="6">
-              {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.NAME")}
+              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.NAME")}
             </IonCol>
             <IonCol size="6">{data?.piiData?.name || "-"}</IonCol>
             <IonCol size="6">
-              {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.PHONE")}
+              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.PHONE")}
             </IonCol>
             <IonCol size="6">{data?.piiData?.phone || "-"}</IonCol>
             <IonCol size="6">
-              {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.GENDER")}
+              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.GENDER")}
             </IonCol>
             <IonCol size="6">{data?.gender || "-"}</IonCol>
             <IonCol size="6">
-              {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.VOUCHER_TYPE")}
+              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.VOUCHER_TYPE")}
             </IonCol>
             <IonCol size="6">
               <IonText color="success">
-                {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.DISCOUNT_VOUCHER")}
+                {t("BENEFICIARIES_DETAILS_PAGE.LABELS.DISCOUNT_VOUCHER")}
               </IonText>
             </IonCol>
 
             <IonCol size="6">
-              {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.WALLET_ADDRESS")}
+              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.WALLET_ADDRESS")}
             </IonCol>
             <IonCol size="6">
               {data?.walletAddress ? cropString(data?.walletAddress) : "-"}
             </IonCol>
             <IonCol size="6">
-              {t("REFERRED_BENEFICIARY_DETAILS_PAGE.LABELS.DATE")}
+              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.DATE")}
             </IonCol>
             <IonCol size="6">
               {data?.createdAt
@@ -58,4 +58,4 @@ const ReferredBeneficiaryDetails = ({ data }: Props) => {
   );
 };
 
-export default ReferredBeneficiaryDetails;
+export default BeneficiaryDetails;

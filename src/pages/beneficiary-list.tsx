@@ -8,11 +8,11 @@ import {
   RefresherEventDetail,
 } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
-import ReferredBeneficiariesList from "@sections/settings/referred-beneficiary-settings/referred-beneficiary-list";
 import { useReferredBeneficiariesList } from "@api/beneficiaries";
 import CustomRefresher from "@components/refresher/CustomRefresher";
 import CardComponent from "@sections/home/home-card";
 import { useTranslation } from "react-i18next";
+import BeneficiariesList from "@sections/beneficiaries/beneficiary-list";
 
 const BeneficiariesListPage: FC = () => {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ const BeneficiariesListPage: FC = () => {
   };
   return (
     <IonPage>
-      <CustomHeader title={t("REFERRED_BENEFICIARIES_PAGE.PAGE_TITLE")} />
+      <CustomHeader title={t("BENEFICIARIES_PAGE.PAGE_TITLE")} />
       <IonContent>
         <CustomRefresher handleRefresh={handleRefresh} />
         <IonGrid>
@@ -37,10 +37,10 @@ const BeneficiariesListPage: FC = () => {
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
               <CardComponent
                 title={beneficiaries?.length || 0}
-                subtitle={t("REFERRED_BENEFICIARIES_PAGE.CARD_TITLE")}
+                subtitle={t("BENEFICIARIES_PAGE.CARD_TITLE")}
                 loading={isFetching}
               />
-              <ReferredBeneficiariesList
+              <BeneficiariesList
                 beneficiaries={beneficiaries}
                 loading={isFetching}
                 error={error}
