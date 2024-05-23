@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
-import TransactionDetails from "@sections/settings/transactions-settings/transactions-details";
+import TransactionDetails from "@sections/transactions/transactions-details";
 import { useParams } from "react-router";
 import { useVendorTransactionDetails } from "@api/vendors";
 import useAppStore from "@store/app";

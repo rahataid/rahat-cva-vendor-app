@@ -1,5 +1,5 @@
 import { IonCol, IonGrid, IonIcon, IonRow, IonText } from "@ionic/react";
-import { EVENT_TYPE, ITransactionItem } from "../../../../types/transactions";
+import { EVENT_TYPE, ITransactionItem } from "../../../types/transactions";
 import { personAddOutline, swapHorizontalOutline } from "ionicons/icons";
 import "./transactions-card.scss";
 import { cropString, formatDate } from "@utils/helperFunctions";

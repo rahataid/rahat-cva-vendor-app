@@ -7,7 +7,7 @@ import {
   IonCol,
   RefresherEventDetail,
 } from "@ionic/react";
-import TransactionsList from "@sections/settings/transactions-settings/transactions-list";
+import TransactionsList from "@sections/transactions/transactions-list";
 import CustomHeader from "@components/header/customHeader";
 import { useVendorTransaction } from "@api/vendors";
 import { useGraphService } from "@contexts/graph-query";

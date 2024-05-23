@@ -11,7 +11,7 @@ import {
 import {
   IAllTransactionItem,
   IAllTransactions,
-} from "../../../../types/transactions";
+} from "../../../types/transactions";
 import TransactionCard from "../transactions-card";
 import TransparentCard from "@components/cards/Transparentcard/TransparentCard";
 import { useHistory } from "react-router";

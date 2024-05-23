@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from "@ionic/react";
 import CustomHeader from "@components/header/customHeader";
-import TransactionResult from "@sections/transaction-result";
+import TransactionResult from "@sections/transactions/transaction-result";
 import {
   BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
