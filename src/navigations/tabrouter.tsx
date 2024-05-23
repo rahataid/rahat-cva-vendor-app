@@ -21,14 +21,14 @@ import {
   swapHorizontalOutline,
 } from "ionicons/icons";
 import { Redirect, Route, Switch } from "react-router-dom";
-import ReferredBeneficiariesListPage from "@pages/referred-beneficiary-list";
 import TransactionsDetailPage from "@pages/transactions-details";
-import ReferredBeneficiariesDetailsPage from "@pages/referred-beneficiary-details";
 import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
 import RedeemVoucherVendorPage from "../pages/redeem-voucher-vendor";
 import RedeemDiscountVoucherPage from "../pages/redeem-discount-voucher";
 import RedeemFreeVoucherPage from "../pages/redeem-free-voucher";
 import LanguageSettingsPage from "@pages/language";
+import BeneficiariesListPage from "@pages/beneficiary-list";
+import BeneficiariesDetailsPage from "@pages/beneficiary-details";
 
 const Tabs: React.FC = () => {
   const { currentUser } = useAppStore();
@@ -47,13 +47,13 @@ const Tabs: React.FC = () => {
           <Route path="/tabs/settings" component={SettingsPage} exact />
 
           <Route
-            path="/tabs/referred-beneficiaries"
-            component={ReferredBeneficiariesListPage}
+            path="/tabs/beneficiaries"
+            component={BeneficiariesListPage}
             exact
           />
           <Route
-            path="/tabs/referred-beneficiaries/:uuid"
-            component={ReferredBeneficiariesDetailsPage}
+            path="/tabs/beneficiaries/:uuid"
+            component={BeneficiariesDetailsPage}
             exact
           />
           <Route
@@ -119,10 +119,7 @@ const Tabs: React.FC = () => {
           </IonTabButton>
         )}
         {currentUser?.projects?.length > 0 && currentUser?.isApproved && (
-          <IonTabButton
-            tab="referred-beneficiaries"
-            href="/tabs/referred-beneficiaries"
-          >
+          <IonTabButton tab="referred-beneficiaries" href="/tabs/beneficiaries">
             <IonIcon icon={peopleOutline} />
             {/* <IonLabel>Profile</IonLabel> */}
           </IonTabButton>

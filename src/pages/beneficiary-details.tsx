@@ -14,7 +14,7 @@ type LocationState = {
   };
 };
 
-const ReferredBeneficiariesDetailsPage: FC = () => {
+const BeneficiariesDetailsPage: FC = () => {
   const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const { data } = location.state || { data: null };
@@ -58,4 +58,4 @@ const ReferredBeneficiariesDetailsPage: FC = () => {
   );
 };
 
-export default ReferredBeneficiariesDetailsPage;
+export default BeneficiariesDetailsPage;

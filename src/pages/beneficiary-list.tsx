@@ -14,7 +14,7 @@ import CustomRefresher from "@components/refresher/CustomRefresher";
 import CardComponent from "@sections/home/home-card";
 import { useTranslation } from "react-i18next";
 
-const ReferredBeneficiariesListPage: FC = () => {
+const BeneficiariesListPage: FC = () => {
   const { t } = useTranslation();
   const {
     data: beneficiaries,
@@ -53,4 +53,4 @@ const ReferredBeneficiariesListPage: FC = () => {
   );
 };
 
-export default ReferredBeneficiariesListPage;
+export default BeneficiariesListPage;

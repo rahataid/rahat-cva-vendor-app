@@ -253,8 +253,8 @@
     "PAGE_TITLE": "Select Project"
   },
   "REFERRED_BENEFICIARIES_PAGE": {
-    "PAGE_TITLE": "Referred Beneficiaries List",
-    "CARD_TITLE": "Total Beneficiaries Referred",
+    "PAGE_TITLE": "Beneficiaries List",
+    "CARD_TITLE": "Total Beneficiaries",
     "NO_DATA": "No data available..."
   },
   "REFERRED_BENEFICIARY_DETAILS_PAGE": {
