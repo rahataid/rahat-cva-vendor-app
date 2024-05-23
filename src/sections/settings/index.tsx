@@ -84,13 +84,6 @@ function Settings() {
       endIcon: chevronForwardOutline,
     },
     {
-      label: t("SETTINGS_PAGE.LANGUAGE"),
-      startIcon: languageOutline,
-      action: () => history.push("/tabs/settings/language"),
-      isToggle: false,
-      endIcon: chevronForwardOutline,
-    },
-    {
       label: t("SETTINGS_PAGE.PROJECTS"),
       startIcon: hammerOutline,
       action: () => history.push("/tabs/settings/project"),
