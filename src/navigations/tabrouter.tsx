@@ -22,11 +22,6 @@ import {
 } from "ionicons/icons";
 import { Redirect, Route, Switch } from "react-router-dom";
 import TransactionsDetailPage from "@pages/transactions-details";
-import VoucherRedemptionDetailsPage from "@pages/voucher-redemption";
-import RedeemVoucherVendorPage from "../pages/redeem-voucher-vendor";
-import RedeemDiscountVoucherPage from "../pages/redeem-discount-voucher";
-import RedeemFreeVoucherPage from "../pages/redeem-free-voucher";
-import LanguageSettingsPage from "@pages/language";
 import BeneficiariesListPage from "@pages/beneficiary-list";
 import BeneficiariesDetailsPage from "@pages/beneficiary-details";
 
@@ -67,33 +62,8 @@ const Tabs: React.FC = () => {
             exact
           />
           <Route
-            path="/tabs/settings/language"
-            component={LanguageSettingsPage}
-            exact
-          />
-          <Route
             path="/tabs/settings/project"
             component={ProjectSettingsPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/voucher-redemption-details"
-            component={VoucherRedemptionDetailsPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/redeem-voucher-vendor"
-            component={RedeemVoucherVendorPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/redeem-voucher-vendor/discount"
-            component={RedeemDiscountVoucherPage}
-            exact
-          />
-          <Route
-            path="/tabs/settings/redeem-voucher-vendor/free"
-            component={RedeemFreeVoucherPage}
             exact
           />
           <Redirect exact from="/tabs" to="/tabs/home" />
@@ -119,7 +89,7 @@ const Tabs: React.FC = () => {
           </IonTabButton>
         )}
         {currentUser?.projects?.length > 0 && currentUser?.isApproved && (
-          <IonTabButton tab="referred-beneficiaries" href="/tabs/beneficiaries">
+          <IonTabButton tab="beneficiaries" href="/tabs/beneficiaries">
             <IonIcon icon={peopleOutline} />
             {/* <IonLabel>Profile</IonLabel> */}
           </IonTabButton>

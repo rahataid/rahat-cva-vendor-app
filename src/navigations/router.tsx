@@ -47,29 +47,10 @@ const Router = () => {
 
           <PrivateRoute path="/tabs" component={Tabs} />
           <PrivateRoute path="/scanner" component={ScannerPage} />
-          <PrivateRoute
-            path="/redeem-voucher"
-            component={RedeemVoucherPage}
-            exact
-          />
-          <PrivateRoute
-            path="/refer-beneficiaries"
-            component={ReferBeneficiariesPage}
-            exact
-          />
-          <PrivateRoute
-            path="/refer-result"
-            component={ReferResultPage}
-            exact
-          />
+
           <PrivateRoute
             path="/transaction-result"
             component={TransactionResultPage}
-            exact
-          />
-          <PrivateRoute
-            path="/update-status-result"
-            component={UpdateStatusResultPage}
             exact
           />
 
