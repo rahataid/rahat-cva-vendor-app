@@ -301,7 +301,7 @@
         }
       },
       "BUTTONS": {
-        "SUBMIT": "Fetch Beneficiary Voucher"
+        "SUBMIT": "Charge Beneficiary"
       }
     }
   },

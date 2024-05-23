@@ -5,20 +5,14 @@ import {
   IonCol,
   IonGrid,
   IonRow,
-  IonText,
 } from "@ionic/react";
 import {
   BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
-  DATE_SOURCE,
-  VOUCHER,
 } from "@types/beneficiaries";
-import { MetaTxResponse, UpdateStatusRes } from "@types/transactions";
+import { UpdateStatusRes } from "@types/transactions";
 import ResultChip from "@components/chip/statusChip";
 import { useHistory } from "react-router";
-import { cropString, formatDate } from "@utils/helperFunctions";
-import useVoucherType from "@hooks/use-voucher-type";
-import { generateCurrentTimestamp } from "../../utils/helperFunctions";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -30,21 +24,10 @@ type Props = {
   };
 };
 
-const TransactionResult: FC<Props> = ({
-  data: { beneficiaryDetails, beneficiaryVoucher, redeemRes },
-}) => {
+const TransactionResult: FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { voucherType } = useVoucherType(beneficiaryVoucher);
-  const handleReferBeneficiaries = () => {
-    history.push("/refer-beneficiaries", {
-      data: {
-        from: "transactionResult",
-        beneficiaryDetails,
-        beneficiaryVoucher,
-      },
-    });
-  };
+
   const handleDone = () => {
     history.push("/tabs/home");
   };
@@ -57,9 +40,7 @@ const TransactionResult: FC<Props> = ({
               <IonCol size="12">
                 <ResultChip status="SUCCESS" />
               </IonCol>
-              {/* <IonCol size="6">Beneficiary Name</IonCol>
-            <IonCol size="6">{cropString(beneficiaryAddress)}</IonCol> */}
-              <IonCol size="6">
+              {/* <IonCol size="6">
                 {t("TRANSACTION_RESULT_PAGE.LABELS.VOUCHER_TYPE")}
               </IonCol>
               <IonCol size="6">
@@ -143,7 +124,7 @@ const TransactionResult: FC<Props> = ({
                     </IonButton>
                   </IonCol>
                 </>
-              )}
+              )} */}
               <IonRow className="gap-5"></IonRow>
               <IonCol size="12">
                 <IonButton color="primary" expand="block" onClick={handleDone}>

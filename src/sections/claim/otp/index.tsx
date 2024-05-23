@@ -17,19 +17,10 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";
-import { UpdateStatusRes } from "@types/transactions";
 
-type Props = {
-  data: {
-    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
-    redeemRes: UpdateStatusRes;
-  };
-};
+type Props = {};
 
-const OTP: FC<Props> = ({
-  data: { beneficiaryVoucher, beneficiaryDetails, redeemRes },
-}) => {
+const OTP: FC<Props> = () => {
   const { t } = useTranslation();
   const { verifyOtp } = useTransactionStore();
   const history = useHistory();
@@ -51,14 +42,15 @@ const OTP: FC<Props> = ({
 
   const onSubmit = async (data: { otp: string }) => {
     try {
-      const otpRes = await verifyOtp(
-        data?.otp,
-        beneficiaryDetails?.walletAddress
-      );
-
-      history.push("/transaction-result", {
-        data: { beneficiaryDetails, beneficiaryVoucher, redeemRes },
-      });
+      // const otpRes = await verifyOtp(
+      //   data?.otp,
+      //   beneficiaryDetails?.walletAddress
+      // );
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      history.push("/transaction-result", {});
+      // history.push("/transaction-result", {
+      //   data: { beneficiaryDetails, beneficiaryVoucher, redeemRes },
+      // });
     } catch (error) {
       console.log(error);
       showToast(handleError(error), "danger");

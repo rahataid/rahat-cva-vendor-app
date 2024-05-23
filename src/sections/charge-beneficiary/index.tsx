@@ -63,70 +63,13 @@ const ChargeBeneficiary = ({ data }: Props) => {
     },
   });
 
-  const fetchBeneficiaryVoucher = async (formData: any) => {
-    let benWalletAddress: string;
-    let beneficiary;
-    if (filter === "PHONE") {
-      beneficiary = await BeneficiariesService.getByPhone(
-        `${formData.code}${formData?.phone}`
-      );
-    } else if (filter === "WALLET") {
-      beneficiary = await BeneficiariesService.getByWallet(
-        formData?.walletAddress
-      );
-    }
-
-    if (!beneficiary?.data?.data) throw new Error("Invalid Beneficiary");
-
-    beneficiary = await getBeneficiaryReferredDetailsByUuid(
-      beneficiary?.data?.data?.uuid
-    );
-
-    benWalletAddress = beneficiary?.data?.data?.walletAddress;
-    const beneficiaryVoucher = await fetchBeneficiaryVoucherDetails(
-      benWalletAddress
-    );
-
-    // const beneficiaryVouchers = await queryService.useBeneficiaryVoucher(
-    //   benWalletAddress
-    // );
-
-    // fix for release -> comment out the below line to go to the next page even if there is error
-    // if (isVoucherClaimed(beneficiaryVoucher))
-    //   throw new Error("Beneficiary has already claimed the Voucher");
-    if (!isVoucherAssigned(beneficiaryVoucher)) {
-      throw new Error("Voucher not assigned to beneficiary");
-    }
-
-    return {
-      beneficiaryDetails: beneficiary?.data?.data,
-      beneficiaryVoucher,
-    };
-  };
-
   const onSubmit = async (data: any) => {
     setLoadingVisible(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     try {
-      const { beneficiaryDetails, beneficiaryVoucher } =
-        await fetchBeneficiaryVoucher(data);
-      history.push("/redeem-voucher", {
-        data: {
-          beneficiaryDetails,
-          beneficiaryVoucher,
-        },
-      });
+      history.push("/otp", {});
     } catch (error: any) {
       console.log(error);
-      // const validErrors = [
-      //   "Invalid beneficiary",
-      //   "Invalid Beneficiary Address",
-      //   "Not enough balance",
-      //   "Please sync beneficiaries to charge in offline mode",
-      // ];
-      // const errorMessage = validErrors.includes(error.message)
-      //   ? error.message
-      //   : "Something went wrong. Try again later";
 
       showToast(handleError(error), "danger");
       setError("root.serverError", {

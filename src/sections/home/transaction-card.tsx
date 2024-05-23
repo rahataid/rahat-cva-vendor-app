@@ -53,11 +53,11 @@ const TransactionCard: FC<Props> = ({
             setSelectedSegment(e.detail.value);
           }}
         >
-          <IonSegmentButton value="ALL">
+          {/* <IonSegmentButton value="ALL">
             <IonLabel className="segment-label">
               {t("HOME_PAGE.SEGMENTS.ALL")}
             </IonLabel>
-          </IonSegmentButton>
+          </IonSegmentButton> 
           <IonSegmentButton value="ENROLLED">
             <IonLabel className="segment-label">
               {t("HOME_PAGE.SEGMENTS.ENROLLED")}
@@ -67,7 +67,7 @@ const TransactionCard: FC<Props> = ({
             <IonLabel className="segment-label">
               {t("HOME_PAGE.SEGMENTS.REFERRED")}
             </IonLabel>
-          </IonSegmentButton>
+          </IonSegmentButton> */}
         </IonSegment>
 
         {selectedSegment === "ALL" && (

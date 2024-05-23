@@ -10,13 +10,7 @@ import CustomHeader from "@components/header/customHeader";
 import { useTranslation } from "react-i18next";
 import { UpdateStatusRes } from "@types/transactions";
 
-interface LocationState {
-  data: {
-    beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
-    redeemRes: UpdateStatusRes;
-  };
-}
+interface LocationState {}
 
 const OTPPage: React.FC = () => {
   const { t } = useTranslation();
