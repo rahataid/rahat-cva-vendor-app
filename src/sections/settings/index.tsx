@@ -98,27 +98,6 @@ function Settings() {
     },
   ];
 
-  if (currentUser?.projects?.length > 0 && currentUser?.isApproved) {
-    settingsOptions.splice(
-      1,
-      0,
-      {
-        label: t("SETTINGS_PAGE.REDEEM_VOUCHER"),
-        startIcon: giftOutline,
-        action: () => history.push("/tabs/settings/redeem-voucher-vendor"),
-        isToggle: false,
-        endIcon: chevronForwardOutline,
-      },
-      {
-        label: t("SETTINGS_PAGE.VOUCHER_REDEMPTION_DETAILS"),
-        startIcon: idCardOutline,
-        action: () => history.push("/tabs/settings/voucher-redemption-details"),
-        isToggle: false,
-        endIcon: chevronForwardOutline,
-      }
-    );
-  }
-
   return (
     <>
       <IonAlert
