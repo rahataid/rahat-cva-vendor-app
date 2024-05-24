@@ -11,7 +11,7 @@ import { useHistory } from "react-router";
 import CustomLoader from "@components/loaders/customLoader";
 import CustomToast from "@components/toast";
 import useCustomToast from "@hooks/use-custom-toast";
-import { ethers } from "ethers";
+import BeneficiaryDetails from "@sections/beneficiaries/beneficiary-details";
 
 type Props = {
   beneficiaryDetails?: BENEFICIARY_DETAILS;
@@ -49,8 +49,6 @@ const ChargeBeneficiaryAmount: FC<Props> = ({
       beneficiaryDetails?.walletAddress,
       data?.amount
     );
-    console.log("transactionRes", transactionRes);
-    console.log(data, beneficiaryBalance, beneficiaryDetails);
 
     history.push("/otp", {
       data: { beneficiaryDetails, amount: data?.amount, transactionRes },
@@ -68,6 +66,7 @@ const ChargeBeneficiaryAmount: FC<Props> = ({
         color={toastColor}
       />
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
+        <BeneficiaryDetails data={beneficiaryDetails} />
         <CardComponent
           title={beneficiaryBalance || "0"}
           subtitle={t("CHARGE_BENEFICIARY_AMOUNT_PAGE.CARD_TITLE")}

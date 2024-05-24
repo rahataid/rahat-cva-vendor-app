@@ -29,27 +29,10 @@ const BeneficiaryDetails = ({ data }: Props) => {
             </IonCol>
             <IonCol size="6">{data?.gender || "-"}</IonCol>
             <IonCol size="6">
-              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.VOUCHER_TYPE")}
-            </IonCol>
-            <IonCol size="6">
-              <IonText color="success">
-                {t("BENEFICIARIES_DETAILS_PAGE.LABELS.DISCOUNT_VOUCHER")}
-              </IonText>
-            </IonCol>
-
-            <IonCol size="6">
               {t("BENEFICIARIES_DETAILS_PAGE.LABELS.WALLET_ADDRESS")}
             </IonCol>
             <IonCol size="6">
               {data?.walletAddress ? cropString(data?.walletAddress) : "-"}
-            </IonCol>
-            <IonCol size="6">
-              {t("BENEFICIARIES_DETAILS_PAGE.LABELS.DATE")}
-            </IonCol>
-            <IonCol size="6">
-              {data?.createdAt
-                ? formatDate(data?.createdAt, DATE_SOURCE.BACKEND)
-                : "-"}
             </IonCol>
           </IonRow>
         </IonGrid>
