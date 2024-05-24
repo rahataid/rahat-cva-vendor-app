@@ -37,7 +37,8 @@ const ChargeBeneficiary = ({ data }: Props) => {
   const { t } = useTranslation();
   const { chargeBeneficiary, getBeneficiaryClaims, getClaimCount } =
     useTransactionStore();
-  const { getBeneficiaryReferredDetailsByUuid } = useTransactionStore();
+  const { getBeneficiaryDetailsByWallet, getBeneficiaryDetailsByPhone } =
+    useTransactionStore();
   const isPlatformWeb = isPlatform("mobileweb") || isPlatform("desktop");
   const history = useHistory();
   const [loadingVisible, setLoadingVisible] = useState(false);
@@ -67,11 +68,11 @@ const ChargeBeneficiary = ({ data }: Props) => {
   const fetchBeneficiaryDetails = async (formData: any) => {
     let beneficiaryDetails;
     if (filter === "PHONE") {
-      beneficiaryDetails = await BeneficiariesService.getByPhone(
+      beneficiaryDetails = await getBeneficiaryDetailsByPhone(
         `${formData.code}${formData?.phone}`
       );
     } else if (filter === "WALLET") {
-      beneficiaryDetails = await BeneficiariesService.getByWallet(
+      beneficiaryDetails = await getBeneficiaryDetailsByWallet(
         formData?.walletAddress
       );
     }
@@ -82,10 +83,6 @@ const ChargeBeneficiary = ({ data }: Props) => {
       beneficiaryDetails?.walletAddress
     );
 
-    console.log(beneficiaryDetails, "BENEFICIARY DETAILS=====>");
-
-    console.log(beneficiaryBalance, "BENEFICIARY BALANCE=====>");
-
     return { beneficiaryDetails, beneficiaryBalance };
   };
 
@@ -95,17 +92,11 @@ const ChargeBeneficiary = ({ data }: Props) => {
     try {
       const { beneficiaryDetails, beneficiaryBalance } =
         await fetchBeneficiaryDetails(data);
-      console.log(
-        "FETCH BENEFICIARY DETAILS",
-        beneficiaryDetails,
-        beneficiaryBalance
-      );
       history.push("/charge-beneficiary-amount", {
         data: { beneficiaryDetails, beneficiaryBalance },
       });
     } catch (error: any) {
       console.log(error);
-
       showToast(handleError(error), "danger");
       setError("root.serverError", {
         type: "manual",

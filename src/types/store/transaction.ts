@@ -60,6 +60,7 @@ export type TransactionActionsType = {
   verifyOtp: (otp: string, beneficiaryAddress: string) => Promise<any>;
   getBeneficiaryDetailsByUuid: (uuid: string) => Promise<any>;
   getBeneficiaryDetailsByWallet: (walletAddress: string) => Promise<any>;
+  getBeneficiaryDetailsByPhone: (phone: string) => Promise<any>;
   logoutTransactions: () => void;
   chargeBeneficiary: (walletAddress: string, amount: number) => Promise<any>;
   getBeneficiaryClaims: (walletAddress: string) => Promise<any>;

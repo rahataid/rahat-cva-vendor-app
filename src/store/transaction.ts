@@ -222,6 +222,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return BeneficiariesService.getByWallet(address);
     },
 
+    getBeneficiaryDetailsByPhone: async (phone: string) => {
+      return BeneficiariesService.getByPhone(phone);
+    },
+
     logoutTransactions: () => {
       set({ vendorTransactions: [], transactions: [] });
     },

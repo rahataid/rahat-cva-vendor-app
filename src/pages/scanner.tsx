@@ -34,31 +34,22 @@ const ScannerPage: FC = () => {
   } = location.state || { data: null };
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    fetchBeneficiaryVoucherDetails,
-    getBeneficiaryReferredDetailsByUuid,
-  } = useTransactionStore();
+  const { getBeneficiaryDetailsByWallet } = useTransactionStore();
   const { toastVisible, toastMessage, toastColor, showToast, hideToast } =
     useCustomToast();
 
-  const fetchBeneficiaryVoucher = async (walletAddress: string) => {
-    let beneficiary = await BeneficiariesService.getByWallet(walletAddress);
-    if (!beneficiary?.data?.data) throw new Error("Invalid Beneficiary");
-    beneficiary = await getBeneficiaryReferredDetailsByUuid(
-      beneficiary?.data?.data?.uuid
-    );
+  const fetchBeneficiaryDetails = async (walletAddress: string) => {
+    let beneficiaryDetails = await getBeneficiaryDetailsByWallet(walletAddress);
+    if (!beneficiaryDetails?.data?.data) throw new Error("Invalid Beneficiary");
+    beneficiaryDetails = beneficiaryDetails?.data?.data;
 
-    const benWalletAddress = beneficiary?.data?.data?.walletAddress;
-    const beneficiaryVoucher = await fetchBeneficiaryVoucherDetails(
-      benWalletAddress
+    const beneficiaryBalance = await getBeneficiaryClaims(
+      beneficiaryDetails?.walletAddress
     );
-    if (!isVoucherAssigned(beneficiaryVoucher)) {
-      throw new Error("Voucher not assigned to beneficiary");
-    }
 
     return {
-      beneficiaryDetails: beneficiary?.data?.data,
-      beneficiaryVoucher,
+      beneficiaryDetails,
+      beneficiaryBalance,
     };
   };
 
@@ -69,17 +60,17 @@ const ScannerPage: FC = () => {
       await hapticsImpactHeavy();
       if (!isValidEthereumAddressOnScan(result?.barcode?.displayValue))
         throw new Error("Invalid ethereum wallet address");
-      const { beneficiaryDetails, beneficiaryVoucher } =
-        await fetchBeneficiaryVoucher(
+      const { beneficiaryDetails, beneficiaryBalance } =
+        await fetchBeneficiaryDetails(
           extractWalletAddressOnScan(result.barcode.displayValue)
         );
       await deinitializeScanner();
       setIsLoading(false);
       await new Promise((resolve) => setTimeout(resolve, 0));
-      history.push("/redeem-voucher", {
+      history.push("/charge-beneficiary-amount", {
         data: {
           beneficiaryDetails,
-          beneficiaryVoucher,
+          beneficiaryBalance,
         },
       });
     } catch (error) {
