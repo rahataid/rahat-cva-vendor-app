@@ -445,6 +445,8 @@
   "TRANSACTION_RESULT_PAGE": {
     "PAGE_TITLE": "Transaction Result",
     "LABELS": {
+      "BENEFICIARY_NAME": "Beneficiary Name",
+      "AMOUNT": "Amount",
       "VOUCHER_TYPE": "Voucher Type",
       "CHECKUP_STATUS": "Checkup Status",
       "GLASSES_STATUS": "Glasses Status",
@@ -452,7 +454,7 @@
       "TRANSACTION_HASH": "Transaction Hash",
       "WALLET_ADDRESS": "Wallet Address"
     },
-    "SUCCESS_MSG": "The beneficiary has redeemed the voucher successfully",
+    "SUCCESS_MSG": "The beneficiary has claimed the tokens successfully",
     "BUTTONS": {
       "REFER": "Refer Beneficiaries",
       "DONE": "Done"
@@ -477,7 +479,6 @@
   "TRANSACTION_DETAILS_PAGE": {
     "PAGE_TITLE": "Transaction Details",
     "LABELS": {
-      "BENEFICIARY_NAME": "Beneficiary Name",
       "TRANSACTION_TYPE": "Transaction Type",
       "WALLET_ADDRESS": "Wallet Address",
       "VOUCHER_TYPE": "Voucher Type",

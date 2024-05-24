@@ -51,6 +51,10 @@ const TransactionResult: FC<Props> = ({
                 {beneficiaryDetails?.piiData?.name || "-"}
               </IonCol>
               <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.AMOUNT")}
+              </IonCol>
+              <IonCol size="6">{amount | "-"}</IonCol>
+              <IonCol size="6">
                 {t("TRANSACTION_RESULT_PAGE.LABELS.WALLET_ADDRESS")}
               </IonCol>
               <IonCol size="6">
@@ -58,10 +62,7 @@ const TransactionResult: FC<Props> = ({
                   ? cropString(beneficiaryDetails?.walletAddress)
                   : "-"}
               </IonCol>
-              <IonCol size="6">
-                {t("TRANSACTION_RESULT_PAGE.LABELS.AMOUNT")}
-              </IonCol>
-              <IonCol size="6">{amount | "-"}</IonCol>
+
               <IonCol size="6">
                 {t("TRANSACTION_RESULT_PAGE.LABELS.TRANSACTION_HASH")}
               </IonCol>
