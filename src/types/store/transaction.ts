@@ -58,15 +58,8 @@ export type TransactionActionsType = {
     walletAddress: string
   ) => Promise<BENEFICIARY_VOUCHER_STATUS_GRAPH>;
   verifyOtp: (otp: string, beneficiaryAddress: string) => Promise<any>;
-  transferVoucher: ({ voucherType, amount }: TransferVoucher) => Promise<any>;
-  getVendorVoucherRedemptionCount: (voucherType: VOUCHER) => Promise<number>;
-  getVendorRedemptionList: () => Promise<any>;
-  getReferredBeneficiaryList: () => Promise<any>;
-  getBeneficiaryReferredDetailsByUuid: (uuid: string) => Promise<any>;
   getBeneficiaryDetailsByUuid: (uuid: string) => Promise<any>;
   getBeneficiaryDetailsByWallet: (walletAddress: string) => Promise<any>;
-  getVendorVoucherDetails: (walletAddress: string) => Promise<any>;
-  checkIsVendorApproved: () => Promise<boolean>;
   logoutTransactions: () => void;
   chargeBeneficiary: (walletAddress: string, amount: number) => Promise<any>;
   getBeneficiaryClaims: (walletAddress: string) => Promise<any>;
