@@ -53,7 +53,7 @@ const ChargeBeneficiaryAmount: FC<Props> = ({
     console.log(data, beneficiaryBalance, beneficiaryDetails);
 
     history.push("/otp", {
-      data: { beneficiaryDetails },
+      data: { beneficiaryDetails, amount: data?.amount, transactionRes },
     });
   };
 

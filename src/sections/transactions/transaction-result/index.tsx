@@ -21,7 +21,7 @@ import { cropString } from "@utils/helperFunctions";
 type Props = {
   data: {
     beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
-    amount: BENEFICIARY_VOUCHER_DETAILS;
+    amount: number;
     transactionRes: UpdateStatusRes;
   };
 };
@@ -59,16 +59,16 @@ const TransactionResult: FC<Props> = ({
                   : "-"}
               </IonCol>
               <IonCol size="6">
+                {t("TRANSACTION_RESULT_PAGE.LABELS.AMOUNT")}
+              </IonCol>
+              <IonCol size="6">{amount | "-"}</IonCol>
+              <IonCol size="6">
                 {t("TRANSACTION_RESULT_PAGE.LABELS.TRANSACTION_HASH")}
               </IonCol>
               <IonCol size="6">
-                {redeemRes?.txHash ? cropString(redeemRes?.txHash) : "-"}
-              </IonCol>
-              <IonCol size="6">
-                {t("TRANSACTION_RESULT_PAGE.LABELS.DATE")}
-              </IonCol>
-              <IonCol size="6">
-                {formatDate(`${new Date()}`, DATE_SOURCE.BACKEND) || "-"}
+                {transactionRes?.txHash
+                  ? cropString(transactionRes?.txHash)
+                  : "-"}
               </IonCol>
               <br />
               <br />

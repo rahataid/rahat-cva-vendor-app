@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 
 type Props = {
   beneficiaryDetails: BENEFICIARY_DETAILS;
+  transactionRes: UPDATE_STATUS_RES;
+  amount: number;
 };
 interface LocationState {
   data: Props;

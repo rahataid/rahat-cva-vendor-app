@@ -18,15 +18,18 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";
-import BeneficiaryDetails from "@sections/beneficiaries/beneficiary-details";
 
 type Props = {
   data: {
     beneficiaryDetails: BENEFICIARY_DETAILS;
+    transactionRes: UPDATE_STATUS_RES;
+    amount: number;
   };
 };
 
-const OTP: FC<Props> = () => {
+const OTP: FC<Props> = ({
+  data: { beneficiaryDetails, amount, transactionRes },
+}) => {
   const { t } = useTranslation();
   const { verifyOtp } = useTransactionStore();
   const history = useHistory();
@@ -50,12 +53,12 @@ const OTP: FC<Props> = () => {
     try {
       const otpRes = await verifyOtp(
         data?.otp,
-        BeneficiaryDetails?.walletAddress
+        beneficiaryDetails?.walletAddress
       );
       console.log(otpRes, "OTPRES===>");
       await new Promise((resolve) => setTimeout(resolve, 0));
       history.push("/transaction-result", {
-        data: { BeneficiaryDetails, otpRes },
+        data: { beneficiaryDetails, amount, transactionRes },
       });
     } catch (error) {
       console.log(error);
