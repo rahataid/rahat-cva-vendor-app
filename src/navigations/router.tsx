@@ -15,11 +15,8 @@ import useAppStore from "@store/app";
 import { useTransactionsRehydrate } from "@hooks/use-transactions-rehydrate";
 import ResetPage from "@pages/reset";
 import ScannerPage from "@pages/scanner";
-import RedeemVoucherPage from "@pages/redeem-voucher";
-import ReferBeneficiariesPage from "@pages/refer-beneficiaries";
-import ReferResultPage from "@pages/refer-result";
 import TransactionResultPage from "@pages/transaction-result";
-import UpdateStatusResultPage from "@pages/update-status-result";
+import ChargeBeneficiaryAmountPage from "@pages/charge-beneficiary-amount";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -45,6 +42,10 @@ const Router = () => {
           <Route exact path="/otp" component={OTPPage} />
           <Route exact path="/reset" component={ResetPage} />
 
+          <PrivateRoute
+            path="/charge-beneficiary-amount"
+            component={ChargeBeneficiaryAmountPage}
+          />
           <PrivateRoute path="/tabs" component={Tabs} />
           <PrivateRoute path="/scanner" component={ScannerPage} />
 

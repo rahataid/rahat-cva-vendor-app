@@ -64,15 +64,45 @@ const ChargeBeneficiary = ({ data }: Props) => {
     },
   });
 
+  const fetchBeneficiaryDetails = async (formData: any) => {
+    let beneficiaryDetails;
+    if (filter === "PHONE") {
+      beneficiaryDetails = await BeneficiariesService.getByPhone(
+        `${formData.code}${formData?.phone}`
+      );
+    } else if (filter === "WALLET") {
+      beneficiaryDetails = await BeneficiariesService.getByWallet(
+        formData?.walletAddress
+      );
+    }
+
+    if (!beneficiaryDetails?.data?.data) throw new Error("Invalid Beneficiary");
+    beneficiaryDetails = beneficiaryDetails?.data?.data;
+    const beneficiaryBalance = await getBeneficiaryClaims(
+      beneficiaryDetails?.walletAddress
+    );
+
+    console.log(beneficiaryDetails, "BENEFICIARY DETAILS=====>");
+
+    console.log(beneficiaryBalance, "BENEFICIARY BALANCE=====>");
+
+    return { beneficiaryDetails, beneficiaryBalance };
+  };
+
   const onSubmit = async (data: any) => {
     setLoadingVisible(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     try {
-      // const balance = await getBeneficiaryClaims();
-      const claims = await getClaimCount();
-      const res = await chargeBeneficiary();
-      console.log("RES", res);
-      history.push("/otp", {});
+      const { beneficiaryDetails, beneficiaryBalance } =
+        await fetchBeneficiaryDetails(data);
+      console.log(
+        "FETCH BENEFICIARY DETAILS",
+        beneficiaryDetails,
+        beneficiaryBalance
+      );
+      history.push("/charge-beneficiary-amount", {
+        data: { beneficiaryDetails, beneficiaryBalance },
+      });
     } catch (error: any) {
       console.log(error);
 

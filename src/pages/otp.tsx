@@ -3,14 +3,19 @@ import OTP from "@sections/claim/otp";
 import "../theme/title.css";
 import { useLocation } from "react-router-dom";
 import {
+  BENEFICIARY_DETAILS,
   BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
 } from "../types/beneficiaries";
 import CustomHeader from "@components/header/customHeader";
 import { useTranslation } from "react-i18next";
-import { UpdateStatusRes } from "@types/transactions";
 
-interface LocationState {}
+type Props = {
+  beneficiaryDetails: BENEFICIARY_DETAILS;
+};
+interface LocationState {
+  data: Props;
+}
 
 const OTPPage: React.FC = () => {
   const { t } = useTranslation();

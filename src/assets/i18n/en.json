@@ -301,7 +301,7 @@
         }
       },
       "BUTTONS": {
-        "SUBMIT": "Charge Beneficiary"
+        "SUBMIT": "Submit"
       }
     }
   },
@@ -477,6 +477,7 @@
   "TRANSACTION_DETAILS_PAGE": {
     "PAGE_TITLE": "Transaction Details",
     "LABELS": {
+      "BENEFICIARY_NAME": "Beneficiary Name",
       "TRANSACTION_TYPE": "Transaction Type",
       "WALLET_ADDRESS": "Wallet Address",
       "VOUCHER_TYPE": "Voucher Type",
@@ -484,5 +485,27 @@
       "TRANSACION_HASH": "Transaction Hash",
       "DATE": "Date"
     }
+  },
+  "CHARGE_BENEFICIARY_AMOUNT_PAGE": {
+    "PAGE_TITLE": "Charge Beneficiary",
+    "LABELS": {
+      "AMOUNT": "Amount*"
+    },
+    "PLACEHOLDERS": {
+      "AMOUNT": "Enter amount"
+    },
+    "ERRORS": {
+      "AMOUNT": {
+        "MAIN": "Please enter the amount",
+        "NON_ZERO": "Value cannot be zero",
+        "POSITIVE_INTEGER": "Value must be a positive integer",
+        "MAX": "Value cannot be greater than available balance",
+        "REQUIRED": "Amount is required"
+      }
+    },
+    "BUTTONS": {
+      "SUBMIT": "Charge Beneficiary"
+    },
+    "CARD_TITLE": "Available Balance"
   }
 }

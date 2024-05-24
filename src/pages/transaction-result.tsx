@@ -10,13 +10,13 @@ import { useLocation } from "react-router";
 import { MetaTxResponse, UpdateStatusRes } from "@types/transactions";
 import { useTranslation } from "react-i18next";
 
-// interface LocationState {
-//   data: {
-//     beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
-//     beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-//     redeemRes: UpdateStatusRes;
-//   };
-// }
+interface LocationState {
+  data: {
+    beneficiaryDetails: BENEFICIARY_REFERRAL_DETAILS;
+    amount: number;
+    transactionRes: UpdateStatusRes;
+  };
+}
 
 const TransactionResultPage: FC = () => {
   const { t } = useTranslation();

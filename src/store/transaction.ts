@@ -24,6 +24,7 @@ import {
   fixBeneficiaryVoucherResult,
   fixVoucherCount,
 } from "@utils/helperFunctions";
+import { ethers } from "ethers";
 
 const useTransactionStore = createStore<TransactionStoreType>(
   (set, get) => ({
@@ -55,7 +56,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return beneficiaryVoucher;
     },
 
-    chargeBeneficiary: async () => {
+    chargeBeneficiary: async (walletAddress, amount) => {
       const { referredAppStoreState } = get();
       const {
         wallet,
@@ -88,14 +89,18 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       console.log("CVA INSTANCE===>", CvaProjectInstance);
       console.log("FORARDER INSTANCE===>", ForwarderContractInstance);
+      console.log(
+        walletAddress,
+        ethers.parseEther(amount.toString()),
+        "====> FINAL PAYLOAD"
+      );
 
       const metaTxRequest = await getMetaTxRequest(
         walletInstance,
         ForwarderContractInstance,
         CvaProjectInstance,
         "requestTokenFromBeneficiary(address,uint256)",
-        // [beneficiary?.walletAddress]
-        ["0x7597950bF1bC79C40247A1C21c367DB345234164", 1]
+        [walletAddress, ethers.parseEther(amount.toString())]
       );
 
       console.log("META==>", metaTxRequest);
@@ -112,7 +117,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
       const metaRes = await ProjectsService.actions(projectId, payload);
-      return metaRes;
+      console.log("META RES", metaRes);
+      return { ...metaRes?.data?.data };
 
       // let beRes;
       // if (metaRes?.data?.data?.status === 1) {
@@ -128,7 +134,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       // return { ...beRes?.data?.data, ...metaRes?.data?.data };
     },
 
-    getBeneficiaryClaims: async () => {
+    getBeneficiaryClaims: async (walletAddress: string) => {
       const { referredAppStoreState } = get();
       const {
         projectSettings: {
@@ -136,21 +142,14 @@ const useTransactionStore = createStore<TransactionStoreType>(
           network: { rpcurl },
         },
       } = referredAppStoreState();
-
-      // const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
-
       const CvaProjectInstance = await createContractInstance(
         rpcurl,
         cvaproject
       );
-
-      console.log(CvaProjectInstance);
-
       const balance = await CvaProjectInstance.beneficiaryClaims.staticCall(
-        "0x7597950bF1bC79C40247A1C21c367DB345234164"
+        walletAddress
       );
-
-      console.log("BALANCE====>", balance);
+      return parseInt(ethers.formatEther(balance));
     },
 
     getClaimCount: async () => {
@@ -161,14 +160,12 @@ const useTransactionStore = createStore<TransactionStoreType>(
           network: { rpcurl },
         },
       } = referredAppStoreState();
-
       const RahatClaimInstance = await createContractInstance(
         rpcurl,
         rahatclaim
       );
-
       const claims = await RahatClaimInstance.claimCount.staticCall();
-      console.log(claims, "CLAIMS=====>");
+      return Number(claims);
     },
 
     updateStatus: async ({

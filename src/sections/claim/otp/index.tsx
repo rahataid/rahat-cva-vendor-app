@@ -4,6 +4,7 @@ import { IonButton, IonCardContent, IonRow, IonText } from "@ionic/react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import {
+  BENEFICIARY_DETAILS,
   BENEFICIARY_REFERRAL_DETAILS,
   BENEFICIARY_VOUCHER_DETAILS,
 } from "../../../types/beneficiaries";
@@ -17,8 +18,13 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import CustomLoader from "@components/loaders/customLoader";
 import { handleError } from "@utils/errorHandler";
+import BeneficiaryDetails from "@sections/beneficiaries/beneficiary-details";
 
-type Props = {};
+type Props = {
+  data: {
+    beneficiaryDetails: BENEFICIARY_DETAILS;
+  };
+};
 
 const OTP: FC<Props> = () => {
   const { t } = useTranslation();
@@ -44,14 +50,13 @@ const OTP: FC<Props> = () => {
     try {
       const otpRes = await verifyOtp(
         data?.otp,
-        "0x7597950bF1bC79C40247A1C21c367DB345234164"
+        BeneficiaryDetails?.walletAddress
       );
-      console.log(otpRes);
+      console.log(otpRes, "OTPRES===>");
       await new Promise((resolve) => setTimeout(resolve, 0));
-      history.push("/transaction-result", {});
-      // history.push("/transaction-result", {
-      //   data: { beneficiaryDetails, beneficiaryVoucher, redeemRes },
-      // });
+      history.push("/transaction-result", {
+        data: { BeneficiaryDetails, otpRes },
+      });
     } catch (error) {
       console.log(error);
       showToast(handleError(error), "danger");
