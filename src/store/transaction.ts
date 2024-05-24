@@ -55,7 +55,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return beneficiaryVoucher;
     },
 
-    chargeBeneficiary: async (beneficiary) => {
+    chargeBeneficiary: async () => {
       const { referredAppStoreState } = get();
       const {
         wallet,
@@ -86,6 +86,9 @@ const useTransactionStore = createStore<TransactionStoreType>(
         erc2771forwarder
       );
 
+      console.log("CVA INSTANCE===>", CvaProjectInstance);
+      console.log("FORARDER INSTANCE===>", ForwarderContractInstance);
+
       const metaTxRequest = await getMetaTxRequest(
         walletInstance,
         ForwarderContractInstance,
@@ -94,6 +97,8 @@ const useTransactionStore = createStore<TransactionStoreType>(
         // [beneficiary?.walletAddress]
         ["0x7597950bF1bC79C40247A1C21c367DB345234164", 1]
       );
+
+      console.log("META==>", metaTxRequest);
 
       const payload = {
         action: MS_ACTIONS.ELPROJECT.REDEEM_VOUCHER,
@@ -107,19 +112,63 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
       const metaRes = await ProjectsService.actions(projectId, payload);
+      return metaRes;
 
-      let beRes;
-      if (metaRes?.data?.data?.status === 1) {
-        const payload2 = {
-          action: MS_ACTIONS.ELPROJECT.UPDATE_STATUS,
-          payload: {
-            uuid: "d677fde2-850c-4225-8472-f892b6f2f52b",
-          },
-        };
-        beRes = await ProjectsService.actions(projectId, payload2);
-      }
+      // let beRes;
+      // if (metaRes?.data?.data?.status === 1) {
+      //   const payload2 = {
+      //     action: MS_ACTIONS.ELPROJECT.UPDATE_STATUS,
+      //     payload: {
+      //       uuid: "d677fde2-850c-4225-8472-f892b6f2f52b",
+      //     },
+      //   };
+      //   beRes = await ProjectsService.actions(projectId, payload2);
+      // }
 
-      return { ...beRes?.data?.data, ...metaRes?.data?.data };
+      // return { ...beRes?.data?.data, ...metaRes?.data?.data };
+    },
+
+    getBeneficiaryClaims: async () => {
+      const { referredAppStoreState } = get();
+      const {
+        projectSettings: {
+          contracts: { cvaproject },
+          network: { rpcurl },
+        },
+      } = referredAppStoreState();
+
+      // const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+
+      const CvaProjectInstance = await createContractInstance(
+        rpcurl,
+        cvaproject
+      );
+
+      console.log(CvaProjectInstance);
+
+      const balance = await CvaProjectInstance.beneficiaryClaims.staticCall(
+        "0x7597950bF1bC79C40247A1C21c367DB345234164"
+      );
+
+      console.log("BALANCE====>", balance);
+    },
+
+    getClaimCount: async () => {
+      const { referredAppStoreState } = get();
+      const {
+        projectSettings: {
+          contracts: { rahatclaim },
+          network: { rpcurl },
+        },
+      } = referredAppStoreState();
+
+      const RahatClaimInstance = await createContractInstance(
+        rpcurl,
+        rahatclaim
+      );
+
+      const claims = await RahatClaimInstance.claimCount.staticCall();
+      console.log(claims, "CLAIMS=====>");
     },
 
     updateStatus: async ({
@@ -198,7 +247,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
     referBeneficiaries: async ({
       referredBeneficiaries,
-      beneficiaryVoucher,
       beneficiaryAddress,
       beneficiaryDetails,
     }) => {
@@ -327,7 +375,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const {
         wallet,
         projectSettings: {
-          contracts: { elproject, erc2771forwarder },
+          contracts: { cvaproject, erc2771forwarder },
           projectId,
           network: { rpcurl },
         },
@@ -342,7 +390,10 @@ const useTransactionStore = createStore<TransactionStoreType>(
       // return res;
       const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
 
-      const ElProjectInstance = await createContractInstance(rpcurl, elproject);
+      const CvaProjectInstance = await createContractInstance(
+        rpcurl,
+        cvaproject
+      );
 
       const ForwarderContractInstance = await createContractInstance(
         rpcurl,
@@ -352,7 +403,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const metaTxRequest = await getMetaTxRequest(
         walletInstance,
         ForwarderContractInstance,
-        ElProjectInstance,
+        CvaProjectInstance,
         "processTokenRequest",
         [beneficiaryAddress, otp]
       );
@@ -443,7 +494,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
                 : "DISCOUNTVOUCHER",
           },
         };
-        const beRes = await ProjectsService.actions(projectId, payload2);
       }
       return metaRes?.data?.data;
     },

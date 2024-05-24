@@ -87,4 +87,6 @@ export type TransactionActionsType = {
   getVendorVoucherDetails: (walletAddress: string) => Promise<any>;
   checkIsVendorApproved: () => Promise<boolean>;
   logoutTransactions: () => void;
+  chargeBeneficiary: () => Promise<any>;
+  getBeneficiaryClaims: () => Promise<any>;
 };

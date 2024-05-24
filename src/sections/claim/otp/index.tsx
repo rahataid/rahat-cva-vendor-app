@@ -42,10 +42,11 @@ const OTP: FC<Props> = () => {
 
   const onSubmit = async (data: { otp: string }) => {
     try {
-      // const otpRes = await verifyOtp(
-      //   data?.otp,
-      //   beneficiaryDetails?.walletAddress
-      // );
+      const otpRes = await verifyOtp(
+        data?.otp,
+        "0x7597950bF1bC79C40247A1C21c367DB345234164"
+      );
+      console.log(otpRes);
       await new Promise((resolve) => setTimeout(resolve, 0));
       history.push("/transaction-result", {});
       // history.push("/transaction-result", {
