@@ -1,0 +1,23 @@
+.otp-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.otp-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0.7;
+}
+
+.otp-button-container {
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0.3;
+}
+
+.gap-5 {
+  height: 5px;
+}

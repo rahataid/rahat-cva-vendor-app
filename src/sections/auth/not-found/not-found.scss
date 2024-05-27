@@ -1,0 +1,45 @@
+.landing-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-top-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.landing-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-text-container {
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+}
+
+.landing-button-container {
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0.3;
+}
+
+.gap-5 {
+  height: 5px;
+}
+
+// .bg {
+//   --background: linear-gradient(
+//       rgba(33, 126, 194, 0.7),
+//       rgba(33, 126, 194, 0.7)
+//     ),
+//     url("/src/assets/images/bg/main-bg.png") center/cover no-repeat !important;
+//   --ion-background-blend-mode: multiply !important; /* Blend mode */
+// }

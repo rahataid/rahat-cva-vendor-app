@@ -1,0 +1,22 @@
+.custom-grid {
+  padding-left: 0;
+  padding-right: 0;
+
+  .beneficiary-left-col {
+    padding-left: 0px;
+  }
+
+  .beneficiary-right-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 0px;
+  }
+}
+
+.options-button {
+  position: relative;
+  top: -8px;
+  right: -16px;
+}
