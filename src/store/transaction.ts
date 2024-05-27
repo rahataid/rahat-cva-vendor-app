@@ -3,27 +3,13 @@ import { createJSONStorage } from "zustand/middleware";
 import useAppStore from "./app";
 import {
   createContractInstance,
-  createContractInstanceFromWallet,
-  generateMultiCallData,
   getMetaTxRequest,
   getWalletUsingMnemonic,
 } from "@utils/web3";
-import {
-  BENEFICIARY_TYPE,
-  REFER_BENEFICIARY_DETAILS,
-  VOUCHER,
-} from "@types/beneficiaries";
 import ProjectsService from "@services/projects";
-import {
-  TransactionStoreType,
-  addToProjectPayload,
-} from "@types/store/transaction";
+import { TransactionStoreType } from "@types/store/transaction";
 import BeneficiariesService from "@services/beneficiaries";
 import { MS_ACTIONS } from "@rahataid/sdk";
-import {
-  fixBeneficiaryVoucherResult,
-  fixVoucherCount,
-} from "@utils/helperFunctions";
 import { ethers } from "ethers";
 
 const useTransactionStore = createStore<TransactionStoreType>(
@@ -35,25 +21,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
     triggerUpdate: () => {
       set({ triggerUpdateState: !get().triggerUpdateState });
-    },
-
-    fetchBeneficiaryVoucherDetails: async (walletAddress) => {
-      const { referredAppStoreState } = get();
-      const {
-        projectSettings: {
-          contracts: { elproject },
-          network: { rpcurl },
-        },
-      } = referredAppStoreState();
-
-      const ElProjectInstance = await createContractInstance(rpcurl, elproject);
-      let res;
-
-      res = await ElProjectInstance.getBeneficiaryVoucherDetail.staticCall(
-        walletAddress
-      );
-      const beneficiaryVoucher = fixBeneficiaryVoucherResult(res);
-      return beneficiaryVoucher;
     },
 
     chargeBeneficiary: async (walletAddress, amount) => {
@@ -79,14 +46,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
         erc2771forwarder
       );
 
-      console.log("CVA INSTANCE===>", CvaProjectInstance);
-      console.log("FORARDER INSTANCE===>", ForwarderContractInstance);
-      console.log(
-        walletAddress,
-        ethers.parseEther(amount.toString()),
-        "====> FINAL PAYLOAD"
-      );
-
       const metaTxRequest = await getMetaTxRequest(
         walletInstance,
         ForwarderContractInstance,
@@ -94,8 +53,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
         "requestTokenFromBeneficiary(address,uint256)",
         [walletAddress, ethers.parseEther(amount.toString())]
       );
-
-      console.log("META==>", metaTxRequest);
 
       const payload = {
         action: MS_ACTIONS.ELPROJECT.REDEEM_VOUCHER,
@@ -109,7 +66,6 @@ const useTransactionStore = createStore<TransactionStoreType>(
         },
       };
       const metaRes = await ProjectsService.actions(projectId, payload);
-      console.log("META RES", metaRes);
       return { ...metaRes?.data?.data };
 
       // let beRes;
@@ -126,7 +82,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       // return { ...beRes?.data?.data, ...metaRes?.data?.data };
     },
 
-    getBeneficiaryClaims: async (walletAddress: string) => {
+    getBeneficiaryClaims: async (walletAddress) => {
       const { referredAppStoreState } = get();
       const {
         projectSettings: {
@@ -214,15 +170,15 @@ const useTransactionStore = createStore<TransactionStoreType>(
       return res?.data;
     },
 
-    getBeneficiaryDetailsByUuid: async (uuid: string) => {
+    getBeneficiaryDetailsByUuid: async (uuid) => {
       return BeneficiariesService.getByUuid(uuid);
     },
 
-    getBeneficiaryDetailsByWallet: async (address: string) => {
+    getBeneficiaryDetailsByWallet: async (address) => {
       return BeneficiariesService.getByWallet(address);
     },
 
-    getBeneficiaryDetailsByPhone: async (phone: string) => {
+    getBeneficiaryDetailsByPhone: async (phone) => {
       return BeneficiariesService.getByPhone(phone);
     },
 
