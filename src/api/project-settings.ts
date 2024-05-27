@@ -30,9 +30,7 @@ export function useProjectSettings(): any {
     {
       enabled:
         currentUser?.projects?.length > 0 &&
-        (!storeProjectSettings?.contracts ||
-          !storeProjectSettings?.network ||
-          !storeProjectSettings?.admin),
+        (!storeProjectSettings?.contracts || !storeProjectSettings?.network),
       staleTime: 0,
       onSuccess: async (data: any) => {
         const { value: blockChainSettings } = findArrayElementByName({
@@ -43,14 +41,9 @@ export function useProjectSettings(): any {
           name: "CONTRACT",
           arr: data?.data?.data,
         });
-        const { value: adminSettings } = findArrayElementByName({
-          name: "ADMIN",
-          arr: data?.data?.data,
-        });
         const projectSettings = {
           contracts: contractSettings,
           network: blockChainSettings,
-          admin: adminSettings,
         };
         await setProjectSettings(projectSettings);
         return projectSettings;
