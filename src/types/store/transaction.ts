@@ -18,29 +18,6 @@ export type TransactionStateType = {
   triggerUpdateState: boolean;
 };
 
-export type ReferProps = {
-  beneficiaryAddress: string;
-  referredBeneficiaries: REFER_BENEFICIARY_DETAILS[];
-  beneficiaryVoucher: BENEFICIARY_VOUCHER_DETAILS;
-  beneficiaryDetails: BENEFICIARY_DETAILS;
-};
-
-export type UpdateStatusProps = {
-  voucherType: VOUCHER;
-  beneficiary: BENEFICIARY_DETAILS;
-  referralVoucherAddress?: string;
-  eyeCheckUp: boolean;
-  glassStatus: boolean;
-};
-
-export type RedeemVoucherProps = {
-  beneficiary: BENEFICIARY_DETAILS;
-  voucher?: BENEFICIARY_VOUCHER_DETAILS;
-  voucherType: VOUCHER;
-  eyeCheckUp: boolean;
-  glassStatus: boolean;
-};
-
 export type addToProjectPayload = {
   action: string;
   payload: CreateBeneficiaryDto;

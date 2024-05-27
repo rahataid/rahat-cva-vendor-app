@@ -65,30 +65,8 @@ const HomeTransactionsList: FC<Props> = ({ transactionsList, isLoading }) => {
                                     ? swapHorizontalOutline
                                     : personAddOutline
                                 }
-                                // color={
-                                //   el?.beneficiaryType ===
-                                //   BENEFICIARY_TYPE.REFERRED
-                                //     ? "success"
-                                //     : "warning"
-                                // }
                               ></IonIcon>
                             </div>
-                            {/* {el?.beneficiaryType ===
-                              BENEFICIARY_TYPE.REFERRED ? (
-                                <IonText
-                                  className="transaction-icon-label"
-                                  color="success"
-                                >
-                                  <p>Referred</p>
-                                </IonText>
-                              ) : (
-                                <IonText
-                                  className="transaction-icon-label"
-                                  color="warning"
-                                >
-                                  <p>Enrolled</p>
-                                </IonText>
-                              )} */}
                           </IonCol>
                           <IonCol size="9" className="home-tx-right-col">
                             <IonText>

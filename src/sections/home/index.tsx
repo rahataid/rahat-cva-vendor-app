@@ -5,6 +5,7 @@ import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
 import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 import { useTranslation } from "react-i18next";
+import { ITransactionItem } from "@types/transactions";
 
 type VoucherStats = {
   freeVoucherRedeemed: number;
@@ -12,40 +13,23 @@ type VoucherStats = {
 };
 
 type PropTypes = {
-  voucherData: any;
-  transactionsData: any;
-  isVendor?: boolean | null;
-  isProjectLocked?: string | null;
-  projectSettings?: any;
-  vendorTransactions?: any;
-  handleReload?: any;
-  loading?: boolean;
-  transactionsLoading?: boolean;
   currentUser?: any;
+  projectSettings?: any;
+  handleReload?: any;
   isSettingsFetching?: boolean;
-  enrolledTransactions?: any;
-  isEnrolledFetching?: boolean;
-  referredTransactions?: any;
-  isReferredFetching?: boolean;
+  transactionsData?: ITransactionItem[];
+  transactionsLoading?: boolean;
 };
 
 const Home = ({
-  voucherData,
-  isVendor,
   projectSettings,
-  transactionsData,
   handleReload,
-  loading,
-  transactionsLoading,
   currentUser,
   isSettingsFetching,
-  enrolledTransactions,
-  isEnrolledFetching,
-  referredTransactions,
-  isReferredFetching,
+  transactionsData,
+  transactionsLoading,
 }: PropTypes) => {
   const { t } = useTranslation();
-  const history = useHistory();
 
   if (isSettingsFetching) {
     return (
@@ -121,23 +105,19 @@ const Home = ({
       >
         <CardComponent
           subtitle={t("HOME_PAGE.TITLES.BALANCE")}
-          title={voucherData?.freeVoucherCount}
-          loading={loading}
+          title={0}
+          loading={false}
         />
         <CardComponent
           subtitle={t("HOME_PAGE.TITLES.BENEFICIARY_ASSIGNED")}
-          title={voucherData?.discountVoucherCount}
-          loading={loading}
+          title={0}
+          loading={false}
         />
       </div>
       <div>
         <TransactionCard
           transactionsList={transactionsData}
           transactionsLoading={transactionsLoading}
-          enrolledTransactions={enrolledTransactions}
-          isEnrolledFetching={isEnrolledFetching}
-          referredTransactions={referredTransactions}
-          isReferredFetching={isReferredFetching}
         />
       </div>
     </>
