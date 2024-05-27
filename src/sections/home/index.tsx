@@ -1,16 +1,10 @@
-import { IonItem } from "@ionic/react";
-import { useHistory } from "react-router";
 import DismissibleAlert from "./home-alert";
 import CardComponent from "./home-card";
 import TransactionCard from "./transaction-card";
 import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 import { useTranslation } from "react-i18next";
 import { ITransactionItem } from "@types/transactions";
-
-type VoucherStats = {
-  freeVoucherRedeemed: number;
-  referredVoucherRedeemed: number;
-};
+import { IonItem } from "@ionic/react";
 
 type PropTypes = {
   currentUser?: any;
@@ -48,7 +42,7 @@ const Home = ({
           dismissText={t("HOME_PAGE.BUTTONS.RELOAD")}
           description={t("GLOBAL.ERRORS.NOT_APPROVED")}
           onButtonClick={handleReload}
-          visible={!isVendor}
+          visible={!currentUser?.projects?.length > 0}
         />
         <IonItem
           color="white"
@@ -117,7 +111,7 @@ const Home = ({
       <div>
         <TransactionCard
           transactionsList={transactionsData}
-          transactionsLoading={transactionsLoading}
+          transactionsLoading={false}
         />
       </div>
     </>
