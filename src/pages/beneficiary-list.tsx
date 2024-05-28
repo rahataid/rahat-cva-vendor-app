@@ -16,15 +16,15 @@ import BeneficiariesList from "@sections/beneficiaries/beneficiary-list";
 
 const BeneficiariesListPage: FC = () => {
   const { t } = useTranslation();
-  const {
-    data: beneficiaries,
-    isLoading,
-    error,
-    refetch,
-    isFetching,
-  } = useReferredBeneficiariesList();
+  // const {
+  //   data: beneficiaries,
+  //   isLoading,
+  //   error,
+  //   refetch,
+  //   isFetching,
+  // } = useReferredBeneficiariesList();
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
-    await refetch();
+    // await refetch();
     event.detail.complete();
   };
   return (
@@ -36,14 +36,17 @@ const BeneficiariesListPage: FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol sizeMd="12" sizeLg="8" sizeXl="8">
               <CardComponent
-                title={beneficiaries?.length || 0}
+                title={
+                  // beneficiaries?.length ||
+                  0
+                }
                 subtitle={t("BENEFICIARIES_PAGE.CARD_TITLE")}
-                loading={isFetching}
+                loading={false}
               />
               <BeneficiariesList
-                beneficiaries={beneficiaries}
-                loading={isFetching}
-                error={error}
+                beneficiaries={[]}
+                loading={false}
+                error={null}
               />
             </IonCol>
           </IonRow>

@@ -4,13 +4,11 @@ import { useMemo } from "react";
 import VendorsService from "../services/vendors";
 import { saveCurrentUser } from "@utils/sessionManager";
 import useTransactionStore from "@store/transaction";
-import { VOUCHER } from "../types/beneficiaries";
 import {
   IAllTransactions,
   IBeneficiaryReferreds,
   TransactionDetail,
 } from "@types/transactions";
-import { categorizeVouchers } from "@utils/helperFunctions";
 
 export function useVendors(params?: any): any {
   const { data, isLoading, error } = useQuery(["vendors"], async () => {
@@ -102,87 +100,6 @@ export function useVendorChainData(
   };
 }
 
-export function useVendorVoucher(): any {
-  const {
-    currentUser,
-    wallet: { address: walletAddress },
-  } = useAppStore.getState();
-  const { getVendorVoucherDetails } = useTransactionStore();
-  const { data, isLoading, error, refetch, isFetching } = useQuery(
-    ["vendorVouchers", walletAddress],
-    async () => {
-      const res = await getVendorVoucherDetails(walletAddress);
-      return res;
-    },
-    {
-      enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
-      staleTime: 0,
-    }
-  );
-
-  return {
-    data,
-    isLoading,
-    error,
-    refetch,
-    isFetching,
-  };
-}
-
-export function useProjectVoucher(queryService: any): any {
-  const {
-    currentUser,
-    projectId,
-    address,
-    freeVoucherAddress,
-    discountVoucherAddress,
-    currencyDescription,
-    setCurrencyDescription,
-  } = useAppStore((s) => {
-    return {
-      currentUser: s?.currentUser,
-      projectId: s?.projectSettings?.projectId,
-      address: s?.projectSettings?.contracts?.elproject?.address,
-      freeVoucherAddress: s?.projectSettings?.contracts?.eyevoucher?.address,
-      discountVoucherAddress:
-        s?.projectSettings?.contracts?.referralvoucher?.address,
-      currencyDescription: s?.currencyDescription,
-      setCurrencyDescription: s?.setCurrencyDescription,
-    };
-  });
-  const { data, isLoading, error, refetch, isFetching } = useQuery(
-    ["projectVoucher", projectId],
-    async () => {
-      const projectVoucher = await queryService.useProjectVoucher(address);
-      const data = categorizeVouchers({
-        projectVoucher,
-        freeVoucherAddress,
-        discountVoucherAddress,
-      });
-      setCurrencyDescription(data);
-      return data;
-    },
-    {
-      enabled:
-        currentUser?.projects?.length > 0 &&
-        currentUser?.isApproved &&
-        !!address &&
-        !!freeVoucherAddress &&
-        !!discountVoucherAddress &&
-        !currencyDescription,
-      staleTime: 60000,
-    }
-  );
-
-  return {
-    data,
-    isLoading,
-    error,
-    refetch,
-    isFetching,
-  };
-}
-
 export function useVendorTransaction(queryService: any) {
   const {
     currentUser,
@@ -220,58 +137,6 @@ export function useVendorTransaction(queryService: any) {
     },
     {
       enabled: currentUser?.projects?.length > 0 && currentUser?.isApproved,
-      staleTime: 60000,
-    }
-  );
-
-  return {
-    data,
-    isLoading,
-    error,
-    refetch,
-    isFetching,
-  };
-}
-
-export function useVendorFilteredTransaction(
-  key: string,
-  queryService: any,
-  voucherType: VOUCHER
-) {
-  const {
-    currentUser,
-    walletAddress,
-    freeVoucherAddress,
-    discountVoucherAddress,
-  } = useAppStore((s) => {
-    return {
-      currentUser: s?.currentUser,
-      walletAddress: s?.wallet?.address,
-      freeVoucherAddress: s?.projectSettings?.contracts?.eyevoucher?.address,
-      discountVoucherAddress:
-        s?.projectSettings?.contracts?.referralvoucher?.address,
-    };
-  });
-
-  const { data, isLoading, error, refetch, isFetching } = useQuery(
-    [key, walletAddress],
-    async () => {
-      const data = await queryService.useVendorFilteredTransaction(
-        walletAddress,
-        voucherType === VOUCHER.FREE_VOUCHER
-          ? freeVoucherAddress
-          : discountVoucherAddress
-      );
-      if (!data?.data) return [];
-      const { projectClaimProcesseds } = data.data;
-      return projectClaimProcesseds;
-    },
-    {
-      enabled:
-        currentUser?.projects?.length > 0 &&
-        currentUser?.isApproved &&
-        !!freeVoucherAddress &&
-        !!discountVoucherAddress,
       staleTime: 60000,
     }
   );
@@ -342,50 +207,6 @@ export function useVendorDetails({ forceRender }: any): any {
     data: vendor,
     isLoading,
     error,
-  };
-}
-
-export function useVendorVoucherRedemptionCount(voucherType: VOUCHER) {
-  const { getVendorVoucherRedemptionCount } = useTransactionStore();
-  const { data, isLoading, error, isRefetching, refetch } = useQuery(
-    ["vendorVoucherRedemptionCount"],
-    async () => {
-      const res = await getVendorVoucherRedemptionCount(voucherType);
-      return res ? Number(res) : 0;
-    },
-    {
-      staleTime: 0,
-    }
-  );
-
-  return {
-    data,
-    isLoading,
-    error,
-    isRefetching,
-    refetch,
-  };
-}
-
-export function useVendorVoucherRedemptionList() {
-  const { getVendorRedemptionList } = useTransactionStore();
-  const { data, isLoading, error, refetch, isFetching } = useQuery(
-    ["vendorVoucherRedemptionList"],
-    async () => {
-      const res = await getVendorRedemptionList();
-      return res?.data?.data || [];
-    },
-    {
-      staleTime: 60000,
-    }
-  );
-
-  return {
-    data,
-    isLoading,
-    error,
-    refetch,
-    isFetching,
   };
 }
 

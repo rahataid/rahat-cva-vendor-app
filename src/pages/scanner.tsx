@@ -27,6 +27,7 @@ type LocationState = {
 };
 
 const ScannerPage: FC = () => {
+  const { getBeneficiaryClaims } = useTransactionStore();
   const { t } = useTranslation();
   const location = useLocation<LocationState>();
   const {

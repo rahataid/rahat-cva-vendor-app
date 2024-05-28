@@ -1,5 +1,3 @@
-import { BENEFICIARY_TYPE, VOUCHER } from "./beneficiaries";
-
 export enum EVENT_TYPE {
   "BENEFICIARY_REFERRED" = "Beneficiary Referred",
   "CLAIM_PROCESSED" = "Claim Processed",
@@ -26,11 +24,8 @@ export type ITransactionItem = {
 export type TransactionDetail = {
   status: TRANSACTION_STATUS;
   beneficiaryName: string;
-  voucherType: VOUCHER;
-  beneficiaryType: BENEFICIARY_TYPE;
   createdAt: number;
   transactionHash: string;
-  voucherSymbol: string;
   phone: string;
 };
 
@@ -51,18 +46,6 @@ export type MetaTxResponse = {
   _type?: string;
 };
 
-export type IBeneficiaryReferreds = {
-  beneficiaryAddress?: string;
-  blockNumber?: string;
-  blockTimestamp?: string;
-  eventType?: string;
-  id?: string;
-  referrerBeneficiaries?: string;
-  referrerVendor?: string;
-  transactionHash?: string;
-  __typename?: string;
-};
-
 export type IProjectClaimProcesseds = {
   beneficiary?: string;
   blockNumber?: string;
@@ -73,85 +56,4 @@ export type IProjectClaimProcesseds = {
   transactionHash?: string;
   vendor?: string;
   __typename?: string;
-};
-
-export type IClaimCreateds = any;
-
-export type ITokenRedeems = any;
-
-export type IAllTransactions = (
-  | IBeneficiaryReferreds
-  | IProjectClaimProcesseds
-  | IClaimCreateds
-  | ITokenRedeems
-)[];
-
-export type ITransactionsResponse = {
-  beneficiaryReferreds?: IBeneficiaryReferreds[] | [];
-  claimCreateds?: IClaimCreateds[] | [];
-  projectClaimProcesseds?: IProjectClaimProcesseds[] | [];
-  tokenRedeems?: ITokenRedeems[] | [];
-};
-
-export type IAllTransactionItem =
-  | IBeneficiaryReferreds
-  | IProjectClaimProcesseds
-  | IClaimCreateds
-  | ITokenRedeems;
-
-export type UpdateStatusBeRes = {
-  beneficiariesReferred?: number;
-  createdAt?: string;
-  deletedAt?: string;
-  extras?: any;
-  eyeCheckUp?: boolean;
-  glassRequired?: boolean;
-  id?: number;
-  phoneNumber?: string | number;
-  referrerBeneficiary?: string;
-  referrerVendor?: string;
-  status?: number;
-  type?: BENEFICIARY_TYPE;
-  uuid?: string;
-  walletAddress?: string;
-};
-
-export type UpdateStatusContractRes = {
-  txHash?: string;
-};
-export type UpdateStatusRes = UpdateStatusBeRes & UpdateStatusContractRes;
-
-export type VoucherCurrencyDescriptionRes = {
-  currency: string;
-  description: string;
-  id: string;
-  price: string;
-  __typename: string;
-};
-
-export type currencyDescription = {
-  currency: string;
-  price: string;
-};
-
-export type VoucherCurrencyDescription = {
-  discountVoucher: currencyDescription;
-  freeVoucher: currencyDescription;
-};
-
-export type VendorVoucherCount = {
-  0: bigint;
-  1: bigint;
-  2: bigint;
-};
-
-export type CurrencyDescription = {
-  freeVoucher: {
-    currency: string;
-    price: string;
-  };
-  discountVoucher: {
-    currency: string;
-    price: string;
-  };
 };

@@ -1,11 +1,4 @@
 import {
-  useIsVendorApproved,
-  useProjectVoucher,
-  useVendorFilteredTransaction,
-  useVendorTransaction,
-  useVendorVoucher,
-} from "@api/vendors";
-import {
   IonCol,
   IonContent,
   IonGrid,
@@ -23,7 +16,6 @@ import { useGraphService } from "@contexts/graph-query";
 import { useVendorDetails } from "../api/vendors";
 import { useProjectSettings } from "../api/project-settings";
 import CustomRefresher from "@components/refresher/CustomRefresher";
-import { VOUCHER } from "@types/beneficiaries";
 import { useTranslation } from "react-i18next";
 import { FC } from "react";
 
@@ -37,54 +29,15 @@ const HomePage: FC = () => {
     setForceRender((prev) => !prev);
   };
 
-  const {
-    data: voucherData,
-    isLoading: voucherLoading,
-    error: voucherError,
-    refetch: refetchVoucher,
-    isFetching: isFetchingVoucher,
-  } = useVendorVoucher();
-
-  const {
-    data: transactionsData,
-    isLoading: transactionsLoading,
-    error: transactionsError,
-    refetch: refetchTransactions,
-    isFetching: isFetchingTransactions,
-  } = useVendorTransaction(queryService);
-
   // const {
-  //   data: filteredTransactionsData,
-  //   isFetching: isFetchingFilteredTransactions,
-  // } = useVendorFilteredTransaction(queryService, "FREE_VOUCHER");
-
-  const {
-    data: referredTransactions,
-    isLoading: referredLoading,
-    isFetching: isReferredFetching,
-    refetch: refetchDiscountTransactions,
-  } = useVendorFilteredTransaction(
-    "vendorFilteredTransactionDiscount",
-    queryService,
-    VOUCHER.DISCOUNT_VOUCHER
-  );
-
-  const {
-    data: enrolledTransactions,
-    isLoading: enrolledLoading,
-    isFetching: isEnrolledFetching,
-    refetch: refetchFreeTransactions,
-  } = useVendorFilteredTransaction(
-    "vendorFilteredTransactionFree",
-    queryService,
-    VOUCHER.FREE_VOUCHER
-  );
+  //   data: transactionsData,
+  //   isLoading: transactionsLoading,
+  //   error: transactionsError,
+  //   refetch: refetchTransactions,
+  //   isFetching: isFetchingTransactions,
+  // } = useVendorTransaction(queryService);
 
   useVendorDetails({ forceRender });
-
-  // const { isFetching: isVendorApprovedFetching } = useIsVendorApproved({
-  //   forceRender,
-  // });
 
   const {
     data: projectSettingsData,
@@ -94,16 +47,8 @@ const HomePage: FC = () => {
   } = useProjectSettings();
 
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
-    // await Promise.all([
-    await refetchVoucher(),
-      await refetchTransactions(),
-      await refetchDiscountTransactions(),
-      await refetchFreeTransactions(),
-      // ]);
-      event.detail.complete();
+    event.detail.complete();
   };
-
-  useProjectVoucher(queryService);
 
   useEffect(() => {
     if (projectSettingsData && projectSettings?.subGraph?.url) {
@@ -124,15 +69,9 @@ const HomePage: FC = () => {
                 currentUser={currentUser}
                 projectSettings={projectSettings}
                 handleReload={handleReload}
-                voucherData={voucherData}
-                loading={isFetchingVoucher}
-                transactionsData={transactionsData}
-                transactionsLoading={isFetchingTransactions}
                 isSettingsFetching={isSettingsFetching}
-                enrolledTransactions={enrolledTransactions}
-                isEnrolledFetching={isEnrolledFetching}
-                referredTransactions={referredTransactions}
-                isReferredFetching={isReferredFetching}
+                transactionsData={[]}
+                transactionsLoading={false}
               />
             </IonCol>
           </IonRow>

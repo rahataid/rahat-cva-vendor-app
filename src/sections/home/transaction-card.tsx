@@ -21,19 +21,11 @@ import { FC } from "react";
 type Props = {
   transactionsList: IAllTransactions;
   transactionsLoading: boolean;
-  enrolledTransactions?: any;
-  isEnrolledFetching: boolean;
-  referredTransactions?: any;
-  isReferredFetching: boolean;
 };
 
 const TransactionCard: FC<Props> = ({
   transactionsList,
   transactionsLoading,
-  enrolledTransactions,
-  isEnrolledFetching,
-  referredTransactions,
-  isReferredFetching,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -74,18 +66,6 @@ const TransactionCard: FC<Props> = ({
           <HomeTransactionsList
             transactionsList={transactionsList}
             isLoading={transactionsLoading}
-          />
-        )}
-        {selectedSegment === "ENROLLED" && (
-          <HomeTransactionsList
-            transactionsList={enrolledTransactions}
-            isLoading={isEnrolledFetching}
-          />
-        )}
-        {selectedSegment === "REFERRED" && (
-          <HomeTransactionsList
-            transactionsList={referredTransactions}
-            isLoading={isReferredFetching}
           />
         )}
 
