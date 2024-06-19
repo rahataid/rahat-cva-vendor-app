@@ -5,6 +5,7 @@ import ListSkeletonCard from "@components/loaders/skeleton/card/list";
 import { useTranslation } from "react-i18next";
 import { ITransactionItem } from "@types/transactions";
 import { IonItem } from "@ionic/react";
+import { IVendorStats } from "@types/vendors";
 
 type PropTypes = {
   currentUser?: any;
@@ -13,6 +14,8 @@ type PropTypes = {
   isSettingsFetching?: boolean;
   transactionsData?: ITransactionItem[];
   transactionsLoading?: boolean;
+  vendorStats: IVendorStats;
+  vendorStatsLoading?: boolean;
 };
 
 const Home = ({
@@ -22,6 +25,8 @@ const Home = ({
   isSettingsFetching,
   transactionsData,
   transactionsLoading,
+  vendorStats,
+  vendorStatsLoading,
 }: PropTypes) => {
   const { t } = useTranslation();
 
@@ -99,13 +104,17 @@ const Home = ({
       >
         <CardComponent
           subtitle={t("HOME_PAGE.TITLES.BALANCE")}
-          title={0}
-          loading={false}
+          title={vendorStats?.balance == 0 ? 0 : vendorStats?.balance || "-"}
+          loading={vendorStatsLoading}
         />
         <CardComponent
           subtitle={t("HOME_PAGE.TITLES.BENEFICIARY_ASSIGNED")}
-          title={0}
-          loading={false}
+          title={
+            vendorStats?.beneficiaryBalance == 0
+              ? 0
+              : vendorStats?.beneficiaryBalance || "-"
+          }
+          loading={vendorStatsLoading}
         />
       </div>
       <div>

@@ -19,3 +19,8 @@ export type IOnlineVendorTxVerify = {
   beneficiaryAddress: string;
   otp: string;
 };
+
+export type IVendorStats = {
+  balance?: number;
+  beneficiaryBalance?: number;
+};

@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import CustomHeader from "@components/header/customHeader";
 import IndeterminateLoader from "@components/loaders/Indeterminate";
 import { useGraphService } from "@contexts/graph-query";
-import { useVendorDetails } from "../api/vendors";
+import { useVendorDetails, useVendorStats } from "../api/vendors";
 import { useProjectSettings } from "../api/project-settings";
 import CustomRefresher from "@components/refresher/CustomRefresher";
 import { useTranslation } from "react-i18next";
@@ -46,6 +46,12 @@ const HomePage: FC = () => {
     error: settingsError,
   } = useProjectSettings();
 
+  const {
+    data: vendorStats,
+    isFetching: isVendorStatsFetching,
+    error: vendorStatsError,
+  } = useVendorStats();
+
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
     event.detail.complete();
   };
@@ -72,6 +78,8 @@ const HomePage: FC = () => {
                 isSettingsFetching={isSettingsFetching}
                 transactionsData={[]}
                 transactionsLoading={false}
+                vendorStats={vendorStats}
+                vendorStatsLoading={isVendorStatsFetching}
               />
             </IonCol>
           </IonRow>

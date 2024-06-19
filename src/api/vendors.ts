@@ -247,3 +247,36 @@ export function useIsVendorApproved({ forceRender }: { forceRender: boolean }) {
     isFetching,
   };
 }
+
+export function useVendorStats() {
+  const { getBeneficiaryClaims, getClaimCount } = useTransactionStore();
+  const { walletAddress, currentUser, projectId } = useAppStore((s) => {
+    return {
+      walletAddress: s?.wallet?.address,
+      currentUser: s?.currentUser,
+      projectId: s?.projectSettings?.projectId,
+    };
+  });
+
+  const { data, isLoading, error, refetch, isFetching } = useQuery(
+    ["vendorStats", walletAddress],
+    async () => {
+      const balance = await getClaimCount();
+      const beneficiaryBalance = await getBeneficiaryClaims(walletAddress);
+      console.log(balance, beneficiaryBalance);
+      return { balance, beneficiaryBalance };
+    },
+    {
+      enabled: !!currentUser && !!currentUser?.projects?.length && !!projectId,
+      staleTime: 0,
+    }
+  );
+
+  return {
+    data,
+    isLoading,
+    error,
+    refetch,
+    isFetching,
+  };
+}
