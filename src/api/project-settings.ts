@@ -41,14 +41,18 @@ export function useProjectSettings(): any {
           name: "CONTRACT",
           arr: data?.data?.data,
         });
-        const { value: subGraphSettings } = findArrayElementByName({
-          name: "SUBGRAPH_URL",
+        const { value: adminSettings } = findArrayElementByName({
+          name: "ADMIN",
           arr: data?.data?.data,
         });
+        // const { value: subGraphSettings } = findArrayElementByName({
+        //   name: "SUBGRAPH_URL",
+        //   arr: data?.data?.data,
+        // });
         const projectSettings = {
           contracts: contractSettings,
           network: blockChainSettings,
-          subGraph: subGraphSettings,
+          admin: adminSettings,
         };
         await setProjectSettings(projectSettings);
         return projectSettings;
