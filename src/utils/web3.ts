@@ -133,7 +133,7 @@ export function differentiateInput(
 
 export const signMessage = async ({ wallet, message }: any) => {
   try {
-    const signature = await wallet.signMessage(JSON.stringify(message));
+    const signature = await wallet.signMessage(message);
     return signature;
   } catch (error: any) {
     console.error("Error signing message:", error.message);

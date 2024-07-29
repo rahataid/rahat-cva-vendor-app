@@ -25,6 +25,7 @@ export type StorageCurrentUser = {
   uuid?: string;
   wallet?: string;
   isApproved?: boolean;
+  accessToken?: string;
 };
 
 export type StorageProjectSettings = {
@@ -60,6 +61,7 @@ export type AppActionsType = {
   setMockData: (data: any) => void;
   setCountries: (countries: Array<any>) => void;
   setCurrencyDescription: (data: CurrencyDescription) => void;
+  getAccessToken: (projectUrl: string) => Promise<string | undefined>;
 };
 
 export type AppStoreType = AppStateType & AppActionsType;

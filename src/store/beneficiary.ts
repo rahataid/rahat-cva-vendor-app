@@ -64,7 +64,9 @@ const useBeneficiaryStore = createStore<BeneficiaryStoreType>(
       const { wallet: stateWallet } = referredAppStoreState();
       const { transactions, setTransactions } = referredTransactionStoreState();
       const wallet = getWalletUsingMnemonic(stateWallet?.mnemonic?.phrase);
-      const signedMessage = await signMessage({ wallet, message: data });
+      const signedMessage = await signMessage(
+        JSON.stringify({ wallet, message: data })
+      );
       const payload = {
         message: data,
         signedMessage,

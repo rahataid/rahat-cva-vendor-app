@@ -5,6 +5,7 @@ import { createStore, localPersistStorage } from "@utils/storeUtils";
 import {
   createRandomWalletWithPhone,
   getWalletUsingMnemonic,
+  signMessage,
 } from "@utils/web3";
 import { DEFAULT_PASSCODE, GRAPHQL_URL } from "../config";
 import { mockBeneficiaries } from "@utils/mockData";
@@ -15,6 +16,7 @@ import {
   StorageProjectSettings,
 } from "@types/store/app";
 import { CurrencyDescription } from "@types/transactions";
+import AuthService from "@services/auth";
 
 const useAppStore = createStore<AppStoreType>(
   (set, get) => ({
@@ -42,6 +44,10 @@ const useAppStore = createStore<AppStoreType>(
 
       if (projectSettings?.baseUrl)
         axiosInstance.defaults.baseURL = fixProjectUrl(projectSettings.baseUrl);
+      if (currentUser?.accessToken)
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${currentUser?.accessToken}`;
 
       set({
         isInitialized: true,
@@ -125,6 +131,22 @@ const useAppStore = createStore<AppStoreType>(
 
     setCurrencyDescription: (currencyDescription: CurrencyDescription) => {
       set({ currencyDescription });
+    },
+
+    getAccessToken: async (projectUrl) => {
+      const { wallet } = get();
+      const challengeRes = await AuthService.getChallenge(projectUrl);
+      const challenge = challengeRes?.data?.data?.challenge;
+      const walletInstance = getWalletUsingMnemonic(wallet?.mnemonic?.phrase);
+      const signature = await signMessage({
+        wallet: walletInstance,
+        message: challenge,
+      });
+      const accessTokenRes = await AuthService.getAuthToken(projectUrl, {
+        challenge,
+        signature,
+      });
+      return accessTokenRes?.data?.data?.accessToken;
     },
   }),
   {

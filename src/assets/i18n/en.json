@@ -508,5 +508,13 @@
       "SUBMIT": "Charge Beneficiary"
     },
     "CARD_TITLE": "Available Balance"
+  },
+  "REFRESH_ACCESS_TOKEN": {
+    "PAGE_TITLE": "Refresh Access Token",
+    "TITLE": "Your session has expired",
+    "MSG": "Please click the refresh button to renew your access token and continue using the application",
+    "BUTTONS": {
+      "REFRESH": "Refresh"
+    }
   }
 }

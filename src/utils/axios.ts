@@ -44,6 +44,8 @@ export const endpoints = {
     register: "/auth/register",
     sendOtp: "/auth/send-otp",
     create: "/users",
+    challenge: "/auth/challenge",
+    token: "/auth/wallet",
   },
 
   vendors: {

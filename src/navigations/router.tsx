@@ -17,6 +17,7 @@ import ResetPage from "@pages/reset";
 import ScannerPage from "@pages/scanner";
 import TransactionResultPage from "@pages/transaction-result";
 import ChargeBeneficiaryAmountPage from "@pages/charge-beneficiary-amount";
+import RefreshAccessTokenPage from "@pages/refresh-access-token";
 
 const Router = () => {
   const { isAuthenticated, isInitialized, initialize } = useAppStore();
@@ -37,6 +38,11 @@ const Router = () => {
         <Switch>
           <Route exact path="/landing" component={LandingPage} />
           <Route exact path="/register" component={RegisterPage} />
+          <Route
+            exact
+            path="/refresh-access-token"
+            component={RefreshAccessTokenPage}
+          />
           <Route exact path="/restore-wallet" component={RestoreWalletPage} />
           <Route exact path="/select-project" component={SelectProjectPage} />
           <Route exact path="/otp" component={OTPPage} />

@@ -1,16 +1,15 @@
 import { IonButton, IonCol, IonGrid, IonRow, IonText } from "@ionic/react";
 
 import TextInputField from "@components/input/form-text-input";
+import CustomLoader from "@components/loaders/customLoader";
+import AuthService from "@services/auth";
 import useAppStore from "@store/app";
-import axios from "axios";
-import { Controller, useForm } from "react-hook-form";
-import { useHistory } from "react-router";
-import { endpoints } from "@utils/axios";
-import { fixProjectUrl } from "@utils/helperFunctions";
 import useTransactionStore from "@store/transaction";
 import { handleError } from "@utils/errorHandler";
-import CustomLoader from "@components/loaders/customLoader";
+import { fixProjectUrl } from "@utils/helperFunctions";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router";
 
 enum From {
   register = "register",
@@ -30,6 +29,7 @@ const SelectProject = ({ from }: Props) => {
     currentUser,
     wallet,
     setCurrentUser,
+    getAccessToken,
   } = useAppStore();
 
   const { triggerUpdate } = useTransactionStore();
@@ -62,21 +62,24 @@ const SelectProject = ({ from }: Props) => {
 
       const projectUrl = fixProjectUrl(data?.projectURL);
       if (from === "register") {
-        const vendor = await axios.post(
-          `${projectUrl}${endpoints.vendors.add}`,
+        const vendor = await AuthService.addVendor(
+          projectUrl as string,
           addPayload
         );
-
-        setCurrentUser(vendor?.data?.data);
+        const accessToken = await getAccessToken(projectUrl as string);
+        setCurrentUser({ ...vendor?.data?.data, accessToken });
         setProjectSettings({ baseUrl: data?.projectURL });
         await initialize();
         history.push("/tabs/home");
         return;
       } else if (from === "restore") {
-        const vendor = await axios.get(
-          `${projectUrl}${endpoints.vendors.getByUuid(wallet?.address)}`
+        const vendor = await AuthService.getVendor(
+          projectUrl as string,
+          wallet?.address as string
         );
         const vendorDetails = vendor?.data?.data;
+        const accessToken = await getAccessToken(projectUrl as string);
+        setCurrentUser({ ...vendorDetails, accessToken });
         setCurrentUser(vendor?.data?.data);
         setProjectSettings({ baseUrl: data?.projectURL });
         if (!vendorDetails?.name) throw new Error("Vendor not found");
