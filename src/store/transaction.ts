@@ -28,7 +28,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const {
         wallet,
         projectSettings: {
-          contracts: { cvaproject, erc2771forwarder },
+          contracts: { cvaproject, forwardercontract },
           network: { rpcurl },
           projectId,
         },
@@ -43,7 +43,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       const ForwarderContractInstance = await createContractInstance(
         rpcurl,
-        erc2771forwarder
+        forwardercontract
       );
 
       const metaTxRequest = await getMetaTxRequest(
@@ -122,7 +122,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
       const {
         wallet,
         projectSettings: {
-          contracts: { cvaproject, erc2771forwarder },
+          contracts: { cvaproject, forwardercontract },
           projectId,
           network: { rpcurl },
         },
@@ -144,7 +144,7 @@ const useTransactionStore = createStore<TransactionStoreType>(
 
       const ForwarderContractInstance = await createContractInstance(
         rpcurl,
-        erc2771forwarder
+        forwardercontract
       );
 
       const metaTxRequest = await getMetaTxRequest(
