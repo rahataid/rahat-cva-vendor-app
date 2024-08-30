@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Rahat Vendor</string>
+    <string name="title_activity_main">Rahat Vendor</string>
+    <string name="package_name">rahat.vendor</string>
+    <string name="custom_url_scheme">rahat.vendor</string>
+</resources>

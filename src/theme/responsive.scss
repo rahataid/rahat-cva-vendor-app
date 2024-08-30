@@ -1,0 +1,118 @@
+@media (max-width: 385px) {
+  //transactions list
+  .transactions-container {
+    padding-left: 0;
+    padding-right: 0;
+
+    .segment-label {
+      font-size: 11px;
+    }
+    .transaction-icon-label {
+      font-size: 0.7rem;
+    }
+    .end-icon {
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
+
+  //voucher details list
+  .voucher-details-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 399px) {
+  //home page stats card
+  .stats-card-container {
+    .subtitle-container {
+      height: 66px;
+    }
+  }
+
+  //inputs
+  .small-placeholder {
+    ::placeholder {
+      font-size: 13px;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  //landing page logos
+  .landing-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .top-logo {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .image-container {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50% !important;
+    }
+  }
+
+  .bottom-logo {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .image-container {
+      width: 70% !important;
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  //landing page logos
+  .landing-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+  }
+
+  .top-logo {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .image-container {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50% !important;
+    }
+  }
+
+  .bottom-logo {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .image-container {
+      width: 70% !important;
+    }
+  }
+}

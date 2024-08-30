@@ -1,0 +1,8 @@
+{
+  "name": "Rahat Vendor",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "a635baff"
+}
